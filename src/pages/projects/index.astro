@@ -4,23 +4,35 @@ import type Project from "types/Project";
 import type SEO from "types/SEO";
 
 // Components
+import { Picture } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import Newsletter from "@components/Newsletter";
+import {
+  getProjectExternalUrl,
+  getProjectScreenshot,
+} from "../../utils/project-assets";
+
+type MarkdownModule<T> = {
+  frontmatter: T;
+  url: string;
+};
 
 // Data
 const SEO: SEO = {
-  title: "There's never a challenge I won't take on | Dan Ferg",
+  title: "Social impact, startup and software projects | Dan Ferg",
   description:
-    "From my work on the digital-first charity, to creating innovative methods for valuing land; there's never a channelge I won't take on.",
+    "Explore Dan Ferg's projects across startups, social entrepreneurship, disaster response, no-code infrastructure, land valuation, leadership, and community technology.",
   imageUrl: "/assets/snow.jpg",
   openGraph: {
     type: "website",
   },
   canonicalUrl: "/projects",
+  schemaType: "CollectionPage",
 };
 
-const projects = await Astro.glob<Project>("./*.md");
+const projects = Object.values(
+  import.meta.glob<MarkdownModule<Project>>("./*.md", { eager: true })
+);
 ---
 
 <BaseLayout {...SEO}>
@@ -49,16 +61,12 @@ const projects = await Astro.glob<Project>("./*.md");
         Projects
       </h1>
       <p class="mt-6 max-w-3xl text-xl text-indigo-100">
-        From my work on the digital-first charity focusing on creating tools for
-        preperations, duration and restoration in natural disasters, to creating
-        innovative methods for valuing land which considers the the agricultural
-        value to surrounding areas; there's never a challenge I won't take on.
+        I build and experiment with practical digital products across social
+        entrepreneurship, startup infrastructure, emergency response, land
+        valuation, leadership, and community technology.
       </p>
     </div>
   </div>
-
-  <!-- Newsletter -->
-  <Newsletter client:load />
 
   <!-- Projects List -->
   <div
@@ -66,6 +74,10 @@ const projects = await Astro.glob<Project>("./*.md");
   >
     {
       projects.map((project, index) => {
+        const externalUrl = getProjectExternalUrl(project.frontmatter);
+        const screenshot = getProjectScreenshot(project.frontmatter.imageUrl);
+        const screenshotAlt = `${project.frontmatter.title} product interface screenshot`;
+
         return index % 2 === 0 ? (
           <div class="relative">
             <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
@@ -90,24 +102,32 @@ const projects = await Astro.glob<Project>("./*.md");
                       >
                         Read more
                       </a>
-                      <a
-                        href={project.frontmatter.externalLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
-                      >
-                        Check it out
-                      </a>
+                      {externalUrl && (
+                        <a
+                          href={externalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
+                        >
+                          Check it out
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
               <div class="mt-12 sm:mt-16 lg:mt-0">
                 <div class="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                  <img
+                  <Picture
                     class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src={project.frontmatter.imageUrl}
-                    alt="Inbox user interface"
+                    src={screenshot}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="webp"
+                    alt={screenshotAlt}
+                    widths={[640, 960, 1280, 1600]}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -132,27 +152,37 @@ const projects = await Astro.glob<Project>("./*.md");
                     </p>
                     <div class="mt-6">
                       <a
-                        href="#"
+                        href={project.frontmatter.canonicalUrl}
                         class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                       >
                         Read more
                       </a>
-                      <a
-                        href="#"
-                        class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
-                      >
-                        Check out
-                      </a>
+                      {externalUrl && (
+                        <a
+                          href={externalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
+                        >
+                          Check it out
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
               <div class="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
                 <div class="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                  <img
+                  <Picture
                     class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src={project.frontmatter.imageUrl}
-                    alt="Customer profile user interface"
+                    src={screenshot}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="webp"
+                    alt={screenshotAlt}
+                    widths={[640, 960, 1280, 1600]}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>

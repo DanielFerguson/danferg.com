@@ -12,6 +12,13 @@ const SEO: SEO = {
     type: "article",
   },
   canonicalUrl: frontmatter.canonicalUrl,
+  schemaType: "Article",
+  publishedDate: frontmatter.date,
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Articles", url: "/articles" },
+    { name: frontmatter.title, url: frontmatter.canonicalUrl },
+  ],
 };
 
 const navigation = [
@@ -49,12 +56,6 @@ const navigation = [
             </a>
           ))
         }
-        <a
-          href="mailto:gday@danferg.com"
-          class="font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          Hire me!
-        </a>
       </nav>
       <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
       </div>
@@ -71,8 +72,12 @@ const navigation = [
             <img
               class="aspect-video h-full w-full object-cover"
               src={frontmatter.imageUrl}
-              height={200}
-              alt="People working on laptops"
+              width={1280}
+              height={720}
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              alt={`${frontmatter.title} article cover image`}
             />
             <div class="absolute inset-0 bg-indigo-700 mix-blend-multiply">
             </div>

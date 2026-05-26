@@ -3,7 +3,16 @@ const { frontmatter } = Astro.props;
 
 import NavBar from "@components/NavBar.astro";
 import type SEO from "types/SEO";
+import { Picture } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
+import {
+  getProjectExternalUrl,
+  getProjectScreenshot,
+} from "../utils/project-assets";
+
+const projectUrl = getProjectExternalUrl(frontmatter);
+const projectScreenshot = getProjectScreenshot(frontmatter.imageUrl);
+const screenshotAlt = `${frontmatter.title} product interface screenshot`;
 
 const SEO: SEO = {
   title: frontmatter.title + " | Dan Ferg",
@@ -13,14 +22,14 @@ const SEO: SEO = {
     type: "article",
   },
   canonicalUrl: frontmatter.canonicalUrl,
+  schemaType: "CreativeWork",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Projects", url: "/projects" },
+    { name: frontmatter.title, url: frontmatter.canonicalUrl },
+  ],
 };
 
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Talks", href: "/#talks" },
-  { name: "Articles", href: "/articles" },
-  { name: "Newsletters", href: "/newsletters" },
-];
 ---
 
 <BaseLayout {...SEO}>
@@ -123,10 +132,17 @@ const navigation = [
           <div class="w-full flex-1 bg-gray-800"></div>
         </div> -->
         <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-          <img
+          <Picture
             class="relative rounded-lg shadow-lg"
-            src={frontmatter.imageUrl}
-            alt="App screenshot"
+            src={projectScreenshot}
+            formats={["avif", "webp"]}
+            fallbackFormat="webp"
+            alt={screenshotAlt}
+            widths={[640, 960, 1280, 1600]}
+            sizes="(min-width: 1024px) 1152px, 100vw"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
           />
         </div>
       </div>
@@ -210,21 +226,31 @@ const navigation = [
           <p class="mt-4 text-lg leading-6 text-indigo-200">
             {frontmatter.description}
           </p>
-          <a
-            href={frontmatter.externalLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-8 inline-flex items-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 shadow hover:bg-indigo-50"
-          >
-            Check it out
-          </a>
+          {
+            projectUrl && (
+              <a
+                href={projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-8 inline-flex items-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 shadow hover:bg-indigo-50"
+              >
+                Check it out
+              </a>
+            )
+          }
         </div>
       </div>
       <div class="aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1 -mt-6">
-        <img
+        <Picture
           class="h-[28em] translate-x-6 translate-y-6 transform rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-          src={frontmatter.imageUrl}
-          alt="App screenshot"
+          src={projectScreenshot}
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          alt={screenshotAlt}
+          widths={[480, 640, 960]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="lazy"
+          decoding="async"
         />
       </div>
     </div>

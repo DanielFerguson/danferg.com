@@ -1,6 +1,8 @@
+import type { ImageMetadata } from "astro";
+
 export default interface Talk {
   title: string;
-  image: string;
+  image: ImageMetadata;
   category: string;
   link: string;
   date: string;

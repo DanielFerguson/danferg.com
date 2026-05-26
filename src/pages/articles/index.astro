@@ -6,22 +6,29 @@ import type SEO from "types/SEO";
 import dayjs from "dayjs";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import Newsletter from "@components/Newsletter";
 import CardGrid from "@components/CardGrid.astro";
+
+type MarkdownModule<T> = {
+  frontmatter: T;
+  url: string;
+};
 
 // Data
 const SEO: SEO = {
-  title: "Every now and then I like to write | Dan Ferg",
+  title: "Articles on startups, software and social impact | Dan Ferg",
   description:
-    "It's a great way to share knowledge, remember how far we've come and create dialogue on topics that interest me or are near to my heart.",
+    "Read Dan Ferg's articles on entrepreneurship, software, startup experiments, burnout, social impact, product building, and lessons from the journey.",
   imageUrl: "/assets/snow.jpg",
   openGraph: {
     type: "website",
   },
   canonicalUrl: "/articles",
+  schemaType: "CollectionPage",
 };
 
-const articles = await Astro.glob<Article>("./*.md");
+const articles = Object.values(
+  import.meta.glob<MarkdownModule<Article>>("./*.md", { eager: true })
+);
 const sortedArticles = articles.sort(function (a, b) {
   return (
     new Date(b.frontmatter.date).getTime() -
@@ -107,16 +114,17 @@ const sortedArticles = articles.sort(function (a, b) {
             <img
               class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
               src={sortedArticles[0].frontmatter.imageUrl}
-              alt={sortedArticles[0].frontmatter.title}
+              width={1280}
+              height={720}
+              loading="eager"
+              decoding="async"
+              alt={`${sortedArticles[0].frontmatter.title} article cover image`}
             />
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Newsletter -->
-  <Newsletter client:load />
 
   <!-- Articles -->
   <CardGrid>
@@ -127,7 +135,11 @@ const sortedArticles = articles.sort(function (a, b) {
             <img
               class="h-48 w-full object-cover"
               src={article.frontmatter.imageUrl}
-              alt={article.frontmatter.title}
+              width={640}
+              height={360}
+              loading="lazy"
+              decoding="async"
+              alt={`${article.frontmatter.title} article cover image`}
             />
           </div>
           <div class="flex flex-1 flex-col justify-between bg-white p-8">
@@ -143,7 +155,7 @@ const sortedArticles = articles.sort(function (a, b) {
             </div>
             <div class="mt-6">
               <div class="flex space-x-1 text-sm text-gray-500">
-                <time datetime="2020-03-16">
+                <time datetime={article.frontmatter.date}>
                   {dayjs(article.frontmatter.date).format("MMM D, YYYY")}
                 </time>
                 <span aria-hidden="true">&middot;</span>

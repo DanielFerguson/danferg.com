@@ -7,14 +7,24 @@ import type SEO from "types/SEO";
 
 // Components
 import dayjs from "dayjs";
+import { Image, Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Newsletter from "@components/Newsletter";
+import heroImage from "../assets/images/danferg.webp";
+import waveImage from "../assets/images/wave.png";
+import noCodeTalkImage from "../assets/images/danferg.webp";
+import conceptTalkImage from "../assets/images/talks/concept-to-production.webp";
+import swinLeadTalkImage from "../assets/images/talks/swinlead.webp";
+
+type MarkdownModule<T> = {
+  frontmatter: T;
+  url: string;
+};
 
 // Data
 const SEO: SEO = {
   title: "Your friendly neighbourhood social entrepreneur | Dan Ferg",
   description:
-    "I'm a solutions architect and software developer with an understanding of holistic design; seeking to create digitally enabled change for good.",
+    "Dan Ferg is a social entrepreneur and software builder working across startups, digital strategy, social impact projects, talks, and articles.",
   imageUrl: "/assets/snow.jpg",
   openGraph: {
     type: "website",
@@ -29,12 +39,16 @@ const navigation = [
   { name: "Newsletters", href: "/newsletters" },
 ];
 
-const projects = await Astro.glob<Project>("./projects/*.md");
+const projects = Object.values(
+  import.meta.glob<MarkdownModule<Project>>("./projects/*.md", { eager: true })
+);
 const featuredProjects = projects.filter(
   (project) => project.frontmatter.featured
 );
 
-const articles = await Astro.glob<Article>("./articles/*.md");
+const articles = Object.values(
+  import.meta.glob<MarkdownModule<Article>>("./articles/*.md", { eager: true })
+);
 const sortedArticles = articles.sort(function (a, b) {
   return (
     new Date(b.frontmatter.date).getTime() -
@@ -45,27 +59,27 @@ const sortedArticles = articles.sort(function (a, b) {
 const talks: Array<Talk> = [
   {
     title: "Building a business in an hour... with no code!",
-    image: "/images/danferg.webp",
+    image: noCodeTalkImage,
     category: "Entrepreneurship",
-    link: "#",
+    link: "/assets/slides/no-code-w-notes.pdf",
     date: "2022-08-18",
     description:
-      "I was invited by the Swinburne Entreprenuership Club to discus how no-code tools can enable non-tech savy entrepreneurs to build digital-facing businesses.",
-    slidesUrl: "/assets/slides/no-code.zip",
+      "I was invited by the Swinburne Entrepreneurship Club to discuss how no-code tools can help non-technical entrepreneurs build digital-facing businesses.",
+    slidesUrl: "/assets/slides/no-code-w-notes.pdf",
   },
   {
     title: "Concept to Production",
-    image: "/images/talks/concept-to-production.webp",
+    image: conceptTalkImage,
     category: "Entrepreneurship",
     link: "https://www.youtube.com/watch?v=_SZP7QmIIfE",
     date: "2022-05-03",
     description:
       "I gave a talk on my process of creating startups, from concept to production. Here, we looked at the 5 crucial steps to successfully and quickly creating a startup.",
-    slidesUrl: "/assets/slides/concept-to-production.zip",
+    slidesUrl: "/assets/slides/concept-to-production-w-notes.pdf",
   },
   {
     title: "SwinLead Leadership Workshop",
-    image: "/images/talks/swinlead.webp",
+    image: swinLeadTalkImage,
     category: "Leadership",
     link: "https://www.youtube.com/watch?v=7_aJAvfGNsY",
     date: "2022-04-13",
@@ -104,12 +118,15 @@ const talks: Array<Talk> = [
                 class="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0"
               >
                 <div class="flex w-full items-center justify-between md:w-auto">
-                  <a href="#">
+                  <a href="/">
                     <span class="sr-only">Dan Ferg</span>
-                    <img
+                    <Image
                       alt="Dan Ferg"
                       class="h-8 w-auto sm:h-10"
-                      src="/images/wave.png"
+                      src={waveImage}
+                      width={48}
+                      loading="eager"
+                      decoding="async"
                     />
                   </a>
                 </div>
@@ -117,7 +134,7 @@ const talks: Array<Talk> = [
 
               <!-- Links -->
               <div
-                class="mt-8 space-x-4 font-[Gordita] text-sm sm:mt-0 sm:text-base md:ml-10 md:space-x-10 md:pr-4"
+                class="mt-8 space-x-4 text-sm font-semibold sm:mt-0 sm:text-base md:ml-10 md:space-x-10 md:pr-4"
               >
                 {
                   navigation.map((item) => (
@@ -129,12 +146,6 @@ const talks: Array<Talk> = [
                     </a>
                   ))
                 }
-                <a
-                  href="mailto:gday@danferg.com"
-                  class="sm: inline hidden font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Hire me!
-                </a>
               </div>
 
               <!-- Empty -->
@@ -147,7 +158,7 @@ const talks: Array<Talk> = [
             class="mx-auto mt-10 mt-24 mb-16 max-w-7xl px-12 sm:mb-0 sm:text-center lg:px-8 lg:text-left xl:mt-40"
           >
             <h1
-              class="font-[Gordita] text-4xl font-bold tracking-tight text-gray-900 md:text-6xl"
+              class="text-4xl font-bold tracking-tight text-gray-900 md:text-6xl"
             >
               <span>Your friendly neighbourhood</span>
               <span class="text-indigo-600">entrepreneur.</span>
@@ -155,25 +166,30 @@ const talks: Array<Talk> = [
             <p
               class="mx-auto mt-12 max-w-xl leading-8 text-gray-700 sm:text-center lg:mx-0 lg:text-left"
             >
-              I'm an entrepreneur, with a passion for helping communities,
-              businesses and individuals. I'm focused on building startups,
-              teaching the lessons from my successes and failures, and writing
-              about the journey along the way.
+              I'm a social entrepreneur and software builder focused on
+              startups, digital strategy, and community-centred tools. I write
+              and speak about the lessons from building products, social impact
+              projects, and practical technology for businesses and
+              communities.
             </p>
           </div>
         </div>
       </div>
       <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img
+        <Picture
           class="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full lg:w-full"
-          src="/images/danferg.webp"
-          alt="Hero image"
+          src={heroImage}
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          alt="Dan Ferg presenting a digital automation workflow"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
         />
       </div>
     </div>
-
-    <!-- Newsletter CTA -->
-    <Newsletter client:load />
 
     <!-- TODO 12 Startups in 12 Months -->
 
@@ -187,11 +203,10 @@ const talks: Array<Talk> = [
             Projects
           </h2>
           <p class="mt-3 max-w-3xl text-lg leading-8 text-gray-500">
-            From my work on the digital-first charity focusing on creating tools
-            for preperations, duration and restoration in natural disasters, to
-            creating innovative methods for valuing land which considers the the
-            agricultural value to surrounding areas; there's never a challenge I
-            won't take on.
+            My projects span social impact tools, no-code infrastructure,
+            startup operations, land valuation research, leadership programs,
+            and community-focused products. I look for practical digital systems
+            that help people prepare, make decisions, and recover faster.
           </p>
           <div class="mt-8 sm:flex">
             <div class="rounded-md shadow">
@@ -246,8 +261,9 @@ const talks: Array<Talk> = [
             class="mt-3 sm:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-5"
           >
             <p class="text-lg text-gray-500">
-              From life ramblings, to lessons learned from burnout, to technical
-              deep dives on my startups - I write about it all.
+              I write practical reflections on entrepreneurship, burnout,
+              startup experiments, software decisions, and the work behind
+              building useful tools.
             </p>
             <div class="mt-6 flex flex-col sm:flex-row lg:mt-0 lg:justify-end">
               <a
@@ -266,7 +282,7 @@ const talks: Array<Talk> = [
             sortedArticles.slice(0, 6).map((article, index) => (
               <div class={index < 3 ? "hidden lg:block" : ""}>
                 <p class="text-sm text-gray-500">
-                  <time datetime="2020-03-16">
+                  <time datetime={article.frontmatter.date}>
                     {dayjs(article.frontmatter.date).format("MMM D, YYYY")}
                   </time>
                 </p>
@@ -317,10 +333,16 @@ const talks: Array<Talk> = [
             talks.map((talk) => (
               <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
                 <div class="flex-shrink-0">
-                  <img
+                  <Picture
                     class="h-64 w-full object-cover"
                     src={talk.image}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="webp"
                     alt={talk.title}
+                    widths={[480, 640, 960]}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div class="flex flex-1 flex-col justify-between bg-white p-6">

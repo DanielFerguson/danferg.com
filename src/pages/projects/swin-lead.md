@@ -5,6 +5,6 @@ description: This is a place for collaboration, experimentation and the celebrat
 tags: []
 featured: true
 externalUrl:
-imageUrl: /assets/projects/swin-lead/screenshot.png
+imageUrl: /assets/projects/swin-lead/screenshot.webp
 canonicalUrl: /projects/swin-lead
 ---

@@ -5,6 +5,6 @@ description: A privacy-first cross-platform contact-tracing application, automat
 tags: []
 featured: true
 externalLink: https://useguardian.app
-imageUrl: /assets/projects/guardian/screenshot.png
+imageUrl: /assets/projects/guardian/screenshot.webp
 canonicalUrl: /projects/guardian
 ---

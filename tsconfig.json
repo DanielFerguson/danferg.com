@@ -2,12 +2,12 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "types": [
-      "@astrojs/image/client"
+      "astro/client"
     ],
     "target": "ESNext",
     "module": "ESNext",
     "isolatedModules": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
       "@components/*": [
@@ -21,7 +21,7 @@
       ],
       "types/*": [
         "src/types/*"
-      ],
+      ]
     }
   }
 }

@@ -4,8 +4,8 @@ export default interface Project {
   description: string;
   tags: Array<string>;
   featured?: boolean;
-  externalUrl: string;
+  externalUrl?: string;
   imageUrl: string;
   canonicalUrl: string;
-  externalLink: string;
+  externalLink?: string;
 }

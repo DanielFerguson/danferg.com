@@ -5,6 +5,6 @@ description: Redesigning the way we value and manage land. The Innovative Land I
 tags: []
 featured: true
 externalLink: https://innovative-land-index.vercel.app/
-imageUrl: /assets/projects/land-index/screenshot.png
+imageUrl: /assets/projects/land-index/screenshot.webp
 canonicalUrl: /projects/land-index
 ---
