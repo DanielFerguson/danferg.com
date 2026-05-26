@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/ProjectLayout.astro
 title: yFocus
 iconUrl: /assets/projects/yfocus.svg
 description: A focus and productivity app for young people who want clearer goals, better routines, and practical momentum.

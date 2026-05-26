@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/ProjectLayout.astro
 title: Helping Group
 iconUrl: /assets/projects/helping-group.svg
 description: Our mission is to combat current events with digital solutions so the Australian people can connect and thrive together.

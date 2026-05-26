@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/ProjectLayout.astro
 title: Guardian
 iconUrl: /assets/projects/guardian.svg
 description: A privacy-first cross-platform contact-tracing application, automating near-immediate results and helping to prevent further COVID-19 outbreaks.
