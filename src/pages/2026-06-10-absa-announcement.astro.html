@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communiti — Hear every issue in every voice</title>
+<meta name="description" content="Communiti now reads every piece of community feedback the way an analyst does: every issue, its own sentiment, the resident's exact words — in 10 community languages.">
+<style>
+  :root{
+    --paper:#faf7f1;
+    --paper-deep:#f3eee3;
+    --ink:#1b2a3a;
+    --ink-soft:#46586c;
+    --teal:#0e7569;
+    --teal-deep:#0a5249;
+    --pos:#1a7f4e;
+    --pos-soft:#dcf2e5;
+    --neg:#b3372f;
+    --neg-soft:#fae3df;
+    --gold:#c9972b;
+    --rule:#d8d0bf;
+    --card:#ffffff;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:Seravek,"Gill Sans Nova","Avenir Next",Avenir,"Segoe UI",Frutiger,Calibri,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.65;
+    background-image:
+      radial-gradient(1200px 500px at 85% -5%, rgba(14,117,105,.07), transparent 60%),
+      radial-gradient(900px 420px at -10% 30%, rgba(201,151,43,.06), transparent 55%);
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+  ::selection{background:var(--teal);color:#fff}
+
+  /* ---------- reveal animation ---------- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(18px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+    .reveal.d1{animation-delay:.12s}.reveal.d2{animation-delay:.24s}.reveal.d3{animation-delay:.38s}.reveal.d4{animation-delay:.52s}
+    @keyframes rise{to{opacity:1;transform:none}}
+    .bar-grow rect.metric{transform:scaleX(0);transform-origin:left;animation:grow 1.1s .5s cubic-bezier(.2,.7,.2,1) forwards}
+    @keyframes grow{to{transform:scaleX(1)}}
+  }
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    border-bottom:1px solid var(--rule);
+    padding:22px 0;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:.01em}
+  .brand em{color:var(--teal);font-style:normal}
+  .masthead-note{font-size:13px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase}
+
+  /* ---------- hero ---------- */
+  .hero{padding:84px 0 30px}
+  .kicker{
+    display:inline-block;background:var(--ink);color:var(--paper);
+    font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+    padding:7px 14px;border-radius:3px;margin-bottom:28px;
+  }
+  h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(40px,6.4vw,68px);
+    line-height:1.06;letter-spacing:-.015em;max-width:17ch;
+  }
+  h1 .accent{color:var(--teal)}
+  .lede{
+    margin-top:26px;max-width:62ch;font-size:21px;line-height:1.55;color:var(--ink-soft);
+  }
+  .lede strong{color:var(--ink)}
+
+  /* ---------- the example card ---------- */
+  .example{
+    margin:56px 0 0;
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:14px;
+    box-shadow:0 24px 60px -36px rgba(27,42,58,.35);
+    overflow:hidden;
+  }
+  .example-head{
+    padding:14px 24px;border-bottom:1px solid var(--rule);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    background:var(--paper-deep);
+    font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .example-body{padding:34px 36px 8px;font-family:var(--serif);font-size:clamp(22px,3vw,30px);line-height:1.6}
+  mark{padding:.08em .18em;border-radius:4px;font-style:normal}
+  mark.pos{background:var(--pos-soft);box-shadow:inset 0 -2px 0 var(--pos)}
+  mark.neg{background:var(--neg-soft);box-shadow:inset 0 -2px 0 var(--neg)}
+  .example-read{
+    display:flex;gap:14px;flex-wrap:wrap;padding:22px 36px 30px;
+  }
+  .chip{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:14.5px;padding:8px 15px;border-radius:99px;border:1px solid var(--rule);background:#fff;
+  }
+  .dot{width:9px;height:9px;border-radius:50%}
+  .dot.pos{background:var(--pos)}.dot.neg{background:var(--neg)}
+  .chip b{font-weight:600}
+  .chip span.topic{color:var(--ink-soft)}
+  .example-foot{
+    border-top:1px dashed var(--rule);padding:16px 36px 20px;font-size:15px;color:var(--ink-soft);
+  }
+  .example-foot b{color:var(--neg)}
+
+  /* ---------- section scaffolding ---------- */
+  section{padding:74px 0 10px}
+  .eyebrow{
+    font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-deep);
+    font-weight:600;margin-bottom:14px;
+  }
+  h2{
+    font-family:var(--serif);font-weight:700;font-size:clamp(28px,4vw,42px);
+    line-height:1.15;letter-spacing:-.01em;max-width:24ch;
+  }
+  .section-lede{margin-top:16px;max-width:64ch;color:var(--ink-soft);font-size:18px}
+
+  /* ---------- stat band ---------- */
+  .stats{
+    margin-top:44px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    border-top:2px solid var(--ink);
+  }
+  .stat{padding:24px 18px 28px;border-bottom:1px solid var(--rule)}
+  .stat + .stat{border-left:1px solid var(--rule)}
+  .stat .num{font-family:var(--serif);font-size:42px;font-weight:700;line-height:1;color:var(--ink)}
+  .stat .num sup{font-size:18px;color:var(--gold);font-family:var(--sans)}
+  .stat .lbl{margin-top:10px;font-size:14px;color:var(--ink-soft);line-height:1.45}
+
+  /* ---------- charts ---------- */
+  figure.chart{
+    margin-top:42px;background:var(--card);border:1px solid var(--rule);border-radius:14px;
+    padding:30px 30px 22px;box-shadow:0 18px 48px -38px rgba(27,42,58,.4);
+  }
+  figure.chart figcaption{
+    font-size:14px;color:var(--ink-soft);margin-top:14px;padding-top:14px;border-top:1px dashed var(--rule);
+  }
+  figure.chart figcaption b{color:var(--ink)}
+  .chart-title{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:4px}
+  .chart-sub{font-size:14.5px;color:var(--ink-soft);margin-bottom:18px}
+  svg{display:block;width:100%;height:auto}
+  svg text{font-family:var(--sans)}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  @media(max-width:840px){.two-col{grid-template-columns:1fr}}
+
+  /* ---------- language grid ---------- */
+  .langs{margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  .lang{
+    background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .lang .name{font-weight:600;font-size:15.5px}
+  .lang .native{display:block;font-size:13px;color:var(--ink-soft);font-weight:400}
+  .tick{color:var(--pos);font-size:18px;font-weight:700}
+  .lang-note{margin-top:16px;font-size:14.5px;color:var(--ink-soft)}
+  .lang-note b{color:var(--neg)}
+
+  /* ---------- story callout ---------- */
+  .callout{
+    margin-top:48px;border-radius:16px;overflow:hidden;
+    background:var(--ink);color:#eef2ee;
+    background-image:radial-gradient(700px 320px at 90% -20%, rgba(14,117,105,.5), transparent 60%);
+  }
+  .callout-inner{padding:52px 48px}
+  .callout .eyebrow{color:var(--gold)}
+  .callout h3{font-family:var(--serif);font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.18;max-width:24ch}
+  .callout p{margin-top:18px;max-width:62ch;color:#c3cfd4;font-size:17.5px}
+  .callout .big{
+    font-family:var(--serif);font-size:clamp(54px,9vw,96px);font-weight:700;color:#fff;line-height:1;
+    margin:26px 0 6px;
+  }
+  .callout .big small{font-size:.35em;color:var(--gold);font-family:var(--sans);font-weight:600;letter-spacing:.06em}
+
+  /* ---------- steps ---------- */
+  .steps{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+  .step{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:26px}
+  .step .n{
+    font-family:var(--serif);font-size:15px;font-weight:700;color:var(--paper);
+    background:var(--teal);width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .step h4{font-size:17px;margin-bottom:8px}
+  .step p{font-size:15px;color:var(--ink-soft)}
+
+  /* ---------- IT section ---------- */
+  .it-grid{margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+  .it-card{border-left:3px solid var(--teal);padding:4px 0 4px 20px}
+  .it-card h4{font-size:16.5px;margin-bottom:6px}
+  .it-card p{font-size:15px;color:var(--ink-soft)}
+
+  /* ---------- footnotes ---------- */
+  .notes{margin-top:70px;border-top:2px solid var(--ink);padding-top:26px}
+  .notes h3{font-family:var(--serif);font-size:20px;margin-bottom:14px}
+  .notes ol{padding-left:20px;max-width:78ch}
+  .notes li{font-size:14px;color:var(--ink-soft);margin-bottom:10px;line-height:1.6}
+
+  /* ---------- CTA / footer ---------- */
+  .cta{
+    margin:80px 0 0;text-align:center;padding:70px 28px 78px;
+    border-top:1px solid var(--rule);
+    background:linear-gradient(180deg, transparent, rgba(14,117,105,.06));
+  }
+  .cta h2{margin:0 auto;max-width:22ch}
+  .cta p{margin:18px auto 0;max-width:52ch;color:var(--ink-soft)}
+  .btn{
+    display:inline-block;margin-top:30px;background:var(--teal);color:#fff;text-decoration:none;
+    font-weight:600;font-size:17px;padding:16px 34px;border-radius:8px;
+    box-shadow:0 14px 30px -14px rgba(14,117,105,.65);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 20px 36px -14px rgba(14,117,105,.7)}
+  .btn.ghost{background:transparent;color:var(--teal-deep);border:1.5px solid var(--teal);box-shadow:none;margin-left:14px}
+  footer{padding:34px 0 50px;font-size:13.5px;color:var(--ink-soft);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--rule);margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brand">communiti<em>.</em></div>
+    <div class="masthead-note">Product update · June 2026</div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" style="padding-top:64px">
+    <span class="kicker reveal">New · Issue-level sentiment analysis</span>
+    <h1 class="reveal d1">Your community tells you everything.<br><span class="accent">Now you can hear all of it.</span></h1>
+    <p class="lede reveal d2">
+      Until now, feedback tools gave each response <strong>one</strong> sentiment score — and called
+      anything complicated <strong>“mixed.”</strong> Communiti now reads every submission the way your best
+      analyst does: <strong>every issue, its own sentiment, the resident’s exact words</strong> — filed
+      straight into your dashboard topics, in ten community languages.
+    </p>
+
+    <div class="example reveal d3" aria-label="Worked example of issue-level analysis">
+      <div class="example-head">
+        <span>One real-style response</span>
+        <span>What Communiti reads</span>
+      </div>
+      <div class="example-body">
+        “I really <mark class="pos">love the train service</mark>, but I
+        <mark class="neg">hate how terrible the bus delays are getting</mark>!”
+      </div>
+      <div class="example-read">
+        <span class="chip"><span class="dot pos"></span><b>Train service</b> · positive · <span class="topic">Trains &amp; Ferries</span></span>
+        <span class="chip"><span class="dot neg"></span><b>Bus delays</b> · negative · <span class="topic">Buses</span></span>
+      </div>
+      <div class="example-foot">
+        Every other tool we tested scores this whole response as <b>“MIXED”</b> — and the trains and the buses both disappear.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NUMBERS ================= -->
+  <section>
+    <p class="eyebrow reveal">Tested before we shipped it</p>
+    <h2 class="reveal d1">Benchmarked on the messiest feedback we could write</h2>
+    <p class="section-lede reveal d2">
+      We built a 217-response test set designed to break sentiment tools — typos, sarcasm, rambling
+      voice transcripts, low-literacy writing, and ten languages — then measured everything.
+      The full method and results are published alongside this page.<sup>1</sup>
+    </p>
+    <div class="stats reveal d3">
+      <div class="stat"><div class="num">92<sup>%</sup></div><div class="lbl">of issues found, even in deliberately messy feedback</div></div>
+      <div class="stat"><div class="num">99<sup>%</sup></div><div class="lbl">sentiment accuracy on the issues it finds</div></div>
+      <div class="stat"><div class="num">100<sup>%</sup></div><div class="lbl">of “mixed” responses split into their real issues</div></div>
+      <div class="stat"><div class="num">10</div><div class="lbl">community languages read natively, including Te Reo Māori and Samoan</div></div>
+      <div class="stat"><div class="num">~2<sup>s</sup></div><div class="lbl">per response, from about $3 per thousand responses</div></div>
+    </div>
+  </section>
+
+  <!-- ================= VS COMPREHEND ================= -->
+  <section>
+    <p class="eyebrow reveal">Head to head № 1</p>
+    <h2 class="reveal d1">The industry-standard tool misses what residents don’t name</h2>
+    <p class="section-lede reveal d2">
+      Most platforms (and many in-house projects) run on Amazon Comprehend — it tags <em>things</em> it can
+      recognise. But residents rarely name things. They write
+      <em>“Twenty minutes on hold just to ask why my rates notice changed.”</em> There is no “customer
+      service” in that sentence — only the experience of it.
+    </p>
+
+    <div class="two-col">
+      <figure class="chart reveal d2">
+        <div class="chart-title">Issue detection score — long written submissions</div>
+        <div class="chart-sub">60 multi-issue submissions · 700 issues to find · same scoring for both<sup>2</sup></div>
+        <svg viewBox="0 0 520 150" role="img" aria-label="Bar chart: Communiti finds 100 percent of issues, Amazon Comprehend 33 percent" class="bar-grow">
+          <text x="0" y="22" font-size="15" font-weight="600" fill="#1b2a3a">Communiti</text>
+          <rect x="0" y="32" width="500" height="30" rx="5" fill="#f3eee3"/>
+          <rect class="metric" x="0" y="32" width="500" height="30" rx="5" fill="#0e7569"/>
+          <text x="490" y="53" font-size="16" font-weight="700" fill="#ffffff" text-anchor="end">100%</text>
+          <text x="0" y="98" font-size="15" font-weight="600" fill="#1b2a3a">Amazon Comprehend (best setting)</text>
+          <rect x="0" y="108" width="500" height="30" rx="5" fill="#f3eee3"/>
+          <rect class="metric" x="0" y="108" width="165" height="30" rx="5" fill="#c9972b"/>
+          <text x="175" y="129" font-size="16" font-weight="700" fill="#1b2a3a">33%</text>
+        </svg>
+        <figcaption>Comprehend left <b>233 significant issues</b> unreported across those 60 submissions. Communiti left none.</figcaption>
+      </figure>
+
+      <figure class="chart reveal d3">
+        <div class="chart-title">Issue detection score — issues implied, never named</div>
+        <div class="chart-sub">96 responses like “water comes over the kerb every time it rains”<sup>2</sup></div>
+        <svg viewBox="0 0 520 150" role="img" aria-label="Bar chart: Communiti finds 90 percent of implied issues, Amazon Comprehend 1 percent" class="bar-grow">
+          <text x="0" y="22" font-size="15" font-weight="600" fill="#1b2a3a">Communiti</text>
+          <rect x="0" y="32" width="500" height="30" rx="5" fill="#f3eee3"/>
+          <rect class="metric" x="0" y="32" width="450" height="30" rx="5" fill="#0e7569"/>
+          <text x="440" y="53" font-size="16" font-weight="700" fill="#ffffff" text-anchor="end">90%</text>
+          <text x="0" y="98" font-size="15" font-weight="600" fill="#1b2a3a">Amazon Comprehend (best setting)</text>
+          <rect x="0" y="108" width="500" height="30" rx="5" fill="#f3eee3"/>
+          <rect class="metric" x="0" y="108" width="7" height="30" rx="3" fill="#c9972b"/>
+          <text x="17" y="129" font-size="16" font-weight="700" fill="#1b2a3a">1%</text>
+        </svg>
+        <figcaption>This is most of what consultation feedback looks like — and it is <b>structurally invisible</b> to entity-tagging tools.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= LANGUAGES ================= -->
+  <section>
+    <p class="eyebrow reveal">Head to head № 2</p>
+    <h2 class="reveal d1">Feedback in ten community languages — read, not skipped</h2>
+    <p class="section-lede reveal d2">
+      Residents write the way they speak — sometimes switching language mid-sentence:
+      <em>“公交车总是晚点, but the new library hours are very helpful.”</em>
+      Communiti reads the complaint about buses <em>and</em> the praise for the library.
+      Comprehend’s issue-level analysis supports English only.
+    </p>
+    <div class="langs reveal d3">
+      <div class="lang"><span class="name">Mandarin <span class="native">中文</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Arabic <span class="native">العربية</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Vietnamese <span class="native">Tiếng Việt</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Cantonese <span class="native">廣東話</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Punjabi <span class="native">ਪੰਜਾਬੀ</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Greek <span class="native">Ελληνικά</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Italian <span class="native">Italiano</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Hindi <span class="native">हिन्दी</span></span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Te Reo Māori</span><span class="tick">✓</span></div>
+      <div class="lang"><span class="name">Samoan <span class="native">Gagana Sāmoa</span></span><span class="tick">✓</span></div>
+    </div>
+    <p class="lang-note reveal d4">Industry-standard issue-level analysis: <b>0 of 10</b> supported.</p>
+  </section>
+
+  <!-- ================= VS DIY AI ================= -->
+  <section>
+    <p class="eyebrow reveal">Head to head № 3</p>
+    <h2 class="reveal d1">“Couldn’t we just paste it into an AI assistant?”</h2>
+    <p class="section-lede reveal d2">
+      Fair question — we tested it properly, including with the <em>same AI model we use ourselves</em>.
+      Today’s AI assistants read well. The difference is what arrives at the other end: a consultation
+      dashboard needs every issue filed under <em>your</em> topics, with the resident’s words attached,
+      for every row in the spreadsheet — every time.
+    </p>
+
+    <figure class="chart reveal d2">
+      <div class="chart-title">Share of issues that arrive in your dashboard, correctly filed</div>
+      <div class="chart-sub">60 long submissions · found <em>and</em> filed under the right reporting topic<sup>3</sup></div>
+      <svg viewBox="0 0 520 226" role="img" aria-label="Bar chart: Communiti 93 percent, AI assistant one response at a time 5 percent, AI assistant whole spreadsheet 0 percent" class="bar-grow">
+        <text x="0" y="22" font-size="15" font-weight="600" fill="#1b2a3a">Communiti</text>
+        <rect x="0" y="32" width="500" height="30" rx="5" fill="#f3eee3"/>
+        <rect class="metric" x="0" y="32" width="465" height="30" rx="5" fill="#0e7569"/>
+        <text x="455" y="53" font-size="16" font-weight="700" fill="#ffffff" text-anchor="end">93%</text>
+
+        <text x="0" y="98" font-size="15" font-weight="600" fill="#1b2a3a">AI assistant — one response at a time, carefully prompted</text>
+        <rect x="0" y="108" width="500" height="30" rx="5" fill="#f3eee3"/>
+        <rect class="metric" x="0" y="108" width="25" height="30" rx="4" fill="#7c5cb8"/>
+        <text x="35" y="129" font-size="16" font-weight="700" fill="#1b2a3a">5%</text>
+
+        <text x="0" y="174" font-size="15" font-weight="600" fill="#1b2a3a">AI assistant — whole spreadsheet pasted in at once</text>
+        <rect x="0" y="184" width="500" height="30" rx="5" fill="#f3eee3"/>
+        <rect class="metric" x="0" y="184" width="4" height="30" rx="2" fill="#b3372f"/>
+        <text x="14" y="205" font-size="16" font-weight="700" fill="#b3372f">0%</text>
+      </svg>
+      <figcaption>
+        The assistant finds issues, then names its themes differently on every row — so almost nothing
+        lands in your reporting structure without someone re-filing it by hand. <b>That re-filing is the job Communiti does.</b>
+      </figcaption>
+    </figure>
+
+    <div class="callout reveal d3">
+      <div class="callout-inner">
+        <p class="eyebrow">What happened with the spreadsheet</p>
+        <h3>We pasted 60 real-length submissions into an AI assistant, twenty at a time.</h3>
+        <div class="big">0 <small>OF 60 CAME BACK USABLE</small></div>
+        <p>
+          Every batch hit the assistant’s output limit and stopped mid-answer. No error message — just a
+          response that quietly cut off. On short one-line comments the same trick worked fine; on real
+          consultation submissions it returned nothing. That’s the risk: it doesn’t fail loudly, it
+          <em>silently drops residents from your analysis</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section>
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="reveal d1">Nothing new to learn</h2>
+    <div class="steps reveal d2">
+      <div class="step"><div class="n">1</div><h4>Upload as usual</h4><p>Spreadsheets, survey exports, documents, audio transcripts — exactly as you do today.</p></div>
+      <div class="step"><div class="n">2</div><h4>Every issue surfaces</h4><p>Each response is read for every issue it raises, with its own sentiment and the resident’s exact words highlighted.</p></div>
+      <div class="step"><div class="n">3</div><h4>Your dashboard fills itself</h4><p>Issues are filed under your project’s topics automatically — and you can rename or merge topics at any time.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= FOR IT ================= -->
+  <section>
+    <p class="eyebrow reveal">For your IT and governance teams</p>
+    <h2 class="reveal d1">Built for Australian data requirements</h2>
+    <div class="it-grid reveal d2">
+      <div class="it-card"><h4>Processed in Australia</h4><p>Analysis runs on AWS in Sydney and Melbourne using Australia-geographic AI infrastructure. Feedback is not processed offshore.</p></div>
+      <div class="it-card"><h4>Never used to train AI</h4><p>Your community’s feedback is not used to train any AI model, and the model provider has no access to it — contractually guaranteed by AWS.</p></div>
+      <div class="it-card"><h4>Evidence on request</h4><p>The complete benchmark pack — test data, scoring code, raw outputs, and methodology notes — is available for technical review.</p></div>
+      <div class="it-card"><h4>Every claim traceable</h4><p>Each issue links to the exact words in the original response. Nothing is summarised beyond what a reviewer can verify in one click.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTNOTES ================= -->
+  <div class="notes reveal">
+    <h3>How we measured — the fine print we think you should read</h3>
+    <ol>
+      <li><b>Test data.</b> All benchmarks use synthetic feedback written for testing (no resident data), spanning 473 responses across two test sets: a 217-response “stress” set (typos, sarcasm, voice transcripts, low-literacy writing, 10 languages) and a 256-response set of long submissions, implied issues, and mixed-language responses. Headline accuracy figures (92% / 99%) come from the stress set.</li>
+      <li><b>Comprehend comparison.</b> Amazon Comprehend Targeted Sentiment was scored on its best-performing configuration, only on English content (the only language it supports for this task), with identical matching rules to ours. Comprehend is cheaper per response; the comparison is about what each tool can see.</li>
+      <li><b>AI-assistant comparison.</b> The per-response test used a well-crafted prompt on the <em>same AI model Communiti uses</em>, plus a stronger model — so the gap shown is workflow and product, not model quality. “Correctly filed” means the issue was found <em>and</em> assigned to the project’s reporting topic. The assistant’s own theme names were also measured for internal consistency and scored well below Communiti’s (grouping consistency 0.63 vs 0.88). The spreadsheet test pasted submissions in batches of 20.</li>
+      <li><b>Reproducibility.</b> Every number on this page traces to a published results file, and the full evaluation suite (five research phases, sixteen tested hypotheses) re-runs end-to-end. Ask us for the benchmark pack.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ================= CTA ================= -->
+<div class="cta">
+  <p class="eyebrow">Available now in Communiti</p>
+  <h2>See your own consultation analysed this way</h2>
+  <p>Bring one real (de-identified) feedback export to a 30-minute walkthrough and watch every issue, in every language, land on your dashboard.</p>
+  <a class="btn" href="mailto:hello@communitilabs.com?subject=Issue-level%20sentiment%20walkthrough">Book a walkthrough</a>
+  <a class="btn ghost" href="mailto:hello@communitilabs.com?subject=ABSA%20benchmark%20pack%20request">Request the benchmark pack</a>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span>© 2026 Communiti Labs · Made in Australia</span>
+    <span>Benchmarks: June 2026 · methodology notes above</span>
+  </footer>
+</div>
+
+</body>
+</html>
