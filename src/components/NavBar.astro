@@ -1,42 +1,172 @@
 ---
 const navigation = [
-  { name: "Projects", href: "/projects" },
+  { name: "Projects", href: "/#projects" },
+  { name: "Articles", href: "/#articles" },
   { name: "Talks", href: "/#talks" },
-  { name: "Articles", href: "/articles" },
   { name: "Newsletters", href: "/newsletters" },
 ];
 ---
 
-<nav
-  class="flex flex-col items-center justify-between py-16 sm:h-10 sm:flex-row lg:justify-start"
->
-  <!-- Icon -->
-  <div class="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0">
-    <div class="flex w-full items-center justify-between md:w-auto">
-      <a href="/">
-        <span class="sr-only">Dan Ferg</span>
-        <img
-          alt="Dan Ferg"
-          class="h-8 w-auto sm:h-10"
-          src="/images/wave.png"
-        />
-      </a>
+<header class="site-header">
+  <div class="signal-bar">
+    <div class="site-container signal-bar__inner">
+      <p><span aria-hidden="true">■</span> Melbourne, Australia</p>
+      <a href="mailto:gday@danferg.com">Available for useful work <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 
-  <!-- Links -->
-  <div
-    class="mt-8 space-x-4 text-sm font-semibold sm:mt-0 sm:text-base md:ml-10 md:space-x-10 md:pr-4"
-  >
-    {
-      navigation.map((item) => (
-        <a href={item.href} class="text-gray-500 hover:text-gray-900">
-          {item.name}
-        </a>
-      ))
-    }
-  </div>
+  <div class="site-container nav-shell">
+    <a class="wordmark" href="/" aria-label="Dan Ferg, home">
+      <span aria-hidden="true">D/F</span>
+    </a>
 
-  <!-- Empty -->
-  <div></div>
-</nav>
+    <nav aria-label="Main navigation">
+      <ul>
+        {
+          navigation.map((item) => (
+            <li><a href={item.href}>{item.name}</a></li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="nav-contact" href="mailto:gday@danferg.com">Say hello <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .signal-bar {
+    color: var(--paper);
+    background: var(--signal-deep);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .signal-bar__inner,
+  .nav-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .signal-bar__inner {
+    min-height: 1.9rem;
+    gap: 1rem;
+  }
+
+  .signal-bar p {
+    margin: 0;
+  }
+
+  .signal-bar p span {
+    margin-right: 0.45rem;
+    color: var(--signal-bright);
+    font-size: 0.52rem;
+  }
+
+  .signal-bar a {
+    color: inherit;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 0.2em;
+  }
+
+  .nav-shell {
+    min-height: 4.25rem;
+    gap: 1.15rem;
+  }
+
+  .wordmark {
+    display: grid;
+    width: 2.3rem;
+    height: 2.3rem;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--paper);
+    background: var(--signal-deep);
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: -0.08em;
+    text-decoration: none;
+    transform: rotate(-3deg);
+  }
+
+  nav ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav li {
+    display: flex;
+    align-items: center;
+  }
+
+  nav li + li::before {
+    margin: 0 0.72rem;
+    color: var(--line-strong);
+    content: "|";
+  }
+
+  nav a,
+  .nav-contact {
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  nav a:hover,
+  .nav-contact:hover {
+    color: var(--signal);
+  }
+
+  .nav-contact {
+    padding: 0.58rem 0.72rem;
+    color: var(--paper);
+    background: var(--signal);
+  }
+
+  .nav-contact:hover {
+    color: var(--paper);
+    background: var(--signal-deep);
+  }
+
+  @media (max-width: 760px) {
+    .signal-bar__inner {
+      align-items: flex-start;
+      padding-block: 0.5rem;
+    }
+
+    .signal-bar__inner p {
+      display: none;
+    }
+
+    .nav-shell {
+      min-height: auto;
+      flex-wrap: wrap;
+      padding-block: 0.75rem;
+    }
+
+    .nav-shell nav {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      padding-top: 0.7rem;
+      border-top: 1px dotted var(--line-strong);
+    }
+
+    nav ul {
+      width: max-content;
+    }
+
+    .nav-contact {
+      padding: 0.55rem 0.65rem;
+    }
+  }
+</style>

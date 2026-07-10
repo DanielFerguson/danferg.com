@@ -1,2 +1,234 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+:root {
+  --paper: #f8f7fc;
+  --paper-raised: #fdfcff;
+  --paper-muted: #aaa7bb;
+  --ink: #181d27;
+  --ink-soft: #414651;
+  --ink-muted: #717680;
+  --line: rgb(79 57 246 / 18%);
+  --line-strong: rgb(27 16 112 / 48%);
+  --signal: #4f39f6;
+  --signal-bright: #cc66ff;
+  --signal-deep: #1b1070;
+  --signal-soft: #ede9ff;
+  --signal-line: #dbd5ff;
+  --content-width: 72rem;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Geist Mono Variable", "SFMono-Regular", Consolas, monospace;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 20rem;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(
+      to right,
+      transparent calc(50% - 0.5px),
+      rgb(79 57 246 / 4%) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    var(--paper);
+  font-size: 0.875rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--paper);
+  background: var(--signal);
+}
+
+a {
+  transition:
+    color 140ms ease,
+    background-color 140ms ease;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+}
+
+.site-container {
+  width: min(calc(100% - 2.5rem), var(--content-width));
+  margin-inline: auto;
+}
+
+.page-section {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+.ascii-rule {
+  height: 1rem;
+  overflow: hidden;
+  border: 0;
+  color: var(--ink-muted);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.ascii-rule::before {
+  content: "................................................................................................................................................................................................................................";
+}
+
+.prose-shell {
+  width: min(calc(100% - 2.5rem), 45rem);
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  color: var(--ink-soft);
+  font-size: clamp(0.96rem, 1.35vw, 1.03rem);
+  line-height: 1.9;
+}
+
+.prose-shell > :first-child {
+  margin-top: 0;
+}
+
+.prose-shell h2,
+.prose-shell h3,
+.prose-shell h4 {
+  margin-top: 3em;
+  margin-bottom: 0.85em;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.prose-shell h2 {
+  font-size: 1.3em;
+}
+
+.prose-shell h3 {
+  margin-top: 2.5em;
+  font-size: 1.08em;
+}
+
+.prose-shell p {
+  margin-block: 1.2em;
+}
+
+.prose-shell strong {
+  color: var(--ink);
+}
+
+.prose-shell ul,
+.prose-shell ol {
+  margin-block: 1.25em 1.6em;
+  padding-left: 1.55em;
+}
+
+.prose-shell ul {
+  list-style: square;
+}
+
+.prose-shell ol {
+  list-style: decimal;
+}
+
+.prose-shell li {
+  padding-left: 0.25em;
+}
+
+.prose-shell li + li {
+  margin-top: 0.65em;
+}
+
+.prose-shell h2::before {
+  color: var(--signal);
+  content: "## ";
+}
+
+.prose-shell h3::before {
+  color: var(--signal);
+  content: "### ";
+}
+
+.prose-shell a {
+  color: var(--ink);
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+.prose-shell blockquote {
+  margin: 1.75em 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--signal);
+  color: var(--ink);
+  background: var(--paper-raised);
+}
+
+.prose-shell blockquote > :first-child {
+  margin-top: 0;
+}
+
+.prose-shell blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.prose-shell img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+}
+
+.prose-shell code {
+  padding: 0.15em 0.3em;
+  color: var(--ink);
+  background: var(--signal-soft);
+  font-size: 0.9em;
+}
+
+.prose-shell pre {
+  overflow-x: auto;
+  padding: 1.25rem;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.prose-shell pre code {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .site-container,
+  .prose-shell {
+    width: min(calc(100% - 1.5rem), var(--content-width));
+  }
+
+  body {
+    background: var(--paper);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

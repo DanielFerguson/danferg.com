@@ -47,7 +47,7 @@ However, Airtable's... _ahem_ misstep, was just another opportunity for me to fi
 
 Over the past few weeks, I have been tinkering away at this platform, and I am so excited to say that it's offically ready for launch!
 
-![Airproxy CTA](/public/images/airproxy_screenshot.webp)
+![Airproxy CTA](/images/airproxy_screenshot.webp)
 
 ## What next?
 

@@ -1,0 +1,86 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  actionHref?: string;
+  actionLabel?: string;
+  as?: "h1" | "h2";
+  headingId?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  actionHref,
+  actionLabel,
+  as = "h2",
+  headingId,
+} = Astro.props as Props;
+const Heading = as;
+---
+
+<header class="section-heading">
+  <div>
+    <p class="section-heading__eyebrow">{eyebrow}</p>
+    <Heading id={headingId} class="section-heading__title">{title}</Heading>
+  </div>
+  <div class="section-heading__aside">
+    {description && <p>{description}</p>}
+    {actionHref && actionLabel && <a href={actionHref}>{actionLabel} <span aria-hidden="true">→</span></a>}
+  </div>
+</header>
+
+<style>
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: end;
+    padding-bottom: 1.4rem;
+  }
+
+  .section-heading__eyebrow {
+    margin: 0 0 0.65rem;
+    color: var(--signal);
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+  }
+
+  .section-heading__title {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .section-heading__aside p {
+    max-width: 43rem;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+
+  .section-heading__aside a {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--ink);
+    font-weight: 700;
+    text-underline-offset: 0.24em;
+  }
+
+  .section-heading__aside a:hover {
+    color: var(--signal);
+  }
+
+  @media (max-width: 740px) {
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

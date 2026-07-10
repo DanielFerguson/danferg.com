@@ -1,0 +1,127 @@
+---
+export interface ContentItem {
+  title: string;
+  description: string;
+  href: string;
+  meta: string;
+  detail?: string;
+  external?: boolean;
+}
+
+interface Props {
+  items: ContentItem[];
+  orderedLabel: string;
+}
+
+const { items, orderedLabel } = Astro.props;
+---
+
+<ol class="content-list" aria-label={orderedLabel}>
+  {
+    items.map((item, index) => (
+      <li>
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noopener noreferrer" : undefined}
+        >
+          <span class="content-list__index" aria-hidden="true">[{String(index + 1).padStart(2, "0")}]</span>
+          <span class="content-list__copy">
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+          </span>
+          <span class="content-list__meta">
+            <span>{item.meta}</span>
+            {item.detail && <span>{item.detail}</span>}
+          </span>
+          <span class="content-list__arrow" aria-hidden="true">{item.external ? "↗" : "→"}</span>
+        </a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .content-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+    list-style: none;
+  }
+
+  li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr) minmax(8rem, 0.28fr) 1.5rem;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.1rem 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a:hover strong,
+  a:hover .content-list__arrow {
+    color: var(--signal);
+  }
+
+  .content-list__index,
+  .content-list__meta {
+    color: var(--ink-muted);
+    font-size: 0.65rem;
+    line-height: 1.55;
+  }
+
+  .content-list__copy {
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .content-list__copy strong {
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    line-height: 1.25;
+    transition: color 140ms ease;
+  }
+
+  .content-list__copy > span {
+    max-width: 64rem;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    line-height: 1.55;
+  }
+
+  .content-list__meta {
+    display: grid;
+    gap: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .content-list__arrow {
+    justify-self: end;
+    font-size: 1rem;
+    transition: color 140ms ease;
+  }
+
+  @media (max-width: 720px) {
+    a {
+      grid-template-columns: 2.6rem minmax(0, 1fr) 1.25rem;
+      gap: 0.75rem;
+      padding-block: 1rem;
+    }
+
+    .content-list__meta {
+      grid-column: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1rem;
+    }
+
+    .content-list__arrow {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+</style>

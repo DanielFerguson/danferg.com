@@ -1,26 +1,24 @@
 ---
-const { frontmatter } = Astro.props;
-
-import NavBar from "@components/NavBar.astro";
 import type SEO from "types/SEO";
 import { Picture } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
 import {
   getProjectExternalUrl,
   getProjectScreenshot,
 } from "../utils/project-assets";
 
+const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
+const projectLinkLabel = frontmatter.externalLabel || "Visit project";
 const projectScreenshot = getProjectScreenshot(frontmatter.imageUrl);
 const screenshotAlt = `${frontmatter.title} product interface screenshot`;
 
 const SEO: SEO = {
-  title: frontmatter.title + " | Dan Ferg",
+  title: `${frontmatter.title} | Dan Ferg`,
   description: frontmatter.description,
-  imageUrl: "https://danferg.com" + frontmatter.imageUrl,
-  openGraph: {
-    type: "article",
-  },
+  imageUrl: frontmatter.imageUrl,
+  openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
   schemaType: "CreativeWork",
   breadcrumbs: [
@@ -29,230 +27,222 @@ const SEO: SEO = {
     { name: frontmatter.title, url: frontmatter.canonicalUrl },
   ],
 };
-
 ---
 
 <BaseLayout {...SEO}>
-  <!-- Section: Navigation -->
-  <div class="mx-auto max-w-7xl sm:px-12">
-    <NavBar />
-  </div>
-
-  <!-- Section: Hero -->
-  <div>
-    <div class="relative overflow-hidden">
-      <!-- Background graphic -->
-      <div class="absolute inset-y-0 h-full w-full" aria-hidden="true">
-        <div class="relative h-full">
-          <svg
-            class="absolute right-full translate-y-1/3 translate-x-1/4 transform sm:translate-x-1/2 md:translate-y-1/2 lg:translate-x-full"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="e229dbec-10e9-49ee-8ec3-0286ca089edf"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  class="text-gray-200"
-                  fill="currentColor"></rect>
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#e229dbec-10e9-49ee-8ec3-0286ca089edf)"></rect>
-          </svg>
-          <svg
-            class="absolute left-full -translate-y-3/4 -translate-x-1/4 transform sm:-translate-x-1/2 md:-translate-y-1/2 lg:-translate-x-3/4"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="d2a68204-c383-44b1-b99f-42ccff4e5365"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  class="text-gray-200"
-                  fill="currentColor"></rect>
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#d2a68204-c383-44b1-b99f-42ccff4e5365)"></rect>
-          </svg>
+  <NavBar />
+  <main>
+    <header class="site-container project-header">
+      <p class="project-header__path"><a href="/">HOME</a> / <a href="/projects">PROJECTS</a> / CASE_STUDY</p>
+      <div class="project-header__grid">
+        <div>
+          <p class="project-header__type">PROJECT // BUILT BY DAN FERG</p>
+          <h1>{frontmatter.title}</h1>
+        </div>
+        <div class="project-header__aside">
+          <p>{frontmatter.description}</p>
+          {projectUrl && <a href={projectUrl} target="_blank" rel="noopener noreferrer">{projectLinkLabel} <span aria-hidden="true">↗</span></a>}
         </div>
       </div>
 
-      <!-- Title & Description -->
-      <div class="relative pt-6 pb-16 sm:pb-24">
-        <div class="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6">
-          <div class="text-center">
-            <h1
-              class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl"
-            >
-              {frontmatter.title}
-            </h1>
-            <p
-              class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl"
-            >
-              {frontmatter.description}
-            </p>
-          </div>
-        </div>
-      </div>
+      <dl class="project-meta">
+        {frontmatter.period && <div><dt>PERIOD</dt><dd>{frontmatter.period}</dd></div>}
+        {frontmatter.status && <div><dt>STATUS</dt><dd>{frontmatter.status}</dd></div>}
+        {frontmatter.role && <div><dt>ROLE</dt><dd>{frontmatter.role}</dd></div>}
+        {frontmatter.tags?.length > 0 && <div><dt>DISCIPLINES</dt><dd>{frontmatter.tags.join(" / ")}</dd></div>}
+      </dl>
+    </header>
 
-      <!-- Screenshot -->
-      <div class="relative">
-        <!-- <div class="absolute inset-0 flex flex-col" aria-hidden="true">
-          <div class="flex-1"></div>
-          <div class="w-full flex-1 bg-gray-800"></div>
-        </div> -->
-        <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-          <Picture
-            class="relative rounded-lg shadow-lg"
-            src={projectScreenshot}
-            formats={["avif", "webp"]}
-            fallbackFormat="webp"
-            alt={screenshotAlt}
-            widths={[640, 960, 1280, 1600]}
-            sizes="(min-width: 1024px) 1152px, 100vw"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-          />
-        </div>
-      </div>
+    <div class="site-container project-visual">
+      <div class="project-visual__bar"><span>OUTPUT / PRODUCT_INTERFACE</span><span>FIG. 01</span></div>
+      <Picture
+        src={projectScreenshot}
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        alt={screenshotAlt}
+        widths={[640, 960, 1280]}
+        sizes="(min-width: 1280px) 1216px, calc(100vw - 40px)"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
     </div>
 
-    <!-- TODO: Add Trusted By Section -->
-    <!-- <div class="bg-gray-800">
-      <div class="mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-        <h2 class="text-center text-base font-semibold text-gray-400">
-          Trusted by over 26,000 forward-thinking companies
-        </h2>
-        <div class="mt-8 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-          <div
-            class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
-          >
-            <img
-              class="h-12"
-              src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
-              alt="Tuple"
-            />
-          </div>
-          <div
-            class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
-          >
-            <img
-              class="h-12"
-              src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg"
-              alt="Mirage"
-            />
-          </div>
-          <div
-            class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
-          >
-            <img
-              class="h-12"
-              src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-              alt="StaticKit"
-            />
-          </div>
-          <div
-            class="col-span-1 flex justify-center md:col-span-3 lg:col-span-1"
-          >
-            <img
-              class="h-12"
-              src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
-              alt="Transistor"
-            />
-          </div>
-          <div
-            class="col-span-2 flex justify-center md:col-span-3 lg:col-span-1"
-          >
-            <img
-              class="h-12"
-              src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
-              alt="Workcation"
-            />
-          </div>
-        </div>
-      </div>
-    </div> -->
-  </div>
+    <article class="prose-shell">
+      <slot />
+    </article>
 
-  <!-- Content -->
-  <div class="prose mx-auto px-8 pt-16 pb-24 md:px-0">
-    <slot />
-  </div>
-
-  <!-- Call to Action -->
-  <div class="mx-auto max-w-7xl px-12 pb-24">
-    <div
-      class="overflow-hidden rounded-lg bg-indigo-700 shadow-xl lg:grid lg:grid-cols-2 lg:gap-4"
-    >
-      <div
-        class="px-6 pt-10 pb-12 sm:px-16 sm:pt-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20"
-      >
-        <div class="lg:self-center">
-          <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            <span class="block">Ready to dive in?</span>
-            <span class="block">Check out {frontmatter.title} today.</span>
-          </h2>
-          <p class="mt-4 text-lg leading-6 text-indigo-200">
-            {frontmatter.description}
-          </p>
-          {
-            projectUrl && (
-              <a
-                href={projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mt-8 inline-flex items-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 shadow hover:bg-indigo-50"
-              >
-                Check it out
-              </a>
-            )
-          }
-        </div>
-      </div>
-      <div class="aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1 -mt-6">
-        <Picture
-          class="h-[28em] translate-x-6 translate-y-6 transform rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-          src={projectScreenshot}
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-          alt={screenshotAlt}
-          widths={[480, 640, 960]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-    </div>
-  </div>
+    {projectUrl && (
+      <aside class="site-container project-cta">
+        <p>// CONTINUE EXPLORING</p>
+        <h2>Explore {frontmatter.title} beyond the case study.</h2>
+        <a href={projectUrl} target="_blank" rel="noopener noreferrer">{projectLinkLabel} <span aria-hidden="true">↗</span></a>
+      </aside>
+    )}
+  </main>
 </BaseLayout>
+
+<style>
+  .project-header {
+    padding-block: clamp(2.5rem, 5vw, 4.75rem) clamp(2.25rem, 4vw, 3.75rem);
+  }
+
+  .project-header__path,
+  .project-header__type,
+  .project-visual__bar {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .project-header__path {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .project-header__path a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .project-header__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: end;
+  }
+
+  .project-header__type {
+    margin-bottom: 0.85rem;
+    color: var(--signal);
+    font-weight: 750;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    line-height: 0.93;
+    letter-spacing: -0.075em;
+  }
+
+  .project-header__aside p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .project-header__aside a,
+  .project-cta a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--ink);
+    font-weight: 750;
+    text-underline-offset: 0.22em;
+  }
+
+  .project-header__aside a:hover,
+  .project-cta a:hover {
+    color: var(--signal);
+  }
+
+  .project-meta {
+    display: grid;
+    grid-template-columns: 0.75fr 0.9fr 1.15fr 1.6fr;
+    margin: clamp(2.25rem, 4vw, 3.5rem) 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .project-meta div {
+    padding-right: 1rem;
+  }
+
+  .project-meta div + div {
+    padding-left: 1rem;
+    border-left: 1px dotted var(--line-strong);
+  }
+
+  .project-meta dt {
+    color: var(--signal);
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+  }
+
+  .project-meta dd {
+    margin: 0.4rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.5;
+  }
+
+  .project-visual {
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+  }
+
+  .project-visual__bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .project-visual :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .project-cta {
+    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
+    padding: clamp(1.75rem, 3.5vw, 3rem);
+    border: 1px solid var(--line-strong);
+    background: var(--signal-soft);
+  }
+
+  .project-cta p {
+    margin: 0 0 1rem;
+    color: var(--signal);
+    font-size: 0.63rem;
+    font-weight: 750;
+  }
+
+  .project-cta h2 {
+    max-width: 18ch;
+    margin: 0;
+    font-size: clamp(1.75rem, 4vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
+
+  @media (max-width: 720px) {
+    .project-header__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-meta div {
+      padding: 0.85rem 0;
+    }
+
+    .project-meta div + div {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .project-meta div:nth-child(even) {
+      padding-left: 1rem;
+      border-left: 1px dotted var(--line-strong);
+    }
+
+    .project-meta div:nth-child(n + 3) {
+      border-top: 1px dotted var(--line-strong);
+    }
+  }
+</style>

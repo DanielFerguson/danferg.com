@@ -1,16 +1,21 @@
 ---
-const { frontmatter } = Astro.props;
-
 import type SEO from "types/SEO";
 import BaseLayout from "./BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+
+const { frontmatter } = Astro.props;
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
 
 const SEO: SEO = {
-  title: frontmatter.title + " | Dan Ferg",
+  title: `${frontmatter.title} | Dan Ferg`,
   description: frontmatter.description,
   imageUrl: frontmatter.imageUrl,
-  openGraph: {
-    type: "article",
-  },
+  openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
   schemaType: "BlogPosting",
   publishedDate: frontmatter.date,
@@ -20,152 +25,81 @@ const SEO: SEO = {
     { name: frontmatter.title, url: frontmatter.canonicalUrl },
   ],
 };
-
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Talks", href: "/#talks" },
-  { name: "Articles", href: "/articles" },
-  { name: "Newsletters", href: "/newsletters" },
-];
 ---
 
 <BaseLayout {...SEO}>
-  <!-- Section: Navigation -->
-  <header>
-    <div
-      class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8"
-    >
-      <div class="flex justify-start lg:w-0 lg:flex-1">
-        <a href="/">
-          <span class="sr-only">DanFerg</span>
-          <img
-            alt="Dan Ferg"
-            class="h-8 w-auto sm:h-10"
-            src="/images/wave.png"
-          />
-        </a>
-      </div>
-      <nav class="hidden space-x-10 md:flex">
-        {
-          navigation.map((item) => (
-            <a
-              href={item.href}
-              class="text-base font-medium text-gray-500 hover:text-gray-900"
-            >
-              {item.name}
-            </a>
-          ))
-        }
-      </nav>
-      <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
-      </div>
-    </div>
-  </header>
-
-  <!-- Section: Hero -->
-  <div>
-    <main class="relative">
-      <div class="absolute inset-x-0 bottom-0 h-1/2"></div>
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
-          <div class="absolute inset-0">
-            <img
-              class="aspect-video h-full w-full object-cover"
-              src={frontmatter.imageUrl}
-              width={1280}
-              height={720}
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              alt={`${frontmatter.title} newsletter cover image`}
-            />
-            <div class="absolute inset-0 bg-indigo-700 mix-blend-multiply">
-            </div>
-          </div>
-          <div class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-            <h1
-              class="text-center text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
-            >
-              {frontmatter.title}
-            </h1>
-            <p
-              class="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl"
-            >
-              {frontmatter.description}
-            </p>
-          </div>
+  <NavBar />
+  <main>
+    <header class="site-container story-header">
+      <p class="story-header__path"><a href="/">HOME</a> / <a href="/newsletters">NEWSLETTERS</a> / FILE</p>
+      <div class="story-header__grid">
+        <div>
+          <p class="story-header__type">DISPATCH // {formatDate(frontmatter.date).toUpperCase()}</p>
+          <h1>{frontmatter.title}</h1>
         </div>
+        <p class="story-header__description">{frontmatter.description}</p>
       </div>
-    </main>
-  </div>
-
-  <!-- Section: Breadcrumbs -->
-  <div class="mx-auto mt-8 mb-12 max-w-7xl lg:px-8">
-    <nav class="flex" aria-label="Breadcrumb">
-      <ol role="list" class="flex items-center space-x-4">
-        <li>
-          <div>
-            <a href="/" class="text-gray-400 hover:text-gray-500">
-              <svg
-                class="h-5 w-5 flex-shrink-0"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <span class="sr-only">Home</span>
-            </a>
-          </div>
-        </li>
-
-        <li>
-          <div class="flex items-center">
-            <svg
-              class="h-5 w-5 flex-shrink-0 text-gray-300"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z"></path>
-            </svg>
-            <a
-              href="/newsletters"
-              class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-              >Newsletters</a
-            >
-          </div>
-        </li>
-
-        <li>
-          <div class="flex items-center">
-            <svg
-              class="h-5 w-5 flex-shrink-0 text-gray-300"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z"></path>
-            </svg>
-            <p
-              class="ml-4 text-sm font-medium text-gray-500"
-              aria-current="page"
-            >
-              {frontmatter.title}
-            </p>
-          </div>
-        </li>
-      </ol>
-    </nav>
-  </div>
-
-  <div class="prose mx-auto px-8 pb-16 md:px-0">
-    <slot />
-  </div>
+    </header>
+    <hr class="site-container ascii-rule" />
+    <article class="prose-shell">
+      <slot />
+    </article>
+  </main>
 </BaseLayout>
+
+<style>
+  .story-header {
+    padding-block: clamp(2.5rem, 5vw, 4.75rem) clamp(2.25rem, 4vw, 3.75rem);
+  }
+
+  .story-header__path,
+  .story-header__type {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .story-header__path {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .story-header__path a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .story-header__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: end;
+  }
+
+  .story-header__type {
+    margin-bottom: 0.85rem;
+    color: var(--signal);
+    font-weight: 750;
+  }
+
+  h1 {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.07em;
+  }
+
+  .story-header__description {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 720px) {
+    .story-header__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

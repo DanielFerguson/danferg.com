@@ -1,195 +1,61 @@
 ---
-// Types
 import type Project from "types/Project";
 import type SEO from "types/SEO";
 
-// Components
-import { Picture } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import {
-  getProjectExternalUrl,
-  getProjectScreenshot,
-} from "../../utils/project-assets";
+import SectionHeading from "@components/SectionHeading.astro";
+import ProjectGrid from "@components/ProjectGrid.astro";
 
-type MarkdownModule<T> = {
-  frontmatter: T;
-  url: string;
-};
+type MarkdownModule<T> = { frontmatter: T; url: string };
 
-// Data
 const SEO: SEO = {
-  title: "Social impact, startup and software projects | Dan Ferg",
+  title: "Projects in software and social impact | Dan Ferg",
   description:
-    "Explore Dan Ferg's projects across startups, social entrepreneurship, disaster response, no-code infrastructure, land valuation, leadership, and community technology.",
+    "Explore Dan Ferg's projects across startups, social impact, community technology, leadership, and practical software.",
   imageUrl: "/assets/snow.jpg",
-  openGraph: {
-    type: "website",
-  },
+  openGraph: { type: "website" },
   canonicalUrl: "/projects",
   schemaType: "CollectionPage",
 };
 
 const projects = Object.values(
   import.meta.glob<MarkdownModule<Project>>("./*.md", { eager: true })
+).sort(
+  (a, b) =>
+    Number(Boolean(b.frontmatter.highlight)) -
+      Number(Boolean(a.frontmatter.highlight)) ||
+    a.frontmatter.title.localeCompare(b.frontmatter.title)
 );
 ---
 
 <BaseLayout {...SEO}>
-  <div class="mx-auto max-w-7xl sm:px-12">
-    <NavBar />
-  </div>
-
-  <!-- Hero -->
-  <div class="relative bg-indigo-800">
-    <div class="absolute inset-0">
-      <img
-        class="h-full w-full object-cover"
-        src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80&sat=-100"
-        alt="Project UX map"
-      />
-      <div
-        class="absolute inset-0 bg-indigo-800 mix-blend-multiply"
-        aria-hidden="true"
-      >
-      </div>
-    </div>
-    <div class="relative mx-auto max-w-7xl py-24 px-4 sm:py-40 sm:px-6 lg:px-8">
-      <h1
-        class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
-      >
-        Projects
-      </h1>
-      <p class="mt-6 max-w-3xl text-xl text-indigo-100">
-        I build and experiment with practical digital products across social
-        entrepreneurship, startup infrastructure, emergency response, land
-        valuation, leadership, and community technology.
-      </p>
-    </div>
-  </div>
-
-  <!-- Projects List -->
-  <div
-    class="relative flex flex-col gap-y-32 overflow-hidden bg-white pt-32 pb-32"
-  >
-    {
-      projects.map((project, index) => {
-        const externalUrl = getProjectExternalUrl(project.frontmatter);
-        const screenshot = getProjectScreenshot(project.frontmatter.imageUrl);
-        const screenshotAlt = `${project.frontmatter.title} product interface screenshot`;
-
-        return index % 2 === 0 ? (
-          <div class="relative">
-            <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
-              <div class="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
-                <div>
-                  <img
-                    src={project.frontmatter.iconUrl}
-                    class="h-12 w-auto"
-                    alt={project.frontmatter.title}
-                  />
-                  <div class="mt-6">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900">
-                      {project.frontmatter.title}
-                    </h2>
-                    <p class="mt-4 text-lg text-gray-500">
-                      {project.frontmatter.description}
-                    </p>
-                    <div class="mt-6">
-                      <a
-                        href={project.frontmatter.canonicalUrl}
-                        class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                      >
-                        Read more
-                      </a>
-                      {externalUrl && (
-                        <a
-                          href={externalUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
-                        >
-                          Check it out
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="mt-12 sm:mt-16 lg:mt-0">
-                <div class="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                  <Picture
-                    class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src={screenshot}
-                    formats={["avif", "webp"]}
-                    fallbackFormat="webp"
-                    alt={screenshotAlt}
-                    widths={[640, 960, 1280, 1600]}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
-              <div class="mx-auto max-w-xl px-4 sm:px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
-                <div>
-                  <img
-                    src={project.frontmatter.iconUrl}
-                    class="h-12 w-auto"
-                    alt={project.frontmatter.title}
-                  />
-                  <div class="mt-6">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900">
-                      {project.frontmatter.title}
-                    </h2>
-                    <p class="mt-4 text-lg text-gray-500">
-                      {project.frontmatter.description}
-                    </p>
-                    <div class="mt-6">
-                      <a
-                        href={project.frontmatter.canonicalUrl}
-                        class="inline-flex rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                      >
-                        Read more
-                      </a>
-                      {externalUrl && (
-                        <a
-                          href={externalUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex rounded-md border border-transparent px-4 py-2 text-base font-medium text-indigo-700"
-                        >
-                          Check it out
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
-                <div class="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                  <Picture
-                    class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                    src={screenshot}
-                    formats={["avif", "webp"]}
-                    fallbackFormat="webp"
-                    alt={screenshotAlt}
-                    widths={[640, 960, 1280, 1600]}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })
-    }
-  </div>
+  <NavBar />
+  <main class="site-container archive">
+    <p class="breadcrumb"><a href="/">HOME</a> / PROJECTS</p>
+    <SectionHeading
+      as="h1"
+      eyebrow="ARCHIVE_01 // PROJECTS"
+      title="Useful things I’ve built."
+      description={`${projects.length} experiments, products, and ventures. Some shipped, some taught me what to build next; all started with a real problem.`}
+    />
+    <ProjectGrid projects={projects} />
+  </main>
 </BaseLayout>
+
+<style>
+  .archive {
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .breadcrumb {
+    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+  }
+
+  .breadcrumb a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+</style>

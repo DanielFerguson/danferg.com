@@ -2,173 +2,74 @@
 import type NewsletterType from "types/Newsletter";
 import type SEO from "types/SEO";
 
-import dayjs from "dayjs";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import CardGrid from "@components/CardGrid.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import ContentList from "@components/ContentList.astro";
 
-type MarkdownModule<T> = {
-  frontmatter: T;
-  url: string;
-};
+type MarkdownModule<T> = { frontmatter: T; url: string };
 
 const SEO: SEO = {
   title: "Newsletters on building projects and solving problems | Dan Ferg",
   description:
-    "Read Dan Ferg's newsletters about startup progress, project updates, ideas, lessons learned, and the practical realities of building in public.",
+    "Read Dan Ferg's newsletters about startup progress, ideas, project updates, and lessons learned while building in public.",
   imageUrl: "/assets/snow.jpg",
-  openGraph: {
-    type: "website",
-  },
+  openGraph: { type: "website" },
   canonicalUrl: "/newsletters",
   schemaType: "CollectionPage",
 };
 
-const articles = Object.values(
+const newsletters = Object.values(
   import.meta.glob<MarkdownModule<NewsletterType>>("./*.mdx", { eager: true })
-);
-const sortedArticles = articles.sort(function (a, b) {
-  return (
+).sort(
+  (a, b) =>
     new Date(b.frontmatter.date).getTime() -
     new Date(a.frontmatter.date).getTime()
-  );
-});
+);
+
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+const items = newsletters.map((newsletter) => ({
+  title: newsletter.frontmatter.title,
+  description: newsletter.frontmatter.description,
+  href: newsletter.url,
+  meta: formatDate(newsletter.frontmatter.date),
+  detail: newsletter.frontmatter.minutesRead,
+}));
 ---
 
 <BaseLayout {...SEO}>
-  <!-- Section: Header -->
-  <div class="mx-auto max-w-7xl sm:px-12">
-    <NavBar />
-  </div>
-
-  <!-- Section: Featured Article -->
-  <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
-    <div class="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-48">
-      <div
-        class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8"
-      >
-        <a href={sortedArticles[0].url}>
-          <div class="mt-20">
-            <span
-              class="rounded bg-indigo-50 px-2.5 py-1 text-sm font-semibold text-indigo-600"
-              >What's new</span
-            >
-            <div class="mt-6 sm:max-w-xl">
-              <h1
-                class="text-4xl font-bold tracking-tight text-gray-900 hover:text-indigo-600 sm:text-5xl"
-              >
-                {sortedArticles[0].frontmatter.title}
-              </h1>
-              <p class="mt-6 text-xl text-gray-500">
-                {sortedArticles[0].frontmatter.description}
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="sm:mx-auto sm:max-w-3xl sm:px-6">
-        <div
-          class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
-        >
-          <div class="hidden sm:block">
-            <div
-              class="absolute inset-y-0 left-1/2 w-screen rounded-l-3xl bg-gray-50 lg:left-80 lg:right-0 lg:w-full"
-            >
-            </div>
-            <svg
-              class="absolute top-8 right-1/2 -mr-3 lg:left-0 lg:m-0"
-              width="404"
-              height="392"
-              fill="none"
-              viewBox="0 0 404 392"
-            >
-              <defs>
-                <pattern
-                  id="837c3e70-6c3a-44e6-8854-cc48c737b659"
-                  x="0"
-                  y="0"
-                  width="20"
-                  height="20"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect
-                    x="0"
-                    y="0"
-                    width="4"
-                    height="4"
-                    class="text-gray-200"
-                    fill="currentColor"></rect>
-                </pattern>
-              </defs>
-              <rect
-                width="404"
-                height="392"
-                fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
-            </svg>
-          </div>
-          <div
-            class="relative -mr-40 pl-4 sm:mx-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:pl-12"
-          >
-            <img
-              class="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
-              src={sortedArticles[0].frontmatter.imageUrl}
-              width={1280}
-              height={720}
-              loading="eager"
-              decoding="async"
-              alt={`${sortedArticles[0].frontmatter.title} newsletter cover image`}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section: Article List -->
-  <CardGrid>
-    {
-      sortedArticles.slice(1).map((article) => (
-        <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
-          <div class="flex-shrink-0">
-            <img
-              class="h-48 w-full object-cover"
-              src={article.frontmatter.imageUrl}
-              width={640}
-              height={360}
-              loading="lazy"
-              decoding="async"
-              alt={`${article.frontmatter.title} newsletter cover image`}
-            />
-          </div>
-          <div class="flex flex-1 flex-col justify-between bg-white p-6">
-            <div class="flex-1">
-              <p class="text-sm font-medium text-indigo-600">
-                <a href={article.url} class="hover:underline">
-                  Article
-                </a>
-              </p>
-              <a href={article.url} class="mt-2 block">
-                <p class="text-xl font-semibold text-gray-900">
-                  {article.frontmatter.title}
-                </p>
-                <p class="mt-3 text-base text-gray-500">
-                  {article.frontmatter.description}
-                </p>
-              </a>
-            </div>
-            <div class="mt-6">
-              <div class="flex space-x-1 text-sm text-gray-500">
-                <time datetime={article.frontmatter.date}>
-                  {dayjs(article.frontmatter.date).format("MMM D, YYYY")}
-                </time>
-                <span aria-hidden="true">&middot;</span>
-                <span>{article.frontmatter.minutesRead}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))
-    }
-  </CardGrid>
+  <NavBar />
+  <main class="site-container archive">
+    <p class="breadcrumb"><a href="/">HOME</a> / NEWSLETTERS</p>
+    <SectionHeading
+      as="h1"
+      eyebrow="ARCHIVE_03 // NEWSLETTERS"
+      title="Dispatches from the workbench."
+      description={`${newsletters.length} longer updates from the projects, ideas, and experiments I was building in public.`}
+    />
+    <ContentList items={items} orderedLabel="All newsletters" />
+  </main>
 </BaseLayout>
+
+<style>
+  .archive {
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .breadcrumb {
+    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+  }
+
+  .breadcrumb a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+</style>

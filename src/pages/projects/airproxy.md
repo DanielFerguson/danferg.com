@@ -2,63 +2,55 @@
 layout: ../../layouts/ProjectLayout.astro
 title: Airproxy
 iconUrl: /assets/projects/airproxy.png
-description: Gain the full power of the Airtable platform, and build businesses without worrying about scaling, limitations or rate limits. Get busy building!
-tags: []
+description: An edge-first caching and proxy layer that made Airtable practical as a production backend without inheriting its rate limits, attachment constraints, or operational fragility.
+tags:
+  - Developer tools
+  - Cloud infrastructure
+  - SaaS
 featured: true
-externalLink: https://airproxy.app
+period: "2023"
+status: Archived product
+role: Co-founder / product / engineering
 imageUrl: /assets/projects/airproxy/screenshot.webp
 canonicalUrl: /projects/airproxy
 ---
 
-## What is Airproxy?
+## The tension inside Airtable
 
-Airproxy is a cloud-native proxy service designed specifically to help teams and businesses leverage [Airtable's](https://airtable.com) awesome user experience and flexibility in production.
+Airtable is excellent at one side of the content problem. Non-technical teams can model information, update records, and work in an interface that feels more like a spreadsheet than a traditional CMS. The difficulty starts when that same data has to power a customer-facing product.
 
-In my travels, I've found many businesses who use and love Airtable for an awe-inspiring amount of internal processes and practises, but as soon as it comes to serving data to customers, they have other content management systems to handle this kind of traffic.
+The API was limited to five requests per second, attachment behaviour was changing, and serving every request directly from Airtable created a fragile dependency at exactly the point a product needed reliability. Teams either introduced another CMS or built an internal caching layer—both of which undermined the simplicity that made Airtable attractive in the first place.
 
-Now; I hate vendor sprawl. During my time as CTO at [Imperial Wealth](https://imperialwealth.com), I had a small team of elite developers who needed to cater to 5 distinct, and largely independent business units; each with their own markets, demands and release schedules.
+I encountered that problem while serving as CTO at Imperial Wealth. A small development team supported five largely independent business units, each with its own customers, content, and release schedule. Airtable helped subject-matter experts contribute directly, but the infrastructure between Airtable and the products became an operational burden.
 
-Each of these businesses had grand ambitions, and I and the team wanted to facilitate this. A large amount of the offerings for each of the business were information based - so we needed a content management strategy that would
+## The prototype that proved the need
 
-1. keep up with our release cycle, and enable us to iterate quickly,
-2. have a user-friendly interface that would allow non-developers to make meaningful contributions to the development efforts of our teams, and
-3. be versatile enough to handle the unique data schemas we needed to reduce data duplication and stick to as close to 3rd normal form as possible.
+The first solution was a pragmatic Laravel proxy running on AWS. It cached Airtable responses and kept customer applications moving without requiring a wholesale change to the content workflow.
 
-Enter: Airtable.
+It worked—until demand made its limitations visible. Saturday traffic peaks could put roughly 90% of the user base online while internal experts were changing the underlying records. Cache invalidations, bursts of requests, and a single server combined into the kind of failure that demanded a manual restart at exactly the wrong time.
 
-## Why did I build Airproxy?
+That experience turned an internal workaround into a clearer product question: **could the useful parts of Airtable remain, while the production risk disappeared?**
 
-Airtable's API is brilliant, right up until you need to use it in production. Its biggest limitation is that of the 5 requests per second rate limit, and now after a recent change, the fact that you cannot use it as a content delivery network (files, images, etc.).
+## What I built
 
-This means that if you want to use it for data that can change quickly, you're out of luck.
+Airproxy was the productised answer: a cloud-native layer between Airtable and the applications consuming its data.
 
-That is, unless you use [Airproxy](https://airproxy.app), of course.
+- Requests could be cached close to the user instead of repeatedly travelling back to Airtable.
+- Traffic spikes could be absorbed by edge infrastructure rather than a single long-running server.
+- Files and other static assets could be delivered independently of Airtable's attachment constraints.
+- API credentials and the underlying base structure stayed behind the proxy instead of leaking into client applications.
+- Product teams retained the editing experience their non-technical colleagues already understood.
 
-At Imperial Wealth, I created a _very_ basic proxy service that allowed us to get up and running quickly. It was built with Laravel, delivered on Forge and AWS and worked well for the amount of time that we put into it; but it wasn't directly delivering value to our customers, so we only had limited about of time to make improvements.
+The architecture used Cloudflare Workers, KV, and Durable Objects for the edge and caching layer; Node and Upstash QStash for background work; and Next.js, Tailwind, and Vercel for the customer-facing product. I launched it in early 2023 with a co-founder, taking it from an operational lesson to a public developer product.
 
-That, coupled with the fact that it was a server-based application, meaning that it couldn't scale with our increasingly growing user base (Imperial Wealth recently went international, releasing in the US markets), we needed a better solution.
+## The product judgement
 
-It needed to scale to meet our needs, instantly.
+The most important decision was not technical. Airproxy did not ask teams to migrate their data, retrain their colleagues, or adopt a larger platform. It made an existing workflow more dependable.
 
-It needed to be able to serve our static files, globally.
+That constraint kept the value proposition sharp: use Airtable for what it is unusually good at, and use Airproxy for the production responsibilities Airtable was never designed to carry.
 
-It needed to be able to protect our data, securely.
+## What I learned
 
-It needed to enable our development team to make more reliable user interfaces, quickly.
+Airproxy taught me the difference between solving a problem once and turning that solution into a product. The code that rescues one team can tolerate assumptions, manual intervention, and institutional knowledge. A product has to replace those assumptions with safe defaults, understandable failure modes, and an onboarding path for people who were not in the room when it was designed.
 
-And, arguably most importantly, for me at least, it needed to be resilient, and not cause me to wake me up at 4am because the server had crashed after a massive surge of traffic.
-
-Enter: [Airproxy](https://airproxy.app).
-
-## Who is Airproxy for?
-
-Airproxy was designed for everyone, like entrepreneurs who need to focus on iterating their idea, rather than their content management strategy, to enterprise customers that need to need to increase their technology agility and synergy capacity between teams, and reduce vendor sprawl.
-
-## Technologies
-
-For the technologically curious of you our there, here is the stack that I chose to work with when building Airproxy...
-
-- Frontend: NextJS, Tailwind
-- Backend: Node, Upstash (QStash), CloudFlare Workers
-- API / Caching: CloudFlare Workers, CloudFlare KV, CloudFlare Durable Objects
-- Hosting: Vercel, CloudFlare
+It also reinforced a principle that has followed me into later work: the best infrastructure products do not create more work to justify their existence. They quietly remove a source of anxiety and let the team return to the thing its customers actually value.

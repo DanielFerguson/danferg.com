@@ -1,0 +1,198 @@
+---
+interface ProjectModule {
+  url: string;
+  frontmatter: {
+    title: string;
+    description: string;
+    highlight?: boolean;
+  };
+}
+
+interface Props {
+  projects: ProjectModule[];
+}
+
+const { projects } = Astro.props as Props;
+---
+
+<div class="project-grid">
+  {
+    projects.map((project, index) => {
+      const isHighlight = Boolean(project.frontmatter.highlight);
+
+      return (
+        <a
+          href={project.url}
+          class:list={[
+            "project-cell",
+            { "project-cell--highlight": isHighlight },
+          ]}
+        >
+          <span class="project-cell__copy">
+            <span class="project-cell__top">
+              <span>
+                {isHighlight ? "FEATURED" : "PROJECT"}_
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </span>
+            <strong>{project.frontmatter.title}</strong>
+            <span class="project-cell__description">
+              {project.frontmatter.description}
+            </span>
+            <span class="project-cell__status">
+              <i aria-hidden="true" />
+              {isHighlight ? "ACTIVE / FLAGSHIP PROJECT" : "PROJECT / CASE STUDY"}
+            </span>
+          </span>
+
+          {isHighlight && (
+            <pre class="project-cell__diagram" aria-hidden="true">{`┌───────────┐    ┌───────────┐
+│  voices   │───▶│ evidence  │
+└───────────┘    └─────┬─────┘
+                       ▼
+                 [confidence]`}</pre>
+          )}
+        </a>
+      );
+    })
+  }
+</div>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .project-cell {
+    min-height: 14rem;
+    padding: clamp(1.15rem, 2.5vw, 1.65rem);
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    background: transparent;
+    text-decoration: none;
+    transition:
+      background-color 140ms ease,
+      color 140ms ease;
+  }
+
+  .project-cell__copy {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+  }
+
+  .project-cell:hover {
+    color: var(--paper);
+    background: var(--ink);
+  }
+
+  .project-cell:hover .project-cell__description,
+  .project-cell:hover .project-cell__top {
+    color: var(--paper-muted);
+  }
+
+  .project-cell--highlight {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.7fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    min-height: 15rem;
+    background: linear-gradient(115deg, var(--signal-soft), var(--paper-raised));
+  }
+
+  .project-cell--highlight:hover {
+    background: var(--signal-deep);
+  }
+
+  .project-cell__top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: auto;
+    color: var(--ink-muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+  }
+
+  strong {
+    margin-top: 2rem;
+    font-size: clamp(1.4rem, 3vw, 2.45rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .project-cell--highlight strong {
+    color: var(--signal-deep);
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+  }
+
+  .project-cell--highlight:hover strong {
+    color: var(--paper);
+  }
+
+  .project-cell__description {
+    display: -webkit-box;
+    max-width: 62ch;
+    margin-top: 0.75rem;
+    overflow: hidden;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .project-cell__status {
+    margin-top: 1.25rem;
+    font-size: 0.61rem;
+    letter-spacing: 0.05em;
+  }
+
+  .project-cell__status i {
+    display: inline-block;
+    width: 0.42rem;
+    height: 0.42rem;
+    margin-right: 0.45rem;
+    background: var(--signal);
+  }
+
+  .project-cell__diagram {
+    align-self: center;
+    justify-self: end;
+    margin: 0;
+    color: var(--signal);
+    font: inherit;
+    font-size: clamp(0.65rem, 1.2vw, 0.82rem);
+    font-weight: 550;
+    line-height: 1.65;
+  }
+
+  .project-cell--highlight:hover .project-cell__diagram {
+    color: var(--signal-bright);
+  }
+
+  @media (max-width: 760px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-cell,
+    .project-cell--highlight {
+      min-height: 12.5rem;
+    }
+
+    .project-cell--highlight {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .project-cell__diagram {
+      justify-self: start;
+      font-size: clamp(0.58rem, 2.7vw, 0.76rem);
+    }
+  }
+</style>

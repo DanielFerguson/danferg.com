@@ -1,389 +1,464 @@
 ---
-// Types
 import type Article from "types/Article";
 import type Project from "types/Project";
-import type Talk from "types/Talk";
 import type SEO from "types/SEO";
 
-// Components
-import dayjs from "dayjs";
-import { Image, Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import heroImage from "../assets/images/danferg.webp";
-import waveImage from "../assets/images/wave.png";
-import noCodeTalkImage from "../assets/images/danferg.webp";
-import conceptTalkImage from "../assets/images/talks/concept-to-production.webp";
-import swinLeadTalkImage from "../assets/images/talks/swinlead.webp";
+import NavBar from "../components/NavBar.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import ContentList from "../components/ContentList.astro";
 
 type MarkdownModule<T> = {
   frontmatter: T;
   url: string;
 };
 
-// Data
 const SEO: SEO = {
-  title: "Your friendly neighbourhood social entrepreneur | Dan Ferg",
+  title: "Social entrepreneur and software builder | Dan Ferg",
   description:
-    "Dan Ferg is a social entrepreneur and software builder working across startups, digital strategy, social impact projects, talks, and articles.",
+    "Dan Ferg builds practical software, social-impact ventures, and community-centred products from Melbourne, Australia.",
   imageUrl: "/assets/snow.jpg",
-  openGraph: {
-    type: "website",
-  },
+  openGraph: { type: "website" },
   canonicalUrl: "/",
 };
 
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Talks", href: "#talks" },
-  { name: "Articles", href: "/articles" },
-  { name: "Newsletters", href: "/newsletters" },
-];
-
 const projects = Object.values(
   import.meta.glob<MarkdownModule<Project>>("./projects/*.md", { eager: true })
-);
-const featuredProjects = projects.filter(
-  (project) => project.frontmatter.featured
+).sort(
+  (a, b) =>
+    Number(Boolean(b.frontmatter.highlight)) -
+      Number(Boolean(a.frontmatter.highlight)) ||
+    a.frontmatter.title.localeCompare(b.frontmatter.title)
 );
 
 const articles = Object.values(
   import.meta.glob<MarkdownModule<Article>>("./articles/*.md", { eager: true })
-);
-const sortedArticles = articles.sort(function (a, b) {
-  return (
+).sort(
+  (a, b) =>
     new Date(b.frontmatter.date).getTime() -
     new Date(a.frontmatter.date).getTime()
-  );
-});
+);
 
-const talks: Array<Talk> = [
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+const articleItems = articles.slice(0, 6).map((article) => ({
+  title: article.frontmatter.title,
+  description: article.frontmatter.description,
+  href: article.url,
+  meta: formatDate(article.frontmatter.date),
+  detail: article.frontmatter.minutesRead,
+}));
+
+const talkItems = [
   {
     title: "Building a business in an hour... with no code!",
-    image: noCodeTalkImage,
-    category: "Entrepreneurship",
-    link: "/assets/slides/no-code-w-notes.pdf",
-    date: "2022-08-18",
     description:
-      "I was invited by the Swinburne Entrepreneurship Club to discuss how no-code tools can help non-technical entrepreneurs build digital-facing businesses.",
-    slidesUrl: "/assets/slides/no-code-w-notes.pdf",
+      "A practical walkthrough of using no-code tools to build a digital-facing business quickly.",
+    href: "/assets/slides/no-code-w-notes.pdf",
+    meta: "18 AUG 2022",
+    detail: "ENTREPRENEURSHIP",
+    external: true,
   },
   {
     title: "Concept to Production",
-    image: conceptTalkImage,
-    category: "Entrepreneurship",
-    link: "https://www.youtube.com/watch?v=_SZP7QmIIfE",
-    date: "2022-05-03",
     description:
-      "I gave a talk on my process of creating startups, from concept to production. Here, we looked at the 5 crucial steps to successfully and quickly creating a startup.",
-    slidesUrl: "/assets/slides/concept-to-production-w-notes.pdf",
+      "The five steps I use to take startup ideas from a rough concept to a product people can use.",
+    href: "https://www.youtube.com/watch?v=_SZP7QmIIfE",
+    meta: "03 MAY 2022",
+    detail: "ENTREPRENEURSHIP",
+    external: true,
   },
   {
     title: "SwinLead Leadership Workshop",
-    image: swinLeadTalkImage,
-    category: "Leadership",
-    link: "https://www.youtube.com/watch?v=7_aJAvfGNsY",
-    date: "2022-04-13",
     description:
-      "A number of the original SwinLead leadership team members came together to discuss our experiences, challenges and successes. We then ran workshops in small groups to answer questions and give guidance.",
+      "An honest discussion about the experiences, challenges, and successes of leading student communities.",
+    href: "https://www.youtube.com/watch?v=7_aJAvfGNsY",
+    meta: "13 APR 2022",
+    detail: "LEADERSHIP",
+    external: true,
   },
 ];
 ---
 
-<!-- TODO: Add mobile menu bar -->
 <BaseLayout {...SEO}>
+  <NavBar />
+
   <main>
-    <!-- Section: Hero -->
-    <div class="relative overflow-hidden bg-white">
-      <div class="mx-auto max-w-7xl">
-        <div
-          class="relative z-10 bg-white pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-40"
-        >
-          <svg
-            class="absolute inset-y-0 right-0 hidden h-full w-48 translate-x-1/2 transform text-white lg:block"
-            fill="currentColor"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <polygon points="50,0 100,0 50,100 0,100"></polygon>
-          </svg>
-
-          <!-- Nav Bar -->
-          <div class="pt-12 sm:px-12">
-            <nav
-              class="flex flex-col items-center justify-between sm:h-10 sm:flex-row lg:justify-start"
-            >
-              <!-- Icon -->
-              <div
-                class="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0"
-              >
-                <div class="flex w-full items-center justify-between md:w-auto">
-                  <a href="/">
-                    <span class="sr-only">Dan Ferg</span>
-                    <Image
-                      alt="Dan Ferg"
-                      class="h-8 w-auto sm:h-10"
-                      src={waveImage}
-                      width={48}
-                      loading="eager"
-                      decoding="async"
-                    />
-                  </a>
-                </div>
-              </div>
-
-              <!-- Links -->
-              <div
-                class="mt-8 space-x-4 text-sm font-semibold sm:mt-0 sm:text-base md:ml-10 md:space-x-10 md:pr-4"
-              >
-                {
-                  navigation.map((item) => (
-                    <a
-                      href={item.href}
-                      class="text-gray-500 hover:text-gray-900"
-                    >
-                      {item.name}
-                    </a>
-                  ))
-                }
-              </div>
-
-              <!-- Empty -->
-              <div></div>
-            </nav>
-          </div>
-
-          <!-- Hero Content -->
-          <div
-            class="mx-auto mt-10 mt-24 mb-16 max-w-7xl px-12 sm:mb-0 sm:text-center lg:px-8 lg:text-left xl:mt-40"
-          >
-            <h1
-              class="text-4xl font-bold tracking-tight text-gray-900 md:text-6xl"
-            >
-              <span>Your friendly neighbourhood</span>
-              <span class="text-indigo-600">entrepreneur.</span>
-            </h1>
-            <p
-              class="mx-auto mt-12 max-w-xl leading-8 text-gray-700 sm:text-center lg:mx-0 lg:text-left"
-            >
-              I'm a social entrepreneur and software builder focused on
-              startups, digital strategy, and community-centred tools. I write
-              and speak about the lessons from building products, social impact
-              projects, and practical technology for businesses and
-              communities.
-            </p>
+    <section class="site-container hero-shell" aria-labelledby="hero-title">
+      <div class="hero">
+        <div class="hero__copy">
+          <p class="hero__eyebrow">// DAN FERG — BUILDER / STRATEGIST / OPTIMIST</p>
+          <h1 id="hero-title">Technology for <em>problems that actually matter.</em></h1>
+          <p class="hero__lede">
+            I’m a social entrepreneur and software builder working where technology,
+            community, and practical problem-solving meet.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
+            <a class="button" href="mailto:gday@danferg.com">Start a conversation <span aria-hidden="true">↗</span></a>
           </div>
         </div>
+
+        <aside class="hero__signal" aria-label="Current work">
+          <p class="hero__signal-label"><span aria-hidden="true"></span> CURRENTLY_BUILDING</p>
+          <a class="hero__signal-title" href="/projects/communitilabs">
+            <strong>Communiti Labs</strong>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <dl>
+            <div>
+              <dt>THESIS</dt>
+              <dd>People should be able to see that their voice mattered.</dd>
+            </div>
+            <div>
+              <dt>WORK</dt>
+              <dd>Product / strategy / software</dd>
+            </div>
+            <div>
+              <dt>BASE</dt>
+              <dd>Melbourne / Australia</dd>
+            </div>
+          </dl>
+        </aside>
       </div>
-      <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <Picture
-          class="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full lg:w-full"
-          src={heroImage}
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-          widths={[640, 960, 1280]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          alt="Dan Ferg presenting a digital automation workflow"
-          loading="eager"
-          decoding="async"
-          fetchpriority="high"
+
+      <dl class="hero__facts">
+        <div><dt>01 / APPROACH</dt><dd>Start with the human problem.</dd></div>
+        <div><dt>02 / MEDIUM</dt><dd>Products, systems, and stories.</dd></div>
+        <div><dt>03 / PRINCIPLE</dt><dd>Make the complex feel obvious.</dd></div>
+      </dl>
+    </section>
+
+    <hr class="site-container ascii-rule" />
+
+    <section id="projects" class="site-container page-section" aria-labelledby="projects-title">
+      <SectionHeading
+        headingId="projects-title"
+        eyebrow="01 // SELECTED PROJECTS"
+        title="Experiments with a job to do."
+        description="Products and ventures built around practical problems—from community response and leadership to productivity and startup infrastructure."
+        actionHref="/projects"
+        actionLabel="Open project archive"
+      />
+      <ProjectGrid projects={projects} />
+    </section>
+
+    <hr class="site-container ascii-rule" />
+
+    <section id="articles" class="site-container page-section" aria-labelledby="articles-title">
+      <SectionHeading
+        headingId="articles-title"
+        eyebrow="02 // ARTICLES"
+        title="Notes from making things."
+        description="Writing about entrepreneurship, burnout, software decisions, and the lessons that only turn up once you start."
+        actionHref="/articles"
+        actionLabel="Read every article"
+      />
+      <ContentList items={articleItems} orderedLabel="Latest articles" />
+    </section>
+
+    <section id="talks" class="talks" aria-labelledby="talks-title">
+      <div class="site-container page-section">
+        <SectionHeading
+          headingId="talks-title"
+          eyebrow="03 // TALKS"
+          title="Ideas, spoken aloud."
+          description="Talks and workshops about building startups, working without code, and developing leaders."
         />
+        <ContentList items={talkItems} orderedLabel="Talks and workshops" />
       </div>
-    </div>
+    </section>
 
-    <!-- TODO 12 Startups in 12 Months -->
-
-    <!-- Projects -->
-    <div id="projects" class="mx-auto max-w-7xl px-12 py-32 lg:py-40">
-      <div class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
-        <div>
-          <h2
-            class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
-          >
-            Projects
-          </h2>
-          <p class="mt-3 max-w-3xl text-lg leading-8 text-gray-500">
-            My projects span social impact tools, no-code infrastructure,
-            startup operations, land valuation research, leadership programs,
-            and community-focused products. I look for practical digital systems
-            that help people prepare, make decisions, and recover faster.
-          </p>
-          <div class="mt-8 sm:flex">
-            <div class="rounded-md shadow">
-              <a
-                href="/projects"
-                class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700"
-              >
-                View all projects
-              </a>
-            </div>
-            <div class="mt-3 sm:mt-0 sm:ml-3">
-              <a
-                href="mailto:gday@danferg.com"
-                class="flex items-center justify-center rounded-md border border-transparent px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-100"
-              >
-                Hire me
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          class="mt-8 grid gap-0.5 sm:grid-cols-2 md:mt-16 md:grid-cols-3 lg:mt-0 lg:grid-cols-2"
-        >
-          {
-            featuredProjects.map((project) => (
-              <a
-                href={project.url}
-                class="col-span-1 flex justify-center bg-gray-50 py-8 px-8"
-              >
-                <img
-                  class="max-h-10"
-                  src={project.frontmatter.iconUrl}
-                  alt={project.frontmatter.title}
-                />
-              </a>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Articles -->
-    <div id="articles" class="bg-white px-12">
-      <div class="relative mx-auto lg:max-w-7xl">
-        <div>
-          <h2
-            class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
-          >
-            Articles
-          </h2>
-          <div
-            class="mt-3 sm:mt-4 lg:grid lg:grid-cols-2 lg:items-center lg:gap-5"
-          >
-            <p class="text-lg text-gray-500">
-              I write practical reflections on entrepreneurship, burnout,
-              startup experiments, software decisions, and the work behind
-              building useful tools.
-            </p>
-            <div class="mt-6 flex flex-col sm:flex-row lg:mt-0 lg:justify-end">
-              <a
-                href="/articles"
-                class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:inline-flex sm:w-auto"
-              >
-                Read more
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          class="mt-4 grid gap-12 pt-10 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-8"
-        >
-          {
-            sortedArticles.slice(0, 6).map((article, index) => (
-              <div class={index < 3 ? "hidden lg:block" : ""}>
-                <p class="text-sm text-gray-500">
-                  <time datetime={article.frontmatter.date}>
-                    {dayjs(article.frontmatter.date).format("MMM D, YYYY")}
-                  </time>
-                </p>
-                <a href={article.url} class="block">
-                  <p class="text-xl font-semibold text-gray-900">
-                    {article.frontmatter.title}
-                  </p>
-                  <p class="mt-3 text-base text-gray-500">
-                    {article.frontmatter.description}
-                  </p>
-                </a>
-                <div class="mt-3">
-                  <a
-                    href={article.url}
-                    class="text-base font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Read full story
-                  </a>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Talks -->
-    <div id="talks" class="relative px-12 pt-32 pb-32 lg:pt-40">
-      <div class="relative mx-auto max-w-7xl">
-        <div>
-          <h2
-            class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
-          >
-            Talks
-          </h2>
-          <p
-            class="mx-auto mt-4 text-lg text-gray-500 sm:max-w-lg md:mx-0 lg:max-w-3xl"
-          >
-            I love sharing my journey. I've been fortunate enough to build
-            startups, social impact projects and work with government and the
-            private sector on every level.
-          </p>
-        </div>
-        <div
-          class="mx-auto mt-12 grid gap-y-12 gap-x-4 md:grid-cols-2 lg:max-w-none lg:grid-cols-3"
-        >
-          {
-            talks.map((talk) => (
-              <div class="flex flex-col overflow-hidden rounded-lg shadow-lg">
-                <div class="flex-shrink-0">
-                  <Picture
-                    class="h-64 w-full object-cover"
-                    src={talk.image}
-                    formats={["avif", "webp"]}
-                    fallbackFormat="webp"
-                    alt={talk.title}
-                    widths={[480, 640, 960]}
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div class="flex flex-1 flex-col justify-between bg-white p-6">
-                  <div class="flex-1">
-                    <p class="text-sm font-medium text-indigo-600">
-                      {talk.category}
-                    </p>
-                    <a
-                      href={talk.link}
-                      class="mt-2 block"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <p class="text-xl font-semibold text-gray-900">
-                        {talk.title}
-                      </p>
-                      <p class="mt-3 text-base text-gray-500">
-                        {talk.description}
-                      </p>
-                    </a>
-                  </div>
-                  <div class="mt-6 flex items-center gap-6">
-                    <p class="text-sm font-medium">
-                      {dayjs(talk.date).format("MMM DD, YYYY")}
-                    </p>
-                    {talk.slidesUrl && (
-                      <p class="text-sm font-medium text-indigo-600">
-                        <a href={talk.slidesUrl} class="hover:underline">
-                          Download Slides
-                        </a>
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- TODO Mentorship -->
+    <section class="site-container contact-panel" aria-labelledby="contact-title">
+      <p>// HAVE A HARD, USEFUL PROBLEM?</p>
+      <h2 id="contact-title">Let’s make something that earns its place in the world.</h2>
+      <a href="mailto:gday@danferg.com">gday@danferg.com <span aria-hidden="true">↗</span></a>
+    </section>
   </main>
 </BaseLayout>
+
+<style>
+  .hero-shell {
+    margin-top: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.28fr) minmax(19rem, 0.72fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding-block: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .hero__eyebrow {
+    margin: 0 0 1.15rem;
+    color: var(--ink-muted);
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: clamp(2.7rem, 6vw, 5.25rem);
+    line-height: 0.92;
+    letter-spacing: -0.07em;
+  }
+
+  h1 em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .hero__lede {
+    max-width: 47rem;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(0.88rem, 1.6vw, 1rem);
+    line-height: 1.65;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    display: inline-flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 11.5rem;
+    padding: 0.68rem 0.8rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .button:hover,
+  .button--primary {
+    color: var(--paper);
+    background: var(--signal-deep);
+  }
+
+  .button--primary:hover {
+    border-color: var(--signal);
+    background: var(--signal);
+  }
+
+  .hero__signal {
+    align-self: start;
+    margin-top: 2.1rem;
+    padding-bottom: 0.15rem;
+  }
+
+  .hero__signal-label {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    margin: 0 0 0.75rem;
+    color: var(--signal);
+    font-size: 0.61rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  .hero__signal-label span {
+    width: 0.45rem;
+    height: 0.45rem;
+    background: var(--signal);
+    animation: status-pulse 2.4s steps(2, end) infinite;
+  }
+
+  .hero__signal-title {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.95rem;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .hero__signal-title strong {
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .hero__signal-title:hover {
+    color: var(--signal);
+  }
+
+  .hero__signal dl {
+    margin: 0;
+  }
+
+  .hero__signal dl div {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px dotted var(--line-strong);
+  }
+
+  .hero__signal dt {
+    color: var(--ink-muted);
+    font-size: 0.6rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+  }
+
+  .hero__signal dd {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  @keyframes status-pulse {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  .hero__facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 0 clamp(2rem, 5vw, 4.5rem);
+    padding: 0.85rem 1.1rem;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .hero__facts div {
+    padding-right: 1.1rem;
+  }
+
+  .hero__facts div + div {
+    padding-left: 1.1rem;
+    border-left: 1px dotted var(--line-strong);
+  }
+
+  .hero__facts dt {
+    color: var(--signal);
+    font-size: 0.61rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+  }
+
+  .hero__facts dd {
+    margin: 0.42rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
+  .talks {
+    color: var(--paper);
+    background: var(--signal-deep);
+  }
+
+  .talks :global(.section-heading__aside p),
+  .talks :global(.content-list__copy > span),
+  .talks :global(.content-list__index),
+  .talks :global(.content-list__meta) {
+    color: var(--paper-muted);
+  }
+
+  .talks :global(.content-list),
+  .talks :global(.content-list li) {
+    border-color: rgb(237 233 255 / 32%);
+  }
+
+  .talks :global(.content-list a),
+  .talks :global(.section-heading__aside a) {
+    color: var(--paper);
+  }
+
+  .contact-panel {
+    margin-block: clamp(3.5rem, 7vw, 6rem);
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+    color: var(--paper);
+    background: var(--signal);
+  }
+
+  .contact-panel p {
+    margin: 0 0 1.25rem;
+    font-size: 0.63rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-panel h2 {
+    max-width: 18ch;
+    margin: 0;
+    font-size: clamp(1.75rem, 4.5vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+  }
+
+  .contact-panel a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: inherit;
+    font-weight: 750;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__signal {
+      max-width: 32rem;
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .hero {
+      padding-block: 1.25rem;
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 14vw, 4.4rem);
+    }
+
+    .button {
+      width: 100%;
+    }
+
+    .hero__facts {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__facts div {
+      padding: 1rem 0;
+    }
+
+    .hero__facts div + div {
+      padding-left: 0;
+      border-top: 1px dotted var(--line-strong);
+      border-left: 0;
+    }
+
+    .contact-panel {
+      width: 100%;
+    }
+  }
+</style>
