@@ -1,0 +1,51 @@
+---
+interface Props {
+  lightColor?: string;
+  darkColor?: string;
+}
+
+const { lightColor = "#f8f7fc", darkColor = "#11101a" } = Astro.props;
+---
+
+<meta
+  id="theme-color"
+  name="theme-color"
+  content={lightColor}
+  data-light-color={lightColor}
+  data-dark-color={darkColor}
+/>
+
+<script is:inline>
+  (() => {
+    const storageKey = "danferg-theme";
+    const root = document.documentElement;
+
+    let theme = "light";
+
+    try {
+      const storedTheme = localStorage.getItem(storageKey);
+      theme =
+        storedTheme === "light" || storedTheme === "dark"
+          ? storedTheme
+          : window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+    } catch {
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+
+    root.dataset.theme = theme;
+
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor instanceof HTMLMetaElement) {
+      themeColor.setAttribute(
+        "content",
+        theme === "dark"
+          ? themeColor.dataset.darkColor || "#11101a"
+          : themeColor.dataset.lightColor || "#f8f7fc",
+      );
+    }
+  })();
+</script>

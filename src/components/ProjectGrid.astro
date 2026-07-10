@@ -87,13 +87,13 @@ const { projects } = Astro.props as Props;
   }
 
   .project-cell:hover {
-    color: var(--paper);
-    background: var(--ink);
+    color: var(--inverse-ink);
+    background: var(--inverse-surface);
   }
 
   .project-cell:hover .project-cell__description,
   .project-cell:hover .project-cell__top {
-    color: var(--paper-muted);
+    color: var(--inverse-muted);
   }
 
   .project-cell--highlight {
@@ -106,7 +106,7 @@ const { projects } = Astro.props as Props;
   }
 
   .project-cell--highlight:hover {
-    background: var(--signal-deep);
+    background: var(--signal-fill-hover);
   }
 
   .project-cell__top {
@@ -126,12 +126,12 @@ const { projects } = Astro.props as Props;
   }
 
   .project-cell--highlight strong {
-    color: var(--signal-deep);
+    color: var(--signal-emphasis);
     font-size: clamp(1.8rem, 4vw, 3.2rem);
   }
 
   .project-cell--highlight:hover strong {
-    color: var(--paper);
+    color: var(--inverse-ink);
   }
 
   .project-cell__description {

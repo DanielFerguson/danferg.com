@@ -1,0 +1,108 @@
+<button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+  <span class="theme-toggle__icon" aria-hidden="true">◐</span>
+  <span class="theme-toggle__label">DARK</span>
+</button>
+
+<script>
+  const storageKey = "danferg-theme";
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const getStoredTheme = () => {
+    try {
+      const theme = localStorage.getItem(storageKey);
+      return theme === "light" || theme === "dark" ? theme : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const updateControls = (theme: "light" | "dark") => {
+    document.querySelectorAll<HTMLButtonElement>(".theme-toggle").forEach((button) => {
+      const nextTheme = theme === "dark" ? "light" : "dark";
+      const label = button.querySelector<HTMLElement>(".theme-toggle__label");
+
+      button.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+      button.setAttribute("aria-pressed", String(theme === "dark"));
+
+      if (label) label.textContent = nextTheme.toUpperCase();
+    });
+  };
+
+  const applyTheme = (theme: "light" | "dark", persist = false) => {
+    document.documentElement.dataset.theme = theme;
+    const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    themeColor?.setAttribute(
+      "content",
+      theme === "dark"
+        ? themeColor.dataset.darkColor || "#11101a"
+        : themeColor.dataset.lightColor || "#f8f7fc",
+    );
+
+    if (persist) {
+      try {
+        localStorage.setItem(storageKey, theme);
+      } catch {
+        // The selected theme still applies for this page when storage is unavailable.
+      }
+    }
+
+    updateControls(theme);
+  };
+
+  document.querySelectorAll<HTMLButtonElement>(".theme-toggle").forEach((button) => {
+    if (button.dataset.themeReady === "true") return;
+
+    button.dataset.themeReady = "true";
+    button.addEventListener("click", () => {
+      const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+      applyTheme(currentTheme === "dark" ? "light" : "dark", true);
+    });
+  });
+
+  applyTheme(
+    document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+  );
+
+  media.addEventListener("change", (event) => {
+    if (!getStoredTheme()) applyTheme(event.matches ? "dark" : "light");
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    min-height: 2.3rem;
+    gap: 0.45rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    font: inherit;
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition:
+      color 140ms ease,
+      border-color 140ms ease,
+      background-color 140ms ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--signal);
+    color: var(--signal);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 4px;
+  }
+
+  .theme-toggle__icon {
+    color: var(--signal);
+    font-size: 0.9rem;
+    line-height: 0;
+  }
+</style>

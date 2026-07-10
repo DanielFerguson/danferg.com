@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from "./ThemeToggle.astro";
+
 const navigation = [
   { name: "Projects", href: "/#projects" },
   { name: "Articles", href: "/#articles" },
@@ -30,7 +32,10 @@ const navigation = [
       </ul>
     </nav>
 
-    <a class="nav-contact" href="mailto:gday@danferg.com">Say hello <span aria-hidden="true">↗</span></a>
+    <div class="nav-actions">
+      <ThemeToggle />
+      <a class="nav-contact" href="mailto:gday@danferg.com">Say hello <span aria-hidden="true">↗</span></a>
+    </div>
   </div>
 </header>
 
@@ -40,7 +45,7 @@ const navigation = [
   }
 
   .signal-bar {
-    color: var(--paper);
+    color: var(--inverse-ink);
     background: var(--signal-deep);
     font-size: 0.65rem;
     letter-spacing: 0.04em;
@@ -51,6 +56,12 @@ const navigation = [
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
   }
 
   .signal-bar__inner {
@@ -85,7 +96,7 @@ const navigation = [
     height: 2.3rem;
     place-items: center;
     flex: 0 0 auto;
-    color: var(--paper);
+    color: var(--inverse-ink);
     background: var(--signal-deep);
     font-weight: 800;
     font-size: 0.7rem;
@@ -128,13 +139,13 @@ const navigation = [
 
   .nav-contact {
     padding: 0.58rem 0.72rem;
-    color: var(--paper);
-    background: var(--signal);
+    color: var(--inverse-ink);
+    background: var(--signal-fill);
   }
 
   .nav-contact:hover {
-    color: var(--paper);
-    background: var(--signal-deep);
+    color: var(--inverse-ink);
+    background: var(--signal-fill-hover);
   }
 
   @media (max-width: 760px) {

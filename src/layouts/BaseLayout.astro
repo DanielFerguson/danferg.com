@@ -87,13 +87,14 @@ const structuredData = [
 import "@fontsource-variable/geist-mono/wght.css";
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
+import ThemeHead from "../components/ThemeHead.astro";
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f8f7fc" />
+    <ThemeHead />
     <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
     <meta name="description" content={description} />

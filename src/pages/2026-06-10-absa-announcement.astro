@@ -1,8 +1,14 @@
+---
+import ThemeHead from "../components/ThemeHead.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+---
+
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<ThemeHead lightColor="#faf7f1" darkColor="#111816" />
 <title>Communiti — Hear every issue in every voice</title>
 <meta name="description" content="Communiti now reads every piece of community feedback the way an analyst does: every issue, its own sentiment, the resident's exact words — in 10 community languages.">
 <style>
@@ -20,8 +26,62 @@
     --gold:#c9972b;
     --rule:#d8d0bf;
     --card:#ffffff;
+    --inverse-surface:#1b2a3a;
+    --inverse-ink:#eef2ee;
+    --button-surface:#0e7569;
+    --button-ink:#ffffff;
+    --signal:var(--teal);
+    --line-strong:var(--rule);
+    --paper-raised:var(--card);
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
     --sans:Seravek,"Gill Sans Nova","Avenir Next",Avenir,"Segoe UI",Frutiger,Calibri,sans-serif;
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --paper:#111816;
+    --paper-deep:#18231f;
+    --ink:#edf5f1;
+    --ink-soft:#b7c8c1;
+    --teal:#68d5c3;
+    --teal-deep:#8be4d6;
+    --pos:#77dda5;
+    --pos-soft:#193b2a;
+    --neg:#ff9188;
+    --neg-soft:#472622;
+    --gold:#e5bf69;
+    --rule:#3b4d47;
+    --card:#17201e;
+    --inverse-surface:#091310;
+    --inverse-ink:#edf5f1;
+    --button-surface:#0d7166;
+    --signal:var(--teal);
+    --line-strong:var(--rule);
+    --paper-raised:var(--card);
+    color-scheme:dark;
+  }
+  @media(prefers-color-scheme:dark){
+    :root:not([data-theme]){
+      --paper:#111816;
+      --paper-deep:#18231f;
+      --ink:#edf5f1;
+      --ink-soft:#b7c8c1;
+      --teal:#68d5c3;
+      --teal-deep:#8be4d6;
+      --pos:#77dda5;
+      --pos-soft:#193b2a;
+      --neg:#ff9188;
+      --neg-soft:#472622;
+      --gold:#e5bf69;
+      --rule:#3b4d47;
+      --card:#17201e;
+      --inverse-surface:#091310;
+      --inverse-ink:#edf5f1;
+      --button-surface:#0d7166;
+      --signal:var(--teal);
+      --line-strong:var(--rule);
+      --paper-raised:var(--card);
+      color-scheme:dark;
+    }
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -36,7 +96,7 @@
       radial-gradient(900px 420px at -10% 30%, rgba(201,151,43,.06), transparent 55%);
   }
   .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
-  ::selection{background:var(--teal);color:#fff}
+  ::selection{background:var(--teal);color:var(--paper)}
 
   /* ---------- reveal animation ---------- */
   @media (prefers-reduced-motion: no-preference){
@@ -53,6 +113,7 @@
     padding:22px 0;
     display:flex;align-items:center;justify-content:space-between;
   }
+  .masthead-actions{display:flex;align-items:center;gap:16px}
   .brand{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:.01em}
   .brand em{color:var(--teal);font-style:normal}
   .masthead-note{font-size:13px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase}
@@ -60,7 +121,7 @@
   /* ---------- hero ---------- */
   .hero{padding:84px 0 30px}
   .kicker{
-    display:inline-block;background:var(--ink);color:var(--paper);
+    display:inline-block;background:var(--inverse-surface);color:var(--inverse-ink);
     font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
     padding:7px 14px;border-radius:3px;margin-bottom:28px;
   }
@@ -99,7 +160,7 @@
   }
   .chip{
     display:inline-flex;align-items:center;gap:9px;
-    font-size:14.5px;padding:8px 15px;border-radius:99px;border:1px solid var(--rule);background:#fff;
+    font-size:14.5px;padding:8px 15px;border-radius:99px;border:1px solid var(--rule);background:var(--card);
   }
   .dot{width:9px;height:9px;border-radius:50%}
   .dot.pos{background:var(--pos)}.dot.neg{background:var(--neg)}
@@ -147,6 +208,8 @@
   .chart-sub{font-size:14.5px;color:var(--ink-soft);margin-bottom:18px}
   svg{display:block;width:100%;height:auto}
   svg text{font-family:var(--sans)}
+  svg text[fill="#1b2a3a"]{fill:var(--ink)}
+  svg rect[fill="#f3eee3"]{fill:var(--paper-deep)}
 
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px}
   @media(max-width:840px){.two-col{grid-template-columns:1fr}}
@@ -166,7 +229,7 @@
   /* ---------- story callout ---------- */
   .callout{
     margin-top:48px;border-radius:16px;overflow:hidden;
-    background:var(--ink);color:#eef2ee;
+    background:var(--inverse-surface);color:var(--inverse-ink);
     background-image:radial-gradient(700px 320px at 90% -20%, rgba(14,117,105,.5), transparent 60%);
   }
   .callout-inner{padding:52px 48px}
@@ -174,7 +237,7 @@
   .callout h3{font-family:var(--serif);font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.18;max-width:24ch}
   .callout p{margin-top:18px;max-width:62ch;color:#c3cfd4;font-size:17.5px}
   .callout .big{
-    font-family:var(--serif);font-size:clamp(54px,9vw,96px);font-weight:700;color:#fff;line-height:1;
+    font-family:var(--serif);font-size:clamp(54px,9vw,96px);font-weight:700;color:var(--inverse-ink);line-height:1;
     margin:26px 0 6px;
   }
   .callout .big small{font-size:.35em;color:var(--gold);font-family:var(--sans);font-weight:600;letter-spacing:.06em}
@@ -183,8 +246,8 @@
   .steps{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
   .step{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:26px}
   .step .n{
-    font-family:var(--serif);font-size:15px;font-weight:700;color:var(--paper);
-    background:var(--teal);width:30px;height:30px;border-radius:50%;
+    font-family:var(--serif);font-size:15px;font-weight:700;color:var(--button-ink);
+    background:var(--button-surface);width:30px;height:30px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;margin-bottom:16px;
   }
   .step h4{font-size:17px;margin-bottom:8px}
@@ -211,7 +274,7 @@
   .cta h2{margin:0 auto;max-width:22ch}
   .cta p{margin:18px auto 0;max-width:52ch;color:var(--ink-soft)}
   .btn{
-    display:inline-block;margin-top:30px;background:var(--teal);color:#fff;text-decoration:none;
+    display:inline-block;margin-top:30px;background:var(--button-surface);color:var(--button-ink);text-decoration:none;
     font-weight:600;font-size:17px;padding:16px 34px;border-radius:8px;
     box-shadow:0 14px 30px -14px rgba(14,117,105,.65);
     transition:transform .15s ease, box-shadow .15s ease;
@@ -219,6 +282,10 @@
   .btn:hover{transform:translateY(-2px);box-shadow:0 20px 36px -14px rgba(14,117,105,.7)}
   .btn.ghost{background:transparent;color:var(--teal-deep);border:1.5px solid var(--teal);box-shadow:none;margin-left:14px}
   footer{padding:34px 0 50px;font-size:13.5px;color:var(--ink-soft);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--rule);margin-top:0}
+  @media(max-width:620px){
+    .masthead-note{display:none}
+    .btn.ghost{margin-left:0}
+  }
 </style>
 </head>
 <body>
@@ -226,7 +293,10 @@
 <div class="wrap">
   <header class="masthead">
     <div class="brand">communiti<em>.</em></div>
-    <div class="masthead-note">Product update · June 2026</div>
+    <div class="masthead-actions">
+      <div class="masthead-note">Product update · June 2026</div>
+      <ThemeToggle />
+    </div>
   </header>
 
   <!-- ================= HERO ================= -->

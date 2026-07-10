@@ -2,6 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 :root {
+  color-scheme: light;
   --paper: #f8f7fc;
   --paper-raised: #fdfcff;
   --paper-muted: #aaa7bb;
@@ -11,15 +12,71 @@
   --line: rgb(79 57 246 / 18%);
   --line-strong: rgb(27 16 112 / 48%);
   --signal: #4f39f6;
+  --signal-emphasis: #1b1070;
+  --signal-fill: #4f39f6;
+  --signal-fill-hover: #1b1070;
   --signal-bright: #cc66ff;
   --signal-deep: #1b1070;
   --signal-soft: #ede9ff;
   --signal-line: #dbd5ff;
+  --inverse-ink: #f8f7fc;
+  --inverse-muted: #aaa7bb;
+  --inverse-surface: #181d27;
+  --code-surface: #181d27;
+  --code-ink: #f8f7fc;
   --content-width: 72rem;
   color: var(--ink);
   background: var(--paper);
   font-family: "Geist Mono Variable", "SFMono-Regular", Consolas, monospace;
   font-synthesis: none;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #11101a;
+  --paper-raised: #191725;
+  --paper-muted: #aaa4bd;
+  --ink: #f5f2ff;
+  --ink-soft: #d1ccdf;
+  --ink-muted: #aaa4b9;
+  --line: rgb(158 140 255 / 28%);
+  --line-strong: rgb(203 192 255 / 48%);
+  --signal: #a997ff;
+  --signal-emphasis: #b6a8ff;
+  --signal-fill: #6049d2;
+  --signal-fill-hover: #4935ad;
+  --signal-bright: #e49aff;
+  --signal-deep: #251a63;
+  --signal-soft: #25203d;
+  --signal-line: #554a7e;
+  --code-surface: #09080e;
+  --code-ink: #f5f2ff;
+  --inverse-surface: #29213f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --paper: #11101a;
+    --paper-raised: #191725;
+    --paper-muted: #aaa4bd;
+    --ink: #f5f2ff;
+    --ink-soft: #d1ccdf;
+    --ink-muted: #aaa4b9;
+    --line: rgb(158 140 255 / 28%);
+    --line-strong: rgb(203 192 255 / 48%);
+    --signal: #a997ff;
+    --signal-emphasis: #b6a8ff;
+    --signal-fill: #6049d2;
+    --signal-fill-hover: #4935ad;
+    --signal-bright: #e49aff;
+    --signal-deep: #251a63;
+    --signal-soft: #25203d;
+    --signal-line: #554a7e;
+    --code-surface: #09080e;
+    --code-ink: #f5f2ff;
+    --inverse-surface: #29213f;
+  }
 }
 
 * {
@@ -199,8 +256,8 @@ a:focus-visible {
 .prose-shell pre {
   overflow-x: auto;
   padding: 1.25rem;
-  color: var(--paper);
-  background: var(--ink);
+  color: var(--code-ink);
+  background: var(--code-surface);
 }
 
 .prose-shell pre code {
