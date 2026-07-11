@@ -6,6 +6,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import ProjectGrid from "@components/ProjectGrid.astro";
+import { compareProjectsByPeriod } from "../../utils/project-sort";
 
 type MarkdownModule<T> = { frontmatter: T; url: string };
 
@@ -21,12 +22,7 @@ const SEO: SEO = {
 
 const projects = Object.values(
   import.meta.glob<MarkdownModule<Project>>("./*.md", { eager: true })
-).sort(
-  (a, b) =>
-    Number(Boolean(b.frontmatter.highlight)) -
-      Number(Boolean(a.frontmatter.highlight)) ||
-    a.frontmatter.title.localeCompare(b.frontmatter.title)
-);
+).sort(compareProjectsByPeriod);
 ---
 
 <BaseLayout {...SEO}>

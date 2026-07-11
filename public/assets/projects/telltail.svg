@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">TellTail</title>
+  <desc id="desc">A simple dog profile and curved tail forming a speech bubble.</desc>
+  <rect width="512" height="512" rx="112" fill="#173f3b"/>
+  <path d="M174 180c-36-9-58-37-58-72 38 2 69 20 86 50m105 20c29-8 54-33 64-67 31 25 39 63 20 96" fill="none" stroke="#f4ead7" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M145 238c0-78 51-132 119-132s119 54 119 132v51c0 74-50 129-119 129s-119-55-119-129z" fill="#f4ead7"/>
+  <circle cx="218" cy="250" r="13" fill="#173f3b"/>
+  <circle cx="310" cy="250" r="13" fill="#173f3b"/>
+  <path d="M242 296c13 10 31 10 44 0" fill="none" stroke="#173f3b" stroke-width="14" stroke-linecap="round"/>
+  <path d="M350 343c48 1 80 31 80 70 0 39-31 68-74 68-34 0-55-16-62-42" fill="none" stroke="#ec765e" stroke-width="25" stroke-linecap="round"/>
+  <path d="M376 420l-3 60 52-38" fill="#ec765e"/>
+</svg>

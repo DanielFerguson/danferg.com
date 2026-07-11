@@ -9,6 +9,8 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 import ContentList from "../components/ContentList.astro";
 import HeroPortrait from "../components/HeroPortrait.astro";
+import WorkHistory from "../components/WorkHistory.astro";
+import { compareProjectsByPeriod } from "../utils/project-sort";
 
 type MarkdownModule<T> = {
   frontmatter: T;
@@ -26,12 +28,7 @@ const SEO: SEO = {
 
 const projects = Object.values(
   import.meta.glob<MarkdownModule<Project>>("./projects/*.md", { eager: true })
-).sort(
-  (a, b) =>
-    Number(Boolean(b.frontmatter.highlight)) -
-      Number(Boolean(a.frontmatter.highlight)) ||
-    a.frontmatter.title.localeCompare(b.frontmatter.title)
-);
+).sort(compareProjectsByPeriod);
 
 const articles = Object.values(
   import.meta.glob<MarkdownModule<Article>>("./articles/*.md", { eager: true })
@@ -146,11 +143,25 @@ const talkItems = [
       <ContentList items={articleItems} orderedLabel="Latest articles" />
     </section>
 
+    <hr class="site-container ascii-rule" />
+
+    <section id="work" class="site-container page-section" aria-labelledby="work-title">
+      <SectionHeading
+        headingId="work-title"
+        eyebrow="03 // WORK HISTORY"
+        title="A career spent making useful things."
+        description="From public-interest data platforms to startups and disaster-response services, the through-line is simple: use technology to make hard, human problems easier to act on."
+        actionHref="https://www.linkedin.com/in/danferg"
+        actionLabel="View the full LinkedIn profile"
+      />
+      <WorkHistory />
+    </section>
+
     <section id="talks" class="talks" aria-labelledby="talks-title">
       <div class="site-container page-section">
         <SectionHeading
           headingId="talks-title"
-          eyebrow="03 // TALKS"
+          eyebrow="04 // TALKS"
           title="Ideas, spoken aloud."
           description="Talks and workshops about building startups, working without code, and developing leaders."
         />
