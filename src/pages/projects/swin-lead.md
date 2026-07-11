@@ -7,7 +7,7 @@ tags:
   - Community building
   - Leadership
   - Education
-featured: true
+featured: false
 period: 2020–2022
 status: Community platform
 role: Early co-creator / community & product

@@ -1,0 +1,373 @@
+---
+import WorkbenchTerminal from "./WorkbenchTerminal.astro";
+
+interface ImpactStat {
+  displayValue: string;
+  accessibleValue: string;
+  target: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+  href: string;
+  sourceLabel: string;
+}
+
+const impactStats: ImpactStat[] = [
+  {
+    displayValue: "2.5M+",
+    accessibleValue: "More than 2.5 million",
+    target: 2.5,
+    decimals: 1,
+    suffix: "M+",
+    label: "community contributions analysed",
+    href: "/projects/communitilabs",
+    sourceLabel: "Read the Communiti Labs case study",
+  },
+  {
+    displayValue: "$10M+",
+    accessibleValue: "More than 10 million dollars",
+    target: 10,
+    prefix: "$",
+    suffix: "M+",
+    label: "in new business supported by a bespoke CRM",
+    href: "/#work",
+    sourceLabel: "See the CRM work-history evidence",
+  },
+  {
+    displayValue: "1,500+",
+    accessibleValue: "More than 1,500",
+    target: 1500,
+    suffix: "+",
+    label: "searchable cattle records",
+    href: "/projects/murray-grey-association-australia",
+    sourceLabel: "Read the Murray Grey Aus case study",
+  },
+  {
+    displayValue: "4 min",
+    accessibleValue: "Four minutes",
+    target: 4,
+    suffix: " min",
+    label: "for the first beef release to sell out",
+    href: "/projects/ferguson-livestock",
+    sourceLabel: "Read the Ferguson Livestock case study",
+  },
+];
+---
+
+<section
+  id="proof"
+  class="impact-stats site-container"
+  aria-labelledby="impact-stats-title"
+  data-impact-stats
+>
+  <header class="impact-stats__header">
+    <div>
+      <p class="impact-stats__eyebrow">// PROOF OF WORK</p>
+      <h2 id="impact-stats-title">Selected outcomes.</h2>
+    </div>
+    <p>Four measurable results. Each links to the work behind it.</p>
+  </header>
+
+  <ol class="impact-stats__grid" aria-label="Selected outcomes">
+    {
+      impactStats.map((stat, index) => (
+        <li style={`--impact-delay: ${90 + index * 75}ms;`} data-impact-card>
+          <a
+            href={stat.href}
+            aria-label={`${stat.accessibleValue} ${stat.label}. ${stat.sourceLabel}.`}
+          >
+            <strong aria-hidden="true">
+              <span
+                data-impact-value
+                data-target={stat.target}
+                data-decimals={stat.decimals || 0}
+                data-prefix={stat.prefix || ""}
+                data-suffix={stat.suffix || ""}
+              >
+                {stat.displayValue}
+              </span>
+            </strong>
+            <span class="impact-stat__label">{stat.label}</span>
+            <span class="impact-stat__source" aria-hidden="true">
+              View evidence <span>↗</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+
+  <WorkbenchTerminal
+    command="evidence --selected --with-sources"
+    meta={`${String(impactStats.length).padStart(2, "0")} OUTCOMES / ${String(impactStats.length).padStart(2, "0")} SOURCE LINKS`}
+    border="top"
+  />
+</section>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const formatValue = (
+    element: HTMLElement,
+    value: number,
+    formatter: Intl.NumberFormat
+  ) => {
+    const prefix = element.dataset.prefix || "";
+    const suffix = element.dataset.suffix || "";
+
+    element.textContent = `${prefix}${formatter.format(value)}${suffix}`;
+  };
+
+  const animateValue = (element: HTMLElement) => {
+    const target = Number(element.dataset.target || 0);
+    const decimals = Number(element.dataset.decimals || 0);
+    const duration = 850;
+    const startedAt = performance.now();
+    const formatter = new Intl.NumberFormat("en-AU", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+
+    formatValue(element, 0, formatter);
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      formatValue(element, target * easedProgress, formatter);
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        formatValue(element, target, formatter);
+      }
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-impact-stats]").forEach((section) => {
+    if (section.dataset.impactBound === "true") return;
+
+    section.dataset.impactBound = "true";
+
+    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      section.classList.add("impact-stats--visible");
+      return;
+    }
+
+    section.classList.add("impact-stats--enhanced");
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+
+        section.classList.add("impact-stats--visible");
+        section
+          .querySelectorAll<HTMLElement>("[data-impact-value]")
+          .forEach(animateValue);
+        observer.disconnect();
+      },
+      { threshold: 0.22 }
+    );
+
+    observer.observe(section);
+  });
+</script>
+
+<style>
+  .impact-stats {
+    margin-block: clamp(1rem, 2.5vw, 2.25rem);
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+  }
+
+  .impact-stats__header {
+    display: flex;
+    gap: 2rem;
+    align-items: end;
+    justify-content: space-between;
+    padding: clamp(0.9rem, 2vw, 1.25rem);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .impact-stats__eyebrow {
+    margin: 0;
+    color: var(--signal);
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+  }
+
+  h2 {
+    margin: 0.3rem 0 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .impact-stats__header > p {
+    max-width: 38ch;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+
+  .impact-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .impact-stats__grid li {
+    min-width: 0;
+    min-height: 10.75rem;
+    border-right: 1px dotted var(--line-strong);
+  }
+
+  .impact-stats__grid li:last-child {
+    border-right: 0;
+  }
+
+  .impact-stats__grid a {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .impact-stats__grid a:hover,
+  .impact-stats__grid a:focus-visible {
+    color: var(--inverse-ink);
+    background: var(--signal-deep);
+  }
+
+  .impact-stats__grid a:hover .impact-stat__source,
+  .impact-stats__grid a:focus-visible .impact-stat__source {
+    color: var(--signal-bright);
+  }
+
+  strong {
+    display: block;
+    margin: 0;
+    color: var(--signal-emphasis);
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+    font-weight: 780;
+    line-height: 0.86;
+    letter-spacing: -0.085em;
+    white-space: nowrap;
+  }
+
+  .impact-stats__grid a:hover strong,
+  .impact-stats__grid a:focus-visible strong {
+    color: var(--inverse-ink);
+  }
+
+  .impact-stat__label {
+    max-width: 24ch;
+    margin-top: 0.7rem;
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .impact-stats__grid a:hover .impact-stat__label,
+  .impact-stats__grid a:focus-visible .impact-stat__label {
+    color: var(--inverse-muted);
+  }
+
+  .impact-stat__source {
+    margin-top: auto;
+    padding-top: 0.9rem;
+    color: var(--signal);
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.025em;
+    line-height: 1.4;
+  }
+
+  .impact-stats--enhanced .impact-stats__header,
+  .impact-stats--enhanced [data-impact-card] {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  .impact-stats--enhanced.impact-stats--visible .impact-stats__header,
+  .impact-stats--enhanced.impact-stats--visible [data-impact-card] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 560ms ease,
+      transform 560ms ease;
+  }
+
+  .impact-stats--enhanced.impact-stats--visible [data-impact-card] {
+    transition-delay: var(--impact-delay);
+  }
+
+  @media (max-width: 900px) {
+    .impact-stats__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .impact-stats__grid li:nth-child(2) {
+      border-right: 0;
+    }
+
+    .impact-stats__grid li:nth-child(n + 3) {
+      border-top: 1px dotted var(--line-strong);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .impact-stats__header {
+      align-items: start;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .impact-stats__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .impact-stats__grid li,
+    .impact-stats__grid li:nth-child(2) {
+      min-height: 10.5rem;
+    }
+
+    .impact-stats__grid a {
+      padding: 0.85rem;
+    }
+
+    strong {
+      font-size: clamp(1.8rem, 10vw, 2.5rem);
+    }
+
+    .impact-stat__label {
+      font-size: 0.65rem;
+    }
+
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .impact-stats *,
+    .impact-stats *::before,
+    .impact-stats *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+</style>

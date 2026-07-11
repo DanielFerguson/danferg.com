@@ -1,0 +1,42 @@
+---
+import ConversionEndcap from "./ConversionEndcap.astro";
+import { createContactMailto } from "../utils/contact-links";
+
+interface Props {
+  sourceTitle: string;
+}
+
+const { sourceTitle } = Astro.props;
+const consultingMailto = createContactMailto({
+  subject: "Product, traction or GTM enquiry",
+  body: `G'day Dan,\n\nI found you through “${sourceTitle}” and would like to discuss a product, traction, or go-to-market challenge.\n\nA little context:\n`,
+});
+const speakingMailto = createContactMailto({
+  subject: "Speaking enquiry",
+  body: `G'day Dan,\n\nI found you through “${sourceTitle}” and would like to discuss a speaking opportunity.\n\nEvent, audience, and timing:\n`,
+});
+---
+
+<ConversionEndcap
+  headingId="editorial-next-step"
+  eyebrow="// PUT THE IDEAS TO WORK"
+  title="Need a clearer next move for your product?"
+  description="I work with founders and teams across product strategy, traction, and go-to-market—and speak about building useful technology, ventures, and communities."
+  actions={[
+    {
+      meta: "CONSULTING / ADVISORY",
+      label: "Discuss a product challenge",
+      href: consultingMailto,
+    },
+    {
+      meta: "SELECTED WORK",
+      label: "Explore the project archive",
+      href: "/projects",
+    },
+    {
+      meta: "SPEAKING",
+      label: "Invite Dan to speak",
+      href: speakingMailto,
+    },
+  ]}
+/>

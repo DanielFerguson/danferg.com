@@ -13,7 +13,7 @@ const SEO: SEO = {
   title: "Articles on startups, software and social impact | Dan Ferg",
   description:
     "Read Dan Ferg's articles on entrepreneurship, software, startup experiments, burnout, and building useful things.",
-  imageUrl: "/assets/snow.jpg",
+  imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/articles",
   schemaType: "CollectionPage",
@@ -45,7 +45,7 @@ const items = articles.map((article) => ({
 
 <BaseLayout {...SEO}>
   <NavBar />
-  <main class="site-container archive">
+  <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / ARTICLES</p>
     <SectionHeading
       as="h1"

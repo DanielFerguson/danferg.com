@@ -2,6 +2,7 @@
 import type SEO from "types/SEO";
 import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
+import EditorialEndcap from "@components/EditorialEndcap.astro";
 
 const { frontmatter } = Astro.props;
 const formatDate = (date: string) =>
@@ -29,7 +30,7 @@ const SEO: SEO = {
 
 <BaseLayout {...SEO}>
   <NavBar />
-  <main>
+  <main id="main-content">
     <header class="site-container story-header">
       <p class="story-header__path"><a href="/">HOME</a> / <a href="/newsletters">NEWSLETTERS</a> / FILE</p>
       <div class="story-header__grid">
@@ -44,6 +45,7 @@ const SEO: SEO = {
     <article class="prose-shell">
       <slot />
     </article>
+    <EditorialEndcap sourceTitle={frontmatter.title} />
   </main>
 </BaseLayout>
 

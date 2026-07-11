@@ -7,7 +7,7 @@ tags:
   - Behaviour design
   - Social product
   - Full-stack software
-featured: true
+featured: false
 period: "2022"
 status: Archived MVP
 role: Founder / product / engineering

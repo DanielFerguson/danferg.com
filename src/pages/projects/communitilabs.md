@@ -47,6 +47,8 @@ Analysis turns mixed feedback into evidence that a project team can use and defe
 
 The practical shift is from weeks of manual coding and synthesis to a faster process that still shows its working.
 
+[Read the June 2026 product update](/2026-06-10-absa-announcement) for the benchmark results behind Communiti's issue-level sentiment analysis, multilingual feedback support, and evidence-traceability approach.
+
 ### Communiti Conversations
 
 Conversations extends that thinking across the engagement itself: from the first plan to the final follow-up.

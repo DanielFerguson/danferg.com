@@ -3,21 +3,75 @@ import type SEO from "types/SEO";
 import { Picture } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
+import ConversionEndcap from "@components/ConversionEndcap.astro";
 import {
   getProjectExternalUrl,
   getProjectScreenshot,
 } from "../utils/project-assets";
+import { getNextProject } from "../data/project-journey";
+import { createContactMailto } from "../utils/contact-links";
 
 const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
 const projectLinkLabel = frontmatter.externalLabel || "Visit project";
 const projectScreenshot = getProjectScreenshot(frontmatter.imageUrl);
+const projectPreviewImage =
+  typeof projectScreenshot === "string"
+    ? projectScreenshot
+    : projectScreenshot.src;
 const screenshotAlt = `${frontmatter.title} product interface screenshot`;
+const nextProject = getNextProject(frontmatter.canonicalUrl);
+const projectStatus = String(frontmatter.status || "").toLowerCase();
+const isExploratory = /concept|prototype|proof of concept|mvp|private-beta/.test(
+  projectStatus
+);
+const isCurrent =
+  /active|present|live|development|validation|design partner|pre-release/.test(
+    projectStatus
+  );
+const contactTitle = isExploratory
+  ? "Need to test an idea without overbuilding it?"
+  : isCurrent
+    ? `Interested in ${frontmatter.title}—or the thinking behind it?`
+    : "Have a hard product problem to untangle?";
+const contactDescription = isExploratory
+  ? "I help founders and teams turn promising ideas into evidence, focused product decisions, and credible next steps."
+  : isCurrent
+    ? "I’m open to thoughtful partnerships and focused consulting or advisory work across product, traction, and go-to-market. Tell me what you’re trying to move forward."
+    : "I help founders and teams turn difficult product questions into clear decisions, useful software, and a credible path to traction.";
+const contactMailto = createContactMailto({
+  subject: `Enquiry after reading the ${frontmatter.title} case study`,
+  body: `G'day Dan,\n\nI read your ${frontmatter.title} case study and would like to discuss a related challenge.\n\nA little context:\n`,
+});
+const endcapActions = [
+  {
+    meta: "CONSULTING / ADVISORY",
+    label: "Start a useful conversation",
+    href: contactMailto,
+  },
+  ...(projectUrl
+    ? [
+        {
+          meta: "PROJECT LINK",
+          label: projectLinkLabel,
+          href: projectUrl,
+          external: true,
+        },
+      ]
+    : []),
+  {
+    meta: "NEXT CASE STUDY",
+    label: nextProject.title,
+    href: nextProject.href,
+    description: nextProject.description,
+  },
+];
 
 const SEO: SEO = {
   title: `${frontmatter.title} | Dan Ferg`,
   description: frontmatter.description,
-  imageUrl: frontmatter.imageUrl,
+  imageUrl: projectPreviewImage,
+  imageAlt: screenshotAlt,
   openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
   schemaType: "CreativeWork",
@@ -31,12 +85,12 @@ const SEO: SEO = {
 
 <BaseLayout {...SEO}>
   <NavBar />
-  <main>
+  <main id="main-content">
     <header class="site-container project-header">
       <p class="project-header__path"><a href="/">HOME</a> / <a href="/projects">PROJECTS</a> / CASE_STUDY</p>
       <div class="project-header__grid">
         <div>
-          <p class="project-header__type">PROJECT // BUILT BY DAN FERG</p>
+          <p class="project-header__type">CASE STUDY // DAN FERG’S CONTRIBUTION</p>
           <h1>{frontmatter.title}</h1>
         </div>
         <div class="project-header__aside">
@@ -72,13 +126,13 @@ const SEO: SEO = {
       <slot />
     </article>
 
-    {projectUrl && (
-      <aside class="site-container project-cta">
-        <p>// CONTINUE EXPLORING</p>
-        <h2>Explore {frontmatter.title} beyond the case study.</h2>
-        <a href={projectUrl} target="_blank" rel="noopener noreferrer">{projectLinkLabel} <span aria-hidden="true">↗</span></a>
-      </aside>
-    )}
+    <ConversionEndcap
+      headingId="project-next-step"
+      eyebrow="// CONTINUE FROM HERE"
+      title={contactTitle}
+      description={contactDescription}
+      actions={endcapActions}
+    />
   </main>
 </BaseLayout>
 
@@ -133,8 +187,7 @@ const SEO: SEO = {
     line-height: 1.65;
   }
 
-  .project-header__aside a,
-  .project-cta a {
+  .project-header__aside a {
     display: inline-block;
     margin-top: 1rem;
     color: var(--ink);
@@ -142,8 +195,7 @@ const SEO: SEO = {
     text-underline-offset: 0.22em;
   }
 
-  .project-header__aside a:hover,
-  .project-cta a:hover {
+  .project-header__aside a:hover {
     color: var(--signal);
   }
 
@@ -194,28 +246,6 @@ const SEO: SEO = {
     display: block;
     width: 100%;
     height: auto;
-  }
-
-  .project-cta {
-    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
-    padding: clamp(1.75rem, 3.5vw, 3rem);
-    border: 1px solid var(--line-strong);
-    background: var(--signal-soft);
-  }
-
-  .project-cta p {
-    margin: 0 0 1rem;
-    color: var(--signal);
-    font-size: 0.63rem;
-    font-weight: 750;
-  }
-
-  .project-cta h2 {
-    max-width: 18ch;
-    margin: 0;
-    font-size: clamp(1.75rem, 4vw, 3.5rem);
-    line-height: 1;
-    letter-spacing: -0.08em;
   }
 
   @media (max-width: 720px) {

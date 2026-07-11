@@ -7,7 +7,7 @@ tags:
   - Civic technology
   - Privacy engineering
   - Mobile
-featured: true
+featured: false
 period: "2021"
 status: Archived prototype
 role: Creator / product / full-stack engineering

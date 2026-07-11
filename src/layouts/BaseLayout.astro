@@ -7,6 +7,8 @@ const {
   title,
   description,
   imageUrl,
+  imageAlt = `${title} social preview`,
+  robots = "index,follow",
   openGraph,
   canonicalUrl,
   schemaType = openGraph.type === "article" ? "Article" : "WebPage",
@@ -61,9 +63,16 @@ const structuredData = [
     "@id": personId,
     name: "Dan Ferg",
     url: siteUrl,
-    jobTitle: "Social entrepreneur and software builder",
+    jobTitle: "Product consultant, advisor and software builder",
     description:
-      "Dan Ferg builds startups, social impact projects, talks, articles, and digital tools for communities and businesses.",
+      "Dan Ferg builds useful software and advises teams on product, traction, go-to-market strategy, and community-centred technology.",
+    knowsAbout: [
+      "Product strategy",
+      "Go-to-market strategy",
+      "Software engineering",
+      "Civic technology",
+      "Social enterprise",
+    ],
     sameAs: [
       "https://www.linkedin.com/in/danferg",
       "https://twitter.com/thedannyferg",
@@ -99,6 +108,7 @@ import ThemeHead from "../components/ThemeHead.astro";
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Dan Ferg" />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={pageUrl} />
 
     <!-- OpenGraph -->
@@ -107,15 +117,18 @@ import ThemeHead from "../components/ThemeHead.astro";
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteImageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:site_name" content="Dan Ferg" />
+    <meta property="og:locale" content="en_AU" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={pageUrl} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={absoluteImageUrl} />
-    <meta property="twitter:creator" content="@thedannyferg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={pageUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <meta name="twitter:creator" content="@thedannyferg" />
 
     <script
       type="application/ld+json"
@@ -124,6 +137,7 @@ import ThemeHead from "../components/ThemeHead.astro";
     />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
     <Footer />
   </body>

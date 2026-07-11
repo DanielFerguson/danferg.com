@@ -1,20 +1,26 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import { createContactMailto } from "../utils/contact-links";
 
 const navigation = [
-  { name: "Projects", href: "/#projects" },
-  { name: "Articles", href: "/#articles" },
+  { name: "Projects", href: "/projects" },
+  { name: "Articles", href: "/articles" },
   { name: "Work", href: "/#work" },
   { name: "Talks", href: "/#talks" },
   { name: "Newsletters", href: "/newsletters" },
 ];
+
+const availabilityMailto = createContactMailto({
+  subject: "Consulting, advisory or speaking enquiry",
+  body: "G'day Dan,\n\nI'm getting in touch about consulting, advisory work, or speaking.\n\nA little context:\n",
+});
 ---
 
 <header class="site-header">
   <div class="signal-bar">
     <div class="site-container signal-bar__inner">
       <p><span aria-hidden="true">■</span> Melbourne, Australia</p>
-      <a href="mailto:gday@danferg.com">Available for useful work <span aria-hidden="true">↗</span></a>
+      <a href={availabilityMailto}>Consulting / advisory / speaking <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 
@@ -35,7 +41,7 @@ const navigation = [
 
     <div class="nav-actions">
       <ThemeToggle />
-      <a class="nav-contact" href="mailto:gday@danferg.com">Say hello <span aria-hidden="true">↗</span></a>
+      <a class="nav-contact" href={availabilityMailto}>Work together <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 </header>
@@ -175,6 +181,16 @@ const navigation = [
 
     nav ul {
       width: max-content;
+    }
+
+    nav li + li::before {
+      margin-inline: 0.52rem;
+    }
+
+    nav a {
+      display: inline-flex;
+      min-height: 2rem;
+      align-items: center;
     }
 
     .nav-contact {

@@ -14,7 +14,7 @@ const SEO: SEO = {
   title: "Projects in software and social impact | Dan Ferg",
   description:
     "Explore Dan Ferg's projects across startups, social impact, community technology, leadership, and practical software.",
-  imageUrl: "/assets/snow.jpg",
+  imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/projects",
   schemaType: "CollectionPage",
@@ -27,7 +27,7 @@ const projects = Object.values(
 
 <BaseLayout {...SEO}>
   <NavBar />
-  <main class="site-container archive">
+  <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / PROJECTS</p>
     <SectionHeading
       as="h1"

@@ -7,7 +7,7 @@ tags:
   - Product strategy
   - Idea validation
   - Prototyping
-featured: true
+featured: false
 period: "2022"
 status: Concept prototype
 role: Product concept / prototyping

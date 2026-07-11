@@ -1,4 +1,6 @@
 ---
+import WorkbenchTerminal from "./WorkbenchTerminal.astro";
+
 interface Role {
   title: string;
   organisation: string;
@@ -66,10 +68,12 @@ const roles: Role[] = [
 ];
 ---
 
-<div class="work-terminal" aria-hidden="true">
-  <span><b>dan@work</b>:~$ history --reverse --impact</span>
-  <span class="work-terminal__status">STATUS: STILL_BUILDING <i></i></span>
-</div>
+<WorkbenchTerminal
+  user="dan@work"
+  command="history --reverse --impact"
+  meta="STATUS: STILL_BUILDING"
+  border="all"
+/>
 
 <ol class="work-history" aria-label="Career history">
   {
@@ -104,39 +108,6 @@ const roles: Role[] = [
 </ol>
 
 <style>
-  .work-terminal {
-    display: flex;
-    min-height: 2.75rem;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.65rem 0.85rem;
-    border: 1px solid var(--line-strong);
-    color: var(--inverse-muted);
-    background: var(--code-surface);
-    font-size: 0.64rem;
-    letter-spacing: 0.025em;
-  }
-
-  .work-terminal b {
-    color: var(--signal-bright);
-  }
-
-  .work-terminal__status {
-    display: inline-flex;
-    align-items: center;
-    color: var(--inverse-ink);
-    white-space: nowrap;
-  }
-
-  .work-terminal__status i {
-    width: 0.48rem;
-    height: 0.48rem;
-    margin-left: 0.55rem;
-    background: #55d68b;
-    box-shadow: 0 0 0 3px rgb(85 214 139 / 17%);
-  }
-
   .work-history {
     margin: 0;
     padding: 0;
@@ -146,28 +117,15 @@ const roles: Role[] = [
   }
 
   .work-role {
-    --role-accent: #4f39f6;
     display: grid;
     grid-template-columns: minmax(10rem, 0.34fr) minmax(0, 1fr);
     border-bottom: 1px solid var(--line-strong);
-    background:
-      linear-gradient(90deg, color-mix(in srgb, var(--role-accent) 7%, transparent), transparent 34%),
-      var(--paper);
+    background: var(--paper);
     transition: background-color 140ms ease;
   }
 
-  .work-role:nth-child(2) { --role-accent: #b52ab8; }
-  .work-role:nth-child(3) { --role-accent: #0b806c; }
-  .work-role:nth-child(4) { --role-accent: #bd6500; }
-  .work-role:nth-child(5) { --role-accent: #b23b64; }
-  .work-role:nth-child(6) { --role-accent: #2869bd; }
-  .work-role:nth-child(7) { --role-accent: #397c42; }
-  .work-role:nth-child(8) { --role-accent: #7952ad; }
-
   .work-role:hover {
-    background:
-      linear-gradient(90deg, color-mix(in srgb, var(--role-accent) 14%, transparent), transparent 48%),
-      var(--paper-raised);
+    background: color-mix(in srgb, var(--signal) 3%, var(--paper-raised));
   }
 
   .work-role__meta {
@@ -178,7 +136,7 @@ const roles: Role[] = [
 
   .work-role__branch {
     display: block;
-    color: var(--role-accent);
+    color: var(--signal);
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.04em;
@@ -199,7 +157,7 @@ const roles: Role[] = [
 
   .work-role__command {
     margin: 0 0 0.65rem;
-    color: var(--role-accent);
+    color: var(--ink-muted);
     font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 0.045em;
@@ -213,7 +171,8 @@ const roles: Role[] = [
   }
 
   h3 span {
-    color: var(--role-accent);
+    color: var(--ink-soft);
+    font-weight: 550;
   }
 
   .work-role__description {
@@ -235,40 +194,15 @@ const roles: Role[] = [
 
   .work-role__body li {
     padding: 0.22rem 0.42rem;
-    border: 1px solid color-mix(in srgb, var(--role-accent) 48%, transparent);
-    color: var(--ink-soft);
-    background: color-mix(in srgb, var(--role-accent) 7%, transparent);
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+    background: var(--paper-raised);
     font-size: 0.56rem;
     font-weight: 700;
     letter-spacing: 0.05em;
   }
 
-  :global(:root[data-theme="dark"]) .work-role:nth-child(1) { --role-accent: #aa9cff; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(2) { --role-accent: #f18cff; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(3) { --role-accent: #63d4bb; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(4) { --role-accent: #f3a64f; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(5) { --role-accent: #f286aa; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(6) { --role-accent: #79b4ff; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(7) { --role-accent: #7fd68d; }
-  :global(:root[data-theme="dark"]) .work-role:nth-child(8) { --role-accent: #c99cff; }
-
-  @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme])) .work-role:nth-child(1) { --role-accent: #aa9cff; }
-    :global(:root:not([data-theme])) .work-role:nth-child(2) { --role-accent: #f18cff; }
-    :global(:root:not([data-theme])) .work-role:nth-child(3) { --role-accent: #63d4bb; }
-    :global(:root:not([data-theme])) .work-role:nth-child(4) { --role-accent: #f3a64f; }
-    :global(:root:not([data-theme])) .work-role:nth-child(5) { --role-accent: #f286aa; }
-    :global(:root:not([data-theme])) .work-role:nth-child(6) { --role-accent: #79b4ff; }
-    :global(:root:not([data-theme])) .work-role:nth-child(7) { --role-accent: #7fd68d; }
-    :global(:root:not([data-theme])) .work-role:nth-child(8) { --role-accent: #c99cff; }
-  }
-
   @media (max-width: 680px) {
-    .work-terminal {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
     .work-role {
       grid-template-columns: 1fr;
     }

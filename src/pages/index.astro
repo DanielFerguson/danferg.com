@@ -10,6 +10,8 @@ import ProjectGrid from "../components/ProjectGrid.astro";
 import ContentList from "../components/ContentList.astro";
 import HeroPortrait from "../components/HeroPortrait.astro";
 import WorkHistory from "../components/WorkHistory.astro";
+import FavouriteStack from "../components/FavouriteStack.astro";
+import ImpactStats from "../components/ImpactStats.astro";
 import { compareProjectsByPeriod } from "../utils/project-sort";
 
 type MarkdownModule<T> = {
@@ -18,17 +20,19 @@ type MarkdownModule<T> = {
 };
 
 const SEO: SEO = {
-  title: "Social entrepreneur and software builder | Dan Ferg",
+  title: "Product consultant, advisor and software builder | Dan Ferg",
   description:
-    "Dan Ferg builds practical software, social-impact ventures, and community-centred products from Melbourne, Australia.",
-  imageUrl: "/assets/snow.jpg",
+    "Dan Ferg builds and advises on practical products, traction, go-to-market strategy, and community-centred technology from Melbourne, Australia.",
+  imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/",
 };
 
 const projects = Object.values(
   import.meta.glob<MarkdownModule<Project>>("./projects/*.md", { eager: true })
-).sort(compareProjectsByPeriod);
+)
+  .filter((project) => project.frontmatter.featured !== false)
+  .sort(compareProjectsByPeriod);
 
 const articles = Object.values(
   import.meta.glob<MarkdownModule<Article>>("./articles/*.md", { eager: true })
@@ -87,19 +91,24 @@ const talkItems = [
 <BaseLayout {...SEO}>
   <NavBar />
 
-  <main>
+  <main id="main-content">
     <section class="site-container hero-shell" aria-labelledby="hero-title">
       <div class="hero">
         <div class="hero__copy">
           <p class="hero__eyebrow">// DAN FERG — BUILDER / STRATEGIST / OPTIMIST</p>
           <h1 id="hero-title">Technology for <em>problems that actually matter.</em></h1>
           <p class="hero__lede">
-            I’m a social entrepreneur and software builder working where technology,
-            community, and practical problem-solving meet.
+            I help founders and mission-led teams turn hard product, operational,
+            and community problems into useful software, traction, and a clearer
+            route to market.
+          </p>
+          <p class="hero__offer">
+            <span>OPEN TO</span>
+            Consulting · Product, traction &amp; GTM advisory · Speaking
           </p>
           <div class="hero__actions">
             <a class="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
-            <a class="button" href="mailto:gday@danferg.com">Start a conversation <span aria-hidden="true">↗</span></a>
+            <a class="button" href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry">Discuss a project <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
@@ -107,22 +116,16 @@ const talkItems = [
           <HeroPortrait />
         </aside>
       </div>
-
-      <dl class="hero__facts">
-        <div><dt>01 / APPROACH</dt><dd>Start with the human problem.</dd></div>
-        <div><dt>02 / MEDIUM</dt><dd>Products, systems, and stories.</dd></div>
-        <div><dt>03 / PRINCIPLE</dt><dd>Make the complex feel obvious.</dd></div>
-      </dl>
     </section>
 
-    <hr class="site-container ascii-rule" />
+    <ImpactStats />
 
     <section id="projects" class="site-container page-section" aria-labelledby="projects-title">
       <SectionHeading
         headingId="projects-title"
         eyebrow="01 // SELECTED PROJECTS"
-        title="Experiments with a job to do."
-        description="Products and ventures built around practical problems—from community response and leadership to productivity and startup infrastructure."
+        title="Current work with a job to do."
+        description="Active ventures, live client platforms, and the work with the clearest evidence of a useful outcome."
         actionHref="/projects"
         actionLabel="Open project archive"
       />
@@ -155,6 +158,7 @@ const talkItems = [
         actionLabel="View the full LinkedIn profile"
       />
       <WorkHistory />
+      <FavouriteStack />
     </section>
 
     <section id="talks" class="talks" aria-labelledby="talks-title">
@@ -170,9 +174,13 @@ const talkItems = [
     </section>
 
     <section class="site-container contact-panel" aria-labelledby="contact-title">
-      <p>// HAVE A HARD, USEFUL PROBLEM?</p>
-      <h2 id="contact-title">Let’s make something that earns its place in the world.</h2>
-      <a href="mailto:gday@danferg.com">gday@danferg.com <span aria-hidden="true">↗</span></a>
+      <p>// CONSULTING / ADVISORY / SPEAKING</p>
+      <h2 id="contact-title">Bring me the useful problem that refuses to fit in a neat box.</h2>
+      <p class="contact-panel__lede">
+        Consulting when something needs building, advisory across product, traction
+        and GTM, and practical speaking for teams working through change.
+      </p>
+      <a href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry">gday@danferg.com <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 </BaseLayout>
@@ -217,6 +225,28 @@ const talkItems = [
     color: var(--ink-soft);
     font-size: clamp(0.88rem, 1.6vw, 1rem);
     line-height: 1.65;
+  }
+
+  .hero__offer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.75rem;
+    align-items: center;
+    max-width: 47rem;
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.025em;
+    line-height: 1.5;
+  }
+
+  .hero__offer span {
+    padding: 0.22rem 0.4rem;
+    color: var(--inverse-ink);
+    background: var(--signal-fill);
+    font-size: 0.57rem;
+    letter-spacing: 0.08em;
   }
 
   .hero__actions {
@@ -298,38 +328,6 @@ const talkItems = [
     }
   }
 
-  .hero__facts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin: 0 0 clamp(2rem, 5vw, 4.5rem);
-    padding: 0.85rem 1.1rem;
-    border-top: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line-strong);
-  }
-
-  .hero__facts div {
-    padding-right: 1.1rem;
-  }
-
-  .hero__facts div + div {
-    padding-left: 1.1rem;
-    border-left: 1px dotted var(--line-strong);
-  }
-
-  .hero__facts dt {
-    color: var(--signal);
-    font-size: 0.61rem;
-    font-weight: 750;
-    letter-spacing: 0.06em;
-  }
-
-  .hero__facts dd {
-    margin: 0.42rem 0 0;
-    color: var(--ink-soft);
-    font-size: 0.72rem;
-    line-height: 1.45;
-  }
-
   .talks {
     color: var(--inverse-ink);
     background: var(--signal-deep);
@@ -378,6 +376,16 @@ const talkItems = [
     letter-spacing: -0.06em;
   }
 
+  .contact-panel .contact-panel__lede {
+    max-width: 62ch;
+    margin: 1.2rem 0 0;
+    color: var(--inverse-ink);
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.65;
+  }
+
   .contact-panel a {
     display: inline-block;
     margin-top: 1.5rem;
@@ -414,20 +422,6 @@ const talkItems = [
 
     .button {
       width: 100%;
-    }
-
-    .hero__facts {
-      grid-template-columns: 1fr;
-    }
-
-    .hero__facts div {
-      padding: 1rem 0;
-    }
-
-    .hero__facts div + div {
-      padding-left: 0;
-      border-top: 1px dotted var(--line-strong);
-      border-left: 0;
     }
 
     .contact-panel {

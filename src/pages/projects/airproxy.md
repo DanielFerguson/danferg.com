@@ -7,7 +7,7 @@ tags:
   - Developer tools
   - Cloud infrastructure
   - SaaS
-featured: true
+featured: false
 period: "2023"
 status: Archived product
 role: Co-founder / product / engineering

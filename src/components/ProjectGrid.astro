@@ -5,6 +5,9 @@ interface ProjectModule {
     title: string;
     description: string;
     highlight?: boolean;
+    period?: string;
+    role?: string;
+    status?: string;
   };
 }
 
@@ -34,15 +37,18 @@ const { projects } = Astro.props as Props;
                 {isHighlight ? "FEATURED" : "PROJECT"}_
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span aria-hidden="true">↗</span>
+              <span>{project.frontmatter.period || <span aria-hidden="true">↗</span>}</span>
             </span>
             <strong>{project.frontmatter.title}</strong>
             <span class="project-cell__description">
               {project.frontmatter.description}
             </span>
+            {project.frontmatter.role && (
+              <span class="project-cell__role">{project.frontmatter.role}</span>
+            )}
             <span class="project-cell__status">
               <i aria-hidden="true" />
-              {isHighlight ? "ACTIVE / FLAGSHIP PROJECT" : "PROJECT / CASE STUDY"}
+              {project.frontmatter.status || (isHighlight ? "Active / flagship" : "Case study")}
             </span>
           </span>
 
@@ -147,9 +153,10 @@ const { projects } = Astro.props as Props;
   }
 
   .project-cell__status {
-    margin-top: 1.25rem;
+    margin-top: 0.55rem;
     font-size: 0.61rem;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   .project-cell__status i {
@@ -158,6 +165,20 @@ const { projects } = Astro.props as Props;
     height: 0.42rem;
     margin-right: 0.45rem;
     background: var(--signal);
+  }
+
+  .project-cell__role {
+    margin-top: 1.15rem;
+    color: var(--ink-muted);
+    font-size: 0.59rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .project-cell:hover .project-cell__role {
+    color: var(--inverse-muted);
   }
 
   .project-cell__diagram {

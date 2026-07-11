@@ -6,12 +6,10 @@ tags:
   - Agricultural technology
   - Marketplace
   - Product engineering
-featured: true
+featured: false
 period: "2026"
 status: Active marketplace
 role: Co-creator / product / engineering
-externalUrl: https://studlist.com.au/
-externalLabel: Visit StudList
 imageUrl: /assets/projects/studlist/screenshot.webp
 canonicalUrl: /projects/studlist
 ---

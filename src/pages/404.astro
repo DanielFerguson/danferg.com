@@ -1,0 +1,117 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NavBar from "../components/NavBar.astro";
+
+const SEO: SEO = {
+  title: "Page not found | Dan Ferg",
+  description:
+    "That page could not be found. Explore Dan Ferg's projects, articles, and work instead.",
+  imageUrl: "/images/og-default.png",
+  robots: "noindex,follow",
+  openGraph: { type: "website" },
+  canonicalUrl: "/404",
+  schemaType: "WebPage",
+};
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+  <main id="main-content" class="site-container not-found">
+    <section aria-labelledby="not-found-title">
+      <p class="not-found__eyebrow">ERROR_404 // PATH_NOT_FOUND</p>
+      <p class="not-found__code" aria-hidden="true">404</p>
+      <h1 id="not-found-title">This path leads nowhere useful.</h1>
+      <p class="not-found__lede">
+        The page may have moved, the link may be old, or the URL may have taken a wrong turn.
+        The useful work is still here.
+      </p>
+      <nav class="not-found__actions" aria-label="Page not found options">
+        <a class="not-found__primary" href="/">Return home <span aria-hidden="true">→</span></a>
+        <a href="/projects">Explore projects <span aria-hidden="true">→</span></a>
+        <a href="/articles">Read articles <span aria-hidden="true">→</span></a>
+      </nav>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: min(46rem, calc(100vh - 6.15rem));
+    align-items: center;
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  .not-found section {
+    max-width: 58rem;
+  }
+
+  .not-found__eyebrow {
+    margin: 0 0 1rem;
+    color: var(--signal);
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  .not-found__code {
+    margin: 0;
+    color: var(--signal-soft);
+    font-size: clamp(8rem, 28vw, 18rem);
+    font-weight: 850;
+    line-height: 0.72;
+    letter-spacing: -0.12em;
+  }
+
+  h1 {
+    position: relative;
+    max-width: 14ch;
+    margin: clamp(-1rem, -2vw, -0.25rem) 0 0;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.07em;
+  }
+
+  .not-found__lede {
+    max-width: 58ch;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(0.88rem, 1.5vw, 1rem);
+    line-height: 1.7;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .not-found__actions a {
+    display: inline-flex;
+    min-height: 2.8rem;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .not-found__actions a:hover,
+  .not-found__actions .not-found__primary {
+    border-color: var(--signal-deep);
+    color: var(--inverse-ink);
+    background: var(--signal-deep);
+  }
+
+  @media (max-width: 620px) {
+    .not-found__actions {
+      display: grid;
+    }
+  }
+</style>

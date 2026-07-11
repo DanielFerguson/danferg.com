@@ -11,6 +11,8 @@ export default interface SEO {
   title: string;
   description: string;
   imageUrl: string;
+  imageAlt?: string;
+  robots?: string;
   openGraph: OpenGraph;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
   canonicalUrl: string;

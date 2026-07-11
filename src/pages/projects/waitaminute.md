@@ -7,7 +7,7 @@ tags:
   - Behaviour design
   - Browser extension
   - Digital wellbeing
-featured: true
+featured: false
 period: "2025"
 status: Open-source prototype
 role: Creator / product / extension engineering

@@ -1,0 +1,163 @@
+---
+interface Props {
+  command: string;
+  meta?: string;
+  user?: string;
+  path?: string;
+  showPrompt?: boolean;
+  border?: "none" | "top" | "bottom" | "block" | "all";
+}
+
+const {
+  command,
+  meta,
+  user = "dan@workbench",
+  path = "~",
+  showPrompt = true,
+  border = "none",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "workbench-terminal",
+    `workbench-terminal--border-${border}`,
+    { "workbench-terminal--plain": !showPrompt },
+  ]}
+  aria-hidden="true"
+>
+  <span class="workbench-terminal__line">
+    {
+      showPrompt && (
+        <span class="workbench-terminal__prompt">
+          <strong>{user}</strong>:{path}$
+        </span>
+      )
+    }
+    <span class="workbench-terminal__command">{command}</span>
+    <span class="workbench-terminal__cursor"></span>
+  </span>
+  {meta && <span class="workbench-terminal__meta">{meta}</span>}
+</div>
+
+<style>
+  .workbench-terminal {
+    --terminal-surface: color-mix(in srgb, var(--signal) 4%, var(--paper-raised));
+    --terminal-copy: var(--ink-muted);
+    --terminal-prompt: var(--signal);
+    --terminal-meta: var(--ink);
+    --terminal-cursor: var(--signal);
+    display: flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.8rem;
+    color: var(--terminal-copy);
+    background: var(--terminal-surface);
+    font-size: 0.59rem;
+    letter-spacing: 0.035em;
+  }
+
+  .workbench-terminal--border-top {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .workbench-terminal--border-bottom {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .workbench-terminal--border-block {
+    border-block: 1px solid var(--line-strong);
+  }
+
+  .workbench-terminal--border-all {
+    border: 1px solid var(--line-strong);
+  }
+
+  .workbench-terminal__line {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.45em;
+  }
+
+  .workbench-terminal__prompt {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .workbench-terminal__prompt strong {
+    color: var(--terminal-prompt);
+  }
+
+  .workbench-terminal__command {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .workbench-terminal--plain .workbench-terminal__command {
+    color: var(--terminal-prompt);
+    font-weight: 700;
+    letter-spacing: 0.055em;
+  }
+
+  .workbench-terminal__cursor {
+    width: 0.48em;
+    height: 1em;
+    flex: 0 0 auto;
+    margin-left: 0.1em;
+    background: var(--terminal-cursor);
+    animation: workbench-cursor 1.1s steps(2, start) infinite;
+  }
+
+  .workbench-terminal__meta {
+    color: var(--terminal-meta);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  :global(:root[data-theme="dark"]) .workbench-terminal {
+    --terminal-surface: var(--code-surface);
+    --terminal-copy: var(--inverse-muted);
+    --terminal-prompt: var(--signal-bright);
+    --terminal-meta: var(--code-ink);
+    --terminal-cursor: var(--signal-bright);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme])) .workbench-terminal {
+      --terminal-surface: var(--code-surface);
+      --terminal-copy: var(--inverse-muted);
+      --terminal-prompt: var(--signal-bright);
+      --terminal-meta: var(--code-ink);
+      --terminal-cursor: var(--signal-bright);
+    }
+  }
+
+  @keyframes workbench-cursor {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .workbench-terminal {
+      min-height: 2.35rem;
+      padding-inline: 0.7rem;
+      font-size: 0.54rem;
+    }
+
+    .workbench-terminal__meta {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .workbench-terminal__cursor {
+      animation: none;
+    }
+  }
+</style>

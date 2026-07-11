@@ -7,7 +7,7 @@ tags:
   - Developer tools
   - Service monitoring
   - SaaS
-featured: true
+featured: false
 period: "2022"
 status: Private-beta prototype
 role: Founder / product / engineering

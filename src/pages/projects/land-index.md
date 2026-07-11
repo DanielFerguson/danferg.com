@@ -7,7 +7,7 @@ tags:
   - Geospatial data
   - Civic technology
   - Land-use planning
-featured: true
+featured: false
 period: "2019"
 status: GovHack proof of concept
 role: Team CeRDIfy / software & data

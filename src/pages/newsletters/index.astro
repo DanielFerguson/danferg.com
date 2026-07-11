@@ -13,7 +13,7 @@ const SEO: SEO = {
   title: "Newsletters on building projects and solving problems | Dan Ferg",
   description:
     "Read Dan Ferg's newsletters about startup progress, ideas, project updates, and lessons learned while building in public.",
-  imageUrl: "/assets/snow.jpg",
+  imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/newsletters",
   schemaType: "CollectionPage",
@@ -45,7 +45,7 @@ const items = newsletters.map((newsletter) => ({
 
 <BaseLayout {...SEO}>
   <NavBar />
-  <main class="site-container archive">
+  <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / NEWSLETTERS</p>
     <SectionHeading
       as="h1"
