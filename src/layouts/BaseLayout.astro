@@ -116,18 +116,12 @@ import ThemeHead from "../components/ThemeHead.astro";
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={absoluteImageUrl} />
     <meta property="twitter:creator" content="@thedannyferg" />
+
     <script
       type="application/ld+json"
       is:inline
       set:html={JSON.stringify(structuredData)}
     />
-
-    <script
-      is:inline
-      src="https://cdn.usefathom.com/script.js"
-      data-site="LARYKSES"
-      defer
-    ></script>
   </head>
   <body>
     <slot />
