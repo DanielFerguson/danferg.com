@@ -3,6 +3,25 @@
   data-hero-portrait
   data-hero-shader-state="fallback"
 >
+  <script is:inline>
+    (() => {
+      const portrait = document.currentScript?.parentElement;
+      const staticMode =
+        new URLSearchParams(window.location.search).get("hero") === "static";
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (
+        portrait instanceof HTMLElement &&
+        portrait.matches("[data-hero-portrait]") &&
+        !staticMode &&
+        !reducedMotion
+      ) {
+        portrait.dataset.heroShaderState = "loading";
+      }
+    })();
+  </script>
   <img
     class="hero-portrait__image hero-portrait__image--light"
     src="/images/dan-light.png"
@@ -33,7 +52,11 @@
 
     const portraits = Array.from(
       document.querySelectorAll<HTMLElement>("[data-hero-portrait]"),
-    ).filter((portrait) => portrait.dataset.heroShaderState === "fallback");
+    ).filter((portrait) =>
+      ["fallback", "loading"].includes(
+        portrait.dataset.heroShaderState ?? "fallback",
+      ),
+    );
 
     if (portraits.length === 0) return;
 
@@ -59,10 +82,7 @@
     }
   };
 
-  // Let the real image win the first paint, then progressively add the effect.
-  requestAnimationFrame(() => {
-    void startExperiment();
-  });
+  void startExperiment();
 
   window.addEventListener(
     "pagehide",
@@ -75,11 +95,22 @@
 </script>
 
 <style>
+  .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],
+  .hero-portrait[data-hero-portrait][data-hero-shader-state="ready"] {
+    background: rgb(0 12 56);
+  }
+
+  .hero-portrait[data-hero-shader-state="loading"]
+    :global(.hero-portrait__image),
+  .hero-portrait[data-hero-shader-state="ready"]
+    :global(.hero-portrait__image) {
+    opacity: 0;
+  }
+
   .hero-portrait :global(canvas.hero-portrait__shader) {
     z-index: 2;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 180ms ease;
   }
 
   .hero-portrait[data-hero-shader-state="ready"]

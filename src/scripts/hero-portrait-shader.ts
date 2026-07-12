@@ -167,16 +167,37 @@ const waitForImage = async (image: HTMLImageElement) => {
   await image.decode();
 };
 
+const nextFrame = () =>
+  new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+const waitForSizedCanvas = async (canvas: HTMLCanvasElement) => {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await nextFrame();
+    if (canvas.width > 0 && canvas.height > 0) return true;
+  }
+
+  return false;
+};
+
 export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   const sourceImage = portrait.querySelector<HTMLImageElement>(
     ".hero-portrait__image--dark",
   );
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  if (!sourceImage) return;
+  if (!sourceImage || reducedMotion.matches) {
+    portrait.dataset.heroShaderState = "fallback";
+    return;
+  }
 
   try {
     await waitForImage(sourceImage);
   } catch {
+    portrait.dataset.heroShaderState = "fallback";
+    return;
+  }
+
+  if (reducedMotion.matches) {
     portrait.dataset.heroShaderState = "fallback";
     return;
   }
@@ -224,11 +245,11 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   }
 
   const canvas = mount.canvasElement;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   let disposed = false;
+  let introReady = false;
   let animationFrame = 0;
-  let introStart = 0;
+  let introElapsed = 0;
   let previousFrame = performance.now();
   let introProgress = 0;
   let hoverCurrent = 0;
@@ -246,7 +267,8 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
 
     const delta = Math.min((now - previousFrame) / 1000, 0.05);
     previousFrame = now;
-    const linearIntro = Math.min(1, (now - introStart) / INTRO_DURATION_MS);
+    introElapsed = Math.min(INTRO_DURATION_MS, introElapsed + delta * 1000);
+    const linearIntro = introElapsed / INTRO_DURATION_MS;
     introProgress = 1 - Math.pow(1 - linearIntro, 3);
     hoverCurrent = damp(hoverCurrent, hoverTarget, 12, delta);
     themeCurrent = damp(themeCurrent, themeTarget, 9, delta);
@@ -276,7 +298,10 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   };
 
   const startRendering = () => {
-    if (disposed || document.hidden || animationFrame !== 0) return;
+    if (disposed || !introReady || document.hidden || animationFrame !== 0) {
+      return;
+    }
+
     previousFrame = performance.now();
     animationFrame = requestAnimationFrame(renderFrame);
   };
@@ -314,6 +339,7 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   const dispose = () => {
     if (disposed) return;
     disposed = true;
+    introReady = false;
     cancelAnimationFrame(animationFrame);
     animationFrame = 0;
     themeObserver.disconnect();
@@ -358,15 +384,41 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   reducedMotion.addEventListener("change", handleReducedMotionChange);
   canvas.addEventListener("webglcontextlost", handleContextLoss);
 
-  // Give ResizeObserver one frame to size Paper's canvas before revealing it.
-  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  if (reducedMotion.matches) {
+    dispose();
+    return;
+  }
 
-  if (disposed) return;
+  // Keep the real images hidden while Paper sizes and paints a backdrop-only
+  // frame. The visible handoff is then backdrop-to-backdrop, so the shader's
+  // pixel reveal is the only entrance animation.
+  try {
+    const canvasIsSized = await waitForSizedCanvas(canvas);
 
-  portrait.dataset.heroShaderState = "ready";
-  introStart = performance.now();
-  previousFrame = introStart;
-  startRendering();
+    if (disposed) return;
+    if (!canvasIsSized) {
+      dispose();
+      return;
+    }
+
+    themeTarget = currentThemeValue();
+    themeCurrent = themeTarget;
+    mount.setUniforms({ u_intro: 0, u_theme: themeCurrent });
+    await nextFrame();
+
+    if (disposed) return;
+
+    portrait.dataset.heroShaderState = "ready";
+    await nextFrame();
+
+    if (disposed) return;
+
+    introReady = true;
+    previousFrame = performance.now();
+    startRendering();
+  } catch {
+    dispose();
+  }
 
   return dispose;
 };
