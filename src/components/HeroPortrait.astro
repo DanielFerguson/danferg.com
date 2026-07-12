@@ -1,4 +1,8 @@
-<figure class="hero-portrait">
+<figure
+  class="hero-portrait"
+  data-hero-portrait
+  data-hero-shader-state="fallback"
+>
   <img
     class="hero-portrait__image hero-portrait__image--light"
     src="/images/dan-light.png"
@@ -15,3 +19,77 @@
     aria-hidden="true"
   />
 </figure>
+
+<script>
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  );
+  const staticMode =
+    new URLSearchParams(window.location.search).get("hero") === "static";
+  const disposers = new Set<() => void>();
+
+  const startExperiment = async () => {
+    if (staticMode || prefersReducedMotion.matches) return;
+
+    const portraits = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-hero-portrait]"),
+    ).filter((portrait) => portrait.dataset.heroShaderState === "fallback");
+
+    if (portraits.length === 0) return;
+
+    portraits.forEach((portrait) => {
+      portrait.dataset.heroShaderState = "loading";
+    });
+
+    try {
+      const { enhanceHeroPortrait } = await import(
+        "../scripts/hero-portrait-shader"
+      );
+
+      await Promise.all(
+        portraits.map(async (portrait) => {
+          const dispose = await enhanceHeroPortrait(portrait);
+          if (dispose) disposers.add(dispose);
+        }),
+      );
+    } catch {
+      portraits.forEach((portrait) => {
+        portrait.dataset.heroShaderState = "fallback";
+      });
+    }
+  };
+
+  // Let the real image win the first paint, then progressively add the effect.
+  requestAnimationFrame(() => {
+    void startExperiment();
+  });
+
+  window.addEventListener(
+    "pagehide",
+    () => {
+      disposers.forEach((dispose) => dispose());
+      disposers.clear();
+    },
+    { once: true },
+  );
+</script>
+
+<style>
+  .hero-portrait :global(canvas.hero-portrait__shader) {
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .hero-portrait[data-hero-shader-state="ready"]
+    :global(canvas.hero-portrait__shader) {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-portrait :global(canvas.hero-portrait__shader) {
+      display: none;
+    }
+  }
+</style>

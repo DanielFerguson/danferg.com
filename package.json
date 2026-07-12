@@ -35,6 +35,7 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@fontsource-variable/geist-mono": "^5.2.8",
+    "@paper-design/shaders": "0.0.77",
     "@tailwindcss/vite": "^4.3.0",
     "mdast-util-to-string": "^4.0.0",
     "motion": "^12.42.2",
