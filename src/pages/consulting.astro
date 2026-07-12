@@ -108,20 +108,15 @@ const proof = [
   <NavBar />
   <main id="main-content">
     <header class="site-container consulting-hero" data-motion-intro-group>
-      <p class="consulting-hero__path" data-motion-intro-item><a href="/">HOME</a> / CONSULTING</p>
-      <div class="consulting-hero__grid">
-        <div data-motion-intro-item>
-          <p class="eyebrow">// PRODUCT / TRACTION / GTM / SOFTWARE</p>
-          <h1>Useful progress on the problem that refuses to fit in a neat box.</h1>
-        </div>
-        <div class="consulting-hero__aside" data-motion-intro-item>
-          <p>
-            I work with founders and mission-led teams when the product question,
-            technical decision, route to market, and organisational reality are
-            tangled together.
-          </p>
-          <a href={contactMailto} data-motion-interactive>Describe the problem <span aria-hidden="true" data-motion-arrow>↗</span></a>
-        </div>
+      <p class="eyebrow" data-motion-intro-item>// PRODUCT / TRACTION / GTM / SOFTWARE</p>
+      <h1 data-motion-intro-item>Turn tangled product decisions into <em>useful progress.</em></h1>
+      <p class="consulting-hero__lede" data-motion-intro-item>
+        I help founders and mission-led teams connect product, technology, and
+        go-to-market—then make the next move with confidence.
+      </p>
+      <div class="consulting-hero__actions" data-motion-intro-item>
+        <a class="button button--primary" href={contactMailto} data-motion-interactive>Describe the problem <span aria-hidden="true" data-motion-arrow>↗</span></a>
+        <a class="button" href="#engagements" data-motion-interactive>Ways to work together <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
       </div>
     </header>
 
@@ -138,7 +133,7 @@ const proof = [
       </ul>
     </section>
 
-    <section class="engagements" aria-labelledby="engagements-title">
+    <section id="engagements" class="engagements" aria-labelledby="engagements-title">
       <div class="site-container page-section">
         <p class="eyebrow">02 // WAYS TO WORK TOGETHER</p>
         <h2 id="engagements-title">Start with the smallest engagement that can create clarity.</h2>
@@ -207,8 +202,7 @@ const proof = [
 </BaseLayout>
 
 <style>
-  .eyebrow,
-  .consulting-hero__path {
+  .eyebrow {
     margin: 0;
     color: var(--ink-muted);
     font-size: 0.62rem;
@@ -217,19 +211,9 @@ const proof = [
   }
 
   .consulting-hero {
-    padding-block: clamp(2.5rem, 5vw, 4.75rem) clamp(3.5rem, 7vw, 6rem);
+    padding-block: clamp(3.5rem, 8vw, 7rem);
   }
 
-  .consulting-hero__path {
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
-  }
-
-  .consulting-hero__path a {
-    color: var(--ink);
-    text-underline-offset: 0.2em;
-  }
-
-  .consulting-hero__grid,
   .fit,
   .principles__grid {
     display: grid;
@@ -238,30 +222,62 @@ const proof = [
   }
 
   h1 {
-    max-width: 15ch;
+    max-width: 13.5ch;
     margin: 1rem 0 0;
     font-size: clamp(2.5rem, 6vw, 5.35rem);
     line-height: 0.94;
     letter-spacing: -0.072em;
   }
 
-  .consulting-hero__aside {
-    align-self: end;
+  h1 em {
+    color: var(--signal);
+    font-style: normal;
   }
 
-  .consulting-hero__aside p,
+  .consulting-hero__lede {
+    max-width: 44rem;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(0.88rem, 1.6vw, 1rem);
+    line-height: 1.65;
+  }
+
+  .consulting-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    display: inline-flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 12rem;
+    padding: 0.68rem 0.8rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .button:is(:hover, :focus-visible),
+  .button--primary {
+    color: var(--inverse-ink);
+    background: var(--signal-deep);
+  }
+
+  .button--primary:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    background: var(--signal-fill);
+  }
+
   .principles p {
     margin: 0;
     color: var(--ink-soft);
     line-height: 1.75;
-  }
-
-  .consulting-hero__aside a {
-    display: inline-block;
-    margin-top: 1.25rem;
-    color: var(--ink);
-    font-weight: 750;
-    text-underline-offset: 0.22em;
   }
 
   .fit {
@@ -398,7 +414,6 @@ const proof = [
   .principles p + p { margin-top: 1.15rem; }
 
   @media (max-width: 780px) {
-    .consulting-hero__grid,
     .fit,
     .principles__grid,
     .proof-grid {
@@ -407,5 +422,19 @@ const proof = [
 
     .engagement-grid { grid-template-columns: 1fr; }
     .proof-grid a { min-height: 13rem; }
+  }
+
+  @media (max-width: 620px) {
+    .consulting-hero {
+      padding-block: 2.75rem 3.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 14vw, 4.4rem);
+    }
+
+    .button {
+      width: 100%;
+    }
   }
 </style>
