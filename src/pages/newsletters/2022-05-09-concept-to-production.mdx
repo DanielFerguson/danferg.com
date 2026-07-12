@@ -3,11 +3,34 @@ layout: ../../layouts/NewsletterLayout.astro
 title: "Concept to Production"
 description: "I had a blast sharing my journey as an entrepreneur, and my process for coming up with ideas, the importance of validating, building and shipping your work."
 date: "2022-05-09"
-imageUrl: https://images.unsplash.com/photo-1635492491273-455af7728453?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1260&q=80
+imageUrl: /images/og/newsletters/2022-05-09-concept-to-production-og.png
+imageUrls:
+  - /images/og/newsletters/2022-05-09-concept-to-production-16x9.png
+  - /images/og/newsletters/2022-05-09-concept-to-production-4x3.png
+  - /images/og/newsletters/2022-05-09-concept-to-production-1x1.png
+imageAlt: Social card for the Concept to Production dispatch
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /newsletters/2022-05-09-concept-to-production
 ---
 
-![Concept to Production slide](/assets/newsletter/2022-05-09/concept-to-production.webp)
+import { Picture } from "astro:assets";
+import conceptToProduction from "../../assets/newsletters/2022-05-09/concept-to-production.webp";
+import simonSinek from "../../assets/newsletters/2022-05-09/simon-sinek.png";
+import talkSlide from "../../assets/newsletters/2022-05-09/talk-slide.png";
+
+<Picture
+  src={conceptToProduction}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Concept to Production presentation title slide"
+  loading="lazy"
+  decoding="async"
+/>
 
 ## Concept to Production!
 
@@ -17,11 +40,27 @@ I had a blast sharing my journey as an entrepreneur, and my process for coming u
 
 As promised - here are the slides! I've included the presenter notes as part of the download. If you have any questions about the slides, questions that we didn't get a chance to discuss at the event, or if you need help with your idea(s), reach out!
 
---- DOWNLOAD SLIDES
+<p>
+  <a href="/assets/slides/concept-to-production-w-notes.pdf">
+    Download the 40-page Concept to Production deck with presenter notes (PDF, 6.9 MB)
+  </a>
+</p>
 
 If you weren't able to make it to the event, never fear! Luckily it was recorded and you can view it here!
 
-[![Talk link](/assets/newsletter/2022-05-09/talk-slide.png)](https://www.youtube.com/watch?v=_SZP7QmIIfE)
+<a href="https://www.youtube.com/watch?v=_SZP7QmIIfE">
+  <Picture
+    src={talkSlide}
+    formats={["avif", "webp"]}
+    fallbackFormat="webp"
+    widths={[360, 480]}
+    width={480}
+    sizes="(max-width: 520px) calc(100vw - 40px), 480px"
+    alt="Watch Dan Ferguson's Concept to Production workshop"
+    loading="lazy"
+    decoding="async"
+  />
+</a>
 
 ## 💡 Ideas
 
@@ -40,7 +79,19 @@ In my talk I mention about a few sites that can help you create businesses easil
 
 A speaker that I mentioned in the talk was Simon Sinek, specifically his "Start with why" TedX talk. I strongly recommend putting this on and having a listen.
 
-[![Simon Sinek](/assets/newsletter/2022-05-09/simon-sinek.png)](https://www.youtube.com/watch?v=u4ZoJKF_VuA)
+<a href="https://www.youtube.com/watch?v=u4ZoJKF_VuA">
+  <Picture
+    src={simonSinek}
+    formats={["avif", "webp"]}
+    fallbackFormat="webp"
+    widths={[360, 640]}
+    width={640}
+    sizes="(max-width: 680px) calc(100vw - 40px), 640px"
+    alt="Watch Simon Sinek explain how great leaders inspire action"
+    loading="lazy"
+    decoding="async"
+  />
+</a>
 
 ## Burnout, let's talk about it.
 

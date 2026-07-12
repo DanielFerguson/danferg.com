@@ -20,7 +20,7 @@ interface Props {
 const { headingId, eyebrow, title, description, actions } = Astro.props;
 ---
 
-<aside class="site-container conversion-endcap" aria-labelledby={headingId}>
+<aside class="site-container conversion-endcap" aria-labelledby={headingId} data-motion-reveal>
   <WorkbenchTerminal
     command={eyebrow}
     meta="READY / WHEN YOU ARE"
@@ -45,13 +45,14 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
               href={action.href}
               target={action.external ? "_blank" : undefined}
               rel={action.external ? "noopener noreferrer" : undefined}
+              data-motion-interactive
             >
               <span class="conversion-endcap__action-copy">
                 <small>{action.meta}</small>
                 <strong>{action.label}</strong>
                 {action.description && <span>{action.description}</span>}
               </span>
-              <span class="conversion-endcap__arrow" aria-hidden="true">
+              <span class="conversion-endcap__arrow" aria-hidden="true" data-motion-arrow>
                 {opensAway ? "↗" : "→"}
               </span>
             </a>

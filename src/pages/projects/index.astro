@@ -1,14 +1,12 @@
 ---
-import type Project from "types/Project";
 import type SEO from "types/SEO";
+import { getCollection } from "astro:content";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import ProjectGrid from "@components/ProjectGrid.astro";
 import { compareProjectsByPeriod } from "../../utils/project-sort";
-
-type MarkdownModule<T> = { frontmatter: T; url: string };
 
 const SEO: SEO = {
   title: "Projects in software and social impact | Dan Ferg",
@@ -18,14 +16,35 @@ const SEO: SEO = {
   openGraph: { type: "website" },
   canonicalUrl: "/projects",
   schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Projects", url: "/projects" },
+  ],
 };
 
-const projects = Object.values(
-  import.meta.glob<MarkdownModule<Project>>("./*.md", { eager: true })
-).sort(compareProjectsByPeriod);
+const projects = (await getCollection("projects"))
+  .map((project) => ({
+    url: project.data.canonicalUrl,
+    frontmatter: project.data,
+  }))
+  .sort(compareProjectsByPeriod);
+const itemListId = "https://danferg.com/projects#itemlist";
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: "Dan Ferg project archive",
+  numberOfItems: projects.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: projects.map((project, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: project.frontmatter.title,
+    url: new URL(project.url, "https://danferg.com").toString(),
+  })),
+};
 ---
 
-<BaseLayout {...SEO}>
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
   <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / PROJECTS</p>

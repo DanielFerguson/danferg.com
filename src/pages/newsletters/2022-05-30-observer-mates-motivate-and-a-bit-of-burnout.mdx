@@ -3,9 +3,24 @@ layout: ../../layouts/NewsletterLayout.astro
 title: "Observer, Mates Motivate and a bit of burnout"
 description: "Well, I'm sure that it's no secret that I'm a workaholic. Whether it's as a CTO, a founder, a Partner, or a President, I'll always find something to do."
 date: "2022-05-30"
-imageUrl: https://images.unsplash.com/photo-1617720097949-d6fd9ed1d71b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80
+imageUrl: /images/og/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout-og.png
+imageUrls:
+  - /images/og/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout-16x9.png
+  - /images/og/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout-4x3.png
+  - /images/og/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout-1x1.png
+imageAlt: Social card for the Observer, Mates Motivate and burnout dispatch
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout
 ---
+
+import { Picture } from "astro:assets";
+import buildSeriesTypo from "../../assets/newsletters/2022-05-30/24hr.jpg";
+import matesMotivatePrototype from "../../assets/newsletters/2022-05-30/figma.jpg";
+import matesMotivatePlan from "../../assets/newsletters/2022-05-30/notion-planning.jpg";
+import observerRoadmap from "../../assets/newsletters/2022-05-30/notion.jpg";
+import observerDashboard from "../../assets/newsletters/2022-05-30/observer.jpg";
 
 And a very good morning to you! 🥂
 
@@ -55,11 +70,31 @@ Thankfully (?) I have burnt out before, and I was able to catch it this time bef
 
 For last week's readers, you'll remember that I touted on how dictation was an incredibly powerful tool… well, with great power, comes the need for great spell checking. 😅
 
-![24hr](/assets/newsletter/2022-05-30/24hr.jpg)
+<Picture
+  src={buildSeriesTypo}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="A 24hr Build Series newsletter draft containing a dictation typo"
+  loading="lazy"
+  decoding="async"
+/>
 
 ## Observer 🔭
 
-![Observer](/assets/newsletter/2022-05-30/observer.jpg)
+<Picture
+  src={observerDashboard}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Observer website monitoring dashboard"
+  loading="lazy"
+  decoding="async"
+/>
 
 Since last week, I have been busy onboarding a few friends and colleagues to help me, test Observer, out in the real world, and polishing off a few items that have been making me itch a little.
 
@@ -67,7 +102,17 @@ Side note - how nice is that graph? I'm an absolute sucker for minimal, but usef
 
 Steaming towards the public beta, I've also been ticking off several other critical functionality tasks.
 
-![Notion](/assets/newsletter/2022-05-30/notion.jpg)
+<Picture
+  src={observerRoadmap}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Observer public beta roadmap in Notion"
+  loading="lazy"
+  decoding="async"
+/>
 
 The intention will be to have a public beta link out to you in next week's newsletter!
 
@@ -79,7 +124,17 @@ Accountability is something that really helps me get things over the line. Wheth
 
 Mates Motivate is focused on helping to empower that relationship of accountability between friends and family.
 
-![Figma](/assets/newsletter/2022-05-30/figma.jpg)
+<Picture
+  src={matesMotivatePrototype}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Mates Motivate mobile interface prototype in Figma"
+  loading="lazy"
+  decoding="async"
+/>
 
 Planning the work, then working the plan, I quickly mocked up the most basic UI I could in order to help me understand…
 
@@ -88,7 +143,17 @@ Planning the work, then working the plan, I quickly mocked up the most basic UI 
 
 This also helped me quickly prototype the UX to test that the design fulfilled the user stories that I set out when thinking about this project.
 
-![Planning](/assets/newsletter/2022-05-30/notion-planning.jpg)
+<Picture
+  src={matesMotivatePlan}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Mates Motivate user stories and planning notes in Notion"
+  loading="lazy"
+  decoding="async"
+/>
 
 Apart from that, not much has happened. I plan to knock this out over the next few days, as it's an incredibly simplistic MVP. Ideally, I'll want to port the user interface over to a native mobile application so that I can send push notifications, but first I want to test if the idea itself works.
 

@@ -16,14 +16,16 @@ interface Props {
 const { items, orderedLabel } = Astro.props;
 ---
 
-<ol class="content-list" aria-label={orderedLabel}>
+<ol class="content-list" aria-label={orderedLabel} data-motion-group>
   {
     items.map((item, index) => (
-      <li>
+      <li data-motion-item>
         <a
           href={item.href}
           target={item.external ? "_blank" : undefined}
           rel={item.external ? "noopener noreferrer" : undefined}
+          data-motion-interactive
+          data-astro-prefetch={item.external ? undefined : "hover"}
         >
           <span class="content-list__index" aria-hidden="true">[{String(index + 1).padStart(2, "0")}]</span>
           <span class="content-list__copy">
@@ -34,7 +36,7 @@ const { items, orderedLabel } = Astro.props;
             <span>{item.meta}</span>
             {item.detail && <span>{item.detail}</span>}
           </span>
-          <span class="content-list__arrow" aria-hidden="true">{item.external ? "↗" : "→"}</span>
+          <span class="content-list__arrow" aria-hidden="true" data-motion-arrow>{item.external ? "↗" : "→"}</span>
         </a>
       </li>
     ))
@@ -63,8 +65,8 @@ const { items, orderedLabel } = Astro.props;
     text-decoration: none;
   }
 
-  a:hover strong,
-  a:hover .content-list__arrow {
+  a:is(:hover, :focus-visible) strong,
+  a:is(:hover, :focus-visible) .content-list__arrow {
     color: var(--signal);
   }
 

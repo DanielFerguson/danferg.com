@@ -3,15 +3,17 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="site-container footer-grid">
-    <div>
+  <div class="site-container footer-grid" data-motion-group>
+    <div data-motion-item>
       <p class="footer-label">// FIND ME ONLINE</p>
       <nav aria-label="Social links">
         <a href="https://github.com/danielferguson" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://www.linkedin.com/in/danferg" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href="/consulting">Consulting →</a>
+        <a href="/rss.xml">RSS →</a>
       </nav>
     </div>
-    <p class="footer-note">Technology is my weapon of choice for affecting change in the world around us.</p>
+    <p class="footer-note" data-motion-item>Technology is my weapon of choice for affecting change in the world around us.</p>
   </div>
   <div class="site-container footer-base">
     <p>© {year} Dan Ferg</p>

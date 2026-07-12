@@ -1,35 +1,83 @@
 ---
 import type SEO from "types/SEO";
 
-export interface Props extends SEO {}
+export interface Props extends SEO {
+  headline?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+  articleSection?: string;
+  citationUrls?: string[];
+  mainEntityId?: string;
+  lightThemeColor?: string;
+  darkThemeColor?: string;
+  showFooter?: boolean;
+  bodyClass?: string;
+}
 
 const {
   title,
+  headline = title,
   description,
   imageUrl,
-  imageAlt = `${title} social preview`,
-  robots = "index,follow",
+  imageUrls = [],
+  imageAlt = `${headline} social preview`,
+  imageWidth,
+  imageHeight,
+  imageType,
+  robots = "index,follow,max-image-preview:large",
   openGraph,
   canonicalUrl,
   schemaType = openGraph.type === "article" ? "Article" : "WebPage",
   publishedDate,
   modifiedDate,
+  articleSection,
+  citationUrls = [],
+  mainEntityId,
   breadcrumbs = [],
   jsonLd,
+  lightThemeColor,
+  darkThemeColor,
+  showFooter = true,
+  bodyClass,
 } = Astro.props;
 
 const siteUrl = "https://danferg.com";
 const absoluteUrl = (url: string) => new URL(url, siteUrl).toString();
 const pageUrl = absoluteUrl(canonicalUrl);
 const absoluteImageUrl = absoluteUrl(imageUrl);
+const absoluteImageUrls = [
+  absoluteImageUrl,
+  ...imageUrls.map(absoluteUrl),
+].filter((url, index, urls) => urls.indexOf(url) === index);
 const personId = `${siteUrl}/#person`;
 const websiteId = `${siteUrl}/#website`;
+const pageId = `${pageUrl}#webpage`;
+const imageId = `${absoluteImageUrl}#primaryimage`;
+const isArticle = ["Article", "BlogPosting", "NewsArticle"].includes(
+  schemaType,
+);
+const isCreativeWork = schemaType === "CreativeWork";
+const hasContentEntity = isArticle || isCreativeWork;
+const isHomePage = pageUrl === `${siteUrl}/`;
+const pageSchemaType = isHomePage
+  ? "ProfilePage"
+  : hasContentEntity
+    ? "WebPage"
+    : schemaType;
+const contentId = isArticle
+  ? `${pageUrl}#article`
+  : `${pageUrl}#creative-work`;
+const isDefaultSocialImage = imageUrl === "/images/og-default.png";
+const resolvedImageWidth = imageWidth ?? (isDefaultSocialImage ? 1200 : undefined);
+const resolvedImageHeight = imageHeight ?? (isDefaultSocialImage ? 630 : undefined);
+const resolvedImageType = imageType ?? (isDefaultSocialImage ? "image/png" : undefined);
 const normalizedJsonLd = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 const breadcrumbJsonLd =
   breadcrumbs.length > 0
     ? {
-        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
         itemListElement: breadcrumbs.map((item, index) => ({
           "@type": "ListItem",
           position: index + 1,
@@ -38,107 +86,175 @@ const breadcrumbJsonLd =
         })),
       }
     : null;
+const imageJsonLd = {
+  "@type": "ImageObject",
+  "@id": imageId,
+  url: absoluteImageUrl,
+  contentUrl: absoluteImageUrl,
+  caption: imageAlt,
+  ...(resolvedImageWidth ? { width: resolvedImageWidth } : {}),
+  ...(resolvedImageHeight ? { height: resolvedImageHeight } : {}),
+  ...(resolvedImageType ? { encodingFormat: resolvedImageType } : {}),
+};
 const pageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": schemaType,
-  "@id": `${pageUrl}#page`,
+  "@type": pageSchemaType,
+  "@id": pageId,
   url: pageUrl,
   name: title,
-  headline: title,
   description,
-  image: absoluteImageUrl,
+  primaryImageOfPage: { "@id": imageId },
   isPartOf: { "@id": websiteId },
   author: { "@id": personId },
   publisher: { "@id": personId },
   inLanguage: "en-AU",
-  ...(publishedDate ? { datePublished: publishedDate } : {}),
-  ...(modifiedDate || publishedDate
-    ? { dateModified: modifiedDate || publishedDate }
+  ...(breadcrumbJsonLd
+    ? { breadcrumb: { "@id": breadcrumbJsonLd["@id"] } }
     : {}),
+  ...(hasContentEntity ? { mainEntity: { "@id": contentId } } : {}),
+  ...(mainEntityId ? { mainEntity: { "@id": absoluteUrl(mainEntityId) } } : {}),
+  ...(isHomePage ? { mainEntity: { "@id": personId } } : {}),
 };
-const structuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": personId,
-    name: "Dan Ferg",
-    url: siteUrl,
-    jobTitle: "Product consultant, advisor and software builder",
-    description:
-      "Dan Ferg builds useful software and advises teams on product, traction, go-to-market strategy, and community-centred technology.",
-    knowsAbout: [
-      "Product strategy",
-      "Go-to-market strategy",
-      "Software engineering",
-      "Civic technology",
-      "Social enterprise",
-    ],
-    sameAs: [
-      "https://www.linkedin.com/in/danferg",
-      "https://twitter.com/thedannyferg",
-      "https://github.com/danielferguson",
-    ],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": websiteId,
-    url: siteUrl,
-    name: "Dan Ferg",
-    publisher: { "@id": personId },
-    inLanguage: "en-AU",
-  },
-  pageJsonLd,
-  ...(breadcrumbJsonLd ? [breadcrumbJsonLd] : []),
-  ...normalizedJsonLd,
-];
+const contentJsonLd = hasContentEntity
+  ? {
+      "@type": schemaType,
+      "@id": contentId,
+      url: pageUrl,
+      name: headline,
+      headline,
+      description,
+      image: [
+        { "@id": imageId },
+        ...absoluteImageUrls.slice(1),
+      ],
+      mainEntityOfPage: { "@id": pageId },
+      isPartOf: { "@id": websiteId },
+      author: { "@id": personId },
+      publisher: { "@id": personId },
+      inLanguage: "en-AU",
+      ...(publishedDate ? { datePublished: publishedDate } : {}),
+      ...(modifiedDate ? { dateModified: modifiedDate } : {}),
+      ...(isArticle && articleSection ? { articleSection } : {}),
+      ...(isArticle && citationUrls.length > 0
+        ? { citation: citationUrls.map(absoluteUrl) }
+        : {}),
+    }
+  : null;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: "Dan Ferg",
+      url: siteUrl,
+      jobTitle: "Product consultant, advisor and software builder",
+      description:
+        "Dan Ferg builds useful software and advises teams on product, traction, go-to-market strategy, and community-centred technology.",
+      image: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/images/danferg.webp"),
+      },
+      knowsAbout: [
+        "Product strategy",
+        "Go-to-market strategy",
+        "Software engineering",
+        "Civic technology",
+        "Social enterprise",
+      ],
+      sameAs: [
+        "https://www.linkedin.com/in/danferg",
+        "https://twitter.com/thedannyferg",
+        "https://github.com/danielferguson",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: siteUrl,
+      name: "Dan Ferg",
+      alternateName: "danferg.com",
+      publisher: { "@id": personId },
+      inLanguage: "en-AU",
+    },
+    imageJsonLd,
+    pageJsonLd,
+    ...(contentJsonLd ? [contentJsonLd] : []),
+    ...(breadcrumbJsonLd ? [breadcrumbJsonLd] : []),
+    ...normalizedJsonLd,
+  ],
+};
+const structuredDataJson = JSON.stringify(structuredData).replace(
+  /</g,
+  "\\u003c",
+);
 
 import "@fontsource-variable/geist-mono/wght.css";
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
+import MotionHead from "../components/MotionHead.astro";
+import SiteMotion from "../components/SiteMotion.astro";
 import ThemeHead from "../components/ThemeHead.astro";
 ---
 
-<html lang="en">
+<html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <ThemeHead />
+    <ThemeHead lightColor={lightThemeColor} darkColor={darkThemeColor} />
+    <MotionHead />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Dan Ferg — articles and dispatches"
+      href="/rss.xml"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Dan Ferg" />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={pageUrl} />
+    <link rel="author" href={siteUrl} />
 
     <!-- OpenGraph -->
     <meta property="og:type" content={openGraph.type} />
     <meta property="og:url" content={pageUrl} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={headline} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={absoluteImageUrl} />
+    {absoluteImageUrl.startsWith("https://") && <meta property="og:image:secure_url" content={absoluteImageUrl} />}
+    {resolvedImageWidth && <meta property="og:image:width" content={String(resolvedImageWidth)} />}
+    {resolvedImageHeight && <meta property="og:image:height" content={String(resolvedImageHeight)} />}
+    {resolvedImageType && <meta property="og:image:type" content={resolvedImageType} />}
     <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:site_name" content="Dan Ferg" />
     <meta property="og:locale" content="en_AU" />
+    {openGraph.type === "article" && publishedDate && <meta property="article:published_time" content={publishedDate} />}
+    {openGraph.type === "article" && modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+    {openGraph.type === "article" && <meta property="article:author" content={siteUrl} />}
+    {openGraph.type === "article" && articleSection && <meta property="article:section" content={articleSection} />}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={pageUrl} />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={headline} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteImageUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
+    <meta name="twitter:site" content="@thedannyferg" />
     <meta name="twitter:creator" content="@thedannyferg" />
 
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify(structuredData)}
+      set:html={structuredDataJson}
     />
   </head>
-  <body>
+  <body class={bodyClass}>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
-    <Footer />
+    {showFooter && <Footer />}
+    <SiteMotion />
   </body>
 </html>

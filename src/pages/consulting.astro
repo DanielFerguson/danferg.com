@@ -1,0 +1,411 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import ConversionEndcap from "@components/ConversionEndcap.astro";
+import { createContactMailto } from "../utils/contact-links";
+
+const canonicalPath = "/consulting";
+const contactMailto = createContactMailto({
+  subject: "Product consulting or advisory enquiry",
+  body: "G'day Dan,\n\nI'm working through a product, traction, GTM, or software problem and would like to discuss it with you.\n\nThe useful context:\n",
+});
+
+const SEO: SEO = {
+  title: "Product, traction and software consulting | Dan Ferg",
+  headline: "Useful progress on the problem that refuses to fit in a neat box.",
+  description:
+    "Focused consulting for founders and mission-led teams navigating difficult product, traction, go-to-market, and software decisions.",
+  imageUrl: "/images/og-default.png",
+  imageAlt: "Dan Ferg — product consulting, advisory and software delivery",
+  openGraph: { type: "website" },
+  canonicalUrl: canonicalPath,
+  schemaType: "WebPage",
+  mainEntityId: "https://danferg.com/consulting#service",
+  modifiedDate: "2026-07-12",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Consulting", url: canonicalPath },
+  ],
+  jsonLd: {
+    "@type": "Service",
+    "@id": "https://danferg.com/consulting#service",
+    name: "Product, traction and software consulting",
+    description:
+      "Focused consulting and advisory for founders and mission-led teams navigating difficult product, traction, go-to-market, and software decisions.",
+    url: "https://danferg.com/consulting",
+    provider: { "@id": "https://danferg.com/#person" },
+    areaServed: [
+      { "@type": "Country", name: "Australia" },
+      { "@type": "Place", name: "Remote" },
+    ],
+    serviceType: [
+      "Product strategy",
+      "Traction and go-to-market advisory",
+      "Software product delivery",
+      "Technical product due diligence",
+    ],
+    audience: {
+      "@type": "Audience",
+      audienceType: "Founders, product leaders and mission-led teams",
+    },
+  },
+};
+
+const engagements = [
+  {
+    code: "01",
+    title: "Product and evidence diagnostic",
+    description:
+      "A focused review of the problem, product, market signals, technical shape, and assumptions. You leave with a short decision brief and a sequenced next move.",
+  },
+  {
+    code: "02",
+    title: "Build or validation sprint",
+    description:
+      "A bounded piece of product strategy, prototyping, software delivery, or customer learning designed to answer a useful question—not create an endless roadmap.",
+  },
+  {
+    code: "03",
+    title: "Ongoing founder or product advisory",
+    description:
+      "A regular working cadence for decisions across product, traction, GTM, delivery, and technical trade-offs, with direct challenge and practical follow-through.",
+  },
+  {
+    code: "04",
+    title: "Speaking and practical workshops",
+    description:
+      "Straightforward sessions on useful product work, entrepreneurship, responsible technology, leadership, and turning difficult ideas into something testable.",
+  },
+];
+
+const proof = [
+  {
+    meta: "CIVIC TECHNOLOGY / PRODUCT",
+    title: "Communiti Labs",
+    description:
+      "From practitioner co-design to a live engagement platform built around traceable evidence and responsible AI.",
+    href: "/projects/communitilabs",
+  },
+  {
+    meta: "CLIENT PLATFORM / DELIVERY",
+    title: "Murray Grey Association Australia",
+    description:
+      "A purpose-built public website and herd-book platform replacing fragile legacy infrastructure.",
+    href: "/projects/murray-grey-association-australia",
+  },
+  {
+    meta: "CRISIS RESPONSE / SOFTWARE",
+    title: "Helping Group",
+    description:
+      "A small emergency-accommodation service that grew into durable community-response infrastructure.",
+    href: "/projects/helping-group",
+  },
+];
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+  <main id="main-content">
+    <header class="site-container consulting-hero" data-motion-intro-group>
+      <p class="consulting-hero__path" data-motion-intro-item><a href="/">HOME</a> / CONSULTING</p>
+      <div class="consulting-hero__grid">
+        <div data-motion-intro-item>
+          <p class="eyebrow">// PRODUCT / TRACTION / GTM / SOFTWARE</p>
+          <h1>Useful progress on the problem that refuses to fit in a neat box.</h1>
+        </div>
+        <div class="consulting-hero__aside" data-motion-intro-item>
+          <p>
+            I work with founders and mission-led teams when the product question,
+            technical decision, route to market, and organisational reality are
+            tangled together.
+          </p>
+          <a href={contactMailto} data-motion-interactive>Describe the problem <span aria-hidden="true" data-motion-arrow>↗</span></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="site-container fit" aria-labelledby="fit-title" data-motion-reveal>
+      <div>
+        <p class="eyebrow">01 // A GOOD TIME TO CALL</p>
+        <h2 id="fit-title">When another generic framework will not help.</h2>
+      </div>
+      <ul>
+        <li>You have a promising product but weak evidence about what should happen next.</li>
+        <li>The software, operating model, and go-to-market decision need to be made together.</li>
+        <li>You need a senior builder who can move between strategy, customers, and implementation.</li>
+        <li>A difficult initiative needs a smaller, testable first move rather than a larger plan.</li>
+      </ul>
+    </section>
+
+    <section class="engagements" aria-labelledby="engagements-title">
+      <div class="site-container page-section">
+        <p class="eyebrow">02 // WAYS TO WORK TOGETHER</p>
+        <h2 id="engagements-title">Start with the smallest engagement that can create clarity.</h2>
+        <div class="engagement-grid" data-motion-group>
+          {engagements.map((engagement) => (
+            <article data-motion-item>
+              <span>{engagement.code}</span>
+              <h3>{engagement.title}</h3>
+              <p>{engagement.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="site-container proof page-section" aria-labelledby="proof-title">
+      <p class="eyebrow">03 // EVIDENCE FROM THE WORK</p>
+      <h2 id="proof-title">The work is the credential.</h2>
+      <div class="proof-grid" data-motion-group>
+        {proof.map((item) => (
+          <a href={item.href} data-motion-item data-motion-interactive>
+            <small>{item.meta}</small>
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+            <i aria-hidden="true" data-motion-arrow>→</i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div class="site-container principles__grid" data-motion-reveal>
+        <div>
+          <p class="eyebrow">04 // HOW I WORK</p>
+          <h2 id="principles-title">Direct, evidence-led, and close to delivery.</h2>
+        </div>
+        <div>
+          <p>I will tell you when the useful answer is research, a prototype, a difficult product decision, or less software.</p>
+          <p>Recommendations stay connected to owners, constraints, and the next observable result. The aim is not more strategy theatre; it is a clearer decision and credible movement.</p>
+          <p>Based in Melbourne, I work across Australia and remotely. If specialist capability is needed outside my lane, I will say so early.</p>
+        </div>
+      </div>
+    </section>
+
+    <ConversionEndcap
+      headingId="consulting-contact"
+      eyebrow="start --with-context"
+      title="Bring the useful problem. We’ll find the honest next move."
+      description="Send a short note with the decision you are facing, what you have already tried, and any deadline that matters. I’ll reply with whether I can help and the smallest sensible way to begin."
+      actions={[
+        {
+          meta: "CONSULTING / ADVISORY",
+          label: "gday@danferg.com",
+          href: contactMailto,
+          description: "Include the problem, current evidence, and useful timing.",
+        },
+        {
+          meta: "CASE STUDIES",
+          label: "Review selected work",
+          href: "/projects",
+          description: "See the product, delivery, and evidence behind the offer.",
+        },
+      ]}
+    />
+  </main>
+</BaseLayout>
+
+<style>
+  .eyebrow,
+  .consulting-hero__path {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+  }
+
+  .consulting-hero {
+    padding-block: clamp(2.5rem, 5vw, 4.75rem) clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .consulting-hero__path {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .consulting-hero__path a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .consulting-hero__grid,
+  .fit,
+  .principles__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  h1 {
+    max-width: 15ch;
+    margin: 1rem 0 0;
+    font-size: clamp(2.5rem, 6vw, 5.35rem);
+    line-height: 0.94;
+    letter-spacing: -0.072em;
+  }
+
+  .consulting-hero__aside {
+    align-self: end;
+  }
+
+  .consulting-hero__aside p,
+  .principles p {
+    margin: 0;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .consulting-hero__aside a {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: var(--ink);
+    font-weight: 750;
+    text-underline-offset: 0.22em;
+  }
+
+  .fit {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-block: 1px solid var(--line-strong);
+  }
+
+  h2 {
+    max-width: 19ch;
+    margin: 0.85rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 3.45rem);
+    line-height: 1;
+    letter-spacing: -0.065em;
+  }
+
+  .fit ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fit li {
+    padding: 0.9rem 0;
+    border-bottom: 1px dotted var(--line-strong);
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .fit li:first-child { padding-top: 0; }
+
+  .fit li::before {
+    margin-right: 0.65rem;
+    color: var(--signal);
+    content: "■";
+    font-size: 0.55rem;
+  }
+
+  .engagements,
+  .principles {
+    background: var(--paper-raised);
+  }
+
+  .engagements h2,
+  .proof h2 {
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .engagement-grid article {
+    min-height: 15rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .engagement-grid article > span,
+  .proof-grid small {
+    color: var(--signal);
+    font-size: 0.6rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  .engagement-grid h3 {
+    max-width: 18ch;
+    margin: 2.5rem 0 0;
+    font-size: clamp(1.15rem, 2.5vw, 1.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+  }
+
+  .engagement-grid p {
+    max-width: 55ch;
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .proof-grid a {
+    display: grid;
+    min-height: 17rem;
+    padding: 1.4rem;
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .proof-grid a:is(:hover, :focus-visible) {
+    color: var(--inverse-ink);
+    background: var(--inverse-surface);
+  }
+
+  .proof-grid strong {
+    align-self: end;
+    margin-top: 2rem;
+    font-size: 1.15rem;
+  }
+
+  .proof-grid span {
+    margin-top: 0.75rem;
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  .proof-grid a:is(:hover, :focus-visible) span { color: var(--inverse-muted); }
+
+  .proof-grid i {
+    align-self: end;
+    justify-self: end;
+    margin-top: 1.25rem;
+    font-style: normal;
+  }
+
+  .principles__grid {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .principles p + p { margin-top: 1.15rem; }
+
+  @media (max-width: 780px) {
+    .consulting-hero__grid,
+    .fit,
+    .principles__grid,
+    .proof-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .engagement-grid { grid-template-columns: 1fr; }
+    .proof-grid a { min-height: 13rem; }
+  }
+</style>

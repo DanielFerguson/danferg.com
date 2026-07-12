@@ -3,11 +3,19 @@ layout: ../../layouts/ArticleLayout.astro
 title: "Burnout; let's talk about it."
 description: "This year has been the wildest, most productive, most humbling year of my life to date. I completely burned out, and it sucked. Let's talk about it."
 date: "2021-10-19"
-imageUrl: https://images.unsplash.com/photo-1509923261489-fd580b2d9051?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80
+imageUrl: /images/og/articles/burnout-lets-talk-about-it-og.png
+imageUrls:
+  - /images/og/articles/burnout-lets-talk-about-it-16x9.png
+  - /images/og/articles/burnout-lets-talk-about-it-4x3.png
+  - /images/og/articles/burnout-lets-talk-about-it-1x1.png
+imageAlt: Social card for Burnout; let's talk about it
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /articles/burnout-lets-talk-about-it
 ---
 
-### Preface
+## Preface
 
 Originally when planning this article, I wanted to include some of the findings I had come across when reviewing different articles and websites regarding the different types of burnout and how to manage, minimise and recover from them. However, this quickly turned into more of a reflective piece of my headspace over the year; specifically about overworking and the lead up to the inevitable burnout.
 

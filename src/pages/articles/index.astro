@@ -1,13 +1,13 @@
 ---
-import type Article from "types/Article";
 import type SEO from "types/SEO";
+import { getCollection } from "astro:content";
+import getReadingTime from "reading-time";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
-
-type MarkdownModule<T> = { frontmatter: T; url: string };
+import { editorialUpdates } from "../../data/editorial-updates";
 
 const SEO: SEO = {
   title: "Articles on startups, software and social impact | Dan Ferg",
@@ -17,14 +17,14 @@ const SEO: SEO = {
   openGraph: { type: "website" },
   canonicalUrl: "/articles",
   schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Articles", url: "/articles" },
+  ],
 };
 
-const articles = Object.values(
-  import.meta.glob<MarkdownModule<Article>>("./*.md", { eager: true })
-).sort(
-  (a, b) =>
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
+const articles = (await getCollection("articles")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
 const formatDate = (date: string) =>
@@ -34,16 +34,43 @@ const formatDate = (date: string) =>
     year: "numeric",
   }).format(new Date(`${date}T00:00:00`));
 
-const items = articles.map((article) => ({
-  title: article.frontmatter.title,
-  description: article.frontmatter.description,
-  href: article.url,
-  meta: formatDate(article.frontmatter.date),
-  detail: article.frontmatter.minutesRead,
-}));
+const items = [
+  ...articles.map((article) => ({
+    title: article.data.title,
+    description: article.data.description,
+    href: article.data.canonicalUrl,
+    date: article.data.date,
+    meta: formatDate(article.data.date),
+    detail: getReadingTime(article.body || "").text,
+  })),
+  ...editorialUpdates.map((update) => ({
+    title: update.title,
+    description: update.description,
+    href: update.canonicalUrl,
+    date: update.date,
+    meta: formatDate(update.date),
+    detail: update.category,
+  })),
+]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .map(({ date: _date, ...item }) => item);
+const itemListId = "https://danferg.com/articles#itemlist";
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: "Dan Ferg articles and research notes",
+  numberOfItems: items.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.title,
+    url: new URL(item.href, "https://danferg.com").toString(),
+  })),
+};
 ---
 
-<BaseLayout {...SEO}>
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
   <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / ARTICLES</p>
@@ -51,7 +78,7 @@ const items = articles.map((article) => ({
       as="h1"
       eyebrow="ARCHIVE_02 // ARTICLES"
       title="Notes from making things."
-      description={`${articles.length} essays on building, learning, burning out, and beginning again.`}
+      description={`${items.length} essays and research notes on building, learning, burning out, and beginning again.`}
     />
     <ContentList items={items} orderedLabel="All articles" />
   </main>

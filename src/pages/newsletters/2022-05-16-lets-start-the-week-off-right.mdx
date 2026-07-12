@@ -3,9 +3,20 @@ layout: ../../layouts/NewsletterLayout.astro
 title: "Let's start the week off right!"
 description: "Saturday morning, I grabbed my usual cup of tea, and started to catch up on what I missed in internet land - the usual routine. However..."
 date: "2022-05-16"
-imageUrl: https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80
+imageUrl: /images/og/newsletters/2022-05-16-lets-start-the-week-off-right-og.png
+imageUrls:
+  - /images/og/newsletters/2022-05-16-lets-start-the-week-off-right-16x9.png
+  - /images/og/newsletters/2022-05-16-lets-start-the-week-off-right-4x3.png
+  - /images/og/newsletters/2022-05-16-lets-start-the-week-off-right-1x1.png
+imageAlt: Social card for the Let's start the week off right dispatch
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /newsletters/2022-05-16-lets-start-the-week-off-right
 ---
+
+import { Picture } from "astro:assets";
+import observerTweets from "../../assets/newsletters/2022-05-16/observer.png";
 
 👋 A very good morning to you!
 
@@ -25,7 +36,17 @@ What used to happen was I'd get a frantic call from a director, who had been fie
 
 Not this morning.
 
-![Observer tweets](/assets/newsletter/2022-05-16/observer.png)
+<Picture
+  src={observerTweets}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Observer alerts reporting an outage and its recovery"
+  loading="lazy"
+  decoding="async"
+/>
 
 Rather, even before clients realized, I was on AWS restarting servers, reading logs, and pushing a fix. Next thing I know, _Bing!_, Observer had sent me another message to let me know that the service was back up.
 

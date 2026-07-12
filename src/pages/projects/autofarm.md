@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: AutoFarm
-iconUrl: /assets/projects/autofarm.png
 description: An unreleased Rust and Bevy farming game where players learn the work by hand, then reclaim time by configuring drones and machines to do it well.
 tags:
   - Game development
@@ -11,7 +10,7 @@ featured: true
 period: 2026–present
 status: Unreleased / in development
 role: Creator / game design / Rust engineering
-imageUrl: /assets/projects/autofarm/screenshot.webp
+imageKey: autofarm
 canonicalUrl: /projects/autofarm
 ---
 

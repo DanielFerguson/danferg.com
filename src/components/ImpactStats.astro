@@ -60,6 +60,7 @@ const impactStats: ImpactStat[] = [
   class="impact-stats site-container"
   aria-labelledby="impact-stats-title"
   data-impact-stats
+  data-motion-impact
 >
   <header class="impact-stats__header">
     <div>
@@ -71,11 +72,12 @@ const impactStats: ImpactStat[] = [
 
   <ol class="impact-stats__grid" aria-label="Selected outcomes">
     {
-      impactStats.map((stat, index) => (
-        <li style={`--impact-delay: ${90 + index * 75}ms;`} data-impact-card>
+      impactStats.map((stat) => (
+        <li data-impact-card>
           <a
             href={stat.href}
             aria-label={`${stat.accessibleValue} ${stat.label}. ${stat.sourceLabel}.`}
+            data-motion-interactive
           >
             <strong aria-hidden="true">
               <span
@@ -90,7 +92,7 @@ const impactStats: ImpactStat[] = [
             </strong>
             <span class="impact-stat__label">{stat.label}</span>
             <span class="impact-stat__source" aria-hidden="true">
-              View evidence <span>↗</span>
+              View evidence <span data-motion-arrow>↗</span>
             </span>
           </a>
         </li>
@@ -104,77 +106,6 @@ const impactStats: ImpactStat[] = [
     border="top"
   />
 </section>
-
-<script>
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  const formatValue = (
-    element: HTMLElement,
-    value: number,
-    formatter: Intl.NumberFormat
-  ) => {
-    const prefix = element.dataset.prefix || "";
-    const suffix = element.dataset.suffix || "";
-
-    element.textContent = `${prefix}${formatter.format(value)}${suffix}`;
-  };
-
-  const animateValue = (element: HTMLElement) => {
-    const target = Number(element.dataset.target || 0);
-    const decimals = Number(element.dataset.decimals || 0);
-    const duration = 850;
-    const startedAt = performance.now();
-    const formatter = new Intl.NumberFormat("en-AU", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
-
-    formatValue(element, 0, formatter);
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-
-      formatValue(element, target * easedProgress, formatter);
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        formatValue(element, target, formatter);
-      }
-    };
-
-    requestAnimationFrame(tick);
-  };
-
-  document.querySelectorAll<HTMLElement>("[data-impact-stats]").forEach((section) => {
-    if (section.dataset.impactBound === "true") return;
-
-    section.dataset.impactBound = "true";
-
-    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
-      section.classList.add("impact-stats--visible");
-      return;
-    }
-
-    section.classList.add("impact-stats--enhanced");
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-
-        section.classList.add("impact-stats--visible");
-        section
-          .querySelectorAll<HTMLElement>("[data-impact-value]")
-          .forEach(animateValue);
-        observer.disconnect();
-      },
-      { threshold: 0.22 }
-    );
-
-    observer.observe(section);
-  });
-</script>
 
 <style>
   .impact-stats {
@@ -295,25 +226,6 @@ const impactStats: ImpactStat[] = [
     font-weight: 750;
     letter-spacing: 0.025em;
     line-height: 1.4;
-  }
-
-  .impact-stats--enhanced .impact-stats__header,
-  .impact-stats--enhanced [data-impact-card] {
-    opacity: 0;
-    transform: translateY(0.75rem);
-  }
-
-  .impact-stats--enhanced.impact-stats--visible .impact-stats__header,
-  .impact-stats--enhanced.impact-stats--visible [data-impact-card] {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 560ms ease,
-      transform 560ms ease;
-  }
-
-  .impact-stats--enhanced.impact-stats--visible [data-impact-card] {
-    transition-delay: var(--impact-delay);
   }
 
   @media (max-width: 900px) {

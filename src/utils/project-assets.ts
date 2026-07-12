@@ -16,28 +16,28 @@ import wpFlameScreenshot from "../assets/projects/wp-flame/screenshot.webp";
 import yfocusScreenshot from "../assets/projects/yfocus/screenshot.webp";
 
 export const projectScreenshots = {
-  "/assets/projects/airproxy/screenshot.webp": airproxyScreenshot,
-  "/assets/projects/autofarm/screenshot.webp": autofarmScreenshot,
-  "/assets/projects/communitilabs/screenshot.png": communitiLabsScreenshot,
-  "/assets/projects/ferguson-livestock/screenshot.webp":
-    fergusonLivestockScreenshot,
-  "/assets/projects/guardian/screenshot.webp": guardianScreenshot,
-  "/assets/projects/helping-group/screenshot.webp": helpingGroupScreenshot,
-  "/assets/projects/land-index/screenshot.webp": landIndexScreenshot,
-  "/assets/projects/mates-motivate/screenshot.webp": matesMotivateScreenshot,
-  "/assets/projects/murray-grey-association-australia/screenshot.webp":
-    murrayGreyAssociationAustraliaScreenshot,
-  "/assets/projects/observer/screenshot.webp": observerScreenshot,
-  "/assets/projects/studlist/screenshot.webp": studListScreenshot,
-  "/assets/projects/swin-lead/screenshot.webp": swinLeadScreenshot,
-  "/assets/projects/telltail/screenshot.webp": tellTailScreenshot,
-  "/assets/projects/waitaminute/screenshot.webp": waitAMinuteScreenshot,
-  "/assets/projects/wp-flame/screenshot.webp": wpFlameScreenshot,
-  "/assets/projects/yfocus/screenshot.webp": yfocusScreenshot,
+  airproxy: airproxyScreenshot,
+  autofarm: autofarmScreenshot,
+  communitilabs: communitiLabsScreenshot,
+  "ferguson-livestock": fergusonLivestockScreenshot,
+  guardian: guardianScreenshot,
+  "helping-group": helpingGroupScreenshot,
+  "land-index": landIndexScreenshot,
+  "mates-motivate": matesMotivateScreenshot,
+  "murray-grey-association-australia": murrayGreyAssociationAustraliaScreenshot,
+  observer: observerScreenshot,
+  studlist: studListScreenshot,
+  "swin-lead": swinLeadScreenshot,
+  telltail: tellTailScreenshot,
+  waitaminute: waitAMinuteScreenshot,
+  "wp-flame": wpFlameScreenshot,
+  yfocus: yfocusScreenshot,
 };
 
-export function getProjectScreenshot(path: string) {
-  return projectScreenshots[path as keyof typeof projectScreenshots] ?? path;
+export function getProjectScreenshot(key: string) {
+  const screenshot = projectScreenshots[key as keyof typeof projectScreenshots];
+  if (!screenshot) throw new Error(`Unknown project screenshot key: ${key}`);
+  return screenshot;
 }
 
 export function getProjectExternalUrl(project: {

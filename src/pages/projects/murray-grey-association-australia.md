@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Murray Grey Aus
-description: A purpose-built digital home and herd book for Murray Grey breeders, replacing fragile WordPress infrastructure with a fast, field-ready platform for registrations, ownership, and breed stewardship.
+description: A purpose-built digital home and herd book for Murray Grey breeders, replacing fragile WordPress infrastructure with a fast, field-ready platform.
 tags:
   - Agricultural technology
   - Digital infrastructure
@@ -12,7 +12,7 @@ status: Live client platform
 role: Product design / full-stack engineering
 externalUrl: https://murraygreyaa.com.au/
 externalLabel: Visit Murray Grey Association Australia
-imageUrl: /assets/projects/murray-grey-association-australia/screenshot.webp
+imageKey: murray-grey-association-australia
 canonicalUrl: /projects/murray-grey-association-australia
 ---
 

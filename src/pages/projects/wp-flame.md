@@ -12,7 +12,7 @@ status: Pre-release / design partners
 role: Founder / product / engineering
 externalUrl: https://wp-flame-web.vercel.app/
 externalLabel: Explore WP Flame
-imageUrl: /assets/projects/wp-flame/screenshot.webp
+imageKey: wp-flame
 canonicalUrl: /projects/wp-flame
 ---
 

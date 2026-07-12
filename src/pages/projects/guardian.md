@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Guardian
-iconUrl: /assets/projects/guardian.svg
-description: A privacy-first COVID exposure-warning prototype that kept a person's location history on their device while checking it against rapidly changing public exposure-site data.
+description: A privacy-first COVID exposure-warning prototype that kept location history on-device while checking it against rapidly changing public exposure-site data.
 tags:
   - Civic technology
   - Privacy engineering
@@ -13,7 +12,7 @@ status: Archived prototype
 role: Creator / product / full-stack engineering
 externalUrl: https://github.com/DanielFerguson/useguardian.app
 externalLabel: View source
-imageUrl: /assets/projects/guardian/screenshot.webp
+imageKey: guardian
 canonicalUrl: /projects/guardian
 ---
 

@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Swin Lead
-iconUrl: /assets/projects/swin-lead.svg
 description: A student-led leadership community that gave Swinburne's thinkers, builders, and organisers a place to share their work, find collaborators, and learn in public.
 tags:
   - Community building
@@ -13,7 +12,7 @@ status: Community platform
 role: Early co-creator / community & product
 externalUrl: https://www.swinburne.edu.au/news/2021/05/Meet-the-enterprising-graduate-behind-Swinburnes-Leadership-Hub/
 externalLabel: Read the Swinburne story
-imageUrl: /assets/projects/swin-lead/screenshot.webp
+imageKey: swin-lead
 canonicalUrl: /projects/swin-lead
 ---
 

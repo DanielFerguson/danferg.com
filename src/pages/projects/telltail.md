@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: TellTail
-iconUrl: /assets/projects/telltail.svg
 description: An evidence-led pet well-being concept exploring how proactive dog owners might notice meaningful changes earlier and make calmer, better-informed care decisions.
 tags:
   - Pet well-being
@@ -13,7 +12,7 @@ status: Concept under validation
 role: Founder / product strategy / research
 externalUrl: https://telltail.vercel.app/
 externalLabel: Visit TellTail
-imageUrl: /assets/projects/telltail/screenshot.webp
+imageKey: telltail
 canonicalUrl: /projects/telltail
 ---
 

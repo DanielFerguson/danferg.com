@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Communiti Labs
-iconUrl: /assets/projects/communitilabs.svg
 description: A practitioner-led civic engagement platform helping organisations hear more people, turn feedback into defensible evidence, and close the loop with communities.
 tags:
   - Civic technology
@@ -14,7 +13,7 @@ status: Active / flagship
 role: Founder / product / engineering
 externalUrl: https://communitilabs.com
 externalLabel: Visit Communiti Labs
-imageUrl: /assets/projects/communitilabs/screenshot.png
+imageKey: communitilabs
 canonicalUrl: /projects/communitilabs
 ---
 

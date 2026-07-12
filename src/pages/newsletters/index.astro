@@ -1,13 +1,12 @@
 ---
-import type NewsletterType from "types/Newsletter";
 import type SEO from "types/SEO";
+import { getCollection } from "astro:content";
+import getReadingTime from "reading-time";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
-
-type MarkdownModule<T> = { frontmatter: T; url: string };
 
 const SEO: SEO = {
   title: "Newsletters on building projects and solving problems | Dan Ferg",
@@ -17,14 +16,14 @@ const SEO: SEO = {
   openGraph: { type: "website" },
   canonicalUrl: "/newsletters",
   schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Newsletters", url: "/newsletters" },
+  ],
 };
 
-const newsletters = Object.values(
-  import.meta.glob<MarkdownModule<NewsletterType>>("./*.mdx", { eager: true })
-).sort(
-  (a, b) =>
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
+const newsletters = (await getCollection("newsletters")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
 const formatDate = (date: string) =>
@@ -35,15 +34,29 @@ const formatDate = (date: string) =>
   }).format(new Date(`${date}T00:00:00`));
 
 const items = newsletters.map((newsletter) => ({
-  title: newsletter.frontmatter.title,
-  description: newsletter.frontmatter.description,
-  href: newsletter.url,
-  meta: formatDate(newsletter.frontmatter.date),
-  detail: newsletter.frontmatter.minutesRead,
+  title: newsletter.data.title,
+  description: newsletter.data.description,
+  href: newsletter.data.canonicalUrl,
+  meta: formatDate(newsletter.data.date),
+  detail: getReadingTime(newsletter.body || "").text,
 }));
+const itemListId = "https://danferg.com/newsletters#itemlist";
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: "Dan Ferg newsletters",
+  numberOfItems: items.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.title,
+    url: new URL(item.href, "https://danferg.com").toString(),
+  })),
+};
 ---
 
-<BaseLayout {...SEO}>
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
   <main id="main-content" class="site-container archive">
     <p class="breadcrumb"><a href="/">HOME</a> / NEWSLETTERS</p>

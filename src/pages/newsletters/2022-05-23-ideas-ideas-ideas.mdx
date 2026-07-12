@@ -3,9 +3,22 @@ layout: ../../layouts/NewsletterLayout.astro
 title: "Ideas, ideas, ideas!"
 description: "If you know me well, you'll know I'm someone who comes up with new ideas every day. I've been trying to find a good way to organise these thoughts."
 date: "2022-05-23"
-imageUrl: https://images.unsplash.com/photo-1588856122867-363b0aa7f598?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGlkZWFzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60
+imageUrl: /images/og/newsletters/2022-05-23-ideas-ideas-ideas-og.png
+imageUrls:
+  - /images/og/newsletters/2022-05-23-ideas-ideas-ideas-16x9.png
+  - /images/og/newsletters/2022-05-23-ideas-ideas-ideas-4x3.png
+  - /images/og/newsletters/2022-05-23-ideas-ideas-ideas-1x1.png
+imageAlt: Social card for the Ideas, ideas, ideas dispatch
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /newsletters/2022-05-23-ideas-ideas-ideas
 ---
+
+import { Picture } from "astro:assets";
+import notionIdeas from "../../assets/newsletters/2022-05-23/notion.jpg";
+import observerDashboard from "../../assets/newsletters/2022-05-23/observer.jpg";
+import trailer from "../../assets/newsletters/2022-05-23/trailer.png";
 
 Hey, hey and a g'day. Another week, another chance to change the world. I hope you had a specular weekend!
 
@@ -27,9 +40,19 @@ I spent the weekend compiling my ideas from past notebooks and applications, int
 
 I'd love to know, do you have a way of capturing your ideas, your inspirations? Let me know because I'd love to keep trying new things.
 
-![Notion](/assets/newsletter/2022-05-23/notion.jpg)
+<Picture
+  src={notionIdeas}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Ideas organised in a Notion workspace"
+  loading="lazy"
+  decoding="async"
+/>
 
-# 24hr Build Video Series
+## 24hr Build Video Series
 
 For those of you who came to my Concept to Production workshop, you might be pleased to hear that I'm actually going to start a Siri said I've been wanting to do for a long time now. This series is called “The 24hr Build”.
 
@@ -43,7 +66,19 @@ I'll go back to how I saw the problem, how I came up with a couple of solutions,
 
 For now though, I'll leave you with this teaser.
 
-[![24hr Build Series teaser](/assets/newsletter/2022-05-23/trailer.png)](https://youtu.be/3CbRFnSNaqo)
+<a href="https://youtu.be/3CbRFnSNaqo">
+  <Picture
+    src={trailer}
+    formats={["avif", "webp"]}
+    fallbackFormat="webp"
+    widths={[360, 640]}
+    width={640}
+    sizes="(max-width: 680px) calc(100vw - 40px), 640px"
+    alt="Watch the 24hr Build Series teaser"
+    loading="lazy"
+    decoding="async"
+  />
+</a>
 
 ## Observer private beta
 
@@ -57,7 +92,17 @@ I'm cautious not to just build features upon features without even thinking abou
 
 I'll be looking to launch the private beta within the next couple of weeks. If you're looking for an all in one solution to help monitor and notify you when your websites, services or infrastructure goes down, let me know. I'd love to know your thoughts on the platform.
 
-![Observer facelift](/assets/newsletter/2022-05-23/observer.jpg)
+<Picture
+  src={observerDashboard}
+  formats={["avif", "webp"]}
+  fallbackFormat="webp"
+  widths={[360, 720, 1080]}
+  width={720}
+  sizes="(max-width: 760px) calc(100vw - 40px), 720px"
+  alt="Observer's redesigned monitoring dashboard"
+  loading="lazy"
+  decoding="async"
+/>
 
 ## Audio-newsletters (…podcasts)
 

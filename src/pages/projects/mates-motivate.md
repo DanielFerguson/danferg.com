@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Mates Motivate
-iconUrl: /assets/projects/mates-motivate.svg
-description: A social accountability MVP that helped people set a goal, build a visible check-in streak, and invite trusted friends to encourage the work and celebrate the result.
+description: A social accountability MVP for setting a goal, building a visible check-in streak, and inviting trusted friends to encourage the work.
 tags:
   - Behaviour design
   - Social product
@@ -13,7 +12,7 @@ status: Archived MVP
 role: Founder / product / engineering
 externalUrl: https://github.com/DanielFerguson/matesmotivate.com
 externalLabel: View source
-imageUrl: /assets/projects/mates-motivate/screenshot.webp
+imageKey: mates-motivate
 canonicalUrl: /projects/mates-motivate
 ---
 

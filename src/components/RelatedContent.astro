@@ -1,0 +1,145 @@
+---
+import { getCollection } from "astro:content";
+import { editorialUpdates } from "../data/editorial-updates";
+
+interface Props {
+  currentPath: string;
+  kind: "articles" | "newsletters";
+}
+
+const { currentPath, kind } = Astro.props;
+const entries = kind === "articles"
+  ? await getCollection("articles")
+  : await getCollection("newsletters");
+const sameKind = entries
+  .filter((entry) => entry.data.canonicalUrl !== currentPath)
+  .map((entry) => ({
+    title: entry.data.title,
+    description: entry.data.description,
+    href: entry.data.canonicalUrl,
+    date: entry.data.date,
+    meta: kind === "articles" ? "ARTICLE" : "DISPATCH",
+  }));
+const updates = kind === "articles"
+  ? editorialUpdates
+      .filter((entry) => entry.canonicalUrl !== currentPath)
+      .map((entry) => ({
+        title: entry.title,
+        description: entry.description,
+        href: entry.canonicalUrl,
+        date: entry.date,
+        meta: "PRODUCT RESEARCH",
+      }))
+  : [];
+const related = [...sameKind, ...updates]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 2);
+const archive = {
+  title: kind === "articles" ? "Browse every article" : "Browse every dispatch",
+  description:
+    kind === "articles"
+      ? "The complete archive of essays, product research, and lessons from building."
+      : "The complete archive of longer project notes and experiments built in public.",
+  href: kind === "articles" ? "/articles" : "/newsletters",
+  meta: "FULL ARCHIVE",
+};
+---
+
+<aside class="site-container related" aria-labelledby="related-title" data-motion-reveal>
+  <p>// KEEP FOLLOWING THE THREAD</p>
+  <h2 id="related-title">Related reading and next steps.</h2>
+  <nav aria-label="Related content" data-motion-group>
+    {related.map((item) => (
+      <a href={item.href} data-motion-item data-motion-interactive data-astro-prefetch="hover">
+        <small>{item.meta}</small>
+        <strong>{item.title}</strong>
+        <span>{item.description}</span>
+        <i aria-hidden="true" data-motion-arrow>→</i>
+      </a>
+    ))}
+    <a href={archive.href} data-motion-item data-motion-interactive data-astro-prefetch="hover">
+      <small>{archive.meta}</small>
+      <strong>{archive.title}</strong>
+      <span>{archive.description}</span>
+      <i aria-hidden="true" data-motion-arrow>→</i>
+    </a>
+  </nav>
+</aside>
+
+<style>
+  .related {
+    margin-block: clamp(1rem, 3vw, 2rem) clamp(3.5rem, 6vw, 5rem);
+  }
+
+  .related > p {
+    margin: 0;
+    color: var(--signal);
+    font-size: 0.61rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  h2 {
+    margin: 0.8rem 0 1.5rem;
+    font-size: clamp(1.45rem, 3vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  a {
+    display: grid;
+    min-height: 13rem;
+    padding: 1.15rem;
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a:is(:hover, :focus-visible) {
+    color: var(--inverse-ink);
+    background: var(--inverse-surface);
+  }
+
+  small {
+    color: var(--signal);
+    font-size: 0.56rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  strong {
+    align-self: end;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  a > span {
+    margin-top: 0.55rem;
+    color: var(--ink-soft);
+    font-size: 0.65rem;
+    line-height: 1.55;
+  }
+
+  a:is(:hover, :focus-visible) > span { color: var(--inverse-muted); }
+
+  i {
+    align-self: end;
+    justify-self: end;
+    margin-top: 0.8rem;
+    font-style: normal;
+  }
+
+  @media (max-width: 760px) {
+    nav { grid-template-columns: 1fr; }
+    a { min-height: 10.5rem; }
+  }
+</style>

@@ -1,26 +1,21 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
-import { createContactMailto } from "../utils/contact-links";
-
 const navigation = [
   { name: "Projects", href: "/projects" },
+  { name: "Consulting", href: "/consulting" },
   { name: "Articles", href: "/articles" },
   { name: "Work", href: "/#work" },
   { name: "Talks", href: "/#talks" },
   { name: "Newsletters", href: "/newsletters" },
 ];
 
-const availabilityMailto = createContactMailto({
-  subject: "Consulting, advisory or speaking enquiry",
-  body: "G'day Dan,\n\nI'm getting in touch about consulting, advisory work, or speaking.\n\nA little context:\n",
-});
 ---
 
 <header class="site-header">
   <div class="signal-bar">
     <div class="site-container signal-bar__inner">
       <p><span aria-hidden="true">■</span> Melbourne, Australia</p>
-      <a href={availabilityMailto}>Consulting / advisory / speaking <span aria-hidden="true">↗</span></a>
+      <a href="/consulting" data-motion-interactive>Consulting / advisory / speaking <span aria-hidden="true" data-motion-arrow>→</span></a>
     </div>
   </div>
 
@@ -33,7 +28,7 @@ const availabilityMailto = createContactMailto({
       <ul>
         {
           navigation.map((item) => (
-            <li><a href={item.href}>{item.name}</a></li>
+            <li><a href={item.href} data-astro-prefetch="hover">{item.name}</a></li>
           ))
         }
       </ul>
@@ -41,7 +36,7 @@ const availabilityMailto = createContactMailto({
 
     <div class="nav-actions">
       <ThemeToggle />
-      <a class="nav-contact" href={availabilityMailto}>Work together <span aria-hidden="true">↗</span></a>
+      <a class="nav-contact" href="/consulting" data-motion-interactive>Work together <span aria-hidden="true" data-motion-arrow>→</span></a>
     </div>
   </div>
 </header>
@@ -139,8 +134,8 @@ const availabilityMailto = createContactMailto({
     text-decoration: none;
   }
 
-  nav a:hover,
-  .nav-contact:hover {
+  nav a:is(:hover, :focus-visible),
+  .nav-contact:is(:hover, :focus-visible) {
     color: var(--signal);
   }
 
@@ -150,7 +145,7 @@ const availabilityMailto = createContactMailto({
     background: var(--signal-fill);
   }
 
-  .nav-contact:hover {
+  .nav-contact:is(:hover, :focus-visible) {
     color: var(--inverse-ink);
     background: var(--signal-fill-hover);
   }

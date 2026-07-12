@@ -7,10 +7,6 @@ interface Props {
 }
 
 const { sourceTitle } = Astro.props;
-const consultingMailto = createContactMailto({
-  subject: "Product, traction or GTM enquiry",
-  body: `G'day Dan,\n\nI found you through “${sourceTitle}” and would like to discuss a product, traction, or go-to-market challenge.\n\nA little context:\n`,
-});
 const speakingMailto = createContactMailto({
   subject: "Speaking enquiry",
   body: `G'day Dan,\n\nI found you through “${sourceTitle}” and would like to discuss a speaking opportunity.\n\nEvent, audience, and timing:\n`,
@@ -26,7 +22,7 @@ const speakingMailto = createContactMailto({
     {
       meta: "CONSULTING / ADVISORY",
       label: "Discuss a product challenge",
-      href: consultingMailto,
+      href: "/consulting",
     },
     {
       meta: "SELECTED WORK",

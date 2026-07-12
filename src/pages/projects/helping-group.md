@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Helping Group
-iconUrl: /assets/projects/helping-group.svg
 description: A social-impact organisation born during Australia's Black Summer, creating practical digital services that help communities respond, connect, and recover together.
 tags:
   - Social impact
@@ -13,7 +12,7 @@ status: Active initiative
 role: Founder / president / engineering
 externalUrl: https://helping.group
 externalLabel: Visit Helping Group
-imageUrl: /assets/projects/helping-group/screenshot.webp
+imageKey: helping-group
 canonicalUrl: /projects/helping-group
 ---
 

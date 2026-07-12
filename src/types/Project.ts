@@ -1,6 +1,5 @@
 export default interface Project {
   title: string;
-  iconUrl: string;
   description: string;
   tags: Array<string>;
   featured?: boolean;
@@ -10,7 +9,7 @@ export default interface Project {
   role?: string;
   externalUrl?: string;
   externalLabel?: string;
-  imageUrl: string;
+  imageKey: string;
   canonicalUrl: string;
   externalLink?: string;
 }

@@ -18,7 +18,7 @@ interface Props {
 const { projects } = Astro.props as Props;
 ---
 
-<div class="project-grid">
+<div class="project-grid" data-motion-group>
   {
     projects.map((project, index) => {
       const isHighlight = Boolean(project.frontmatter.highlight);
@@ -30,6 +30,9 @@ const { projects } = Astro.props as Props;
             "project-cell",
             { "project-cell--highlight": isHighlight },
           ]}
+          data-motion-item
+          data-motion-interactive
+          data-astro-prefetch="hover"
         >
           <span class="project-cell__copy">
             <span class="project-cell__top">
@@ -39,7 +42,7 @@ const { projects } = Astro.props as Props;
               </span>
               <span>{project.frontmatter.period || <span aria-hidden="true">↗</span>}</span>
             </span>
-            <strong>{project.frontmatter.title}</strong>
+            <strong data-motion-target>{project.frontmatter.title}</strong>
             <span class="project-cell__description">
               {project.frontmatter.description}
             </span>
@@ -92,13 +95,13 @@ const { projects } = Astro.props as Props;
     flex-direction: column;
   }
 
-  .project-cell:hover {
+  .project-cell:is(:hover, :focus-visible) {
     color: var(--inverse-ink);
     background: var(--inverse-surface);
   }
 
-  .project-cell:hover .project-cell__description,
-  .project-cell:hover .project-cell__top {
+  .project-cell:is(:hover, :focus-visible) .project-cell__description,
+  .project-cell:is(:hover, :focus-visible) .project-cell__top {
     color: var(--inverse-muted);
   }
 
@@ -111,7 +114,7 @@ const { projects } = Astro.props as Props;
     background: linear-gradient(115deg, var(--signal-soft), var(--paper-raised));
   }
 
-  .project-cell--highlight:hover {
+  .project-cell--highlight:is(:hover, :focus-visible) {
     background: var(--signal-fill-hover);
   }
 
@@ -136,7 +139,7 @@ const { projects } = Astro.props as Props;
     font-size: clamp(1.8rem, 4vw, 3.2rem);
   }
 
-  .project-cell--highlight:hover strong {
+  .project-cell--highlight:is(:hover, :focus-visible) strong {
     color: var(--inverse-ink);
   }
 
@@ -177,7 +180,7 @@ const { projects } = Astro.props as Props;
     text-transform: uppercase;
   }
 
-  .project-cell:hover .project-cell__role {
+  .project-cell:is(:hover, :focus-visible) .project-cell__role {
     color: var(--inverse-muted);
   }
 
@@ -192,7 +195,7 @@ const { projects } = Astro.props as Props;
     line-height: 1.65;
   }
 
-  .project-cell--highlight:hover .project-cell__diagram {
+  .project-cell--highlight:is(:hover, :focus-visible) .project-cell__diagram {
     color: var(--signal-bright);
   }
 

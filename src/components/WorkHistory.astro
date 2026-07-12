@@ -75,13 +75,13 @@ const roles: Role[] = [
   border="all"
 />
 
-<ol class="work-history" aria-label="Career history">
+<ol class="work-history" aria-label="Career history" data-motion-group>
   {
     roles.map((role, index) => {
       const branch = index === 0 ? "┌─" : index === roles.length - 1 ? "└─" : "├─";
 
       return (
-        <li class="work-role">
+        <li class="work-role" data-motion-item>
           <div class="work-role__meta">
             <span class="work-role__branch" aria-hidden="true">
               {branch}[{String(index + 1).padStart(2, "0")}]

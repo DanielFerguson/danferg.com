@@ -1,23 +1,34 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "A better, brighter, cleaner future."
-description: "I believe that you have a powerful voice. One of the ways you can be clearly clearly heard is through how you chose to spend your money."
+description: "A reflection on aligning everyday financial choices with personal values, retained with current links for independently comparing Australian super funds."
 date: "2020-12-23"
-imageUrl: https://images.unsplash.com/photo-1522735338363-cc7313be0ae0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2luZCUyMGVuZXJneXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1720
+updatedDate: "2026-07-12"
+imageUrl: /images/og/articles/a-better-brighter-cleaner-future-og.png
+imageUrls:
+  - /images/og/articles/a-better-brighter-cleaner-future-16x9.png
+  - /images/og/articles/a-better-brighter-cleaner-future-4x3.png
+  - /images/og/articles/a-better-brighter-cleaner-future-1x1.png
+imageAlt: Social card for A better, brighter, cleaner future
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /articles/a-better-brighter-cleaner-future
 ---
+
+> **Archive note — reviewed July 2026:** This is a personal reflection from 2020, not financial advice or a current product comparison. Providers, fees, insurance, performance, and investment options change. Before switching, use ASIC Moneysmart's current guidance on [choosing a super fund](https://moneysmart.gov.au/how-super-works/choosing-a-super-fund) and [super investment options](https://moneysmart.gov.au/grow-your-super/super-investment-options), and consider licensed advice for your circumstances.
 
 ## A better, brighter, cleaner future.
 
 ### The issue at hand
 
-This is actually something that is very near and dear to my heart. I believe that you have a powerful voice. One of the ways you can be clearly clearly heard is through how you chose to spend your money 💰.
+This is actually something that is very near and dear to my heart. I believe that you have a powerful voice. One of the ways you can be clearly heard is through how you choose to spend your money 💰.
 
-Let me ask you this — where is your money at the moment? Your knee-jerk reaction may say ‘oh, it's in the bank!', but you money doesn't live there. I won't try and get into the complex nature of how banks reinvest and lend your money to recoup… you know what? I'm even bored now.
+Let me ask you this — where is your money at the moment? Your knee-jerk reaction may say ‘oh, it's in the bank!', but your money doesn't live there. I won't try and get into the complex nature of how banks reinvest and lend your money to recoup… you know what? I'm even bored now.
 
-Cutting to the quick, you money, RIGHT NOW, is currently funding something, it's not just sitting idle. Do you know what that is? I think you'd be surprised.
+Cutting to the quick, your money, RIGHT NOW, is currently funding something; it's not just sitting idle. Do you know what that is? I think you'd be surprised.
 
-Coming to the end of 2020, and out of an incredibly horrific year, let's make a commitment to ourselves to create a future that we can actually look forward too.
+Coming to the end of 2020, and out of an incredibly horrific year, let's make a commitment to ourselves to create a future that we can actually look forward to.
 
 I'm asking you to think over, discuss and act on two crazy simple things.
 
@@ -34,20 +45,14 @@ We need to become more proactive with our life choices, and need systemic change
 
 However, I'm not negligent to the fact that we are all very busy. In fact, I'd say this year now more than ever, for some of us at least. So I wanted to help provide two excruciatingly simple things that everyone can do to make a large impact.
 
-### Some options, for your convenience…
+### Compare the current options
 
-- [Future Super](https://www.futuresuper.com.au/)
-- [Australian Ethical](https://www.australianethical.com.au/)
-- [Bank Australia](https://www.bankaust.com.au/)
-- [ME Bank](https://www.mebank.com.au/)
-
-However, this list by no means exhausts the list of ethical superannuations operating in Australia. Take a look and see if your super operates alongside your values!
+The original article listed several providers here. I have removed that shortlist because it would turn a values argument into an outdated product recommendation. Compare current options on investment approach, long-term performance, fees, insurance, service, and the consequences of switching—not on a single label or an old article.
 
 ### And some good reading resources
 
-- [MoneyMag — The 14 greenest and cleanest superannuation funds](https://www.moneymag.com.au/14-greenest-super-funds)
-- [Guardian — Ethical superannuation: what is it, and does it actually work?](https://www.theguardian.com/australia-news/2019/oct/27/ethical-superannuation-what-is-it-and-does-it-actually-work#:~:text=Four%20funds%20in%20Australia%20currently,Australian%20Super%2C%20the%20country's%20largest.)
-- [Canstar — 10 High-Performing Ethical Investment Funds](https://www.canstar.com.au/investor-hub/10-top-ethical-investment-funds/)
+- [ASIC Moneysmart — Choosing a super fund](https://moneysmart.gov.au/how-super-works/choosing-a-super-fund)
+- [ASIC Moneysmart — Super investment options, including ethical or ESG options](https://moneysmart.gov.au/grow-your-super/super-investment-options)
 
 ### Disclaimer 🚨
 

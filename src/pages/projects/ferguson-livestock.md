@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Ferguson Livestock
-iconUrl: /assets/projects/ferguson-livestock.webp
-description: A Murray Grey cattle stud and farm-direct beef venture built from the ground up in Snake Valley, spanning infrastructure, operations, brand, commerce, and fulfilment.
+description: A Murray Grey cattle stud and farm-direct beef venture built in Snake Valley, spanning infrastructure, operations, brand, commerce, and fulfilment.
 tags:
   - Agribusiness
   - Brand strategy
@@ -13,7 +12,7 @@ status: Active venture
 role: Co-founder / operations / brand / product & engineering
 externalUrl: https://www.fergusonlivestock.com.au
 externalLabel: Visit Ferguson Livestock
-imageUrl: /assets/projects/ferguson-livestock/screenshot.webp
+imageKey: ferguson-livestock
 canonicalUrl: /projects/ferguson-livestock
 ---
 

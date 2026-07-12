@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Airproxy
-iconUrl: /assets/projects/airproxy.png
-description: An edge-first caching and proxy layer that made Airtable practical as a production backend without inheriting its rate limits, attachment constraints, or operational fragility.
+description: An edge-first cache and proxy that made Airtable practical as a production backend without inheriting rate limits, attachment constraints, or operational fragility.
 tags:
   - Developer tools
   - Cloud infrastructure
@@ -11,7 +10,7 @@ featured: false
 period: "2023"
 status: Archived product
 role: Co-founder / product / engineering
-imageUrl: /assets/projects/airproxy/screenshot.webp
+imageKey: airproxy
 canonicalUrl: /projects/airproxy
 ---
 

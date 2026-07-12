@@ -1,7 +1,8 @@
 {
-  "name": "@example/basics",
+  "name": "danferg.com",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "npm@11.13.0",
   "engines": {
     "node": ">=22.12.0",
     "npm": ">=10.8.2"
@@ -10,8 +11,11 @@
     "dev": "astro dev",
     "start": "astro dev",
     "check": "astro check",
-    "generate:og": "node scripts/generate-og-default.mjs",
+    "audit:build": "node scripts/audit-build.mjs",
+    "generate:og": "node scripts/generate-og.mjs",
+    "prebuild": "npm run generate:og",
     "build": "astro build",
+    "postbuild": "npm run audit:build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -23,14 +27,17 @@
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^6.4.8",
     "astro-robots-txt": "^1.0.0",
+    "parse5": "^8.0.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@fontsource-variable/geist-mono": "^5.2.8",
     "@tailwindcss/vite": "^4.3.0",
     "mdast-util-to-string": "^4.0.0",
+    "motion": "^12.42.2",
     "reading-time": "^1.5.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0"

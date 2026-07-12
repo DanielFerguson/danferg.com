@@ -1,7 +1,7 @@
 ---
-import type Article from "types/Article";
-import type Project from "types/Project";
 import type SEO from "types/SEO";
+import { getCollection } from "astro:content";
+import getReadingTime from "reading-time";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NavBar from "../components/NavBar.astro";
@@ -13,14 +13,11 @@ import WorkHistory from "../components/WorkHistory.astro";
 // import FavouriteStack from "../components/FavouriteStack.astro";
 import ImpactStats from "../components/ImpactStats.astro";
 import { compareProjectsByPeriod } from "../utils/project-sort";
-
-type MarkdownModule<T> = {
-  frontmatter: T;
-  url: string;
-};
+import { editorialUpdates } from "../data/editorial-updates";
 
 const SEO: SEO = {
   title: "Product consultant, advisor and software builder | Dan Ferg",
+  headline: "Technology for problems that actually matter.",
   description:
     "Dan Ferg builds and advises on practical products, traction, go-to-market strategy, and community-centred technology from Melbourne, Australia.",
   imageUrl: "/images/og-default.png",
@@ -28,18 +25,16 @@ const SEO: SEO = {
   canonicalUrl: "/",
 };
 
-const projects = Object.values(
-  import.meta.glob<MarkdownModule<Project>>("./projects/*.md", { eager: true })
-)
+const projects = (await getCollection("projects"))
+  .map((project) => ({
+    url: project.data.canonicalUrl,
+    frontmatter: project.data,
+  }))
   .filter((project) => project.frontmatter.featured !== false)
   .sort(compareProjectsByPeriod);
 
-const articles = Object.values(
-  import.meta.glob<MarkdownModule<Article>>("./articles/*.md", { eager: true })
-).sort(
-  (a, b) =>
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
+const articles = (await getCollection("articles")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
 const formatDate = (date: string) =>
@@ -49,13 +44,27 @@ const formatDate = (date: string) =>
     year: "numeric",
   }).format(new Date(`${date}T00:00:00`));
 
-const articleItems = articles.slice(0, 6).map((article) => ({
-  title: article.frontmatter.title,
-  description: article.frontmatter.description,
-  href: article.url,
-  meta: formatDate(article.frontmatter.date),
-  detail: article.frontmatter.minutesRead,
-}));
+const articleItems = [
+  ...articles.map((article) => ({
+    title: article.data.title,
+    description: article.data.description,
+    href: article.data.canonicalUrl,
+    date: article.data.date,
+    meta: formatDate(article.data.date),
+    detail: getReadingTime(article.body || "").text,
+  })),
+  ...editorialUpdates.map((update) => ({
+    title: update.title,
+    description: update.description,
+    href: update.canonicalUrl,
+    date: update.date,
+    meta: formatDate(update.date),
+    detail: update.category,
+  })),
+]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 6)
+  .map(({ date: _date, ...item }) => item);
 
 const talkItems = [
   {
@@ -94,25 +103,25 @@ const talkItems = [
   <main id="main-content">
     <section class="site-container hero-shell" aria-labelledby="hero-title">
       <div class="hero">
-        <div class="hero__copy">
-          <p class="hero__eyebrow">// DAN FERG — BUILDER / STRATEGIST / OPTIMIST</p>
-          <h1 id="hero-title">Technology for <em>problems that actually matter.</em></h1>
-          <p class="hero__lede">
+        <div class="hero__copy" data-motion-intro-group>
+          <p class="hero__eyebrow" data-motion-intro-item>// DAN FERG — BUILDER / STRATEGIST / OPTIMIST</p>
+          <h1 id="hero-title" data-motion-intro-item>Technology for <em>problems that actually matter.</em></h1>
+          <p class="hero__lede" data-motion-intro-item>
             I help founders and mission-led teams turn hard product, operational,
             and community problems into useful software, traction, and a clearer
             route to market.
           </p>
-          <p class="hero__offer">
+          <p class="hero__offer" data-motion-intro-item>
             <span>OPEN TO</span>
             Consulting · Product, traction &amp; GTM advisory · Speaking
           </p>
-          <div class="hero__actions">
-            <a class="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
-            <a class="button" href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry">Discuss a project <span aria-hidden="true">↗</span></a>
+          <div class="hero__actions" data-motion-intro-item>
+            <a class="button button--primary" href="#projects" data-motion-interactive>Explore my work <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
+            <a class="button" href="/consulting" data-motion-interactive>Discuss a project <span aria-hidden="true" data-motion-arrow>→</span></a>
           </div>
         </div>
 
-        <aside class="hero__signal" aria-label="Portrait of Dan Ferg">
+        <aside class="hero__signal" aria-label="Portrait of Dan Ferg" data-motion-intro data-motion-scale data-motion-delay="0.16">
           <HeroPortrait />
         </aside>
       </div>
@@ -173,14 +182,14 @@ const talkItems = [
       </div>
     </section>
 
-    <section class="site-container contact-panel" aria-labelledby="contact-title">
+    <section class="site-container contact-panel" aria-labelledby="contact-title" data-motion-reveal>
       <p>// CONSULTING / ADVISORY / SPEAKING</p>
       <h2 id="contact-title">Bring me the useful problem that refuses to fit in a neat box.</h2>
       <p class="contact-panel__lede">
         Consulting when something needs building, advisory across product, traction
         and GTM, and practical speaking for teams working through change.
       </p>
-      <a href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry">gday@danferg.com <span aria-hidden="true">↗</span></a>
+      <a href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry" data-motion-interactive>gday@danferg.com <span aria-hidden="true" data-motion-arrow>↗</span></a>
     </section>
   </main>
 </BaseLayout>
@@ -270,13 +279,13 @@ const talkItems = [
     text-decoration: none;
   }
 
-  .button:hover,
+  .button:is(:hover, :focus-visible),
   .button--primary {
     color: var(--inverse-ink);
     background: var(--signal-deep);
   }
 
-  .button--primary:hover {
+  .button--primary:is(:hover, :focus-visible) {
     border-color: var(--signal);
     background: var(--signal-fill);
   }

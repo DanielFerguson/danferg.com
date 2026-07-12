@@ -21,14 +21,14 @@ const {
 const Heading = as;
 ---
 
-<header class="section-heading">
+<header class="section-heading" data-motion-reveal>
   <div>
     <p class="section-heading__eyebrow">{eyebrow}</p>
     <Heading id={headingId} class="section-heading__title">{title}</Heading>
   </div>
   <div class="section-heading__aside">
     {description && <p>{description}</p>}
-    {actionHref && actionLabel && <a href={actionHref}>{actionLabel} <span aria-hidden="true">→</span></a>}
+    {actionHref && actionLabel && <a href={actionHref} data-motion-interactive>{actionLabel} <span aria-hidden="true" data-motion-arrow>→</span></a>}
   </div>
 </header>
 
@@ -73,7 +73,7 @@ const Heading = as;
     text-underline-offset: 0.24em;
   }
 
-  .section-heading__aside a:hover {
+  .section-heading__aside a:is(:hover, :focus-visible) {
     color: var(--signal);
   }
 

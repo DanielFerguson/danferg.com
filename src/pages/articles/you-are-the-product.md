@@ -1,11 +1,22 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "You are the product."
-description: "We live in a world surrounded by ‘free'. Free shipping, free software, etc. However — all of these things boil down to the need to make a profit."
+description: "A 2021 reflection on free software, privacy, and personal data, retained with updated links to current Australian cyber-security guidance."
 date: "2021-01-02"
-imageUrl: https://images.unsplash.com/photo-1565591452825-67d6b7df1d47?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c3B5fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80
+updatedDate: "2026-07-12"
+imageUrl: /images/og/articles/you-are-the-product-og.png
+imageUrls:
+  - /images/og/articles/you-are-the-product-16x9.png
+  - /images/og/articles/you-are-the-product-4x3.png
+  - /images/og/articles/you-are-the-product-1x1.png
+imageAlt: Social card for You are the product
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
 canonicalUrl: /articles/you-are-the-product
 ---
+
+> **Archive note — reviewed July 2026:** This article preserves my perspective from January 2021, but security products and platform protections change quickly. I have removed the old vendor shortlists and linked to current guidance from the Australian Signals Directorate's Australian Cyber Security Centre. Start with its [current personal cyber-security guidance](https://www.cyber.gov.au/protect-yourself), not a five-year-old product recommendation.
 
 ## You are the product.
 
@@ -44,14 +55,7 @@ Hey, we're all guilty of it and we all have our own ‘reasons' that we've used 
 
 **You are wrong.** You are underestimating the ingenuity of those trying to steal your information, your identity and track your digital (and sometimes physical) movements.
 
-**PLEASE** — scan your computer, now! I mean now! I have included a number of my personal recommendations below. All of them are free to use and are seen as excellent options.
-
-- [Bitdefender](https://www.bitdefender.com.au/)
-- [Kaspersky](https://www.kaspersky.com.au/)
-- [MalwareBytes](https://www.malwarebytes.com/)
-- [Avast](https://www.avast.com/en-au/index)
-
-One last thing: **please make sure to scan your phone!** iPhone, Android; don't care. Your phones are computers, make sure that you scan them!
+**Updated guidance:** use the protections supported by your current operating system, keep them enabled and updated, and only install security software from a legitimate source. Phones do not work exactly like desktop computers: modern iOS and Android devices include built-in protections, and third-party “scanner” advice varies by platform. The ACSC maintains current advice on [antivirus software](https://www.cyber.gov.au/protect-yourself/securing-your-devices/how-secure-your-device/antivirus-software) and [protecting against malware](https://www.cyber.gov.au/protect-yourself/securing-your-devices/how-protect-yourself-malware).
 
 #### Use privacy-first software 🥸
 
@@ -59,7 +63,7 @@ The next thing is to change which search engine you're using, and your default b
 
 Now I know this may ruffle some features, but Chrome sucks. Don't get me wrong, user experience is second to none, and has some fantastic tools for developers. However, it tracks you — you become the product.
 
-If you don't want to use another excellent alternative like Firefox or Safari, that's ok! Use Brave — a Chrome alternative that excels at protecting your privacy, and doesn't track you! It also has built in ad blocker software.
+If you want to try an alternative, compare current privacy policies, tracking protections, update practices, and the settings available to you. A browser brand is not a permanent privacy guarantee, and those details can change after an article is published.
 
 If you really want to take back your identity, change your default search engine. For this, I recommend two very different options.
 
@@ -90,23 +94,15 @@ This lead me to go on a frenzy of deleting unused accounts, rapidly changing pas
 
 I've tried a few over the last couple of years, but the one that I was with the longest, Dashlane, never really made me want to use it. It was cumbersome, obstructive and overall quite unintuitive to use. (However, from what I hear, they've done some good work addressing these issues now)
 
-I decided to try 1Password on the referral from a friend, and let me tell you — best cyber-security based decision I've made. I only need to remember one password, at it does the rest. Auto fill for logins, delivery details, forms, all of it!
+I decided to try a password manager on the referral from a friend, and it was one of the most useful cyber-security changes I made. I only needed to remember one strong master login, and it handled unique credentials for the rest.
 
 And best of all, no two passwords are the same. So the next time a service that I use gets hacked and they leak peoples credentials, the only thing I need to worry about is updating one password!
 
-- [1Password](https://1password.com/)
-- [LastPass](https://www.lastpass.com/)
-- [Dashlane](https://www.dashlane.com/)
+Rather than preserving a vendor shortlist here, use the ACSC's current guide to [choosing and securing a reputable password manager](https://www.cyber.gov.au/protect-yourself/securing-your-accounts/password-managers). Prefer unique credentials or passkeys where supported, and protect important accounts and the password-manager vault with multi-factor authentication.
 
 #### Use a VPN ☁️
 
-This is simple — protect your internet traffic. If you haven't already been bombarded with NordVPN ads on YouTube… how?!
-
-Especially if you are using public WiFi, please consider using something that will stop hackers intercepting your details. Just because you haven't typed your password or banking details doesn't mean that it isn't being sent over the network. You'd be surprised what actually gets passed between your phone and services.
-
-- [Mozilla VPN](https://www.mozilla.org/en-US/products/vpn/)
-- [NordVPN](https://nordvpn.com/)
-- [ExpressVPN](https://www.expressvpn.com/)
+The original version of this section treated a commercial VPN as a blanket answer. That was too simple. A VPN can be useful in some circumstances, but it shifts trust to the VPN provider and does not make unsafe behaviour or a compromised device secure. Keep devices and browsers updated, verify sensitive sites, use multi-factor authentication, and start with the ACSC's maintained [steps for securing yourself online](https://www.cyber.gov.au/protect-yourself/easy-steps-secure-yourself-online).
 
 ### “If you have nothing to hide, you have nothing to fear”
 

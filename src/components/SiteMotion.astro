@@ -1,0 +1,463 @@
+<script>
+  import { animate } from "motion/mini";
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+  type StoppableAnimation = { stop: () => void };
+
+  const motionElements = () =>
+    document.querySelectorAll<HTMLElement | SVGElement>(
+      [
+        "[data-motion-reveal]",
+        "[data-motion-item]",
+        "[data-motion-target]",
+        "[data-motion-arrow]",
+        "[data-motion-theme-toggle] .theme-toggle__icon",
+        "[data-motion-impact] .impact-stats__header",
+        "[data-impact-card]",
+        "[data-motion-announcement] .reveal",
+        "[data-motion-announcement] .bar-grow rect.metric",
+      ].join(","),
+    );
+
+  const resetElement = (element: HTMLElement | SVGElement) => {
+    element.style.removeProperty("opacity");
+    element.style.removeProperty("transform");
+    element.style.removeProperty("transform-origin");
+    element.style.removeProperty("transform-box");
+    element.style.removeProperty("will-change");
+  };
+
+  const impactFormatters = new WeakMap<HTMLElement, Intl.NumberFormat>();
+
+  const impactFormatter = (element: HTMLElement) => {
+    const existingFormatter = impactFormatters.get(element);
+    if (existingFormatter) return existingFormatter;
+
+    const formatter = new Intl.NumberFormat("en-AU", {
+      minimumFractionDigits: Number(element.dataset.decimals || 0),
+      maximumFractionDigits: Number(element.dataset.decimals || 0),
+    });
+    impactFormatters.set(element, formatter);
+    return formatter;
+  };
+
+  const setImpactValue = (element: HTMLElement, value: number) => {
+    const prefix = element.dataset.prefix || "";
+    const suffix = element.dataset.suffix || "";
+    element.textContent = `${prefix}${impactFormatter(element).format(value)}${suffix}`;
+  };
+
+  const resetMotionStyles = () => {
+    motionElements().forEach(resetElement);
+    document
+      .querySelectorAll<HTMLElement>("[data-impact-value]")
+      .forEach((element) =>
+        setImpactValue(element, Number(element.dataset.target || 0)),
+      );
+  };
+
+  /**
+   * Only prepare content that is still safely below the viewport. If the
+   * module arrives late, already-visible content remains visible rather than
+   * flashing out and back in.
+   */
+  const isWaitingBelowViewport = (element: Element) =>
+    element.getBoundingClientRect().top > window.innerHeight * 0.94;
+
+  const observeOnce = (
+    element: Element,
+    onEnter: () => void,
+    {
+      amount = 0,
+      margin = "0px",
+    }: { amount?: number; margin?: string } = {},
+  ) => {
+    if (!("IntersectionObserver" in window)) {
+      onEnter();
+      return () => {};
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        observer.disconnect();
+        onEnter();
+      },
+      { rootMargin: margin, threshold: amount },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  };
+
+  const animateImpactValue = (
+    element: HTMLElement,
+    target: number,
+    delay: number,
+  ): StoppableAnimation => {
+    let frame = 0;
+    let stopped = false;
+    const duration = 820;
+    const start = performance.now() + delay * 1000;
+
+    const update = (now: number) => {
+      if (stopped) return;
+
+      const progress = Math.min(1, Math.max(0, (now - start) / duration));
+      const easedProgress = 1 - Math.pow(1 - progress, 4);
+      setImpactValue(element, target * easedProgress);
+
+      if (progress < 1) {
+        frame = requestAnimationFrame(update);
+      } else {
+        setImpactValue(element, target);
+      }
+    };
+
+    setImpactValue(element, 0);
+    frame = requestAnimationFrame(update);
+
+    return {
+      stop: () => {
+        stopped = true;
+        cancelAnimationFrame(frame);
+      },
+    };
+  };
+
+  let disposeCurrentMotion = () => {};
+
+  const initialiseMotion = () => {
+    disposeCurrentMotion();
+    resetMotionStyles();
+
+    if (reducedMotion.matches) return;
+
+    const disposers: Array<() => void> = [];
+    const animations: StoppableAnimation[] = [];
+
+    const track = <T extends StoppableAnimation>(animation: T) => {
+      animations.push(animation);
+      return animation;
+    };
+
+    const prepareReveal = (
+      elements: HTMLElement[],
+      distance = 10,
+      scale = 1,
+    ) => {
+      const initialTransform = `translateY(${distance}px) scale(${scale})`;
+
+      elements.forEach((element) => {
+        element.style.opacity = "0";
+        element.style.transform = initialTransform;
+      });
+    };
+
+    const playReveal = (
+      elements: HTMLElement[],
+      {
+        distance = 10,
+        scale = 1,
+        duration = 0.5,
+        delay = 0,
+        staggerBy = 0,
+      }: {
+        distance?: number;
+        scale?: number;
+        duration?: number;
+        delay?: number;
+        staggerBy?: number;
+      } = {},
+    ) => {
+      if (elements.length === 0) return;
+
+      elements.forEach((element) => {
+        element.style.willChange = "transform, opacity";
+      });
+
+      const interval =
+        staggerBy > 0 && elements.length > 1
+          ? Math.min(staggerBy, 0.28 / (elements.length - 1))
+          : 0;
+      const animationDelay =
+        interval > 0 ? (index: number) => delay + index * interval : delay;
+
+      track(
+        animate(
+          elements,
+          {
+            opacity: [0, 1],
+            transform: [
+              `translateY(${distance}px) scale(${scale})`,
+              "translateY(0px) scale(1)",
+            ],
+          },
+          {
+            duration,
+            delay: animationDelay,
+            ease,
+            onComplete: () => elements.forEach(resetElement),
+          },
+        ),
+      );
+    };
+
+    try {
+      const revealElements = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "[data-motion-reveal], [data-motion-announcement] .reveal",
+        ),
+      );
+
+      revealElements.forEach((element) => {
+        if (!isWaitingBelowViewport(element)) return;
+
+        const distance = Number(element.dataset.motionDistance || 10);
+        const scale = element.hasAttribute("data-motion-scale") ? 0.985 : 1;
+        const legacyDelay = element.classList.contains("d4")
+          ? 0.16
+          : element.classList.contains("d3")
+            ? 0.12
+            : element.classList.contains("d2")
+              ? 0.08
+              : element.classList.contains("d1")
+                ? 0.04
+                : 0;
+        const delay = Number(element.dataset.motionDelay || legacyDelay);
+
+        prepareReveal([element], distance, scale);
+        disposers.push(
+          observeOnce(
+            element,
+            () => {
+              playReveal([element], {
+                distance,
+                scale,
+                delay,
+                duration: 0.5,
+              });
+            },
+            { margin: "0px 0px -8% 0px" },
+          ),
+        );
+      });
+
+      document
+        .querySelectorAll<HTMLElement>("[data-motion-group]")
+        .forEach((group) => {
+          const waitingItems = Array.from(
+            group.querySelectorAll<HTMLElement>("[data-motion-item]"),
+          ).filter(isWaitingBelowViewport);
+          if (waitingItems.length === 0) return;
+
+          prepareReveal(waitingItems, 8);
+          disposers.push(
+            observeOnce(
+              waitingItems[0],
+              () =>
+                playReveal(waitingItems, {
+                  distance: 8,
+                  duration: 0.46,
+                  staggerBy: 0.045,
+                }),
+              { margin: "0px 0px -6% 0px" },
+            ),
+          );
+        });
+
+      document
+        .querySelectorAll<HTMLElement>("[data-motion-impact]")
+        .forEach((section) => {
+          const waitingRevealItems = [
+            section.querySelector<HTMLElement>(".impact-stats__header"),
+            ...section.querySelectorAll<HTMLElement>("[data-impact-card]"),
+          ].filter(
+            (element): element is HTMLElement =>
+              element !== null && isWaitingBelowViewport(element),
+          );
+          const waitingValueElements = Array.from(
+            section.querySelectorAll<HTMLElement>("[data-impact-value]"),
+          ).filter(isWaitingBelowViewport);
+          const trigger = waitingValueElements[0] ?? waitingRevealItems[0];
+          if (!trigger) return;
+
+          prepareReveal(waitingRevealItems, 10);
+          disposers.push(
+            observeOnce(
+              trigger,
+              () => {
+                playReveal(waitingRevealItems, {
+                  distance: 10,
+                  duration: 0.52,
+                  staggerBy: 0.065,
+                });
+
+                waitingValueElements.forEach((element, index) => {
+                  const target = Number(element.dataset.target || 0);
+                  track(
+                    animateImpactValue(element, target, 0.12 + index * 0.055),
+                  );
+                });
+              },
+              { amount: 0.2 },
+            ),
+          );
+        });
+
+      document
+        .querySelectorAll<SVGSVGElement>(
+          "[data-motion-announcement] .bar-grow",
+        )
+        .forEach((chart) => {
+          if (!isWaitingBelowViewport(chart)) return;
+
+          const bars = Array.from(
+            chart.querySelectorAll<SVGRectElement>("rect.metric"),
+          );
+
+          bars.forEach((bar) => {
+            bar.style.transform = "scaleX(0)";
+            bar.style.transformBox = "fill-box";
+            bar.style.transformOrigin = "left center";
+          });
+
+          disposers.push(
+            observeOnce(
+              chart,
+              () => {
+                bars.forEach((bar) => {
+                  bar.style.willChange = "transform";
+                });
+                track(
+                  animate(
+                    bars,
+                    { transform: ["scaleX(0)", "scaleX(1)"] },
+                    {
+                      duration: 0.72,
+                      delay: (index: number) => index * 0.06,
+                      ease,
+                      onComplete: () => bars.forEach(resetElement),
+                    },
+                  ),
+                );
+              },
+              { amount: 0.3 },
+            ),
+          );
+        });
+
+      document
+        .querySelectorAll<HTMLElement>("[data-motion-interactive]")
+        .forEach((element) => {
+          const target = element.querySelector<HTMLElement>(
+            "[data-motion-target], [data-motion-arrow]",
+          );
+          if (!target) return;
+
+          let activeAnimation: StoppableAnimation | undefined;
+          let focused = false;
+          let hovered = false;
+          let interactionActive = false;
+          const axis = target.dataset.motionAxis === "y" ? "y" : "x";
+          const move = (active: boolean) => {
+            activeAnimation?.stop();
+            const transform =
+              axis === "y"
+                ? `translate3d(0, ${active ? 2 : 0}px, 0)`
+                : `translate3d(${active ? 3 : 0}px, 0, 0)`;
+            activeAnimation = animate(
+              target,
+              { transform },
+              { duration: 0.18, ease },
+            );
+          };
+          const updateInteraction = () => {
+            const nextState = focused || hovered;
+            if (nextState === interactionActive) return;
+
+            interactionActive = nextState;
+            move(nextState);
+          };
+          const onFocus = () => {
+            focused = true;
+            updateInteraction();
+          };
+          const onBlur = () => {
+            focused = false;
+            updateInteraction();
+          };
+          const onPointerEnter = (event: PointerEvent) => {
+            if (event.pointerType === "touch") return;
+            hovered = true;
+            updateInteraction();
+          };
+          const onPointerLeave = (event: PointerEvent) => {
+            if (event.pointerType === "touch") return;
+            hovered = false;
+            updateInteraction();
+          };
+
+          element.addEventListener("focusin", onFocus);
+          element.addEventListener("focusout", onBlur);
+          element.addEventListener("pointerenter", onPointerEnter);
+          element.addEventListener("pointerleave", onPointerLeave);
+          disposers.push(() => {
+            activeAnimation?.stop();
+            element.removeEventListener("focusin", onFocus);
+            element.removeEventListener("focusout", onBlur);
+            element.removeEventListener("pointerenter", onPointerEnter);
+            element.removeEventListener("pointerleave", onPointerLeave);
+            resetElement(target);
+          });
+        });
+
+      document
+        .querySelectorAll<HTMLButtonElement>("[data-motion-theme-toggle]")
+        .forEach((button) => {
+          const icon = button.querySelector<HTMLElement>(".theme-toggle__icon");
+          if (!icon) return;
+
+          let activeAnimation: StoppableAnimation | undefined;
+          const onClick = () => {
+            activeAnimation?.stop();
+            activeAnimation = animate(
+              icon,
+              {
+                transform: [
+                  "rotate(0deg) scale(1)",
+                  "rotate(82deg) scale(0.86)",
+                  "rotate(0deg) scale(1)",
+                ],
+              },
+              { duration: 0.36, ease },
+            );
+          };
+
+          button.addEventListener("click", onClick);
+          disposers.push(() => {
+            activeAnimation?.stop();
+            button.removeEventListener("click", onClick);
+            resetElement(icon);
+          });
+        });
+    } catch {
+      disposers.forEach((dispose) => dispose());
+      animations.forEach((animation) => animation.stop());
+      resetMotionStyles();
+      disposeCurrentMotion = () => {};
+      return;
+    }
+
+    disposeCurrentMotion = () => {
+      disposers.forEach((dispose) => dispose());
+      animations.forEach((animation) => animation.stop());
+      resetMotionStyles();
+    };
+  };
+
+  initialiseMotion();
+  reducedMotion.addEventListener("change", initialiseMotion);
+</script>

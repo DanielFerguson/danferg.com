@@ -3,6 +3,7 @@ import type SEO from "types/SEO";
 import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
+import RelatedContent from "@components/RelatedContent.astro";
 
 const { frontmatter } = Astro.props;
 const formatDate = (date: string) =>
@@ -11,15 +12,32 @@ const formatDate = (date: string) =>
     month: "long",
     year: "numeric",
   }).format(new Date(`${date}T00:00:00`));
+const modifiedDate = frontmatter.modifiedDate || frontmatter.updatedDate;
 
-const SEO: SEO = {
+const SEO: SEO & {
+  headline: string;
+  articleSection: string;
+  modifiedDate?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+} = {
   title: `${frontmatter.title} | Dan Ferg`,
+  headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: frontmatter.imageUrl,
+  imageUrls: frontmatter.imageUrls,
+  imageAlt:
+    frontmatter.imageAlt || `${frontmatter.title} article cover image`,
+  imageWidth: frontmatter.imageWidth,
+  imageHeight: frontmatter.imageHeight,
+  imageType: frontmatter.imageType,
   openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
   schemaType: "Article",
   publishedDate: frontmatter.date,
+  modifiedDate,
+  articleSection: "Articles",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Articles", url: "/articles" },
@@ -31,20 +49,24 @@ const SEO: SEO = {
 <BaseLayout {...SEO}>
   <NavBar />
   <main id="main-content">
-    <header class="site-container story-header">
-      <p class="story-header__path"><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / FILE</p>
-      <div class="story-header__grid">
+    <header class="site-container story-header" data-motion-intro-group>
+      <p class="story-header__path" data-motion-intro-item><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / FILE</p>
+      <div class="story-header__grid" data-motion-intro-item>
         <div>
-          <p class="story-header__type">ARTICLE // {formatDate(frontmatter.date).toUpperCase()}</p>
+          <p class="story-header__type">
+            ARTICLE // PUBLISHED <time datetime={frontmatter.date}>{formatDate(frontmatter.date).toUpperCase()}</time>
+            {modifiedDate && modifiedDate !== frontmatter.date && <> // UPDATED <time datetime={modifiedDate}>{formatDate(modifiedDate).toUpperCase()}</time></>}
+          </p>
           <h1>{frontmatter.title}</h1>
         </div>
         <p class="story-header__description">{frontmatter.description}</p>
       </div>
     </header>
     <hr class="site-container ascii-rule" />
-    <article class="prose-shell">
+    <article class="prose-shell" data-motion-reveal>
       <slot />
     </article>
+    <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" />
     <EditorialEndcap sourceTitle={frontmatter.title} />
   </main>
 </BaseLayout>

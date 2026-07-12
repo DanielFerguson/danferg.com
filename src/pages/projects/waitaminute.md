@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: WaitAMinute
-iconUrl: /assets/projects/waitaminute.png
 description: A privacy-conscious Chrome extension that adds configurable friction before distracting websites, turning an automatic visit into a deliberate choice.
 tags:
   - Behaviour design
@@ -13,7 +12,7 @@ status: Open-source prototype
 role: Creator / product / extension engineering
 externalUrl: https://github.com/DanielFerguson/waitaminute
 externalLabel: View source
-imageUrl: /assets/projects/waitaminute/screenshot.webp
+imageKey: waitaminute
 canonicalUrl: /projects/waitaminute
 ---
 

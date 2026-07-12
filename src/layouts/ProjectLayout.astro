@@ -1,6 +1,6 @@
 ---
 import type SEO from "types/SEO";
-import { Picture } from "astro:assets";
+import { getImage, Picture } from "astro:assets";
 import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import ConversionEndcap from "@components/ConversionEndcap.astro";
@@ -14,11 +14,15 @@ import { createContactMailto } from "../utils/contact-links";
 const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
 const projectLinkLabel = frontmatter.externalLabel || "Visit project";
-const projectScreenshot = getProjectScreenshot(frontmatter.imageUrl);
-const projectPreviewImage =
-  typeof projectScreenshot === "string"
-    ? projectScreenshot
-    : projectScreenshot.src;
+const projectScreenshot = getProjectScreenshot(frontmatter.imageKey);
+const projectSocialImage = await getImage({
+  src: projectScreenshot,
+  width: 1200,
+  height: 630,
+  fit: "cover",
+  format: "webp",
+  quality: 80,
+});
 const screenshotAlt = `${frontmatter.title} product interface screenshot`;
 const nextProject = getNextProject(frontmatter.canonicalUrl);
 const projectStatus = String(frontmatter.status || "").toLowerCase();
@@ -67,14 +71,29 @@ const endcapActions = [
   },
 ];
 
-const SEO: SEO = {
+const SEO: SEO & {
+  headline: string;
+  articleSection: string;
+  publishedDate?: string;
+  modifiedDate?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+} = {
   title: `${frontmatter.title} | Dan Ferg`,
+  headline: frontmatter.title,
   description: frontmatter.description,
-  imageUrl: projectPreviewImage,
+  imageUrl: projectSocialImage.src,
   imageAlt: screenshotAlt,
+  imageWidth: 1200,
+  imageHeight: 630,
+  imageType: "image/webp",
   openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
   schemaType: "CreativeWork",
+  publishedDate: frontmatter.publishedDate || frontmatter.date,
+  modifiedDate: frontmatter.modifiedDate || frontmatter.updatedDate,
+  articleSection: "Case studies",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Projects", url: "/projects" },
@@ -86,20 +105,20 @@ const SEO: SEO = {
 <BaseLayout {...SEO}>
   <NavBar />
   <main id="main-content">
-    <header class="site-container project-header">
-      <p class="project-header__path"><a href="/">HOME</a> / <a href="/projects">PROJECTS</a> / CASE_STUDY</p>
-      <div class="project-header__grid">
+    <header class="site-container project-header" data-motion-intro-group>
+      <p class="project-header__path" data-motion-intro-item><a href="/">HOME</a> / <a href="/projects">PROJECTS</a> / CASE_STUDY</p>
+      <div class="project-header__grid" data-motion-intro-item>
         <div>
           <p class="project-header__type">CASE STUDY // DAN FERG’S CONTRIBUTION</p>
           <h1>{frontmatter.title}</h1>
         </div>
         <div class="project-header__aside">
           <p>{frontmatter.description}</p>
-          {projectUrl && <a href={projectUrl} target="_blank" rel="noopener noreferrer">{projectLinkLabel} <span aria-hidden="true">↗</span></a>}
+          {projectUrl && <a href={projectUrl} target="_blank" rel="noopener noreferrer" data-motion-interactive>{projectLinkLabel} <span aria-hidden="true" data-motion-arrow>↗</span></a>}
         </div>
       </div>
 
-      <dl class="project-meta">
+      <dl class="project-meta" data-motion-intro-item>
         {frontmatter.period && <div><dt>PERIOD</dt><dd>{frontmatter.period}</dd></div>}
         {frontmatter.status && <div><dt>STATUS</dt><dd>{frontmatter.status}</dd></div>}
         {frontmatter.role && <div><dt>ROLE</dt><dd>{frontmatter.role}</dd></div>}
@@ -107,7 +126,7 @@ const SEO: SEO = {
       </dl>
     </header>
 
-    <div class="site-container project-visual">
+    <div class="site-container project-visual" data-motion-reveal data-motion-scale>
       <div class="project-visual__bar"><span>OUTPUT / PRODUCT_INTERFACE</span><span>FIG. 01</span></div>
       <Picture
         src={projectScreenshot}
@@ -122,7 +141,7 @@ const SEO: SEO = {
       />
     </div>
 
-    <article class="prose-shell">
+    <article class="prose-shell" data-motion-reveal>
       <slot />
     </article>
 
@@ -195,7 +214,7 @@ const SEO: SEO = {
     text-underline-offset: 0.22em;
   }
 
-  .project-header__aside a:hover {
+  .project-header__aside a:is(:hover, :focus-visible) {
     color: var(--signal);
   }
 

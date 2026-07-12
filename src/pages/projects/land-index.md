@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Land Index
-iconUrl: /assets/projects/ili.svg
-description: A GovHack geospatial proof of concept that combined soil, rainfall, water, and proximity data to make the agricultural value of land visible in planning conversations.
+description: A GovHack geospatial prototype combining soil, rainfall, water, and proximity data to make agricultural land value visible in planning decisions.
 tags:
   - Geospatial data
   - Civic technology
@@ -13,7 +12,7 @@ status: GovHack proof of concept
 role: Team CeRDIfy / software & data
 externalUrl: https://innovative-land-index.vercel.app/
 externalLabel: Open interactive prototype
-imageUrl: /assets/projects/land-index/screenshot.webp
+imageKey: land-index
 canonicalUrl: /projects/land-index
 ---
 

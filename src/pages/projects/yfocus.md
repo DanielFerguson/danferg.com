@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: yFocus
-iconUrl: /assets/projects/yfocus.svg
 description: An early idea-validation concept for turning a promising thought into a clearer problem, a testable assumption, and an informed decision about whether to build.
 tags:
   - Product strategy
@@ -11,7 +10,7 @@ featured: false
 period: "2022"
 status: Concept prototype
 role: Product concept / prototyping
-imageUrl: /assets/projects/yfocus/screenshot.webp
+imageKey: yfocus
 canonicalUrl: /projects/yfocus
 ---
 

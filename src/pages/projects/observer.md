@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Observer
-iconUrl: /assets/projects/observer.svg
-description: A service-monitoring prototype designed to warn small teams before their customers did, track recovery, and turn infrastructure anxiety into a clear operational signal.
+description: A service-monitoring prototype that warned small teams before customers did, tracked recovery, and turned infrastructure anxiety into an operational signal.
 tags:
   - Developer tools
   - Service monitoring
@@ -11,7 +10,7 @@ featured: false
 period: "2022"
 status: Private-beta prototype
 role: Founder / product / engineering
-imageUrl: /assets/projects/observer/screenshot.webp
+imageKey: observer
 canonicalUrl: /projects/observer
 ---
 

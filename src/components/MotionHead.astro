@@ -1,0 +1,63 @@
+<style is:global>
+  [data-motion-arrow] {
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes motion-intro {
+      from {
+        transform: translateY(var(--motion-intro-distance, 10px))
+          scale(var(--motion-intro-scale, 1));
+      }
+      to {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /*
+     * Initial content animates immediately with CSS and never starts
+     * transparent. LCP remains paintable while the small Motion module loads.
+     */
+    [data-motion-intro],
+    [data-motion-intro-item],
+    [data-motion-announcement] .hero .reveal {
+      animation: motion-intro 0.54s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    [data-motion-scale] {
+      --motion-intro-scale: 0.985;
+    }
+
+    [data-motion-delay="0.16"] {
+      animation-delay: 0.16s;
+    }
+
+    [data-motion-intro-group] > [data-motion-intro-item]:nth-child(2) {
+      animation-delay: 0.06s;
+    }
+
+    [data-motion-intro-group] > [data-motion-intro-item]:nth-child(3) {
+      animation-delay: 0.12s;
+    }
+
+    [data-motion-intro-group] > [data-motion-intro-item]:nth-child(4) {
+      animation-delay: 0.18s;
+    }
+
+    [data-motion-intro-group] > [data-motion-intro-item]:nth-child(n + 5) {
+      animation-delay: 0.24s;
+    }
+
+    [data-motion-announcement] .hero .reveal.d1 {
+      animation-delay: 0.04s;
+    }
+
+    [data-motion-announcement] .hero .reveal.d2 {
+      animation-delay: 0.08s;
+    }
+
+    [data-motion-announcement] .hero .reveal.d3 {
+      animation-delay: 0.12s;
+    }
+  }
+</style>

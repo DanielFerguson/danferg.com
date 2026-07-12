@@ -18,18 +18,18 @@ const SEO: SEO = {
 <BaseLayout {...SEO}>
   <NavBar />
   <main id="main-content" class="site-container not-found">
-    <section aria-labelledby="not-found-title">
-      <p class="not-found__eyebrow">ERROR_404 // PATH_NOT_FOUND</p>
-      <p class="not-found__code" aria-hidden="true">404</p>
-      <h1 id="not-found-title">This path leads nowhere useful.</h1>
-      <p class="not-found__lede">
+    <section aria-labelledby="not-found-title" data-motion-intro-group>
+      <p class="not-found__eyebrow" data-motion-intro-item>ERROR_404 // PATH_NOT_FOUND</p>
+      <p class="not-found__code" aria-hidden="true" data-motion-intro-item>404</p>
+      <h1 id="not-found-title" data-motion-intro-item>This path leads nowhere useful.</h1>
+      <p class="not-found__lede" data-motion-intro-item>
         The page may have moved, the link may be old, or the URL may have taken a wrong turn.
         The useful work is still here.
       </p>
-      <nav class="not-found__actions" aria-label="Page not found options">
-        <a class="not-found__primary" href="/">Return home <span aria-hidden="true">→</span></a>
-        <a href="/projects">Explore projects <span aria-hidden="true">→</span></a>
-        <a href="/articles">Read articles <span aria-hidden="true">→</span></a>
+      <nav class="not-found__actions" aria-label="Page not found options" data-motion-intro-item>
+        <a class="not-found__primary" href="/" data-motion-interactive>Return home <span aria-hidden="true" data-motion-arrow>→</span></a>
+        <a href="/projects" data-motion-interactive>Explore projects <span aria-hidden="true" data-motion-arrow>→</span></a>
+        <a href="/articles" data-motion-interactive>Read articles <span aria-hidden="true" data-motion-arrow>→</span></a>
       </nav>
     </section>
   </main>
@@ -102,7 +102,7 @@ const SEO: SEO = {
     text-decoration: none;
   }
 
-  .not-found__actions a:hover,
+  .not-found__actions a:is(:hover, :focus-visible),
   .not-found__actions .not-found__primary {
     border-color: var(--signal-deep);
     color: var(--inverse-ink);
