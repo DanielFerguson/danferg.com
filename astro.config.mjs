@@ -17,10 +17,6 @@ const lastModifiedByPath = new Map([
   ["/articles", new Date("2026-07-12T00:00:00.000Z")],
   ["/newsletters", new Date("2022-12-09T00:00:00.000Z")],
   ["/consulting", new Date("2026-07-12T00:00:00.000Z")],
-  [
-    "/2026-06-10-absa-announcement",
-    new Date("2026-07-12T00:00:00.000Z"),
-  ],
 ]);
 
 for (const directory of editorialDirectories) {
