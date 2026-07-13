@@ -4,6 +4,7 @@ export default interface Project {
   tags: Array<string>;
   featured?: boolean;
   highlight?: boolean;
+  highlightDiagram?: string;
   period?: string;
   status?: string;
   role?: string;

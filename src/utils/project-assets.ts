@@ -1,5 +1,6 @@
 import airproxyScreenshot from "../assets/projects/airproxy/screenshot.webp";
 import autofarmScreenshot from "../assets/projects/autofarm/screenshot.webp";
+import balanceBoardScreenshot from "../assets/projects/balance-board/screenshot.webp";
 import communitiLabsScreenshot from "../assets/projects/communitilabs/screenshot.png";
 import fergusonLivestockScreenshot from "../assets/projects/ferguson-livestock/screenshot.webp";
 import guardianScreenshot from "../assets/projects/guardian/screenshot.webp";
@@ -18,6 +19,7 @@ import yfocusScreenshot from "../assets/projects/yfocus/screenshot.webp";
 export const projectScreenshots = {
   airproxy: airproxyScreenshot,
   autofarm: autofarmScreenshot,
+  "balance-board": balanceBoardScreenshot,
   communitilabs: communitiLabsScreenshot,
   "ferguson-livestock": fergusonLivestockScreenshot,
   guardian: guardianScreenshot,

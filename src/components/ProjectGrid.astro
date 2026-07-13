@@ -5,6 +5,7 @@ interface ProjectModule {
     title: string;
     description: string;
     highlight?: boolean;
+    highlightDiagram?: string;
     period?: string;
     role?: string;
     status?: string;
@@ -22,6 +23,7 @@ const { projects } = Astro.props as Props;
   {
     projects.map((project, index) => {
       const isHighlight = Boolean(project.frontmatter.highlight);
+      const highlightDiagram = project.frontmatter.highlightDiagram;
 
       return (
         <a
@@ -55,12 +57,8 @@ const { projects } = Astro.props as Props;
             </span>
           </span>
 
-          {isHighlight && (
-            <pre class="project-cell__diagram" aria-hidden="true">{`┌───────────┐    ┌───────────┐
-│  voices   │───▶│ evidence  │
-└───────────┘    └─────┬─────┘
-                       ▼
-                 [confidence]`}</pre>
+          {isHighlight && highlightDiagram && (
+            <pre class="project-cell__diagram" aria-hidden="true">{highlightDiagram.trim()}</pre>
           )}
         </a>
       );

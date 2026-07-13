@@ -44,6 +44,7 @@ const projects = defineCollection({
     tags: z.array(z.string().min(1)).min(1),
     featured: z.boolean().optional(),
     highlight: z.boolean().optional(),
+    highlightDiagram: z.string().min(1).optional(),
     period: z.string().min(1).optional(),
     status: z.string().min(1).optional(),
     role: z.string().min(1).optional(),

@@ -90,6 +90,12 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how monitoring closed the loop from service outage to recovery.",
   },
   "/projects/observer": {
+    title: "Balance Board",
+    href: "/projects/balance-board",
+    description:
+      "See how a Year 12 prototype joined physical design, analogue electronics, and software.",
+  },
+  "/projects/balance-board": {
     title: "Swin Lead",
     href: "/projects/swin-lead",
     description:

@@ -10,6 +10,8 @@ featured: true
 period: 2026–present
 status: Unreleased / in development
 role: Creator / game design / Rust engineering
+externalUrl: https://github.com/DanielFerguson/autofarm
+externalLabel: View source
 imageKey: autofarm
 canonicalUrl: /projects/autofarm
 ---
