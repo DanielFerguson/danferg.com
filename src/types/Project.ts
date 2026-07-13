@@ -9,7 +9,10 @@ export default interface Project {
   role?: string;
   externalUrl?: string;
   externalLabel?: string;
+  caseStudyLabel?: string;
+  visualLabel?: string;
   imageKey: string;
+  imageAlt?: string;
   canonicalUrl: string;
   externalLink?: string;
 }

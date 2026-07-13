@@ -23,7 +23,11 @@ const projectSocialImage = await getImage({
   format: "webp",
   quality: 80,
 });
-const screenshotAlt = `${frontmatter.title} product interface screenshot`;
+const screenshotAlt =
+  frontmatter.imageAlt || `${frontmatter.title} product interface screenshot`;
+const caseStudyLabel =
+  frontmatter.caseStudyLabel || "CASE STUDY // DAN FERG’S CONTRIBUTION";
+const visualLabel = frontmatter.visualLabel || "OUTPUT / PRODUCT_INTERFACE";
 const nextProject = getNextProject(frontmatter.canonicalUrl);
 const projectStatus = String(frontmatter.status || "").toLowerCase();
 const isExploratory = /concept|prototype|proof of concept|mvp|private-beta/.test(
@@ -109,7 +113,7 @@ const SEO: SEO & {
       <p class="project-header__path" data-motion-intro-item><a href="/">HOME</a> / <a href="/projects">PROJECTS</a> / CASE_STUDY</p>
       <div class="project-header__grid" data-motion-intro-item>
         <div>
-          <p class="project-header__type">CASE STUDY // DAN FERG’S CONTRIBUTION</p>
+          <p class="project-header__type">{caseStudyLabel}</p>
           <h1>{frontmatter.title}</h1>
         </div>
         <div class="project-header__aside">
@@ -127,7 +131,7 @@ const SEO: SEO & {
     </header>
 
     <div class="site-container project-visual" data-motion-reveal data-motion-scale>
-      <div class="project-visual__bar"><span>OUTPUT / PRODUCT_INTERFACE</span><span>FIG. 01</span></div>
+      <div class="project-visual__bar"><span>{visualLabel}</span><span>FIG. 01</span></div>
       <Picture
         src={projectScreenshot}
         formats={["avif", "webp"]}

@@ -10,6 +10,7 @@ import { readdirSync, readFileSync } from "node:fs";
 const editorialDirectories = [
   new URL("./src/pages/articles/", import.meta.url),
   new URL("./src/pages/newsletters/", import.meta.url),
+  new URL("./src/pages/projects/", import.meta.url),
 ];
 
 const lastModifiedByPath = new Map([
@@ -24,9 +25,15 @@ for (const directory of editorialDirectories) {
     if (!/\.(md|mdx)$/.test(filename)) continue;
 
     const source = readFileSync(new URL(filename, directory), "utf8");
-    const canonicalPath = source.match(/^canonicalUrl:\s*["']?([^\n"']+)/m)?.[1];
-    const updatedDate = source.match(/^updatedDate:\s*["']?(\d{4}-\d{2}-\d{2})/m)?.[1];
-    const publishedDate = source.match(/^date:\s*["']?(\d{4}-\d{2}-\d{2})/m)?.[1];
+    const canonicalPath = source.match(
+      /^canonicalUrl:\s*["']?([^\n"']+)/m,
+    )?.[1];
+    const updatedDate = source.match(
+      /^updatedDate:\s*["']?(\d{4}-\d{2}-\d{2})/m,
+    )?.[1];
+    const publishedDate = source.match(
+      /^(?:date|publishedDate):\s*["']?(\d{4}-\d{2}-\d{2})/m,
+    )?.[1];
     const lastModified = updatedDate || publishedDate;
 
     if (canonicalPath && lastModified) {

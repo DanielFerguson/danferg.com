@@ -36,7 +36,7 @@ const newsletters = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./src/pages/projects" }),
+  loader: glob({ pattern: "*.{md,mdx}", base: "./src/pages/projects" }),
   schema: z.object({
     layout: z.string().optional(),
     title: z.string().min(1),
@@ -49,7 +49,10 @@ const projects = defineCollection({
     role: z.string().min(1).optional(),
     externalUrl: z.url().optional(),
     externalLabel: z.string().min(1).optional(),
+    caseStudyLabel: z.string().min(1).optional(),
+    visualLabel: z.string().min(1).optional(),
     imageKey: z.string().min(1),
+    imageAlt: z.string().min(1).optional(),
     canonicalUrl: canonicalPath,
     publishedDate: isoDate.optional(),
     updatedDate: isoDate.optional(),

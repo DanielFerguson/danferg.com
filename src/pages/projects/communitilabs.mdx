@@ -1,0 +1,308 @@
+---
+layout: ../../layouts/ProjectLayout.astro
+title: Communiti Labs
+description: A founder retrospective on turning fragmented community feedback into defensible evidence—and learning why meaningful product impact did not sustain the company.
+tags:
+  - Civic technology
+  - Product strategy
+  - Software
+featured: true
+highlight: true
+period: 2023–2026
+status: Wound down / retrospective
+role: Co-founder / CEO / product / engineering
+externalUrl: https://communitilabs.com/blogs/2026-07-13-closing-a-chapter-thank-you-from-communiti-labs
+externalLabel: Read the closing chapter
+imageKey: communitilabs
+imageAlt: Communiti Labs current brand artwork reading “Many Voices. One insight.” beside engagement channels converging into a single point.
+caseStudyLabel: FOUNDER RETROSPECTIVE // DAN FERG’S CONTRIBUTION
+visualLabel: IDENTITY / CURRENT_BRAND_SYSTEM
+canonicalUrl: /projects/communitilabs
+updatedDate: "2026-07-13"
+---
+
+import CaseStudyFigure from "../../components/CaseStudyFigure.astro";
+import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
+import originalIdentity from "../../assets/projects/communitilabs/original-identity.webp";
+import analysisWireframe from "../../assets/projects/communitilabs/analysis-wireframe-2023.webp";
+import analysisFirstPrototype from "../../assets/projects/communitilabs/analysis-first-prototype.webp";
+import analysisWorkspace from "../../assets/projects/communitilabs/analysis-co-designed-workspace.webp";
+import publicLaunch from "../../assets/projects/communitilabs/launch-engage-by-the-beach-2024.webp";
+import analysisEvidenceTrail from "../../assets/projects/communitilabs/analysis-evidence-trail.webp";
+import impact2025 from "../../assets/projects/communitilabs/impact-2025.webp";
+import updates2025 from "../../assets/projects/communitilabs/updates-2025.webp";
+import conversationsPlan from "../../assets/projects/communitilabs/conversations-plan.webp";
+import conversationsChannels from "../../assets/projects/communitilabs/conversations-channels.webp";
+import conversationsParticipation from "../../assets/projects/communitilabs/conversations-participation.webp";
+
+export const milestones = [
+  {
+    value: "2023",
+    title: "Listen before building",
+    detail:
+      "Around 100 practitioner interviews surfaced 13 recurring challenges and a shared problem: too much fragmented feedback, with too little time to bring it together.",
+  },
+  {
+    value: "2024",
+    title: "Co-design the first product",
+    detail:
+      "Twelve months working alongside practitioners turned a hand-drawn idea into the first public version of Communiti Analysis.",
+  },
+  {
+    value: "2025",
+    title: "Take Analysis to market",
+    detail:
+      "The team launched a shared analysis workspace, supported real engagement projects, and kept shipping in response to customer feedback.",
+  },
+  {
+    value: "2026",
+    title: "Broaden the thesis, then stop",
+    detail:
+      "Early Conversations pilots explored the complete engagement cycle before Communiti Labs began winding down.",
+  },
+];
+
+export const impactMetrics = [
+  {
+    value: "2,566,343",
+    title: "Community contributions",
+    detail: "Processed and analysed during 2025.",
+  },
+  {
+    value: "4,867 hours",
+    title: "Estimated manual work avoided",
+    detail: "Time returned to engagement teams for higher-value work.",
+  },
+  {
+    value: "1,171",
+    title: "Engagement reports",
+    detail: "Reporting outputs created from connected evidence.",
+  },
+  {
+    value: "32×",
+    title: "Estimated average ROI",
+    detail:
+      "Calculated from avoided manual-analysis time against platform investment.",
+  },
+  {
+    value: "2,000+",
+    title: "Platform updates",
+    detail:
+      "Changes, features, improvements, fixes, and design overhauls shipped in 2025.",
+  },
+];
+
+## The outcome, honestly
+
+Communiti Labs did not become the sustainable company we set out to build. It also did real and consequential work.
+
+Across three years, our team moved from research interviews and rough sketches to products that helped engagement practitioners bring fragmented community feedback into one evidence trail. In 2025 alone, Communiti Analysis processed more than 2.5 million contributions and returned thousands of hours to the people responsible for understanding them.
+
+Those truths belong together. Product impact is not the same thing as commercial sustainability, and a meaningful mission does not remove the need for a repeatable path to market. This is the story of what we built, how it evolved, what worked, and what I would do differently.
+
+## The question that started it
+
+Steven Germain and I began with a broad question: **how might we help Victorians better engage with community and natural spaces?** We did not begin with a predetermined product.
+
+We cold-called and emailed around 100 practitioners and asked what they loved about their work and what stopped them from doing it well. Across those conversations we identified roughly 13 recurring challenges. One thread connected almost everyone: they had too much data and not enough time, resources, or specialised skills to bring it together meaningfully.
+
+These were _people people_. They cared about advocating for communities, building relationships, and helping organisations make better decisions. But the better they engaged, the more work they created for themselves across workshops, surveys, handwritten notes, spreadsheets, submissions, recordings, interviews, and reports.
+
+Our ambition became simple to say and difficult to deliver: **help ensure that no community voice was lost.**
+
+<CaseStudyFigure
+  number="02"
+  label="ORIGINS / IDENTITY_AND_FIRST_SKETCH"
+  layout="two-up"
+  items={[
+    {
+      src: originalIdentity,
+      alt: "The original Communiti Labs logo, with a layered purple and turquoise mark beside a narrow uppercase wordmark.",
+      caption: "The original Communiti Labs identity.",
+      fit: "contain",
+    },
+    {
+      src: analysisWireframe,
+      alt: "A hand-drawn 2023 Communiti Analysis wireframe combining uploaded feedback, project context, insight cards, and an ask-the-data panel.",
+      caption:
+        "An early 2023 wireframe exploring how fragmented feedback might come together.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+<CaseStudyDataBand label="MILESTONES / 2023—2026" items={milestones} />
+
+## Turning research into product rules
+
+We began with Communiti Analysis and spent 2024 co-designing it with practitioners and organisations across 13 local-government areas and councils. That was separate from the 13 recurring challenges identified during discovery: one number described the research themes; the other described the breadth of people and places involved in shaping the product.
+
+The work established a set of non-negotiable product rules:
+
+- Accept the messy formats engagement actually produces.
+- Preserve the original evidence behind every conclusion.
+- Keep practitioners in control of interpretation and review.
+- Make the final reasoning easy to trace, question, and defend.
+
+The first prototype proved the broad workflow. Twelve months of observation and feedback turned it into a shared analysis workspace grounded in how projects were actually run.
+
+<CaseStudyFigure
+  number="03"
+  label="PRODUCT_EVOLUTION / PROTOTYPE_TO_WORKSPACE"
+  layout="two-up"
+  items={[
+    {
+      src: analysisFirstPrototype,
+      alt: "The first Communiti Analysis prototype showing uploaded files, project details, generated insights, and a chat panel.",
+      caption: "The first version of Communiti Analysis.",
+    },
+    {
+      src: analysisWorkspace,
+      alt: "A co-designed Communiti Analysis workspace showing project context, questions, themes, source documents, and a community report.",
+      caption:
+        "Twelve months of co-design turned the prototype into a shared analysis workspace.",
+    },
+  ]}
+/>
+
+## Taking Communiti Analysis to market
+
+The first public version was presented at Engage by the Beach in 2024. In 2025, we took the product to market as Communiti Analysis.
+
+It brought surveys, spreadsheets, documents, written submissions, transcripts, recordings, images, and in-person feedback into one workspace. Teams could identify themes, topics, sentiment, arguments, and supporting evidence without treating every channel as a separate analysis project.
+
+<CaseStudyFigure
+  number="04"
+  label="MILESTONE / FIRST_PUBLIC_VERSION"
+  layout="single"
+  items={[
+    {
+      src: publicLaunch,
+      alt: "Dan Ferguson presenting the first public version of Communiti Analysis at Engage by the Beach in 2024, with Steven Germain seated beside him.",
+      caption:
+        "Presenting the first public version of Communiti Analysis at Engage by the Beach in 2024.",
+    },
+  ]}
+/>
+
+## Auditability was the product
+
+The aim was never merely to produce a plausible summary or add a chatbot to an existing workflow. Every answer needed to show its working.
+
+Themes, arguments, positions, and reports had to lead reviewers back to the individual, verbatim contributions from which they were derived. The technology was intended to support practitioner judgement, not quietly replace it. That distinction mattered in work shaped by public accountability, conflicting experiences, and decisions with real consequences.
+
+> It is never good enough to say, “The platform told me so.”
+
+Building that evidence trail at the convergence of rapidly developing language models, traditional machine learning, and qualitative and quantitative research was one of the hardest technical challenges of my career. It was also one of the most rewarding.
+
+<CaseStudyFigure
+  number="05"
+  label="PRODUCT_PRINCIPLE / FOLLOW_THE_EVIDENCE"
+  layout="single"
+  items={[
+    {
+      src: analysisEvidenceTrail,
+      alt: "A Communiti Analysis argument detail view connecting an identified argument to individual verbatim quotes, positions, and source files.",
+      caption:
+        "Every conclusion was designed to lead reviewers back to the individual contributions behind it.",
+    },
+  ]}
+/>
+
+## What product progress looked like
+
+The numbers below describe product use and estimated customer value. They do not describe a sustainable business, and the distinction matters.
+
+<CaseStudyDataBand label="2025 / PRODUCT_IMPACT" items={impactMetrics} />
+
+The time-saved and ROI figures were estimates based on the manual coding and synthesis avoided relative to platform investment. They were useful indicators of customer value, not audited financial results.
+
+<CaseStudyFigure
+  number="06"
+  label="PROGRESS / IMPACT_AND_ITERATION"
+  layout="two-up"
+  items={[
+    {
+      src: impact2025,
+      alt: "Communiti Labs 2025 impact summary: 4,867.67 hours saved, 2,566,343 contributions heard, 335,869 tags applied, 21,104 themes identified, and 1,171 reports created.",
+      caption:
+        "The collective product impact reported across customer work in 2025.",
+      fit: "contain",
+    },
+    {
+      src: updates2025,
+      alt: "Communiti Labs 2025 summary stating that more than 2,000 changes, features, improvements, bug fixes, and design overhauls were shipped.",
+      caption:
+        "More than 2,000 updates reflected the speed and breadth of the team’s response to feedback.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+The practitioner reactions mattered just as much as the totals:
+
+> “I can't believe this took about 20 minutes to produce. It's exactly how I'd set out my engagement report—but without the hours and hours of manual work.” — Stephanie Roberts, Campbelltown City Council
+
+> “What took us three weeks in consulting, Communiti Analysis did in minutes.” — Joyce Jiao, Herekind
+
+## Looking beyond the online portal
+
+Our research eventually led to a broader question: **what would community engagement look like if technology supported the entire process, not only the survey or the analysis at the end?**
+
+That question became Communiti Conversations. We began building an engagement operating system through which teams could plan together, engage across multiple channels, review participation consistently, hand feedback into analysis, and close the loop with their communities.
+
+<CaseStudyFigure
+  number="07"
+  label="PLATFORM_EXPANSION / CONNECTED_PROJECT_WORKSPACE"
+  layout="single"
+  items={[
+    {
+      src: conversationsPlan,
+      alt: "A Communiti Conversations project workspace showing recommended actions, a project timeline, project details, and geographic coverage.",
+      caption:
+        "Conversations connected planning, participation, review, and follow-up in one project workspace.",
+    },
+  ]}
+/>
+
+Communities should not have to come to a platform simply because it is convenient for the organisation running the engagement. Participation needed to work across web forms, SMS, email, voice, uploads, in-person activities, and the other channels people already used. Multilingual participation and follow-up also needed to be part of the complete workflow rather than separate, inconsistent tasks.
+
+<CaseStudyFigure
+  number="08"
+  label="PLATFORM_EXPANSION / MULTICHANNEL_PARTICIPATION"
+  layout="two-up"
+  items={[
+    {
+      src: conversationsChannels,
+      alt: "Communiti Conversations content sources showing web, email, in-person, voicemail, audio, and upload channels in one project.",
+      caption:
+        "Bring online and offline channels into the same accountable record.",
+    },
+    {
+      src: conversationsParticipation,
+      alt: "A Communiti Conversations participation dashboard showing response activity, channel distribution, and completion rates.",
+      caption:
+        "Understand participation consistently across every appropriate channel.",
+    },
+  ]}
+/>
+
+We did not have enough time to give Conversations the future it deserved. Its first pilots nevertheless strengthened my belief that the underlying thesis was right: public participation needs connected systems for planning, participation, analysis, decision-making, and accountability—not simply another online portal.
+
+## What did not work
+
+Meaningful product outcomes did not become a repeatable and sustainable path to market quickly enough. Enthusiasm for the mission was real, but enthusiasm and the organisational conditions required to purchase, adopt, and champion a new category of technology were not the same thing.
+
+We could have narrowed our focus sooner. I could have validated willingness and capacity to buy more rigorously, treated procurement and change management as part of the product problem, and built a more disciplined go-to-market motion before broadening the platform vision.
+
+Health and personal capacity also shaped the decision to wind down. A company cannot sustainably pursue its mission when continuing requires more from its people than they can responsibly keep giving. As co-founder and CEO, the responsibility for recognising and responding to those realities was ultimately mine.
+
+Failure to create a sustainable company does not erase what the team built or the value customers received. It does change how I understand the work: a strong product, a necessary mission, and impressive use are all meaningful, but none is a substitute for a durable business model.
+
+## What remains
+
+Communiti Labs existed because Steven, Finn, Jarryd, Laura, Becky, our customers, pilot partners, investors, advisers, and many generous practitioners chose to give an ambitious idea their time, trust, criticism, and care. The quality of their work should never be confused with the outcome of the company.
+
+The mission remains important. Community voices still deserve to be heard, understood, and reflected in the decisions that shape people’s lives. The products and technology may yet continue in another form, but their future was not settled when we announced the wind-down.
+
+The full personal account—including the people who made the journey possible and the circumstances behind the decision—is in [Closing a chapter: Thank you from Communiti Labs](https://communitilabs.com/blogs/2026-07-13-closing-a-chapter-thank-you-from-communiti-labs).
