@@ -1,0 +1,150 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+export interface Props {
+  number: string | number;
+  label: string;
+  src: string;
+  poster: ImageMetadata;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+}
+
+const { number, label, src, poster, width, height, alt, caption } = Astro.props;
+const figureNumber = String(number).padStart(2, "0");
+const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim();
+---
+
+<figure
+  class="case-study-motion"
+  aria-label={`${accessibleLabel}, figure ${figureNumber}`}
+>
+  <figcaption class="case-study-motion__bar">
+    <span>{label}</span>
+    <span>FIG. {figureNumber}</span>
+  </figcaption>
+
+  <div class="case-study-motion__media">
+    <img
+      class="case-study-motion__animation"
+      src={src}
+      width={width}
+      height={height}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="case-study-motion__poster">
+      <Picture
+        src={poster}
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        alt={alt}
+        widths={[480, 720, 960]}
+        sizes="(min-width: 1280px) 720px, calc(100vw - 42px)"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+  <p class="case-study-motion__caption">{caption}</p>
+</figure>
+
+<style>
+  .case-study-motion {
+    --case-study-breakout-width: min(
+      calc(100vw - 2.5rem),
+      var(--content-width)
+    );
+    position: relative;
+    left: 50%;
+    width: var(--case-study-breakout-width);
+    max-width: none;
+    margin: clamp(2.75rem, 6vw, 4.75rem) 0;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    transform: translateX(-50%);
+  }
+
+  .case-study-motion__bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .case-study-motion__bar span:last-child {
+    flex: 0 0 auto;
+  }
+
+  .case-study-motion__media {
+    display: grid;
+    min-height: min(72vh, 46rem);
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    background:
+      radial-gradient(circle at 50% 30%, rgb(39 175 213 / 16%), transparent 45%),
+      color-mix(in srgb, var(--signal) 3%, var(--paper));
+  }
+
+  .case-study-motion__animation {
+    display: block;
+    width: min(100%, 20.25rem);
+    height: auto;
+    border: 1px solid rgb(107 213 239 / 28%);
+    box-shadow: 0 1.25rem 3.5rem rgb(0 12 20 / 28%);
+  }
+
+  .case-study-motion__poster {
+    display: none;
+    width: min(100%, 25rem);
+  }
+
+  .case-study-motion__poster :global(picture),
+  .case-study-motion__poster :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .case-study-motion__caption {
+    margin: 0;
+    padding: 0.85rem 1rem 0.95rem;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-study-motion__animation {
+      display: none;
+    }
+
+    .case-study-motion__poster {
+      display: block;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .case-study-motion {
+      --case-study-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .case-study-motion__media {
+      min-height: 0;
+      padding: 0.75rem;
+    }
+  }
+</style>

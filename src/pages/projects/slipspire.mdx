@@ -1,0 +1,229 @@
+---
+layout: ../../layouts/ProjectLayout.astro
+title: Slipspire
+description: An original, swipe-driven ice-sliding puzzle game for mobile—built as a creative reset and a return to the game mechanics that first drew me into computer science.
+tags:
+  - Game design
+  - Mobile development
+  - Godot
+featured: true
+period: 2026–present
+status: Unreleased / active development
+role: Solo creator / game design / engineering / art direction
+externalUrl: https://github.com/DanielFerguson/slipspire
+externalLabel: View source on GitHub
+imageKey: slipspire
+imageAlt: Three current Slipspire screens showing the home destination, a Foundation Campaign puzzle, and the course-completion panel.
+caseStudyLabel: PERSONAL GAME PROJECT // CREATIVE RESET
+visualLabel: CURRENT_BUILD / HOME_GAMEPLAY_COMPLETION
+canonicalUrl: /projects/slipspire
+publishedDate: "2026-07-16"
+---
+
+import CaseStudyFigure from "../../components/CaseStudyFigure.astro";
+import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
+import CaseStudyMotion from "../../components/CaseStudyMotion.astro";
+import home from "../../assets/projects/slipspire/home.webp";
+import courses from "../../assets/projects/slipspire/courses.webp";
+import gameplayFoundation from "../../assets/projects/slipspire/gameplay-foundation.webp";
+import gameplayPowder from "../../assets/projects/slipspire/gameplay-powder.webp";
+import gameplayMechanisms from "../../assets/projects/slipspire/gameplay-mechanisms.webp";
+import completion from "../../assets/projects/slipspire/completion.webp";
+import powderConcept from "../../assets/projects/slipspire/powder-concept.webp";
+import appIcon from "../../assets/projects/slipspire/app-icon.webp";
+
+export const currentBuild = [
+  {
+    value: "12",
+    title: "Foundation courses",
+    detail: "The deliberately bounded first release campaign.",
+  },
+  {
+    value: "33",
+    title: "Preview courses",
+    detail: "Six opt-in chapters for testing advanced mechanics.",
+  },
+  {
+    value: "584",
+    title: "Automated checks",
+    detail: "Gameplay, saves, input, content, flow, and release boundaries.",
+  },
+  {
+    value: "0.2.0-dev",
+    title: "Current version",
+    detail: "Playable and substantial, but intentionally unreleased.",
+  },
+];
+
+## A small game with a very personal beginning
+
+My wife is head over heels for small, self-contained games: the kind you can understand quickly, play in a spare moment, and still find surprisingly hard to put down. I wanted to make one for her.
+
+The idea reached further back, too. As a kid I loved the frozen-floor and ice-gym puzzles in the Pokémon games I grew up with—FireRed, LeafGreen, Sapphire, Emerald, and Diamond. You chose a direction, committed to it, and kept sliding until the environment stopped you. A tiny rule turned a small room into something you had to read, plan, and mentally rehearse.
+
+That mechanic stayed with me. It is one of the reasons game design fascinated me, and game design was the original reason I found my way into computer science.
+
+Slipspire is my attempt to recover that feeling in an original, compact puzzle game designed around a phone. It is inspired by the broader ice-sliding puzzle tradition, not a recreation of a Pokémon map, character, world, or story. The levels, name, visual identity, mascot, progression, and supporting systems are Slipspire’s own.
+
+## The rule I wanted to preserve
+
+The core interaction is deliberately small: choose one of four directions and commit to the glide. The character continues over ice until a wall, crystal, boundary, or another mechanic changes the result. Reaching the goal ends the move immediately.
+
+The interesting part is not steering while moving. It is recognising where you can stop.
+
+That makes every crystal useful in two different ways: it may block the direct route, but it may also be exactly the brake needed to line up the next one. Good courses ask the player to move away from the goal, find a better stopping point, and construct a route one landing at a time.
+
+On mobile, that maps naturally to a swipe. A confident drag previews the route and stopping point before release; blocked directions show that they will fail; and optional direction buttons provide another way to play.
+
+<CaseStudyMotion
+  number="02"
+  label="CORE_LOOP / PREVIEW_COMMIT_GLIDE"
+  src="/images/projects/slipspire/first-glide.gif"
+  poster={gameplayFoundation}
+  width={360}
+  height={640}
+  alt="Slipspire's first course previewing a rightward route, sliding the mascot across the ice, and displaying the three-medal completion panel."
+  caption="A development-renderer capture of the first course: preview the stopping point, commit to the swipe, then clear the course. The static gameplay image is shown when reduced motion is preferred."
+/>
+
+## A creative reset after Communiti Labs
+
+Slipspire arrived at a very particular moment. After winding down [Communiti Labs](/projects/communitilabs) and taking time off, I wanted to stretch parts of my imagination that had spent years behind product strategy, customer work, fundraising, and company-building.
+
+I did not want the next thing I made to begin with a market map. I wanted to follow curiosity, obsess over how a rule feels, and make something joyful simply because I could imagine it.
+
+Building a game has given me that space. I can move between puzzle design, interaction, illustration, animation, sound, progression, and the small details that make a tap or collision feel satisfying. It has been a reminder that software can be expressive—not only useful.
+
+<CaseStudyFigure
+  number="03"
+  label="CURRENT_BUILD / DESTINATION_AND_CAMPAIGN"
+  layout="two-up"
+  items={[
+    {
+      src: home,
+      alt: "Slipspire's current home screen with its round scarf-wearing mascot, Foundation Campaign progress, and Start Sliding, Courses, and Settings actions.",
+      caption:
+        "The current Home destination establishes the frozen-spire world while keeping the next action immediate.",
+      fit: "contain",
+    },
+    {
+      src: courses,
+      alt: "Slipspire's Foundation Campaign browser showing the first course available and later courses locked in a two-column progression.",
+      caption:
+        "The 12-course Foundation Campaign teaches the base movement vocabulary before the preview chapters add new rules.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+## Where the build is now
+
+Slipspire is currently a playable, unreleased `0.2.0-dev` build in Godot. The first shipping boundary is a 12-course Foundation Campaign that grows from a one-move introduction to longer boards with deceptive lines and 15-move target routes.
+
+The surrounding product loop is in place: Home, chapter and course selection, gameplay, completion, settings, hints, undo, restart, progression, local saves, and three medals for clearing, matching the target, and completing a clean attempt without undo or reset.
+
+Behind that release-sized campaign is a separate developer-preview curriculum. Six chapters contain 33 more courses exploring Powder that stops a slide, one-way ridges, turning currents, movable blocks, fragile ice, pressure and persistent switches, gates, runes, goal seals, and optional post-clear Whiteout.
+
+Those chapters are useful for discovering what Slipspire could become. They are deliberately kept out of the first release path until playtesting shows which mechanics are legible, enjoyable, and worth carrying forward.
+
+<CaseStudyDataBand label="2026 / CURRENT_BUILD" items={currentBuild} />
+
+<CaseStudyFigure
+  number="04"
+  label="FOUNDATION / FROM_LONG_ROUTE_TO_REWARD"
+  layout="two-up"
+  items={[
+    {
+      src: gameplayFoundation,
+      alt: "Slipspire course White Horizon showing a ten-by-ten ice board with crystals, the mascot, a goal beacon, move counter, hint, undo, and restart controls.",
+      caption:
+        "White Horizon is the twelfth Foundation course: a larger board built entirely from the base ice-and-stopping-point vocabulary.",
+      fit: "contain",
+    },
+    {
+      src: completion,
+      alt: "Slipspire's completion panel awarding clear, target, and clean medals after First Glide is completed in one move.",
+      caption:
+        "Completion makes three different kinds of mastery visible without turning the small game into a live service.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+## Designing a mechanic ladder, not a bag of tricks
+
+Adding mechanics is easy. Teaching them without losing the game’s identity is harder.
+
+The preview curriculum therefore follows a ladder. A chapter begins with one unfamiliar rule in a small, readable course. Later courses ask the player to combine it with already-understood geometry. Capstones can bring two established ideas together, but the goal is never to maximise the number of symbols on the board.
+
+The full game state is deterministic. Player position, blocks, fractures, switches, gates, runes, and the goal requirements are resolved in the model before animation presents the outcome. The same rules drive play, preview, undo, failure, validation, and the breadth-first solver used to verify every recorded target route.
+
+That separation lets me experiment with presentation without quietly changing the puzzle. It also lets an offline level factory generate and rank candidates, while keeping publication a human decision. A solver can prove that a course is possible; it cannot prove that the course is understandable or fun.
+
+<CaseStudyFigure
+  number="05"
+  label="DEVELOPER_PREVIEW / EXPANDING_THE_VOCABULARY"
+  layout="two-up"
+  items={[
+    {
+      src: gameplayPowder,
+      alt: "Slipspire developer-preview course Deep Powder showing pale stopping tiles, crystals, the mascot, and the goal on a compact board.",
+      caption:
+        "Powder changes the stopping rule: entering it ends the current glide, creating a softer and more flexible kind of brake.",
+      fit: "contain",
+    },
+    {
+      src: gameplayMechanisms,
+      alt: "Slipspire developer-preview course Clockwork Vault showing switches, linked gates, a rune, crystals, the mascot, and a sealed goal.",
+      caption:
+        "Clockwork Vault combines the preview system’s pressure plates, switches, gates, runes, and sealed goal in one compact capstone.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+## Using AI to explore a world I could not have drawn alone
+
+AI-generated imagery has widened the creative surface area of this project. I have used it to explore environments, board materials, sprites, mechanic states, interface textures, chapter concepts, mascot poses, and the application icon.
+
+The useful work is not accepting the first attractive image. It is directing a coherent visual language, preserving the mascot’s identity, rejecting details that imply the wrong gameplay rule, processing assets for runtime use, and keeping text, state, routes, focus, motion, and accessibility in live code.
+
+One early ice texture, for example, looked beautiful but contained a fracture network that could be mistaken for breakable ice. I rejected it and directed a new surface without cracks or route-like lines. In a puzzle, decoration cannot be allowed to lie about the rules.
+
+The repository records the prompts, selected versions, runtime roles, and retired prototypes. AI helps me reach visual territory I could not have produced by hand at this pace; art direction, game semantics, implementation, and the decision about what belongs remain deliberate parts of the craft.
+
+<CaseStudyFigure
+  number="06"
+  label="ART_DIRECTION / FROM_CHAPTER_CONCEPT_TO_ICON"
+  layout="two-up"
+  items={[
+    {
+      src: powderConcept,
+      alt: "Slipspire Powder chapter concept art showing the small round mascot gliding upward through a tall crystalline frozen spire.",
+      caption:
+        "A generated Powder chapter concept helped establish the scale, palette, and sense of ascent for the wider world.",
+      fit: "contain",
+    },
+    {
+      src: appIcon,
+      alt: "Slipspire's current square app icon showing the white-and-cyan round mascot and magenta scarf inside a dark crystalline spire.",
+      caption:
+        "The current generated icon preserves the same mascot and palette in a silhouette designed to remain readable at launcher size.",
+      fit: "contain",
+    },
+  ]}
+/>
+
+## Not in the App Store—yet
+
+The current build is substantial, but it is not a released mobile game. An iOS developer-preview project and Foundation-only release path are prepared, while signing, installation on physical devices, touch and safe-area validation, unfamiliar-player sessions, final support and privacy URLs, and store submission still remain.
+
+Android is part of the eventual ambition, but the present release work is intentionally focused on proving one mobile path first. The screenshots and animation on this page come from the real Godot Mobile renderer; they are development captures, not evidence that those remaining device and store gates are complete.
+
+There is therefore no App Store or Google Play link to share yet. For now, the source, development history, release boundary, tests, and art provenance live in the [Slipspire GitHub repository](https://github.com/DanielFerguson/slipspire).
+
+## Why this project matters to me
+
+Slipspire is small by design, but it has reconnected several parts of me that had drifted apart: the kid sketching game mechanics, the student who chose computer science because software could create worlds, the engineer who wants rules to be testable, and the founder learning how to make again after a company chapter ended.
+
+I began with a mechanic I remembered fondly and a game I wanted my wife to enjoy. What has grown around it is a reminder of why I started building software in the first place: imagination can become something another person can touch, understand, and play.

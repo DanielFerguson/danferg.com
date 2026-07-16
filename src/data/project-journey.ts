@@ -6,6 +6,12 @@ export interface ProjectJourneyDestination {
 
 const projectJourney: Record<string, ProjectJourneyDestination> = {
   "/projects/communitilabs": {
+    title: "Slipspire",
+    href: "/projects/slipspire",
+    description:
+      "See how a creative reset became an original mobile ice-sliding puzzle game.",
+  },
+  "/projects/slipspire": {
     title: "Helping Group",
     href: "/projects/helping-group",
     description:
