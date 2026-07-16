@@ -1,9 +1,10 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Ferguson Livestock
-description: A Murray Grey cattle stud and farm-direct beef venture built in Snake Valley, spanning infrastructure, operations, brand, commerce, and fulfilment.
+description: A Murray Grey cattle stud and farm-direct beef venture built in Snake Valley, combining farm operations, decision-support software, brand, commerce, and fulfilment.
 tags:
   - Agribusiness
+  - Decision support
   - Brand strategy
   - Ecommerce
 featured: true
@@ -46,6 +47,22 @@ The site is built with Astro and TypeScript, with Stripe Checkout handling payme
 
 The public experience responds to those same operating states. When a drop is open, customers can order. When boxes are gone but other cuts remain, the site keeps those products available. When everything has sold, it returns to the wait list and prepares the audience for the next release. The website therefore shows the truth of the operation rather than requiring us to manually rewrite pages during a busy fulfilment window.
 
+## Making the buying strategy inspectable
+
+The customer-facing site helps us sell the finished product. I also built an internal [beef profitability calculator](https://github.com/DanielFerguson/beef-profitability) to improve one of the decisions that happens much earlier: which steers we should buy in the first place.
+
+The calculator compares two strategies side by side. We can buy lighter yearling steers and carry them while they grow and finish, or pay more upfront for grown steers that are already closer to the target weight. Neither option is automatically better. A lower purchase price can be offset by more days on the property, more feed, slower-than-expected weight gain, and capital being tied up for longer. A heavier animal can shorten that window but leave less room for error in the purchase price.
+
+The model makes those trade-offs explicit. We can change the number of cattle, starting and target weights, purchase price, average daily gain, minimum holding period, mortality, transport and processing costs, dressing percentage, boxed-beef yield and sale price. Feed assumptions include hay price, intake and wastage, along with the barley and lupin mix. The results update immediately to show days on the property, feed required, cost per kilogram gained, boxed-beef yield, profit per head, margin, and the break-even boxed-beef price for each strategy.
+
+It also lets us move beyond a single optimistic estimate. Base, conservative, and optimistic cases show what happens when weight gain, yield, revenue, or feed costs shift together. Sensitivity tables then isolate changes in boxed-beef price, daily gain, grain prices, and target finish weight. Validation warnings surface assumptions that need another look rather than allowing a neat result to hide a weak input.
+
+That matters more as our seasonal conditions become less predictable. Rainfall around our area directly affects pasture growth, supplementary feeding, the time cattle can be carried comfortably, and the cost of reaching a finish weight. The calculator does not try to predict the weather or replace judgement. It gives us a fast way to ask what a drier or more expensive season would do to a buying decision before we commit the capital.
+
+The same discipline supports our longer-term work on the property. Tahlia and I are making a serious investment in soil health on ground that has seen little deliberate improvement for roughly 50 years. Soil sampling can show us the constraints and the available rectification pathways, but those improvements still have to be funded. Protecting the return on our cattle-buying decisions gives us more capacity to invest in the soil, pasture, and resilience that the operation will depend on over time.
+
+I kept the calculator deliberately transparent: it is a static browser tool built with HTML, CSS, and JavaScript, with a generated spreadsheet version for working through the same model away from the browser. The aim is not to manufacture certainty. It is to put the assumptions in view, compare like with like, and make a consequential farm decision easier to challenge before it becomes an expensive lesson.
+
 ## Building the Ferguson Livestock brand
 
 The brand needed to feel like us: ambitious about quality without becoming polished beyond recognition. We settled on **premium without pretence** and the line **Raised here. Delivered by us.** as two useful tests for the decisions underneath it.
@@ -62,7 +79,7 @@ The response after delivery mattered just as much. Customers have been enthusias
 
 ## What zero to one taught me
 
-Ferguson Livestock has made the phrase "building a business" feel much more literal. Software can make ordering calm and inventory dependable, but it cannot repair a fence, prepare cattle, satisfy processing requirements, pack a box, maintain a cold chain, or drive an order to someone's home. The value comes from making all of those parts work as one system.
+Ferguson Livestock has made the phrase "building a business" feel much more literal. Software can make a buying decision clearer, ordering calm, and inventory dependable, but it cannot improve soil, repair a fence, prepare cattle, satisfy processing requirements, pack a box, maintain a cold chain, or drive an order to someone's home. The value comes from making all of those parts work as one system.
 
 It has also reinforced that trust is operational. Customers believe the story because they can see the farm and the people behind it, but that belief lasts only when the product, communication, payment, packaging, and delivery all honour the same promise.
 

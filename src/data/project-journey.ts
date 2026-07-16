@@ -39,7 +39,7 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
     title: "Ferguson Livestock",
     href: "/projects/ferguson-livestock",
     description:
-      "See how product, brand, commerce, and farm operations became one venture.",
+      "See how decision support, brand, commerce, and farm operations became one venture.",
   },
   "/projects/ferguson-livestock": {
     title: "AutoFarm",
