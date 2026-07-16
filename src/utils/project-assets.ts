@@ -9,6 +9,7 @@ import landIndexScreenshot from "../assets/projects/land-index/screenshot.webp";
 import matesMotivateScreenshot from "../assets/projects/mates-motivate/screenshot.webp";
 import murrayGreyAssociationAustraliaScreenshot from "../assets/projects/murray-grey-association-australia/screenshot.webp";
 import observerScreenshot from "../assets/projects/observer/screenshot.webp";
+import simplexlScreenshot from "../assets/projects/simplexl/screenshot.webp";
 import slipspireScreenshot from "../assets/projects/slipspire/screenshot.webp";
 import studListScreenshot from "../assets/projects/studlist/screenshot.webp";
 import swinLeadScreenshot from "../assets/projects/swin-lead/screenshot.webp";
@@ -29,6 +30,7 @@ export const projectScreenshots = {
   "mates-motivate": matesMotivateScreenshot,
   "murray-grey-association-australia": murrayGreyAssociationAustraliaScreenshot,
   observer: observerScreenshot,
+  simplexl: simplexlScreenshot,
   slipspire: slipspireScreenshot,
   studlist: studListScreenshot,
   "swin-lead": swinLeadScreenshot,

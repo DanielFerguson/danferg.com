@@ -1,0 +1,261 @@
+---
+export interface Props {
+  number: string | number;
+  label?: string;
+}
+
+const {
+  number,
+  label = "PRODUCT_FLOW / FROM_FILE_TO_ANSWER",
+} = Astro.props;
+
+const figureNumber = String(number).padStart(2, "0");
+const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim();
+
+const steps = [
+  {
+    type: "SOURCE",
+    title: "CSV / TSV / XLSX",
+    detail: "Choose local files or selected workbook sheets.",
+  },
+  {
+    type: "IMPORT",
+    title: "Validate and copy",
+    detail: "Stream, inspect, infer types, and preserve source values.",
+  },
+  {
+    type: "WORKSPACE",
+    title: "Private SQLite",
+    detail: "Review queryable tables, schemas, and paginated raw rows.",
+  },
+  {
+    type: "QUERY",
+    title: "Read-only SQL",
+    detail: "Filter, join, group, aggregate, and cancel safely.",
+  },
+  {
+    type: "OUTPUT",
+    title: "Results and charts",
+    detail: "Copy, export bounded CSV, or create a session visual.",
+  },
+];
+---
+
+<figure
+  class="simplexl-flow"
+  aria-label={`${accessibleLabel}, figure ${figureNumber}`}
+>
+  <figcaption class="simplexl-flow__bar">
+    <span>{label}</span>
+    <span>FIG. {figureNumber}</span>
+  </figcaption>
+
+  <div class="simplexl-flow__canvas">
+    <ol class="simplexl-flow__steps">
+      {
+        steps.map((step, index) => (
+          <li class="simplexl-flow__step">
+            <p class="simplexl-flow__meta">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{step.type}</span>
+            </p>
+            <strong>{step.title}</strong>
+            <p>{step.detail}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="simplexl-flow__boundary">
+      <span>LOCAL DEVICE</span>
+      <span>Private temporary workspace · source files remain unchanged</span>
+    </p>
+  </div>
+
+  <p class="simplexl-flow__caption">
+    The complete path stays on the user’s device: a source file becomes a
+    temporary queryable copy, then a bounded answer or explicitly chosen
+    export.
+  </p>
+</figure>
+
+<style>
+  .simplexl-flow {
+    --case-study-breakout-width: min(
+      calc(100vw - 2.5rem),
+      var(--content-width)
+    );
+    position: relative;
+    left: 50%;
+    width: var(--case-study-breakout-width);
+    max-width: none;
+    margin: clamp(2.75rem, 6vw, 4.75rem) 0;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    transform: translateX(-50%);
+  }
+
+  .simplexl-flow__bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .simplexl-flow__bar span:last-child {
+    flex: 0 0 auto;
+  }
+
+  .simplexl-flow__canvas {
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    background:
+      linear-gradient(
+        color-mix(in srgb, var(--line-strong) 35%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--line-strong) 35%, transparent) 1px,
+        transparent 1px
+      ),
+      color-mix(in srgb, var(--signal) 2%, var(--paper));
+    background-size: 2rem 2rem;
+  }
+
+  .simplexl-flow__steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(0.65rem, 1.4vw, 1.1rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .simplexl-flow__step {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 12rem;
+    flex-direction: column;
+    padding: clamp(0.85rem, 1.6vw, 1.1rem);
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+  }
+
+  .simplexl-flow__step:not(:last-child)::after {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: calc(clamp(0.65rem, 1.4vw, 1.1rem) * -1 - 0.05rem);
+    width: clamp(0.65rem, 1.4vw, 1.1rem);
+    color: var(--signal);
+    content: "→";
+    font-size: 0.85rem;
+    line-height: 1;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+
+  .simplexl-flow__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .simplexl-flow__meta span:first-child {
+    color: var(--signal);
+  }
+
+  .simplexl-flow__step strong {
+    margin-top: auto;
+    padding-top: 2.4rem;
+    color: var(--ink);
+    font-size: clamp(0.92rem, 1.45vw, 1.12rem);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+  }
+
+  .simplexl-flow__step > p:last-child {
+    margin: 0.7rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.63rem;
+    line-height: 1.55;
+  }
+
+  .simplexl-flow__boundary {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.8fr) minmax(0, 4fr);
+    gap: 1rem;
+    margin: 1rem 0 0;
+    padding: 0.72rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--signal) 44%, var(--line-strong));
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--signal) 7%, var(--paper-raised));
+    font-size: 0.59rem;
+    line-height: 1.5;
+    letter-spacing: 0.035em;
+  }
+
+  .simplexl-flow__boundary span:first-child {
+    color: var(--signal-emphasis);
+    font-weight: 750;
+  }
+
+  .simplexl-flow__caption {
+    margin: 0;
+    padding: 0.85rem 1rem 0.95rem;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .simplexl-flow__steps {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .simplexl-flow__step {
+      min-height: 0;
+    }
+
+    .simplexl-flow__step:not(:last-child)::after {
+      top: auto;
+      right: 50%;
+      bottom: -0.88rem;
+      width: auto;
+      content: "↓";
+      transform: translateX(50%);
+    }
+
+    .simplexl-flow__step strong {
+      margin-top: 1.75rem;
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .simplexl-flow {
+      --case-study-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .simplexl-flow__boundary {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

@@ -1,0 +1,328 @@
+---
+export interface Props {
+  number: string | number;
+  label?: string;
+}
+
+const {
+  number,
+  label = "TRUST_MODEL / DEFENCE_IN_DEPTH",
+} = Astro.props;
+
+const figureNumber = String(number).padStart(2, "0");
+const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim();
+---
+
+<figure
+  class="simplexl-trust"
+  aria-label={`${accessibleLabel}, figure ${figureNumber}`}
+>
+  <figcaption class="simplexl-trust__bar">
+    <span>{label}</span>
+    <span>FIG. {figureNumber}</span>
+  </figcaption>
+
+  <div class="simplexl-trust__canvas">
+    <div class="simplexl-trust__source">
+      <span>SOURCE FILES</span>
+      <strong>Stay outside the workspace</strong>
+      <p>Opened for validation and streaming; never edited in place.</p>
+    </div>
+
+    <div class="simplexl-trust__layers" aria-label="SimpleXL local trust layers">
+      <section class="simplexl-trust__layer simplexl-trust__layer--shell">
+        <p><span>01</span> TAURI DESKTOP SHELL</p>
+        <strong>Restrictive capabilities and picker-granted paths</strong>
+        <section class="simplexl-trust__layer simplexl-trust__layer--rust">
+          <p><span>02</span> RUST SERVICE BOUNDARY</p>
+          <strong>Validation, streaming, limits, progress, and cancellation</strong>
+          <section class="simplexl-trust__layer simplexl-trust__layer--sqlite">
+            <p><span>03</span> PRIVATE SQLITE WORKSPACE</p>
+            <strong>Temporary copy · read-only query connection</strong>
+            <span>query_only · authoriser allowlist · bounded results</span>
+          </section>
+        </section>
+      </section>
+    </div>
+
+    <div class="simplexl-trust__network">
+      <span>RUNTIME NETWORK</span>
+      <strong>Not required</strong>
+      <p>No account, hosted database, analytics service, or CDN.</p>
+    </div>
+
+    <div class="simplexl-trust__outcomes">
+      <div>
+        <span>ALLOWED</span>
+        <strong>Inspect · SELECT · bounded copy/export</strong>
+      </div>
+      <div>
+        <span>REJECTED</span>
+        <strong>Write SQL · source mutation · ATTACH · extension loading</strong>
+      </div>
+    </div>
+  </div>
+
+  <p class="simplexl-trust__caption">
+    Each layer narrows the next one: operating-system file grants constrain the
+    Rust commands, and the Rust boundary constrains what SQLite can execute or
+    return.
+  </p>
+</figure>
+
+<style>
+  .simplexl-trust {
+    --case-study-breakout-width: min(
+      calc(100vw - 2.5rem),
+      var(--content-width)
+    );
+    position: relative;
+    left: 50%;
+    width: var(--case-study-breakout-width);
+    max-width: none;
+    margin: clamp(2.75rem, 6vw, 4.75rem) 0;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    transform: translateX(-50%);
+  }
+
+  .simplexl-trust__bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .simplexl-trust__bar span:last-child {
+    flex: 0 0 auto;
+  }
+
+  .simplexl-trust__canvas {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.65fr) minmax(26rem, 2fr) minmax(9rem, 0.65fr);
+    gap: clamp(0.9rem, 2vw, 1.5rem);
+    align-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    background:
+      linear-gradient(
+        color-mix(in srgb, var(--line-strong) 35%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--line-strong) 35%, transparent) 1px,
+        transparent 1px
+      ),
+      color-mix(in srgb, var(--signal) 2%, var(--paper));
+    background-size: 2rem 2rem;
+  }
+
+  .simplexl-trust__source,
+  .simplexl-trust__network {
+    position: relative;
+    padding: 1rem;
+    border-top: 2px solid var(--signal);
+    background: var(--paper-raised);
+  }
+
+  .simplexl-trust__source::after,
+  .simplexl-trust__network::before {
+    position: absolute;
+    top: 50%;
+    color: var(--signal);
+    font-size: 0.9rem;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  .simplexl-trust__source::after {
+    right: calc(clamp(0.9rem, 2vw, 1.5rem) * -1);
+    content: "→";
+  }
+
+  .simplexl-trust__network::before {
+    left: calc(clamp(0.9rem, 2vw, 1.5rem) * -1);
+    content: "×";
+  }
+
+  .simplexl-trust__source > span,
+  .simplexl-trust__network > span {
+    color: var(--ink-muted);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .simplexl-trust__source strong,
+  .simplexl-trust__network strong {
+    display: block;
+    margin-top: 1.2rem;
+    color: var(--ink);
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .simplexl-trust__source p,
+  .simplexl-trust__network p {
+    margin: 0.6rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.61rem;
+    line-height: 1.55;
+  }
+
+  .simplexl-trust__layers {
+    min-width: 0;
+  }
+
+  .simplexl-trust__layer {
+    margin: 0;
+    padding: clamp(0.75rem, 1.8vw, 1.15rem);
+    border: 1px solid color-mix(in srgb, var(--signal) 40%, var(--line-strong));
+    background: color-mix(in srgb, var(--signal) 5%, var(--paper-raised));
+  }
+
+  .simplexl-trust__layer--rust {
+    margin-top: 1rem;
+    background: color-mix(in srgb, var(--signal) 8%, var(--paper-raised));
+  }
+
+  .simplexl-trust__layer--sqlite {
+    margin-top: 1rem;
+    background: var(--inverse-surface);
+  }
+
+  .simplexl-trust__layer > p {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .simplexl-trust__layer > p span {
+    color: var(--signal);
+  }
+
+  .simplexl-trust__layer > strong {
+    display: block;
+    margin-top: 0.55rem;
+    color: var(--ink);
+    font-size: clamp(0.78rem, 1.25vw, 0.94rem);
+    line-height: 1.35;
+  }
+
+  .simplexl-trust__layer--sqlite > p,
+  .simplexl-trust__layer--sqlite > strong,
+  .simplexl-trust__layer--sqlite > span {
+    color: var(--inverse-ink);
+  }
+
+  .simplexl-trust__layer--sqlite > p span {
+    color: var(--signal-bright);
+  }
+
+  .simplexl-trust__layer--sqlite > span {
+    display: block;
+    margin-top: 0.65rem;
+    color: var(--inverse-muted);
+    font-size: 0.58rem;
+    line-height: 1.5;
+  }
+
+  .simplexl-trust__outcomes {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line-strong);
+    background: var(--line-strong);
+  }
+
+  .simplexl-trust__outcomes div {
+    display: grid;
+    grid-template-columns: minmax(5rem, 0.35fr) minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--paper-raised);
+  }
+
+  .simplexl-trust__outcomes span {
+    color: var(--signal-emphasis);
+    font-size: 0.55rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+  }
+
+  .simplexl-trust__outcomes div:last-child span {
+    color: var(--ink-muted);
+  }
+
+  .simplexl-trust__outcomes strong {
+    color: var(--ink-soft);
+    font-size: 0.61rem;
+    font-weight: 650;
+    line-height: 1.5;
+  }
+
+  .simplexl-trust__caption {
+    margin: 0;
+    padding: 0.85rem 1rem 0.95rem;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .simplexl-trust__canvas {
+      grid-template-columns: 1fr;
+    }
+
+    .simplexl-trust__source::after,
+    .simplexl-trust__network::before {
+      top: auto;
+      right: 50%;
+      left: auto;
+      bottom: calc(clamp(0.9rem, 2vw, 1.5rem) * -1);
+      transform: translateX(50%);
+    }
+
+    .simplexl-trust__source::after {
+      content: "↓";
+    }
+
+    .simplexl-trust__network::before {
+      content: "×";
+    }
+
+    .simplexl-trust__network {
+      grid-row: 3;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .simplexl-trust {
+      --case-study-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .simplexl-trust__outcomes {
+      grid-template-columns: 1fr;
+    }
+
+    .simplexl-trust__outcomes div {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

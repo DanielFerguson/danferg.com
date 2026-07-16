@@ -54,6 +54,12 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how manual work and earned automation shape a Rust farming game.",
   },
   "/projects/autofarm": {
+    title: "SimpleXL",
+    href: "/projects/simplexl",
+    description:
+      "See how a local-first desktop workbench makes spreadsheet data queryable with SQL.",
+  },
+  "/projects/simplexl": {
     title: "WaitAMinute",
     href: "/projects/waitaminute",
     description:
