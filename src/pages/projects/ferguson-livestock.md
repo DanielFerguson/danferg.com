@@ -8,7 +8,7 @@ tags:
   - Brand strategy
   - Ecommerce
 featured: true
-period: 2025–present
+period: 2022–present
 status: Active venture
 role: Co-founder / operations / brand / product & engineering
 externalUrl: https://www.fergusonlivestock.com.au
