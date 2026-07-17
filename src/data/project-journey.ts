@@ -114,6 +114,12 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how a student platform made leadership and collaboration visible.",
   },
   "/projects/swin-lead": {
+    title: "Chef",
+    href: "/projects/chef",
+    description:
+      "See how a household conversation becomes a durable meal plan, shopping list, and cooking experience.",
+  },
+  "/projects/chef": {
     title: "Communiti Labs",
     href: "/projects/communitilabs",
     description:
