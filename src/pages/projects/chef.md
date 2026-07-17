@@ -8,7 +8,7 @@ tags:
   - AI agents
   - Household planning
 featured: true
-period: July 2026–present
+period: "2026"
 status: Private testing / active development
 role: Creator / product / full-stack & AI engineering
 externalUrl: https://chef.danferg.com
