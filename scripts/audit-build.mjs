@@ -5,6 +5,7 @@ import { parse } from "parse5";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const distRoot = resolve(projectRoot, "dist");
+const articleDraftsRoot = resolve(projectRoot, "src/content/drafts/articles");
 const failures = [];
 const warnings = [];
 
@@ -33,6 +34,21 @@ async function listFiles(directory) {
     else files.push(path);
   }
   return files;
+}
+
+const articleDraftPaths = [];
+for (const file of (await listFiles(articleDraftsRoot)).filter((path) =>
+  /\.(md|mdx)$/.test(path),
+)) {
+  const source = await readFile(file, "utf8");
+  const canonicalPath = source.match(/^canonicalUrl:\s*["']?([^\n"']+)/m)?.[1];
+
+  if (!canonicalPath) {
+    fail(`${relative(projectRoot, file)}: draft has no canonicalUrl`);
+    continue;
+  }
+
+  articleDraftPaths.push(canonicalPath);
 }
 
 function routeForFile(file) {
@@ -215,6 +231,14 @@ for (const file of sitemapFiles) {
 }
 for (const canonicalUrl of indexableCanonicals) {
   if (!sitemapUrls.has(canonicalUrl)) fail(`${canonicalUrl}: missing from sitemap`);
+}
+for (const draftPath of articleDraftPaths) {
+  if (await existingTarget(draftPath)) {
+    fail(`${draftPath}: draft article was emitted by the production build`);
+  }
+  if (sitemapUrls.has(new URL(draftPath, "https://danferg.com").toString())) {
+    fail(`${draftPath}: draft article is present in the sitemap`);
+  }
 }
 if (sitemapUrls.has("https://danferg.com/404")) fail("404 is present in sitemap");
 

@@ -6,6 +6,7 @@ import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
 
 const { frontmatter } = Astro.props;
+const isDraft = frontmatter.draft === true;
 const formatDate = (date: string) =>
   new Intl.DateTimeFormat("en-AU", {
     day: "2-digit",
@@ -38,6 +39,7 @@ const SEO: SEO & {
   publishedDate: frontmatter.date,
   modifiedDate,
   articleSection: "Articles",
+  robots: isDraft ? "noindex,nofollow,noarchive" : undefined,
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Articles", url: "/articles" },
@@ -50,11 +52,11 @@ const SEO: SEO & {
   <NavBar />
   <main id="main-content">
     <header class="site-container story-header" data-motion-intro-group>
-      <p class="story-header__path" data-motion-intro-item><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / FILE</p>
+      <p class="story-header__path" data-motion-intro-item><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / {isDraft ? "DRAFT" : "FILE"}</p>
       <div class="story-header__grid" data-motion-intro-item>
         <div>
           <p class="story-header__type">
-            ARTICLE // PUBLISHED <time datetime={frontmatter.date}>{formatDate(frontmatter.date).toUpperCase()}</time>
+            ARTICLE // {isDraft ? "LOCAL DRAFT" : "PUBLISHED"} <time datetime={frontmatter.date}>{formatDate(frontmatter.date).toUpperCase()}</time>
             {modifiedDate && modifiedDate !== frontmatter.date && <> // UPDATED <time datetime={modifiedDate}>{formatDate(modifiedDate).toUpperCase()}</time></>}
           </p>
           <h1>{frontmatter.title}</h1>
@@ -63,7 +65,7 @@ const SEO: SEO & {
       </div>
     </header>
     <hr class="site-container ascii-rule" />
-    <article class="prose-shell" data-motion-reveal>
+    <article class="prose-shell article-prose" data-motion-reveal>
       <slot />
     </article>
     <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" />
@@ -127,3 +129,9 @@ const SEO: SEO & {
     }
   }
 </style>
+
+<script>
+  import { initializeMermaidDiagrams } from "../scripts/mermaid-diagrams";
+
+  void initializeMermaidDiagrams();
+</script>

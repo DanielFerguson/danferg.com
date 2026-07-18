@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+export async function getStaticPaths() {
+  if (import.meta.env.PROD) return [];
+
+  const drafts = await getCollection("articleDrafts");
+
+  return drafts.map((draft) => ({
+    params: {
+      slug: draft.data.canonicalUrl.replace(/^\/articles\//, ""),
+    },
+    props: { draft },
+  }));
+}
+
+interface Props {
+  draft: CollectionEntry<"articleDrafts">;
+}
+
+const { draft } = Astro.props;
+const { Content } = await render(draft);
+---
+
+<ArticleLayout frontmatter={draft.data}>
+  <Content />
+</ArticleLayout>

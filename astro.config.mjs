@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
+import { rehypeMermaidBlocks } from "./rehype-mermaid-blocks.mjs";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import mdx from "@astrojs/mdx";
@@ -64,7 +65,11 @@ export default defineConfig({
     robotsTxt(),
   ],
   markdown: {
-    processor: unified({ remarkPlugins: [remarkReadingTime] }),
+    syntaxHighlight: { type: "shiki", excludeLangs: ["mermaid"] },
+    processor: unified({
+      remarkPlugins: [remarkReadingTime],
+      rehypePlugins: [rehypeMermaidBlocks],
+    }),
   },
   trailingSlash: "never",
   prefetch: {

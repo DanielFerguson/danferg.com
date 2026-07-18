@@ -30,6 +30,23 @@ const articles = defineCollection({
   schema: z.object(editorialFields),
 });
 
+const articleDrafts = defineCollection({
+  loader: glob({
+    pattern: "*.{md,mdx}",
+    base: "./src/content/drafts/articles",
+  }),
+  schema: z.object({
+    ...editorialFields,
+    draft: z.literal(true),
+    canonicalUrl: z
+      .string()
+      .regex(
+        /^\/articles\/[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/,
+        "Draft article canonical URLs must be clean /articles/{slug} paths",
+      ),
+  }),
+});
+
 const newsletters = defineCollection({
   loader: glob({ pattern: "*.mdx", base: "./src/pages/newsletters" }),
   schema: z.object(editorialFields),
@@ -60,4 +77,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { articles, newsletters, projects };
+export const collections = { articles, articleDrafts, newsletters, projects };

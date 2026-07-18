@@ -242,6 +242,22 @@ a:focus-visible {
   text-underline-offset: 0.18em;
 }
 
+.article-prose a {
+  color: var(--signal);
+  font-weight: 650;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.11em;
+  text-underline-offset: 0.2em;
+  text-decoration-skip-ink: auto;
+}
+
+.article-prose a:is(:hover, :focus-visible) {
+  color: var(--signal-emphasis);
+  background: var(--signal-soft);
+  text-decoration-color: currentColor;
+}
+
 .prose-shell blockquote {
   margin: 1.75em 0;
   padding: 1rem 1.25rem;
@@ -284,6 +300,85 @@ a:focus-visible {
   background: transparent;
 }
 
+.mermaid-diagram {
+  --mermaid-breakout-width: min(calc(100vw - 2.5rem), 64rem);
+  width: var(--mermaid-breakout-width);
+  margin: 2.5rem calc((100% - var(--mermaid-breakout-width)) / 2);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-raised);
+}
+
+.mermaid-diagram__canvas {
+  overflow-x: auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  overscroll-behavior-inline: contain;
+}
+
+.prose-shell .mermaid-diagram__source {
+  margin: 0;
+  border: 0;
+  color: var(--code-ink);
+  background: var(--code-surface);
+  white-space: pre;
+}
+
+.mermaid-diagram__output {
+  min-width: min(var(--mermaid-natural-width, 100%), 60rem);
+}
+
+.mermaid-diagram__output--dark {
+  display: none;
+}
+
+.mermaid-diagram__output svg {
+  display: block;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin-inline: auto;
+}
+
+:root[data-theme="dark"] .mermaid-diagram__output--light {
+  display: none;
+}
+
+:root[data-theme="dark"] .mermaid-diagram__output--dark {
+  display: block;
+}
+
+.mermaid-diagram__caption {
+  display: flex;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-muted);
+  font-size: 0.64rem;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.mermaid-diagram__caption span {
+  flex: 0 0 auto;
+  color: var(--signal);
+  font-weight: 750;
+}
+
+.mermaid-diagram[data-mermaid-error] .mermaid-diagram__caption::after {
+  content: " // SOURCE SHOWN — DIAGRAM COULD NOT RENDER";
+  color: var(--signal);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .mermaid-diagram__output--light {
+    display: none;
+  }
+
+  :root:not([data-theme]) .mermaid-diagram__output--dark {
+    display: block;
+  }
+}
+
 @media (max-width: 640px) {
   .site-container,
   .prose-shell {
@@ -292,6 +387,15 @@ a:focus-visible {
 
   body {
     background: var(--paper);
+  }
+
+  .mermaid-diagram {
+    --mermaid-breakout-width: calc(100vw - 1.5rem);
+  }
+
+  .mermaid-diagram__caption {
+    flex-direction: column;
+    gap: 0.15rem;
   }
 }
 

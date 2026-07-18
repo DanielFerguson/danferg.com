@@ -1,0 +1,243 @@
+---
+layout: ../../layouts/ArticleLayout.astro
+title: "Your houseplants don't need Wi-Fi."
+description: "What a plant-monitoring project taught me about designing connected devices around the physical problem instead of assuming every sensor belongs on the internet."
+date: "2026-07-18"
+imageUrl: /images/og/articles/your-houseplants-dont-need-wifi-og.png
+imageUrls:
+  - /images/og/articles/your-houseplants-dont-need-wifi-16x9.png
+  - /images/og/articles/your-houseplants-dont-need-wifi-4x3.png
+  - /images/og/articles/your-houseplants-dont-need-wifi-1x1.png
+imageAlt: Social card for Your houseplants don't need Wi-Fi.
+imageWidth: 1200
+imageHeight: 630
+imageType: image/png
+canonicalUrl: /articles/your-houseplants-dont-need-wifi
+---
+
+import ThemeAwareFigure from "../../components/ThemeAwareFigure.astro";
+import plantMonitorDesignLight from "../../assets/articles/your-houseplants-dont-need-wifi/plant-monitor-design-light.webp";
+import plantMonitorDesignDark from "../../assets/articles/your-houseplants-dont-need-wifi/plant-monitor-design-dark.webp";
+
+I was using my MEATER Pro XL while cooking recently when I realised the part I kept returning to wasn't the probe. It was the base station sitting nearby.
+
+Several probes could do the awkward physical work while one powered object received their readings and gave me something useful to look at without reaching for my phone. I liked that division of responsibility, and it became a useful model for another project I had been thinking about.
+
+I wanted to sink my teeth back into a small electronics project.
+
+I first learnt systems engineering and electronics in high school. My Year 12 [Balance Board](/projects/balance-board) combined load sensors, custom electronics, a Raspberry Pi and software in one physical system. I've been fascinated by the boundary between hardware and software ever since, although most of my professional work has pulled me towards the software side of it.
+
+The plant monitor is a way back in. It is small enough to build at home, broad enough to push me into embedded programming, power management, wireless communication, PCB design and industrial design, and useful enough that I genuinely want the finished object in my house.
+
+There is a broader hypothesis behind it too. As producing software becomes increasingly commoditised—accelerated by large language models—I suspect more businesses will find their moat in electronics and in the difficult translation between software and hardware. Software shaped much of the past 30 years. I think hardware may shape more of the next ten.
+
+That prediction might be wrong. It isn't the reason I need to build the project. Electronics is a wonderfully large world, I like finding things I don't yet know how to do, and I also just want this thing for myself.
+
+The idea is a plant monitor.
+
+Put a probe near a houseplant. Measure soil moisture, light, temperature and humidity. Send the readings somewhere useful. Learn enough to eventually turn the breadboard into something I would happily leave in the house.
+
+My first mental model was the one many software developers reach for:
+
+```text
+plant sensor → Wi-Fi → API → database → dashboard
+```
+
+It's familiar. An ESP32 can connect to a network, make an HTTP request and produce a graph before the end of a weekend. For a proof of concept, that's an excellent place to begin.
+
+It might also be the wrong architecture for the finished object.
+
+The MEATER arrangement makes even more sense for plants. The part sitting in damp soil should be small, quiet and concerned with as little as possible. A powered object on my desk can afford a display, a better radio and a relationship with the rest of the house.
+
+The plant doesn't need the internet. The person caring for it needs a useful signal.
+
+That distinction changes almost everything.
+
+<ThemeAwareFigure
+  light={plantMonitorDesignLight}
+  dark={plantMonitorDesignDark}
+  alt="Concept sheet showing a soil probe, e-ink base station, phone app, probe variants and internal sensor components for the plant-monitoring system"
+  label="SYSTEM CONCEPT // PROBE + BASE STATION"
+  caption="A product-direction sketch for the plant monitor: a quiet probe, a local base station and optional phone access. It is a concept, not a finished specification."
+/>
+
+## Start with the shape of the problem
+
+A houseplant is a wonderfully undramatic data source.
+
+Its soil moisture doesn't need to stream 60 times per second. Light exposure is more useful as a trend across hours and days. Temperature and humidity move slowly. Even a “water me soon” notification can usually arrive minutes—or hours—after a reading without consequence.
+
+The workload looks something like this:
+
+- a handful of sensor values;
+- sampled perhaps a few times per day;
+- sent across one house;
+- powered by a small battery;
+- expected to keep working without regular attention.
+
+Wi-Fi is optimised for a different shape of communication. A tiny probe has to wake its radio, find and associate with the network, authenticate, obtain an address, establish a connection, transmit the payload and disconnect. None of those steps is outrageous, but together they're a great deal of ceremony for saying, “moisture is 47 per cent and the battery is fine”.
+
+Bluetooth Low Energy suggests a simpler model.
+
+The probe can wake, read its sensors, advertise a small packet and return to sleep. It doesn't need to pair like headphones or maintain a connection. A powered base station somewhere in the house can listen.
+
+```text
+plant probes → local base station → home system → internet, if useful
+```
+
+Each probe needs to know how to report home. It doesn't need the Wi-Fi password, a cloud account, an API token or an understanding of what happens after the packet leaves the pot.
+
+That is a much better division of labour.
+
+## Put complexity where the power is
+
+The probe should be boring.
+
+It measures. It identifies itself. It reports battery state. It sleeps.
+
+The base station is always powered, so it can afford to do the expensive work. It can listen continuously, translate radio packets into readings, store history, run rules, update Home Assistant, send notifications and optionally synchronise with a remote service.
+
+It can also provide the physical interface I originally imagined: a small e-ink display on my desk showing which plants are happy, which are drying normally and which genuinely need attention. I don't want another dashboard demanding to be checked. I want a calm object that can answer the question at a glance and reserve a push notification for the moments when I should actually do something.
+
+This pattern has several advantages.
+
+**Battery life.** The probes can spend nearly all of their lives asleep. Radio activity becomes a brief advertisement rather than a full network session. That creates the possibility of months or years between battery changes, depending on the hardware, sampling rate and sensor power draw.
+
+**Provisioning.** Adding a probe shouldn't mean entering a Wi-Fi password into a device with no keyboard or screen. The base can discover a new identifier and let the person assign it to “office peace lily” or “kitchen herbs”.
+
+**Resilience.** The plants can continue reporting when the internet is unavailable. If the local network changes, only the base station needs to be reconfigured. The probes remain concerned with the small physical world they inhabit.
+
+**Privacy.** There is little sensitive about today's soil-moisture reading, but local-first architecture establishes a useful default. Data leaves the house because a feature requires it, not because every object was born as a cloud client.
+
+**Replaceability.** The base can evolve without replacing every sensor. Today it might post to a Laravel API. Tomorrow it might write directly to Home Assistant, use a different radio adapter or run the insight engine locally. The small, stable packet from each probe can remain the same.
+
+## “Smart” is not the same as connected
+
+There is a larger product mistake hiding inside the networking question.
+
+A moisture sensor can tell me that a raw capacitance value has changed. That doesn't mean it knows whether a plant needs water.
+
+Even a reading such as “47 per cent moisture” risks suggesting more certainty than the hardware has earned. Volumetric water content is a real measurement—the volume of water relative to the volume of soil—but it still doesn't tell the whole story. [Plant-available water depends on the soil, the plant's roots, how easily water moves through the soil and the surrounding conditions](https://www.ars.usda.gov/research/publications/publication/?seqNo115=126528). A [USDA comparison of capacitance-based probes](https://www.ars.usda.gov/research/publications/publication/?seqNo115=142394) found that the tested instruments followed relative changes reasonably well while their estimates of absolute water content could differ substantially from the measured values.
+
+For a cheap probe in a houseplant, consistency may be more useful than scientific-looking precision. I can calibrate it against this pot, this potting mix and the point at which I would normally water this plant. Over time, the shape of the reading matters more than whether the interface calls it 42 or 47 per cent.
+
+A dry succulent may be healthy. A peace lily at the same reading may be approaching a dramatic collapse. A freshly watered pot that remains saturated for days may be more concerning than one that is beginning to dry. Pot size, drainage, soil, season, light and the behaviour of the individual plant all influence what the reading means.
+
+So I wouldn't put the intelligence inside a universal threshold burned into the probe.
+
+I would separate the system into four parts:
+
+1. **Probe** — observes raw physical conditions.
+2. **Plant instance** — describes this plant, pot, location, calibration and assigned probe.
+3. **Plant profile** — describes the broad conditions a type of plant tends to prefer.
+4. **Insight engine** — combines readings, history and profile to suggest a useful state.
+
+The same moisture reading could then become:
+
+```text
+office peace lily
+slightly dry + drying normally
+may need water tomorrow
+```
+
+or:
+
+```text
+kitchen succulent
+dry + expected dry period
+no action required
+```
+
+The product isn't smart because a sensor is online. It becomes useful when it turns evidence into context without pretending that a cheap probe has perfect knowledge of a living thing.
+
+## Trends matter more than thresholds
+
+There is a biological reason not to reduce plant care to “keep the soil wet”. Roots need water, but they also need oxygen. Water fills the pore spaces in soil after watering; as the pot drains and the plant uses that water, air returns. Soil that remains saturated can leave roots short of oxygen and contribute to root problems. [Most houseplants prefer steady moisture rather than soaking-wet conditions](https://extension.umn.edu/houseplants/spring-houseplant-care), and good potting conditions depend on [drainage and oxygen reaching the roots](https://extension.umn.edu/how/planting-and-transplanting-trees-and-shrubs).
+
+That doesn't mean every plant should be allowed to dry completely. It means the useful signal is a cycle. A [peace lily](https://www.rhs.org.uk/plants/peace-lilies/how-to-grow-peace-lilies) may prefer to move from moist to slightly dry before being watered again. A [succulent](https://extension.umn.edu/gardening-minnesota/cacti-and-succulents) may need a much longer dry period. The system isn't trying to pin every pot to one ideal percentage; it is trying to understand whether this particular plant is moving through a healthy wet–dry cycle.
+
+The first version of a plant monitor is likely to say:
+
+```text
+if moisture < 35%, send notification
+```
+
+That's enough to prove the complete path from soil to screen. It's also where many IoT projects stop.
+
+The more interesting questions live over time:
+
+- Is this pot drying faster than usual?
+- Has it remained wet for too long?
+- Did watering produce the expected change?
+- Is the plant receiving enough accumulated light across the day?
+- Did a move to a different room change its environment?
+- Is a sensor drifting or losing contact with the soil?
+
+A useful monitor should learn the rhythm of an individual plant before it becomes loud. The aim isn't to create another source of red badges. It's to make care easier and help the owner notice a change that is otherwise difficult to see.
+
+This is another reason to keep the probe simple. Historical interpretation belongs in the part of the system that can be updated, inspected and corrected.
+
+## BLE now, Thread and Matter later
+
+“Your houseplants don't need Wi-Fi” is a design prompt, not a law.
+
+Wi-Fi is still the fastest way for me to make the first prototype work. A development board on USB power can read sensors and post to an API with very little infrastructure. That lets me validate calibration, storage, charts and whether any of the measurements are useful before optimising the radio.
+
+For the first low-power version, BLE advertising still makes the most sense to me. [Bluetooth Low Energy devices can broadcast small packets without maintaining a connection](https://www.bluetooth.com/blog/bluetooth-low-energy-it-starts-with-advertising/). That maps neatly to a probe that wakes, measures, reports and sleeps. It is simple because the base station carries the responsibility.
+
+[Zigbee](https://csa-iot.org/all-solutions/zigbee/) is the mature full-stack mesh alternative: low-power, widely deployed and built for nearby devices to relay messages across a network. It is attractive when the product will live inside an existing Zigbee ecosystem.
+
+[Thread](https://threadgroup.org/what-Is-thread/overview) is the option I am most interested in exploring. It uses the same IEEE 802.15.4 radio foundation as Zigbee, but turns the mesh into an IPv6 network. A Thread Border Router connects that low-power network to the rest of the home without each probe needing Wi-Fi.
+
+[Matter](https://csa-iot.org/all-solutions/matter/matter-faq/) is not another radio competing with those three. It defines a common, IP-based way for compatible devices to describe themselves and communicate over networks such as Thread, Wi-Fi and Ethernet. BLE can help with setup. Thread gives packets a route through a low-power mesh; Matter gives devices a common language.
+
+The timing is particularly interesting. [Matter 1.5 added support for soil sensors](https://csa-iot.org/newsroom/matter-1-5-introduces-cameras-closures-and-enhanced-energy-management-capabilities/), including moisture and optional temperature readings for indoor plants, gardens and lawns. That doesn't make Matter the obvious choice for my first prototype, and a specification isn't the same thing as seamless products. But the broad industry collaboration behind it, plus an explicit plant-care use case, makes the Thread and Matter path worth keeping open. I want to learn what those standards feel like in actual firmware, not just read about their promises.
+
+Different environments will still justify different protocols. LoRa may make sense for water troughs or greenhouse sensors spread across a property. A wired sensor may be the most reliable choice in a fixed installation. Sometimes a mains-powered Wi-Fi device is exactly right.
+
+The mistake is deciding that every device needs a direct relationship with the cloud before writing down the requirements.
+
+I would rather ask:
+
+- How much data is produced?
+- How quickly must it arrive?
+- What is the power budget?
+- What happens when the network or internet disappears?
+- How will the device be provisioned?
+- Who should be able to read the data?
+- Which part of the system is easiest to update?
+- How long should the physical object remain useful?
+
+The protocol should follow those answers.
+
+## The hardware is the lesson
+
+As a software developer, I'm naturally tempted to race toward the API and dashboard. They're the parts I already know how to build.
+
+But the value of this project is everything I can't abstract away.
+
+Soil is inconsistent. Cheap capacitive sensors drift. Water and electronics are awkward neighbours. A light sensor can be shaded by a leaf or the enclosure. Battery estimates depend on real sleep current, regulator losses, wake time and temperature—not the optimistic number in my head. Radio range changes with walls, floors, antenna placement and the material surrounding the device.
+
+The project only becomes systems engineering when those physical facts are allowed to change the software architecture.
+
+That's why I'm approaching it in stages:
+
+1. **Make it work.** Read the sensors and move data end to end.
+2. **Make it last.** Measure power, sleep aggressively and choose communication around the real duty cycle.
+3. **Make it real.** Replace the breadboard with a board designed for the job.
+4. **Make it better.** Improve networking, calibration, reliability and the quality of the insights.
+5. **Make it beautiful.** Design an enclosure and experience that belong near a living thing rather than on an engineering bench.
+
+The plant monitor is the vehicle. The real project is learning to make decisions across electronics, firmware, radio, backend systems and product design—and to understand the trade-offs well enough to explain them.
+
+## A small platform hiding in a pot
+
+Once the architecture is separated into quiet probes and a capable local base, the plant monitor stops looking like a single gadget.
+
+The same pattern could support a greenhouse sensor, fridge-temperature monitor, rainwater-tank gauge, mailbox notifier, chicken-coop monitor or cattle-trough alarm. The sensor at the edge changes; much of the low-power firmware, packet format, base station, storage and observability can remain.
+
+That doesn't mean I should build a universal sensor platform before I've kept one peace lily alive. It means a good boundary can create room for the project to grow without forcing the first device to carry every future ambition.
+
+For now, the objective is smaller: make a probe that can observe without becoming needy, make a base station that can listen, and make the software quiet enough to speak only when the plant's story has genuinely changed.
+
+The internet can help with that. It just doesn't need to be in every pot.

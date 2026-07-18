@@ -26,6 +26,9 @@ const SEO: SEO = {
 const articles = (await getCollection("articles")).sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
+const articleDrafts = import.meta.env.DEV
+  ? await getCollection("articleDrafts")
+  : [];
 
 const formatDate = (date: string) =>
   new Intl.DateTimeFormat("en-AU", {
@@ -35,6 +38,14 @@ const formatDate = (date: string) =>
   }).format(new Date(`${date}T00:00:00`));
 
 const items = [
+  ...articleDrafts.map((article) => ({
+    title: article.data.title,
+    description: article.data.description,
+    href: article.data.canonicalUrl,
+    date: article.data.date,
+    meta: `DRAFT // ${formatDate(article.data.date)}`,
+    detail: `${getReadingTime(article.body || "").text} · LOCAL ONLY`,
+  })),
   ...articles.map((article) => ({
     title: article.data.title,
     description: article.data.description,
@@ -55,6 +66,7 @@ const items = [
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .map(({ date: _date, ...item }) => item);
 const itemListId = "https://danferg.com/articles#itemlist";
+const publishedItemCount = items.length - articleDrafts.length;
 const itemListJsonLd = {
   "@type": "ItemList",
   "@id": itemListId,
@@ -78,7 +90,7 @@ const itemListJsonLd = {
       as="h1"
       eyebrow="ARCHIVE_02 // ARTICLES"
       title="Notes from making things."
-      description={`${items.length} essays and research notes on building, learning, burning out, and beginning again.`}
+      description={`${publishedItemCount} essays and research notes on building, learning, burning out, and beginning again.${articleDrafts.length ? ` ${articleDrafts.length} local draft${articleDrafts.length === 1 ? "" : "s"} shown in development only.` : ""}`}
     />
     <ContentList items={items} orderedLabel="All articles" />
   </main>
