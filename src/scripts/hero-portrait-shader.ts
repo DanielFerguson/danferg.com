@@ -181,7 +181,7 @@ const waitForSizedCanvas = async (canvas: HTMLCanvasElement) => {
 
 export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
   const sourceImage = portrait.querySelector<HTMLImageElement>(
-    ".hero-portrait__image--dark",
+    ".hero-portrait__image",
   );
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 

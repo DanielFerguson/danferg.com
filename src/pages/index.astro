@@ -313,27 +313,16 @@ const talkItems = [
     height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
+    filter: url("#hero-portrait-light-palette");
   }
 
-  .hero__signal :global(.hero-portrait__image--dark) {
-    display: none;
-  }
-
-  :global(:root[data-theme="dark"]) .hero__signal :global(.hero-portrait__image--light) {
-    display: none;
-  }
-
-  :global(:root[data-theme="dark"]) .hero__signal :global(.hero-portrait__image--dark) {
-    display: block;
+  :global(:root[data-theme="dark"]) .hero__signal :global(.hero-portrait__image) {
+    filter: none;
   }
 
   @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme])) .hero__signal :global(.hero-portrait__image--light) {
-      display: none;
-    }
-
-    :global(:root:not([data-theme])) .hero__signal :global(.hero-portrait__image--dark) {
-      display: block;
+    :global(:root:not([data-theme])) .hero__signal :global(.hero-portrait__image) {
+      filter: none;
     }
   }
 

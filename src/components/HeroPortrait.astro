@@ -3,6 +3,32 @@
   data-hero-portrait
   data-hero-shader-state="fallback"
 >
+  <svg
+    class="hero-portrait__filters"
+    width="0"
+    height="0"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <defs>
+      <!-- The source artwork has four flat colours. This matrix maps its dark
+           palette exactly to the corresponding light palette for fallbacks. -->
+      <filter
+        id="hero-portrait-light-palette"
+        color-interpolation-filters="sRGB"
+      >
+        <feColorMatrix
+          type="matrix"
+          values="
+            -1.10921766 0 1.52904725 0 -0.33579077
+            -0.41914106 0 0.64575265 0 -0.09475352
+            -0.51828901 1 1.03382391 0 -0.05448682
+            0 0 0 1 0
+          "
+        />
+      </filter>
+    </defs>
+  </svg>
   <script is:inline>
     (() => {
       const portrait = document.currentScript?.parentElement;
@@ -23,19 +49,11 @@
     })();
   </script>
   <img
-    class="hero-portrait__image hero-portrait__image--light"
-    src="/images/dan-light.png"
+    class="hero-portrait__image"
+    src="/images/dan-dark.png"
     alt="Dan Ferg in conversation at the CivVic and VicHealth Showcase"
     width="2280"
     height="1283"
-  />
-  <img
-    class="hero-portrait__image hero-portrait__image--dark"
-    src="/images/dan-dark.png"
-    alt=""
-    width="2280"
-    height="1283"
-    aria-hidden="true"
   />
 </figure>
 
@@ -95,6 +113,11 @@
 </script>
 
 <style>
+  .hero-portrait__filters {
+    position: absolute;
+    pointer-events: none;
+  }
+
   .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],
   .hero-portrait[data-hero-portrait][data-hero-shader-state="ready"] {
     background: rgb(0 12 56);
