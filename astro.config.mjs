@@ -54,6 +54,14 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => {
+        const pathname = new URL(page).pathname.replace(/\/$/, "");
+
+        return ![
+          "/projects/autofarm",
+          "/projects/telltail",
+        ].includes(pathname);
+      },
       serialize(item) {
         const pathname = new URL(item.url).pathname.replace(/\/$/, "") || "/";
         const lastmod = lastModifiedByPath.get(pathname);

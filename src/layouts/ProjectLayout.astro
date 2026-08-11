@@ -98,6 +98,7 @@ const SEO: SEO & {
   publishedDate: frontmatter.publishedDate || frontmatter.date,
   modifiedDate: frontmatter.modifiedDate || frontmatter.updatedDate,
   articleSection: "Case studies",
+  robots: frontmatter.hidden ? "noindex,nofollow,noarchive" : undefined,
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Projects", url: "/projects" },

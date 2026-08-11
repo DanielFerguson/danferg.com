@@ -30,6 +30,7 @@ const projects = (await getCollection("projects"))
     url: project.data.canonicalUrl,
     frontmatter: project.data,
   }))
+  .filter((project) => project.frontmatter.hidden !== true)
   .filter((project) => project.frontmatter.featured !== false)
   .sort(compareProjectsByPeriod);
 

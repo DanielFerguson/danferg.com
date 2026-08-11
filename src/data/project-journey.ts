@@ -48,10 +48,10 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how decision support, brand, commerce, and farm operations became one venture.",
   },
   "/projects/ferguson-livestock": {
-    title: "AutoFarm",
-    href: "/projects/autofarm",
+    title: "SimpleXL",
+    href: "/projects/simplexl",
     description:
-      "See how manual work and earned automation shape a Rust farming game.",
+      "See how a local-first desktop workbench makes spreadsheet data queryable with SQL.",
   },
   "/projects/autofarm": {
     title: "SimpleXL",
@@ -78,10 +78,10 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how an idea-validation concept earned the decision not to overbuild.",
   },
   "/projects/yfocus": {
-    title: "TellTail",
-    href: "/projects/telltail",
+    title: "WP Flame",
+    href: "/projects/wp-flame",
     description:
-      "See how evidence and safety gates shape an early pet well-being product.",
+      "See how bounded traces turn WordPress performance into explainable evidence.",
   },
   "/projects/telltail": {
     title: "WP Flame",

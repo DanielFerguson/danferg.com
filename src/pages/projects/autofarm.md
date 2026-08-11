@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: AutoFarm
+hidden: true
 description: An unreleased Rust and Bevy farming game where players learn the work by hand, then reclaim time by configuring drones and machines to do it well.
 tags:
   - Game development

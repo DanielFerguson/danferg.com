@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: TellTail
+hidden: true
 description: An evidence-led pet well-being concept exploring how proactive dog owners might notice meaningful changes earlier and make calmer, better-informed care decisions.
 tags:
   - Pet well-being
