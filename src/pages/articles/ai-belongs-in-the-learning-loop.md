@@ -1,9 +1,13 @@
 ---
-draft: true
+layout: ../../layouts/ArticleLayout.astro
 title: "AI belongs in the learning loop."
 description: "A first-principles sketch of how AI might support durable learning, personalised practice and better teacher insight—without becoming an answer machine."
 date: "2026-07-17"
-imageUrl: /images/og-default.png
+imageUrl: /images/og/articles/ai-belongs-in-the-learning-loop-og.png
+imageUrls:
+  - /images/og/articles/ai-belongs-in-the-learning-loop-16x9.png
+  - /images/og/articles/ai-belongs-in-the-learning-loop-4x3.png
+  - /images/og/articles/ai-belongs-in-the-learning-loop-1x1.png
 imageAlt: Social card for AI belongs in the learning loop
 imageWidth: 1200
 imageHeight: 630

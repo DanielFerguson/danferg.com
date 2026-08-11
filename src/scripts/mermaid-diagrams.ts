@@ -1,4 +1,5 @@
 const diagramSelector = "[data-mermaid-diagram]";
+const devImportRetryKey = "danferg-mermaid-import-retried";
 
 const themes = {
   light: {
@@ -69,7 +70,19 @@ export async function initializeMermaidDiagrams() {
 
   try {
     ({ default: mermaid } = await import("mermaid"));
+    if (import.meta.env.DEV) {
+      window.sessionStorage.removeItem(devImportRetryKey);
+    }
   } catch (error) {
+    if (
+      import.meta.env.DEV &&
+      !window.sessionStorage.getItem(devImportRetryKey)
+    ) {
+      window.sessionStorage.setItem(devImportRetryKey, "true");
+      window.location.reload();
+      return;
+    }
+
     figures.forEach((figure) => {
       figure.dataset.mermaidError = "";
     });
