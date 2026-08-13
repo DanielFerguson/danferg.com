@@ -1,0 +1,343 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+
+const canonicalPath = "/chef";
+const sourceUrl = "https://github.com/DanielFerguson/chef-skills";
+const SEO: SEO = {
+  title: "Chef — local-first meal planning skills | Dan Ferg",
+  headline: "Plan together. Keep the useful context. Shop with a human in control.",
+  description: "Chef is a local-first set of Agent Skills for household meal planning, exact recipes, grocery preparation and useful feedback.",
+  imageUrl: "/images/og-default.png",
+  imageAlt: "Chef — local-first meal planning Agent Skills by Dan Ferg",
+  openGraph: { type: "website" },
+  canonicalUrl: canonicalPath,
+  schemaType: "SoftwareApplication",
+  modifiedDate: "2026-08-13",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Chef", url: canonicalPath },
+  ],
+  jsonLd: {
+    "@type": "SoftwareApplication",
+    "@id": "https://danferg.com/chef#software",
+    name: "Chef",
+    description: "Local-first Agent Skills for household meal planning and grocery preparation.",
+    url: "https://danferg.com/chef",
+    codeRepository: sourceUrl,
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Cross-platform",
+    softwareVersion: "0.1.0-rc.1",
+    license: "https://opensource.org/license/mit",
+    author: { "@id": "https://danferg.com/#person" },
+  },
+};
+
+const skills = [
+  ["01", "Plan meals", "Riff on the real week—dates, people, portions, energy, leftovers and budget—then approve one exact plan."],
+  ["02", "Manage the household", "Keep explicit allergies and dietary needs separate from ordinary likes, dislikes and reviewable hunches."],
+  ["03", "Keep exact recipes", "Save immutable recipe versions, scale their ingredients and remember which version was actually planned."],
+  ["04", "Prepare the shop", "Compile a traceable grocery plan, export it anywhere, or optionally prepare a basket after a separate approval."],
+  ["05", "Learn from dinner", "Record portions, effort, leftovers and feedback without silently inventing new safety rules."],
+];
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+  <main id="main-content">
+    <header class="site-container chef-hero" data-motion-intro-group>
+      <div class="chef-hero__meta" data-motion-intro-item>
+        <p>CHEF / AGENT SKILLS</p>
+        <span>0.1.0-RC.1</span>
+      </div>
+      <h1 data-motion-intro-item>Plan together. Keep the useful context. <em>Shop with a human in control.</em></h1>
+      <p class="chef-hero__lede" data-motion-intro-item>
+        Chef is a local-first set of five Agent Skills that carries a household from
+        “what should we eat?” to an approved plan, exact recipes, a grocery list and useful feedback.
+      </p>
+      <div class="chef-hero__actions" data-motion-intro-item>
+        <a class="button button--primary" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
+        <a class="button" href="/chef/install">Installation guide <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="release-note" data-motion-intro-item>Release candidate: source and local installation are ready for testing. The OpenAI directory listing is not yet published.</p>
+    </header>
+
+    <section class="principle" aria-labelledby="principle-title">
+      <div class="site-container principle__grid" data-motion-reveal>
+        <div>
+          <p class="eyebrow">01 // THE USEFUL BOUNDARY</p>
+          <h2 id="principle-title">Conversation for intent. Local records for decisions.</h2>
+        </div>
+        <div>
+          <p>Chef can help a household think out loud, but the chat is never the only copy of what matters. People, explicit constraints, preferences, plans, recipe versions, grocery plans and outcomes live in a folder the user chooses.</p>
+          <p>The included Python utility uses SQLite and JSON without a hosted Chef account. It can produce human-readable exports and backups. Local files are permission-restricted where supported, but they are not application-level encrypted in v0.1.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-container skills page-section" aria-labelledby="skills-title">
+      <p class="eyebrow">02 // FIVE FOCUSED SKILLS</p>
+      <h2 id="skills-title">One workflow, without one enormous prompt.</h2>
+      <div class="skill-grid" data-motion-group>
+        {skills.map(([number, title, description]) => (
+          <article data-motion-item>
+            <span>{number}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="shop" aria-labelledby="shop-title">
+      <div class="site-container shop__grid" data-motion-reveal>
+        <div>
+          <p class="eyebrow">03 // OPTIONAL COMPUTER USE</p>
+          <h2 id="shop-title">Automation is a capability, not a promise.</h2>
+        </div>
+        <div>
+          <p>Chef always works as a grocery-list export. When the user’s agent has an appropriate browser or Computer Use capability, Chef can optionally help prepare a provider-neutral basket after a separate, exact approval.</p>
+          <p>It sets absolute intended quantities and requires verification evidence. If the result is unclear, it says so. Checkout, payment, fulfilment, restricted products and order placement remain human-controlled.</p>
+          <a href="/chef/safety">Read the shopping and safety boundaries <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-container install page-section" aria-labelledby="install-title">
+      <div>
+        <p class="eyebrow">04 // TRY THE RELEASE CANDIDATE</p>
+        <h2 id="install-title">Install from source today.</h2>
+        <p>Clone the public repository, add its local marketplace and install Chef. Start a new Codex task after installation.</p>
+      </div>
+      <pre aria-label="Codex installation commands"><code>git clone https://github.com/DanielFerguson/chef-skills.git
+cd chef-skills
+codex plugin marketplace add .
+codex plugin add chef@chef-skills</code></pre>
+      <div class="install__links">
+        <a href="/chef/install">All installation options →</a>
+        <a href="/chef/privacy">Privacy →</a>
+        <a href="/chef/terms">Terms →</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .eyebrow,
+  .chef-hero__meta {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  .chef-hero {
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .chef-hero__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dotted var(--line-strong);
+  }
+
+  .chef-hero__meta p {
+    margin: 0;
+  }
+
+  .chef-hero h1 {
+    max-width: 15ch;
+    margin: clamp(2rem, 5vw, 4rem) 0 0;
+    font-size: clamp(2.7rem, 7vw, 6.4rem);
+    line-height: 0.91;
+    letter-spacing: -0.075em;
+  }
+
+  .chef-hero h1 em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .chef-hero__lede {
+    max-width: 52rem;
+    margin: 1.75rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1.7vw, 1.15rem);
+    line-height: 1.7;
+  }
+
+  .chef-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .button {
+    display: inline-flex;
+    min-width: 13rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .button--primary {
+    color: var(--inverse-ink);
+    border-color: var(--signal-fill);
+    background: var(--signal-fill);
+  }
+
+  .button:is(:hover, :focus-visible) {
+    color: var(--inverse-ink);
+    background: var(--ink);
+  }
+
+  .button--primary:is(:hover, :focus-visible) {
+    border-color: var(--signal-fill-hover);
+    background: var(--signal-fill-hover);
+  }
+
+  .release-note {
+    max-width: 46rem;
+    margin: 1.25rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  .principle,
+  .shop {
+    border-block: 1px solid var(--line);
+    background: var(--paper-raised);
+  }
+
+  .principle__grid,
+  .shop__grid,
+  .install {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  h2 {
+    max-width: 18ch;
+    margin: 1rem 0 0;
+    font-size: clamp(1.8rem, 4vw, 3.3rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .principle__grid > div:last-child,
+  .shop__grid > div:last-child,
+  .install > div:first-child {
+    color: var(--ink-soft);
+    line-height: 1.8;
+  }
+
+  .principle__grid > div:last-child p:first-child,
+  .shop__grid > div:last-child p:first-child {
+    margin-top: 0;
+  }
+
+  .skills > h2 {
+    margin-bottom: 2rem;
+  }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .skill-grid article {
+    grid-column: span 2;
+    min-height: 15rem;
+    padding: 1.25rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .skill-grid article:nth-child(4),
+  .skill-grid article:nth-child(5) {
+    grid-column: span 3;
+  }
+
+  .skill-grid span {
+    color: var(--signal);
+    font-size: 0.68rem;
+    font-weight: 750;
+  }
+
+  .skill-grid h3 {
+    margin: 3.5rem 0 0.75rem;
+    font-size: 1.05rem;
+  }
+
+  .skill-grid p {
+    margin: 0;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .shop a,
+  .install__links a {
+    color: var(--signal);
+    font-weight: 700;
+    text-underline-offset: 0.23em;
+  }
+
+  .install pre {
+    overflow-x: auto;
+    margin: 0;
+    padding: 1.25rem;
+    color: var(--code-ink);
+    background: var(--code-surface);
+    font-size: clamp(0.68rem, 1.3vw, 0.8rem);
+    line-height: 1.8;
+  }
+
+  .install__links {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .principle__grid,
+    .shop__grid,
+    .install {
+      grid-template-columns: 1fr;
+    }
+
+    .install__links {
+      grid-column: auto;
+    }
+
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .skill-grid article,
+    .skill-grid article:nth-child(4),
+    .skill-grid article:nth-child(5) {
+      grid-column: auto;
+      min-height: 0;
+    }
+
+    .skill-grid h3 {
+      margin-top: 2rem;
+    }
+  }
+</style>

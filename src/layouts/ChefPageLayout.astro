@@ -1,0 +1,103 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "./BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+
+interface Props extends SEO {
+  eyebrow: string;
+  heading: string;
+  lede: string;
+}
+
+const { eyebrow, heading, lede, ...seo } = Astro.props;
+---
+
+<BaseLayout {...seo}>
+  <NavBar />
+  <main id="main-content">
+    <header class="site-container chef-header" data-motion-intro-group>
+      <nav aria-label="Chef" data-motion-intro-item>
+        <a href="/chef">Chef</a>
+        <a href="/chef/install">Install</a>
+        <a href="/chef/safety">Safety</a>
+        <a href="/chef/privacy">Privacy</a>
+        <a href="/chef/terms">Terms</a>
+      </nav>
+      <p class="eyebrow" data-motion-intro-item>{eyebrow}</p>
+      <h1 data-motion-intro-item>{heading}</h1>
+      <p class="lede" data-motion-intro-item>{lede}</p>
+    </header>
+    <article class="chef-body prose-shell">
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .chef-header {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1rem;
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    text-underline-offset: 0.22em;
+  }
+
+  nav a:first-child {
+    color: var(--signal);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--signal);
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+  }
+
+  h1 {
+    max-width: 16ch;
+    margin: 1rem 0 0;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+  }
+
+  .lede {
+    max-width: 48rem;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+    line-height: 1.7;
+  }
+
+  .chef-body {
+    padding-top: clamp(2.75rem, 5vw, 4.5rem);
+  }
+
+  .chef-body :global(code) {
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 560px) {
+    nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      max-width: 100%;
+    }
+  }
+</style>
