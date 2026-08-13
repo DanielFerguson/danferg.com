@@ -14,6 +14,7 @@ import WorkHistory from "../components/WorkHistory.astro";
 import ImpactStats from "../components/ImpactStats.astro";
 import { compareProjectsByPeriod } from "../utils/project-sort";
 import { editorialUpdates } from "../data/editorial-updates";
+import { podcastAppearances, selectedTalks } from "../data/speaking";
 
 const SEO: SEO = {
   title: "Product consultant, advisor and software builder | Dan Ferg",
@@ -66,35 +67,28 @@ const articleItems = [
   .slice(0, 6)
   .map(({ date: _date, ...item }) => item);
 
-const talkItems = [
-  {
-    title: "Building a business in an hour... with no code!",
-    description:
-      "A practical walkthrough of using no-code tools to build a digital-facing business quickly.",
-    href: "/assets/slides/no-code-w-notes.pdf",
-    meta: "18 AUG 2022",
-    detail: "ENTREPRENEURSHIP",
+const speakingItems = [
+  ...podcastAppearances.map((episode) => ({
+    title: episode.title,
+    description: episode.description,
+    href: `/speaking#episode-${episode.spotifyId}`,
+    date: episode.date,
+    meta: formatDate(episode.date),
+    detail: "Podcast",
+    external: false,
+  })),
+  ...selectedTalks.map((talk) => ({
+    title: talk.title,
+    description: talk.description,
+    href: talk.href,
+    date: talk.date,
+    meta: formatDate(talk.date),
+    detail: talk.topic,
     external: true,
-  },
-  {
-    title: "Concept to Production",
-    description:
-      "The five steps I use to take startup ideas from a rough concept to a product people can use.",
-    href: "https://www.youtube.com/watch?v=_SZP7QmIIfE",
-    meta: "03 MAY 2022",
-    detail: "ENTREPRENEURSHIP",
-    external: true,
-  },
-  {
-    title: "SwinLead Leadership Workshop",
-    description:
-      "An honest discussion about the experiences, challenges, and successes of leading student communities.",
-    href: "https://www.youtube.com/watch?v=7_aJAvfGNsY",
-    meta: "13 APR 2022",
-    detail: "LEADERSHIP",
-    external: true,
-  },
-];
+  })),
+]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .map(({ date: _date, ...item }) => item);
 ---
 
 <BaseLayout {...SEO}>
@@ -174,11 +168,13 @@ const talkItems = [
       <div class="site-container page-section">
         <SectionHeading
           headingId="talks-title"
-          eyebrow="04 // TALKS"
+          eyebrow="04 // SPEAKING & PODCASTS"
           title="Ideas, spoken aloud."
-          description="Talks and workshops about building startups, working without code, and developing leaders."
+          description="Recent conversations and selected talks about community engagement, responsible AI, entrepreneurship, product building, and leadership."
+          actionHref="/speaking"
+          actionLabel="Watch and listen"
         />
-        <ContentList items={talkItems} orderedLabel="Talks and workshops" />
+        <ContentList items={speakingItems} orderedLabel="Podcast appearances, talks and workshops" />
       </div>
     </section>
 

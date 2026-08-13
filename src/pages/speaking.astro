@@ -1,0 +1,216 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import ContentList from "@components/ContentList.astro";
+import ConversionEndcap from "@components/ConversionEndcap.astro";
+import SpotifyEpisodePlayer from "@components/SpotifyEpisodePlayer.astro";
+import { podcastAppearances, selectedTalks } from "../data/speaking";
+import { createContactMailto } from "../utils/contact-links";
+
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+const talkItems = selectedTalks.map((talk) => ({
+  title: talk.title,
+  description: talk.description,
+  href: talk.href,
+  meta: formatDate(talk.date),
+  detail: talk.topic,
+  external: true,
+}));
+
+const speakingMailto = createContactMailto({
+  subject: "Speaking or podcast enquiry",
+  body: "G'day Dan,\n\nI'd like to invite you to speak or join a podcast.\n\nThe audience, topic, format, and useful timing:\n",
+});
+
+const canonicalPath = "/speaking";
+const SEO: SEO = {
+  title: "Speaking, podcasts and workshops | Dan Ferg",
+  headline: "Useful ideas, spoken aloud.",
+  description:
+    "Watch and listen to Dan Ferg on community engagement, responsible AI, entrepreneurship, product building, leadership, and technology.",
+  imageUrl: "/images/og-default.png",
+  imageAlt: "Dan Ferg — speaking, podcasts and workshops",
+  openGraph: { type: "website" },
+  canonicalUrl: canonicalPath,
+  schemaType: "CollectionPage",
+  modifiedDate: "2026-08-13",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Speaking", url: canonicalPath },
+  ],
+  jsonLd: {
+    "@type": "ItemList",
+    "@id": "https://danferg.com/speaking#podcasts",
+    name: "Dan Ferg podcast appearances",
+    numberOfItems: podcastAppearances.length,
+    itemListElement: podcastAppearances.map((episode, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "PodcastEpisode",
+        name: episode.title,
+        datePublished: episode.date,
+        url: episode.spotifyUrl,
+        partOfSeries: {
+          "@type": "PodcastSeries",
+          name: episode.show,
+        },
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+
+  <main id="main-content">
+    <header class="site-container speaking-hero" data-motion-intro-group>
+      <p class="eyebrow" data-motion-intro-item>// PODCASTS / TALKS / WORKSHOPS</p>
+      <h1 data-motion-intro-item>Useful ideas, <em>spoken aloud.</em></h1>
+      <p class="speaking-hero__lede" data-motion-intro-item>
+        Conversations about community engagement, responsible AI, building
+        products, entrepreneurship, leadership, and what happens when the tidy
+        plan meets the real world.
+      </p>
+      <div class="speaking-hero__actions" data-motion-intro-item>
+        <a class="button button--primary" href="#podcasts" data-motion-interactive>Watch the latest <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
+        <a class="button" href={speakingMailto} data-motion-interactive>Invite me to speak <span aria-hidden="true" data-motion-arrow>↗</span></a>
+      </div>
+    </header>
+
+    <section id="podcasts" class="podcasts" aria-labelledby="podcasts-title">
+      <div class="site-container page-section">
+        <SectionHeading
+          headingId="podcasts-title"
+          eyebrow="01 // FOR THE LOVE OF COMMUNITY ENGAGEMENT"
+          title="The future of engagement, without the theatre."
+          description="I joined host Becky Hirst as co-host for season six: a series of candid conversations with practitioners about the next decade of community engagement. Choose an episode below to watch or listen without leaving the page."
+        />
+        <SpotifyEpisodePlayer episodes={podcastAppearances} />
+      </div>
+    </section>
+
+    <section class="site-container page-section" aria-labelledby="talks-archive-title">
+      <SectionHeading
+        headingId="talks-archive-title"
+        eyebrow="02 // SELECTED TALKS"
+        title="Earlier ideas worth revisiting."
+        description="Workshops and talks about moving from a rough idea to something people can use, and the people required to make that happen."
+      />
+      <ContentList items={talkItems} orderedLabel="Selected talks and workshops" />
+    </section>
+
+    <ConversionEndcap
+      headingId="speaking-contact"
+      eyebrow="invite --with-context"
+      title="Looking for a practical voice, not a polished keynote machine?"
+      description="Tell me about the audience, the question you want to explore, and whether you have a stage, workshop, or microphone in mind. I’ll tell you honestly whether I can add something useful."
+      actions={[
+        {
+          meta: "SPEAKING / PODCASTS",
+          label: "Invite me",
+          href: speakingMailto,
+          description: "Include the audience, format, topic, location, and timing.",
+        },
+        {
+          meta: "CONSULTING / ADVISORY",
+          label: "Work through a problem",
+          href: "/consulting",
+          description: "For product, traction, GTM, or software work beyond the session.",
+        },
+      ]}
+    />
+  </main>
+</BaseLayout>
+
+<style>
+  .eyebrow {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+  }
+
+  .speaking-hero {
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 1rem 0 0;
+    font-size: clamp(2.7rem, 7vw, 6rem);
+    line-height: 0.92;
+    letter-spacing: -0.075em;
+  }
+
+  h1 em {
+    color: var(--signal);
+    font-style: normal;
+  }
+
+  .speaking-hero__lede {
+    max-width: 50rem;
+    margin: 1.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(0.88rem, 1.6vw, 1rem);
+    line-height: 1.7;
+  }
+
+  .speaking-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    display: inline-flex;
+    min-width: 12rem;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.68rem 0.8rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .button:is(:hover, :focus-visible) {
+    color: var(--inverse-ink);
+    background: var(--inverse-surface);
+  }
+
+  .button--primary {
+    border-color: var(--signal-fill);
+    color: var(--inverse-ink);
+    background: var(--signal-fill);
+  }
+
+  .button--primary:is(:hover, :focus-visible) {
+    background: var(--signal-fill-hover);
+  }
+
+  .podcasts {
+    background:
+      linear-gradient(90deg, transparent 49.95%, rgb(79 57 246 / 6%) 50%, transparent 50.05%),
+      var(--signal-soft);
+  }
+
+  @media (max-width: 520px) {
+    .button {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,308 @@
+---
+import type { PodcastAppearance } from "../data/speaking";
+
+interface Props {
+  episodes: PodcastAppearance[];
+}
+
+const { episodes } = Astro.props;
+const initialEpisode = episodes[0];
+
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+
+const embedUrl = (spotifyId: string) =>
+  `https://open.spotify.com/embed/episode/${spotifyId}/video?utm_source=generator`;
+---
+
+<div class="podcast-player" data-podcast-player>
+  <div class="podcast-player__stage-column">
+    <div class="podcast-player__stage">
+      <p class="podcast-player__status" aria-live="polite">
+        <span>NOW PLAYING</span>
+        <strong data-player-title>{initialEpisode.title}</strong>
+      </p>
+      <div class="podcast-player__frame">
+        <iframe
+          src={embedUrl(initialEpisode.spotifyId)}
+          title={`Spotify video: ${initialEpisode.title}`}
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          data-player-iframe
+        ></iframe>
+      </div>
+      <p class="podcast-player__fallback">
+        Player not available? <a
+          href={initialEpisode.spotifyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-player-link
+        >Open this episode in Spotify ↗</a>
+      </p>
+    </div>
+  </div>
+
+  <ol class="podcast-player__episodes" aria-label="Podcast episodes">
+    {
+      episodes.map((episode, index) => (
+        <li id={`episode-${episode.spotifyId}`}>
+          <button
+            type="button"
+            aria-pressed={index === 0 ? "true" : "false"}
+            data-episode-button
+            data-spotify-id={episode.spotifyId}
+            data-spotify-url={episode.spotifyUrl}
+            data-title={episode.title}
+          >
+            <span class="podcast-player__episode-index" aria-hidden="true">
+              [{String(episodes.length - index).padStart(2, "0")}]
+            </span>
+            <span class="podcast-player__episode-copy">
+              <small>{formatDate(episode.date)} · {episode.show}</small>
+              <strong>{episode.title}</strong>
+              <span>{episode.description}</span>
+              {episode.contentNote && <em>Content note: {episode.contentNote}</em>}
+            </span>
+            <span class="podcast-player__episode-action" aria-hidden="true">
+              {index === 0 ? "PLAYING" : "PLAY"}
+            </span>
+          </button>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<script>
+  const initialisePodcastPlayers = () => {
+    document.querySelectorAll<HTMLElement>("[data-podcast-player]").forEach((player) => {
+      if (player.dataset.ready === "true") return;
+
+      const frame = player.querySelector<HTMLIFrameElement>("[data-player-iframe]");
+      const title = player.querySelector<HTMLElement>("[data-player-title]");
+      const link = player.querySelector<HTMLAnchorElement>("[data-player-link]");
+      const buttons = Array.from(
+        player.querySelectorAll<HTMLButtonElement>("[data-episode-button]"),
+      );
+
+      if (!frame || !title || !link) return;
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const spotifyId = button.dataset.spotifyId;
+          const spotifyUrl = button.dataset.spotifyUrl;
+          const episodeTitle = button.dataset.title;
+
+          if (!spotifyId || !spotifyUrl || !episodeTitle) return;
+
+          frame.src = `https://open.spotify.com/embed/episode/${spotifyId}/video?utm_source=generator`;
+          frame.title = `Spotify video: ${episodeTitle}`;
+          title.textContent = episodeTitle;
+          link.href = spotifyUrl;
+
+          buttons.forEach((candidate) => {
+            const active = candidate === button;
+            candidate.setAttribute("aria-pressed", String(active));
+            const action = candidate.querySelector<HTMLElement>(
+              ".podcast-player__episode-action",
+            );
+            if (action) action.textContent = active ? "PLAYING" : "PLAY";
+          });
+
+          if (window.matchMedia("(max-width: 860px)").matches) {
+            player.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      player.dataset.ready = "true";
+
+      const selectedEpisode = window.location.hash.startsWith("#episode-")
+        ? player.querySelector<HTMLButtonElement>(`${window.location.hash} [data-episode-button]`)
+        : null;
+      selectedEpisode?.click();
+    });
+  };
+
+  initialisePodcastPlayers();
+  document.addEventListener("astro:page-load", initialisePodcastPlayers);
+</script>
+
+<style>
+  .podcast-player {
+    display: grid;
+    grid-template-columns: minmax(19rem, 0.86fr) minmax(0, 1.14fr);
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+  }
+
+  .podcast-player__stage {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    background: var(--paper-raised);
+  }
+
+  .podcast-player__stage-column {
+    min-width: 0;
+    border-right: 1px solid var(--line-strong);
+  }
+
+  .podcast-player__status {
+    display: grid;
+    gap: 0.35rem;
+    min-height: 3.7rem;
+    margin: 0 0 1rem;
+  }
+
+  .podcast-player__status span {
+    color: var(--signal);
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  .podcast-player__status strong {
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    line-height: 1.35;
+  }
+
+  .podcast-player__frame {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%;
+    border: 1px solid var(--line-strong);
+    background: var(--signal-deep);
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .podcast-player__fallback {
+    margin: 0.8rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.63rem;
+    line-height: 1.5;
+  }
+
+  .podcast-player__fallback a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .podcast-player__episodes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .podcast-player__episodes li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  button {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: start;
+    padding: 1.2rem;
+    border: 0;
+    color: var(--ink);
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  button:hover,
+  button:focus-visible {
+    background: var(--signal-soft);
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: -2px;
+  }
+
+  button[aria-pressed="true"] {
+    box-shadow: inset 0.22rem 0 var(--signal);
+    background: var(--signal-soft);
+  }
+
+  .podcast-player__episode-index,
+  .podcast-player__episode-action,
+  .podcast-player__episode-copy small {
+    color: var(--ink-muted);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .podcast-player__episode-copy {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .podcast-player__episode-copy strong {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
+  .podcast-player__episode-copy > span {
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    line-height: 1.55;
+  }
+
+  .podcast-player__episode-copy em {
+    color: var(--ink-muted);
+    font-size: 0.6rem;
+    font-style: normal;
+    line-height: 1.5;
+  }
+
+  .podcast-player__episode-action {
+    color: var(--signal);
+  }
+
+  @media (max-width: 860px) {
+    .podcast-player {
+      grid-template-columns: 1fr;
+      scroll-margin-top: 1rem;
+    }
+
+    .podcast-player__stage-column {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .podcast-player__stage {
+      position: static;
+    }
+  }
+
+  @media (max-width: 520px) {
+    button {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      padding-inline: 0.9rem;
+    }
+
+    .podcast-player__episode-action {
+      grid-column: 2;
+    }
+  }
+</style>
