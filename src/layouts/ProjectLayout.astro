@@ -13,6 +13,14 @@ import { createContactMailto } from "../utils/contact-links";
 
 const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
+const siteOrigin = Astro.site?.origin ?? "https://danferg.com";
+const parsedProjectUrl = projectUrl ? new URL(projectUrl, siteOrigin) : null;
+const projectLinkIsExternal =
+  parsedProjectUrl !== null && parsedProjectUrl.origin !== siteOrigin;
+const projectLinkHref =
+  parsedProjectUrl && !projectLinkIsExternal
+    ? `${parsedProjectUrl.pathname}${parsedProjectUrl.search}${parsedProjectUrl.hash}`
+    : projectUrl;
 const projectLinkLabel = frontmatter.externalLabel || "Visit project";
 const projectScreenshot = getProjectScreenshot(frontmatter.imageKey);
 const projectSocialImage = await getImage({
@@ -62,8 +70,8 @@ const endcapActions = [
         {
           meta: "PROJECT LINK",
           label: projectLinkLabel,
-          href: projectUrl,
-          external: true,
+          href: projectLinkHref,
+          external: projectLinkIsExternal,
         },
       ]
     : []),
@@ -118,7 +126,17 @@ const SEO: SEO & {
         </div>
         <div class="project-header__aside">
           <p>{frontmatter.description}</p>
-          {projectUrl && <a href={projectUrl} target="_blank" rel="noopener noreferrer" data-motion-interactive>{projectLinkLabel} <span aria-hidden="true" data-motion-arrow>↗</span></a>}
+          {projectUrl && (
+            <a
+              href={projectLinkHref}
+              target={projectLinkIsExternal ? "_blank" : undefined}
+              rel={projectLinkIsExternal ? "noopener noreferrer" : undefined}
+              data-astro-prefetch={projectLinkIsExternal ? undefined : "hover"}
+              data-motion-interactive
+            >
+              {projectLinkLabel} <span aria-hidden="true" data-motion-arrow>{projectLinkIsExternal ? "↗" : "→"}</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -130,20 +148,22 @@ const SEO: SEO & {
       </dl>
     </header>
 
-    <div class="site-container project-visual" data-motion-reveal data-motion-scale>
-      <div class="project-visual__bar"><span>{visualLabel}</span><span>FIG. 01</span></div>
-      <Picture
-        src={projectScreenshot}
-        formats={["avif", "webp"]}
-        fallbackFormat="webp"
-        alt={screenshotAlt}
-        widths={[640, 960, 1280]}
-        sizes="(min-width: 1280px) 1216px, calc(100vw - 40px)"
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-      />
-    </div>
+    {!frontmatter.hideScreenshot && (
+      <div class="site-container project-visual" data-motion-reveal data-motion-scale>
+        <div class="project-visual__bar"><span>{visualLabel}</span><span>FIG. 01</span></div>
+        <Picture
+          src={projectScreenshot}
+          formats={["avif", "webp"]}
+          fallbackFormat="webp"
+          alt={screenshotAlt}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 1280px) 1216px, calc(100vw - 40px)"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
+    )}
 
     <article class="prose-shell" data-motion-reveal>
       <slot />

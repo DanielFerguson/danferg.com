@@ -45,6 +45,7 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
               href={action.href}
               target={action.external ? "_blank" : undefined}
               rel={action.external ? "noopener noreferrer" : undefined}
+              data-astro-prefetch={opensAway ? undefined : "hover"}
               data-motion-interactive
             >
               <span class="conversion-endcap__action-copy">

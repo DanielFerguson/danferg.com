@@ -1,0 +1,32 @@
+---
+import ChefPageLayout from "@layouts/ChefPageLayout.astro";
+---
+
+<ChefPageLayout
+  title="Chef privacy | Dan Ferg"
+  description="How Chef stores household meal-planning data locally and what version 0.1 deliberately does not retain."
+  imageUrl="/images/og-default.png"
+  openGraph={{ type: "website" }}
+  canonicalUrl="/chef/privacy"
+  modifiedDate="2026-08-13"
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Chef", url: "/chef" }, { name: "Privacy", url: "/chef/privacy" }]}
+  eyebrow="CHEF_DOCS // PRIVACY"
+  heading="Your household data stays in a folder you choose."
+  lede="Chef is local-first. There is no Chef account or hosted Chef database in version 0.1."
+>
+  <p><strong>Effective 13 August 2026.</strong></p>
+  <h2>What Chef stores</h2>
+  <p>Household names, people, explicit dietary and safety constraints, preferences, meal plans, exact recipe versions, grocery plans, concise shop-run evidence and meal outcomes are stored in a SQLite database in the folder the user chooses.</p>
+  <p>Only that folder's path is stored in a user-level Chef configuration file. Chef can create JSON, Markdown and SQLite backups when the user requests them.</p>
+
+  <h2>What Chef does not store</h2>
+  <p>Chef must not persist retailer credentials, cookies, payment information, screenshots or raw retailer pages. It does not send the local database to Daniel Ferguson.</p>
+  <p>A host agent or optional Computer Use provider may process information under its own privacy terms. Review those terms before enabling browser automation.</p>
+
+  <h2>Local protection and deletion</h2>
+  <p>Chef permission-restricts its local files where the operating system supports it. Version 0.1 does not provide application-level encryption, so anyone with access to the operating-system account or backups may be able to read them.</p>
+  <p>Users can export their data or remove the chosen data folder and Chef configuration themselves. Chef does not automate removal because that action is destructive.</p>
+
+  <h2>Contact</h2>
+  <p>Privacy questions can be sent to <a href="mailto:gday@danferg.com">gday@danferg.com</a>.</p>
+</ChefPageLayout>

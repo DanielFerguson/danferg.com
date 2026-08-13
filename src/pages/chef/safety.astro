@@ -1,0 +1,37 @@
+---
+import ChefPageLayout from "@layouts/ChefPageLayout.astro";
+---
+
+<ChefPageLayout
+  title="Chef safety and shopping boundary | Dan Ferg"
+  description="Chef's explicit allergy, meal-plan approval and optional Computer Use safeguards."
+  imageUrl="/images/og-default.png"
+  openGraph={{ type: "website" }}
+  canonicalUrl="/chef/safety"
+  modifiedDate="2026-08-13"
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Chef", url: "/chef" }, { name: "Safety", url: "/chef/safety" }]}
+  eyebrow="CHEF_DOCS // SAFETY"
+  heading="Safety rules are explicit. Shopping automation fails closed."
+  lede="Chef separates ordinary preferences from safety constraints and requires a new human decision at every consequential boundary."
+>
+  <h2>Household safety</h2>
+  <p>Chef never infers an allergy or safety constraint. “Sam dislikes peanuts” remains an ordinary preference unless the affected person explicitly confirms something more. Stored constraints retain their person, scope, source and confirmation.</p>
+  <p>A meal that appeared safe does not weaken an existing constraint. Chef is not medical advice.</p>
+
+  <h2>Approval ladder</h2>
+  <ol>
+    <li>Review and approve one exact meal-plan version.</li>
+    <li>Review and approve the grocery plan derived from it.</li>
+    <li>Give a separate approval before any basket mutation.</li>
+    <li>Verify absolute intended quantities line by line.</li>
+    <li>Take over before checkout or any payment step.</li>
+  </ol>
+  <p>Changing participants, servings or recipes makes prior approval stale and invalidates the derived grocery plan.</p>
+
+  <h2>Computer Use beta</h2>
+  <p>Chef first checks whether the user's agent has an appropriate browser or Computer Use capability. If it does not, Chef exports Markdown or JSON. If it does, the user still chooses the provider and remains responsible for its terms.</p>
+  <p>A shop run reports only <code>succeeded</code>, <code>blocked</code>, <code>retryable</code>, <code>uncertain</code> or <code>failed</code>. Success requires evidence for every line and the final basket. Incomplete verification is <code>uncertain</code>, never “ready”.</p>
+
+  <h2>Hard stop</h2>
+  <p>Chef does not perform checkout, payment, fulfilment, restricted-product handling or order placement. It does not bundle a named retailer adapter and does not bypass access controls or bot protections.</p>
+</ChefPageLayout>

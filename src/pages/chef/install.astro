@@ -1,0 +1,44 @@
+---
+import ChefPageLayout from "@layouts/ChefPageLayout.astro";
+
+const releaseAssetUrl = "https://github.com/DanielFerguson/chef-skills/releases/download/v0.1.0";
+const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.1.0.zip`;
+const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.1.0.zip`;
+const checksumsUrl = `${releaseAssetUrl}/SHA256SUMS`;
+---
+
+<ChefPageLayout
+  title="Install Chef Agent Skills | Dan Ferg"
+  description="Install the Chef plugin in Codex or use its five portable Agent Skills with a compatible coding agent."
+  imageUrl="/images/og-default.png"
+  openGraph={{ type: "website" }}
+  canonicalUrl="/chef/install"
+  breadcrumbs={[{ name: "Home", url: "/" }, { name: "Chef", url: "/chef" }, { name: "Install", url: "/chef/install" }]}
+  eyebrow="CHEF_DOCS // INSTALL"
+  heading="Install Chef from source."
+  lede="Stable 0.1.0 is available as an OpenAI plugin, portable Agent Skills package and public source. A one-click directory install will appear only after the listing is approved."
+>
+  <h2>Download 0.1.0</h2>
+  <ul>
+    <li><a href={pluginDownloadUrl}>Chef plugin ZIP</a></li>
+    <li><a href={skillsDownloadUrl}>Portable Agent Skills ZIP</a></li>
+    <li><a href={checksumsUrl}>SHA-256 checksums</a></li>
+  </ul>
+
+  <h2>Codex plugin</h2>
+  <p>Chef's supported OpenAI package is a skills-only plugin. Clone the public repository, register its repo-local marketplace and install the plugin:</p>
+  <pre><code>git clone https://github.com/DanielFerguson/chef-skills.git
+cd chef-skills
+codex plugin marketplace add .
+codex plugin add chef@chef-skills</code></pre>
+  <p>Start a new Codex task after installation. You should see five Chef skills. No MCP server, app or hooks are included.</p>
+
+  <h2>Portable Agent Skills</h2>
+  <p>Download the <a href={skillsDownloadUrl}>stable Agent Skills ZIP</a>, or copy the five folders from <code>plugins/chef/skills/</code> into your project's <code>.agents/skills/</code>. Copy <code>plugins/chef/scripts/</code> to <code>.agents/scripts/</code> so the shared CLI remains at the path each skill expects.</p>
+  <p>Third-party agents must support the Agent Skills folder convention or provide a way to load each <code>SKILL.md</code>. Their browser and Computer Use capabilities vary; grocery export remains available without them.</p>
+
+  <h2>First use</h2>
+  <p>Chef will ask where to keep your data. The suggested location is <code>Documents/Chef</code>. It stores only that folder pointer in your user configuration. The selected folder holds SQLite data, exports and backups you explicitly create.</p>
+  <pre><code>plugins/chef/scripts/chef-local init --data-dir "$HOME/Documents/Chef"</code></pre>
+  <p>Review the <a href="/chef/privacy">privacy notes</a> before adding household data, and the <a href="/chef/safety">safety boundary</a> before enabling optional Computer Use.</p>
+</ChefPageLayout>
