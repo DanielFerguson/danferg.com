@@ -9,7 +9,7 @@ tags:
   - Household planning
 featured: true
 period: "2026"
-status: Application prototype archived / Agent Skills RC
+status: Application prototype archived / Agent Skills 0.1.0
 role: Creator / product / full-stack & AI engineering
 externalUrl: https://danferg.com/chef
 externalLabel: Explore Chef Skills
@@ -17,6 +17,7 @@ caseStudyLabel: CASE STUDY // FROM APPLICATION TO PORTABLE SKILLS
 visualLabel: PRODUCT THESIS / CONVERSATION_TO_PLAN
 imageKey: chef
 imageAlt: Chef meal-planning concept showing a natural-language request becoming a structured week of dinners
+hideScreenshot: true
 canonicalUrl: /projects/chef
 publishedDate: "2026-07-17"
 updatedDate: "2026-08-13"
@@ -52,7 +53,7 @@ The finished application prototype is now archived in its private repository. I 
 
 ## Five skills, one local record
 
-The release candidate separates the work into five focused skills:
+The stable release separates the work into five focused skills:
 
 1. **Plan meals** — conduct the household riff and approve one exact set of dates, slots, participants and servings.
 2. **Manage the household** — keep explicit allergies and dietary requirements distinct from ordinary preferences.
@@ -72,8 +73,8 @@ The automation uses absolute intended quantities and records one of five honest 
 
 ## What is available now
 
-The public `0.1.0-rc.1` source includes the five skills, the local utility, an installable OpenAI plugin, portable Agent Skills packaging, tests and the release material needed for review.
+The public `0.1.0` release includes the five skills, the local utility, an installable OpenAI plugin, portable Agent Skills packaging, tests and release documentation.
 
-It is an honest release candidate rather than a launch claim. The source and [installation guide](/chef/install) are available for testing. A stable manifest, live policy pages, final publication approval and the OpenAI directory listing are still gates before a one-click install button appears.
+The [plugin ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.1.0/chef-plugin-0.1.0.zip), [portable Agent Skills ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.1.0/chef-agent-skills-0.1.0.zip), checksums, source and [installation guide](/chef/install) are publicly available. The OpenAI directory listing remains a separate future step before a one-click install button appears.
 
 That feels like the right next experiment: less product surface, more of the useful behavior, and clearer boundaries around the parts that can cause harm or spend someone else's money.

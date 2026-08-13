@@ -5,6 +5,11 @@ import NavBar from "@components/NavBar.astro";
 
 const canonicalPath = "/chef";
 const sourceUrl = "https://github.com/DanielFerguson/chef-skills";
+const releaseUrl = `${sourceUrl}/releases/tag/v0.1.0`;
+const releaseAssetUrl = `${sourceUrl}/releases/download/v0.1.0`;
+const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.1.0.zip`;
+const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.1.0.zip`;
+const checksumsUrl = `${releaseAssetUrl}/SHA256SUMS`;
 const SEO: SEO = {
   title: "Chef — local-first meal planning skills | Dan Ferg",
   headline: "Plan together. Keep the useful context. Shop with a human in control.",
@@ -28,7 +33,7 @@ const SEO: SEO = {
     codeRepository: sourceUrl,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Cross-platform",
-    softwareVersion: "0.1.0-rc.1",
+    softwareVersion: "0.1.0",
     license: "https://opensource.org/license/mit",
     author: { "@id": "https://danferg.com/#person" },
   },
@@ -49,7 +54,7 @@ const skills = [
     <header class="site-container chef-hero" data-motion-intro-group>
       <div class="chef-hero__meta" data-motion-intro-item>
         <p>CHEF / AGENT SKILLS</p>
-        <span>0.1.0-RC.1</span>
+        <span>0.1.0</span>
       </div>
       <h1 data-motion-intro-item>Plan together. Keep the useful context. <em>Shop with a human in control.</em></h1>
       <p class="chef-hero__lede" data-motion-intro-item>
@@ -57,10 +62,11 @@ const skills = [
         “what should we eat?” to an approved plan, exact recipes, a grocery list and useful feedback.
       </p>
       <div class="chef-hero__actions" data-motion-intro-item>
-        <a class="button button--primary" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
+        <a class="button button--primary" href={pluginDownloadUrl}>Download Chef plugin <span aria-hidden="true">↓</span></a>
+        <a class="button" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
         <a class="button" href="/chef/install">Installation guide <span aria-hidden="true">→</span></a>
       </div>
-      <p class="release-note" data-motion-intro-item>Release candidate: source and local installation are ready for testing. The OpenAI directory listing is not yet published.</p>
+      <p class="release-note" data-motion-intro-item>Stable release 0.1.0 is available from GitHub. The OpenAI directory listing is not yet published.</p>
     </header>
 
     <section class="principle" aria-labelledby="principle-title">
@@ -106,15 +112,19 @@ const skills = [
 
     <section class="site-container install page-section" aria-labelledby="install-title">
       <div>
-        <p class="eyebrow">04 // TRY THE RELEASE CANDIDATE</p>
-        <h2 id="install-title">Install from source today.</h2>
-        <p>Clone the public repository, add its local marketplace and install Chef. Start a new Codex task after installation.</p>
+        <p class="eyebrow">04 // GET CHEF</p>
+        <h2 id="install-title">Download or install the stable release.</h2>
+        <p>Download the OpenAI plugin, use the portable Agent Skills package, or clone the public repository. Start a new Codex task after installation.</p>
       </div>
       <pre aria-label="Codex installation commands"><code>git clone https://github.com/DanielFerguson/chef-skills.git
 cd chef-skills
 codex plugin marketplace add .
 codex plugin add chef@chef-skills</code></pre>
       <div class="install__links">
+        <a href={pluginDownloadUrl}>Plugin ZIP ↓</a>
+        <a href={skillsDownloadUrl}>Agent Skills ZIP ↓</a>
+        <a href={checksumsUrl}>SHA-256 checksums ↓</a>
+        <a href={releaseUrl}>Release notes ↗</a>
         <a href="/chef/install">All installation options →</a>
         <a href="/chef/privacy">Privacy →</a>
         <a href="/chef/terms">Terms →</a>
