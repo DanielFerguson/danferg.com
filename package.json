@@ -42,6 +42,7 @@
     "mdast-util-to-string": "^4.0.0",
     "mermaid": "^11.16.0",
     "motion": "^12.42.2",
+    "posthog-js": "^1.418.10",
     "reading-time": "^1.5.0",
     "sharp": "^0.35.3",
     "tailwindcss": "^4.3.2"

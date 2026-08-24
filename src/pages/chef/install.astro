@@ -21,9 +21,9 @@ const archivedReleaseUrl = "https://github.com/DanielFerguson/chef-skills/releas
 >
   <h2>Download 0.2.0</h2>
   <ul>
-    <li><a href={pluginDownloadUrl}>Chef plugin ZIP</a></li>
-    <li><a href={skillsDownloadUrl}>Portable Agent Skills ZIP</a></li>
-    <li><a href={checksumsUrl}>SHA-256 checksums</a></li>
+    <li><a href={pluginDownloadUrl} data-chef-download="plugin">Chef plugin ZIP</a></li>
+    <li><a href={skillsDownloadUrl} data-chef-download="skills">Portable Agent Skills ZIP</a></li>
+    <li><a href={checksumsUrl} data-chef-download="checksums">SHA-256 checksums</a></li>
   </ul>
 
   <h2>Codex plugin</h2>
@@ -35,7 +35,7 @@ codex plugin add chef@chef-skills</code></pre>
   <p>Start a new Codex task after installation. Chef contains two skills—<code>chef</code> and <code>chef-prepare-shop</code>—and both can activate from ordinary requests. No MCP server, app, hooks or runtime executable is included.</p>
 
   <h2>Portable Agent Skills</h2>
-  <p>Download the <a href={skillsDownloadUrl}>stable Agent Skills ZIP</a>, or copy the two folders from <code>plugins/chef/skills/</code> into your project's <code>.agents/skills/</code>. The instructions and Markdown templates are the complete runtime package; Python is used only by repository maintainers for validation and packaging.</p>
+  <p>Download the <a href={skillsDownloadUrl} data-chef-download="skills">stable Agent Skills ZIP</a>, or copy the two folders from <code>plugins/chef/skills/</code> into your project's <code>.agents/skills/</code>. The instructions and Markdown templates are the complete runtime package; Python is used only by repository maintainers for validation and packaging.</p>
   <p>Third-party agents must support Agent Skills or provide another way to load each <code>SKILL.md</code>. Durable automatic memory also requires local file access. Without it, Chef still helps conversationally for the session and must not claim anything was saved.</p>
 
   <h2>First use</h2>
@@ -49,3 +49,14 @@ one person is allergic to peanuts, and we like quick Korean meals.</code></pre>
   <p>If you need the Python and SQLite workflow, internal recipe versions or explicit approval states, the <a href={archivedReleaseUrl}>Chef 0.1.0 release remains available</a>. It is archived rather than migrated into 0.2.</p>
   <p>Review the <a href="/chef/privacy">privacy notes</a> before adding household data, and the <a href="/chef/safety">safety boundary</a> before enabling optional Computer Use.</p>
 </ChefPageLayout>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const download = (event.target as Element).closest<HTMLAnchorElement>("[data-chef-download]");
+    const assetType = download?.dataset.chefDownload;
+
+    if (!assetType) return;
+
+    window.posthog?.capture("chef_download_clicked", { asset_type: assetType });
+  });
+</script>

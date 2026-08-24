@@ -192,6 +192,7 @@ import "@fontsource-variable/geist-mono/wght.css";
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
 import MotionHead from "../components/MotionHead.astro";
+import PostHog from "../components/posthog.astro";
 import SiteMotion from "../components/SiteMotion.astro";
 import ThemeHead from "../components/ThemeHead.astro";
 ---
@@ -201,6 +202,7 @@ import ThemeHead from "../components/ThemeHead.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <ThemeHead lightColor={lightThemeColor} darkColor={darkThemeColor} />
+    <PostHog />
     <MotionHead />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" />

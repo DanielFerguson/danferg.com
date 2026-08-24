@@ -60,7 +60,7 @@ const skills = [
         dietary needs and weekly plans in Markdown you can read and edit yourself.
       </p>
       <div class="chef-hero__actions" data-motion-intro-item>
-        <a class="button button--primary" href={pluginDownloadUrl}>Download Chef plugin <span aria-hidden="true">↓</span></a>
+        <a class="button button--primary" href={pluginDownloadUrl} data-chef-download="plugin">Download Chef plugin <span aria-hidden="true">↓</span></a>
         <a class="button" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
         <a class="button" href="/chef/install">Installation guide <span aria-hidden="true">→</span></a>
       </div>
@@ -119,9 +119,9 @@ cd chef-skills
 codex plugin marketplace add .
 codex plugin add chef@chef-skills</code></pre>
       <div class="install__links">
-        <a href={pluginDownloadUrl}>Plugin ZIP ↓</a>
-        <a href={skillsDownloadUrl}>Agent Skills ZIP ↓</a>
-        <a href={checksumsUrl}>SHA-256 checksums ↓</a>
+        <a href={pluginDownloadUrl} data-chef-download="plugin">Plugin ZIP ↓</a>
+        <a href={skillsDownloadUrl} data-chef-download="skills">Agent Skills ZIP ↓</a>
+        <a href={checksumsUrl} data-chef-download="checksums">SHA-256 checksums ↓</a>
         <a href={releaseUrl}>Release notes ↗</a>
         <a href={archivedReleaseUrl}>Archived 0.1 release ↗</a>
         <a href="/chef/install">All installation options →</a>
@@ -131,6 +131,17 @@ codex plugin add chef@chef-skills</code></pre>
     </section>
   </main>
 </BaseLayout>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const download = (event.target as Element).closest<HTMLAnchorElement>("[data-chef-download]");
+    const assetType = download?.dataset.chefDownload;
+
+    if (!assetType) return;
+
+    window.posthog?.capture("chef_download_clicked", { asset_type: assetType });
+  });
+</script>
 
 <style>
   .eyebrow,

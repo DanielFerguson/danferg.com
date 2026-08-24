@@ -58,6 +58,7 @@ const embedUrl = (spotifyId: string) =>
             data-spotify-id={episode.spotifyId}
             data-spotify-url={episode.spotifyUrl}
             data-title={episode.title}
+            data-episode-index={index + 1}
           >
             <span class="podcast-player__episode-index" aria-hidden="true">
               [{String(episodes.length - index).padStart(2, "0")}]
@@ -93,12 +94,18 @@ const embedUrl = (spotifyId: string) =>
       if (!frame || !title || !link) return;
 
       buttons.forEach((button) => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (event) => {
           const spotifyId = button.dataset.spotifyId;
           const spotifyUrl = button.dataset.spotifyUrl;
           const episodeTitle = button.dataset.title;
 
           if (!spotifyId || !spotifyUrl || !episodeTitle) return;
+
+          if (event.isTrusted) {
+            window.posthog?.capture("podcast_episode_selected", {
+              episode_index: Number(button.dataset.episodeIndex),
+            });
+          }
 
           frame.src = `https://open.spotify.com/embed/episode/${spotifyId}/video?utm_source=generator`;
           frame.title = `Spotify video: ${episodeTitle}`;

@@ -132,6 +132,7 @@ const SEO: SEO & {
               target={projectLinkIsExternal ? "_blank" : undefined}
               rel={projectLinkIsExternal ? "noopener noreferrer" : undefined}
               data-astro-prefetch={projectLinkIsExternal ? undefined : "hover"}
+              data-project-website-link
               data-motion-interactive
             >
               {projectLinkLabel} <span aria-hidden="true" data-motion-arrow>{projectLinkIsExternal ? "↗" : "→"}</span>
@@ -178,6 +179,20 @@ const SEO: SEO & {
     />
   </main>
 </BaseLayout>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const projectLink = (event.target as Element).closest<HTMLAnchorElement>(
+      "[data-project-website-link]",
+    );
+
+    if (!projectLink) return;
+
+    window.posthog?.capture("project_website_visited", {
+      link_type: projectLink.target === "_blank" ? "external" : "internal",
+    });
+  });
+</script>
 
 <style>
   .project-header {

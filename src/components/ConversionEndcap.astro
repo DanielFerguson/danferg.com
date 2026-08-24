@@ -64,6 +64,20 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
   </div>
 </aside>
 
+<script>
+  document.addEventListener("click", (event) => {
+    const action = (event.target as Element).closest<HTMLAnchorElement>(
+      ".conversion-endcap__action",
+    );
+
+    if (!action) return;
+
+    window.posthog?.capture("contact_link_clicked", {
+      destination_type: action.href.startsWith("mailto:") ? "email" : "internal",
+    });
+  });
+</script>
+
 <style>
   .conversion-endcap {
     margin-block: clamp(1rem, 3vw, 2rem) clamp(3.5rem, 6vw, 5.5rem);
