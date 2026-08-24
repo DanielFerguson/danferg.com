@@ -3,7 +3,7 @@ import type SEO from "types/SEO";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 
-const canonicalPath = "/chef";
+const canonicalPath = "/skills/chef";
 const sourceUrl = "https://github.com/DanielFerguson/chef-skills";
 const releaseUrl = `${sourceUrl}/releases/tag/v0.2.0`;
 const releaseAssetUrl = `${sourceUrl}/releases/download/v0.2.0`;
@@ -23,14 +23,15 @@ const SEO: SEO = {
   modifiedDate: "2026-08-24",
   breadcrumbs: [
     { name: "Home", url: "/" },
+    { name: "Skills", url: "/skills" },
     { name: "Chef", url: canonicalPath },
   ],
   jsonLd: {
     "@type": "SoftwareApplication",
-    "@id": "https://danferg.com/chef#software",
+    "@id": "https://danferg.com/skills/chef#software",
     name: "Chef",
     description: "Conversational Agent Skills for household meal planning with transparent local Markdown memory.",
-    url: "https://danferg.com/chef",
+    url: "https://danferg.com/skills/chef",
     codeRepository: sourceUrl,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Cross-platform",
@@ -62,7 +63,7 @@ const skills = [
       <div class="chef-hero__actions" data-motion-intro-item>
         <a class="button button--primary" href={pluginDownloadUrl} data-chef-download="plugin">Download Chef plugin <span aria-hidden="true">↓</span></a>
         <a class="button" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
-        <a class="button" href="/chef/install">Installation guide <span aria-hidden="true">→</span></a>
+        <a class="button" href="/skills/chef/install">Installation guide <span aria-hidden="true">→</span></a>
       </div>
       <p class="release-note" data-motion-intro-item>Stable release 0.2.0 is available from GitHub. The records-oriented 0.1 release remains archived, and the OpenAI directory listing is still separate.</p>
     </header>
@@ -103,7 +104,7 @@ const skills = [
         <div>
           <p>Asking for a grocery list only produces a list. When you directly ask Chef to fill a cart, that request is enough authority to use an available browser or shopping capability—there is no approval token to repeat.</p>
           <p>Chef first inspects and preserves what is already there, resolves sensible quantities, then checks the basket itself. If something cannot be verified, it says so. Checkout, payment, fulfilment, restricted products and order placement remain human-controlled.</p>
-          <a href="/chef/safety">Read the shopping and safety boundaries <span aria-hidden="true">→</span></a>
+          <a href="/skills/chef/safety">Read the shopping and safety boundaries <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -124,9 +125,9 @@ codex plugin add chef@chef-skills</code></pre>
         <a href={checksumsUrl} data-chef-download="checksums">SHA-256 checksums ↓</a>
         <a href={releaseUrl}>Release notes ↗</a>
         <a href={archivedReleaseUrl}>Archived 0.1 release ↗</a>
-        <a href="/chef/install">All installation options →</a>
-        <a href="/chef/privacy">Privacy →</a>
-        <a href="/chef/terms">Terms →</a>
+        <a href="/skills/chef/install">All installation options →</a>
+        <a href="/skills/chef/privacy">Privacy →</a>
+        <a href="/skills/chef/terms">Terms →</a>
       </div>
     </section>
   </main>

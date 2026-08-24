@@ -7,6 +7,7 @@
 ## What is in the site?
 
 - **Projects:** case studies spanning software, social impact, community technology, startups, and physical product experiments.
+- **Skills:** installable Agent Skills with public source, practical documentation, and explicit operating boundaries.
 - **Articles and newsletters:** notes on building products, entrepreneurship, burnout, and lessons learned along the way.
 - **Consulting:** an overview of the product, traction, go-to-market, and software work Dan takes on.
 - **Talks and work history:** selected presentations and the experience behind the work.
@@ -83,11 +84,18 @@ npm run build
 Content lives alongside the routes it generates:
 
 - `src/pages/projects/` contains project case studies.
+- `src/pages/skills/` contains the skills archive and bespoke pages for each published skill.
 - `src/pages/articles/` contains articles and research notes.
 - `src/content/drafts/articles/` contains local-only article drafts.
 - `src/pages/newsletters/` contains archived newsletters.
 
-Each entry uses frontmatter validated by the schemas in `src/content.config.ts`. When an article or newsletter is added or updated, `npm run build` also refreshes its social-sharing images and checks that the generated site remains internally consistent.
+Markdown and MDX entries use frontmatter validated by the schemas in `src/content.config.ts`. When an article or newsletter is added or updated, `npm run build` also refreshes its social-sharing images and checks that the generated site remains internally consistent.
+
+### Publishing skills
+
+Published skill metadata lives in `src/data/skills.ts`. Each entry supplies the archive with its slug, name, description, version, release status, included skill count, and update date. The archive sorts entries by the most recent update.
+
+Each catalogue entry must have a bespoke show page at `src/pages/skills/{slug}/index.astro`, producing `/skills/{slug}`. Installation, safety, privacy, terms, or other skill-specific documents live alongside that show page in the same directory. New pages must use `/skills/{slug}` canonical URLs and include Skills in their breadcrumb trail.
 
 ### Article drafts
 

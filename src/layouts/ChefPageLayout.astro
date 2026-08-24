@@ -10,6 +10,15 @@ interface Props extends SEO {
 }
 
 const { eyebrow, heading, lede, ...seo } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const navigation = [
+  { name: "All skills", href: "/skills" },
+  { name: "Chef", href: "/skills/chef" },
+  { name: "Install", href: "/skills/chef/install" },
+  { name: "Safety", href: "/skills/chef/safety" },
+  { name: "Privacy", href: "/skills/chef/privacy" },
+  { name: "Terms", href: "/skills/chef/terms" },
+];
 ---
 
 <BaseLayout {...seo}>
@@ -17,11 +26,18 @@ const { eyebrow, heading, lede, ...seo } = Astro.props;
   <main id="main-content">
     <header class="site-container chef-header" data-motion-intro-group>
       <nav aria-label="Chef" data-motion-intro-item>
-        <a href="/chef">Chef</a>
-        <a href="/chef/install">Install</a>
-        <a href="/chef/safety">Safety</a>
-        <a href="/chef/privacy">Privacy</a>
-        <a href="/chef/terms">Terms</a>
+        {
+          navigation.map((item) => (
+            <a
+              href={item.href}
+              class:list={{ active: currentPath === item.href }}
+              aria-current={currentPath === item.href ? "page" : undefined}
+              data-astro-prefetch="hover"
+            >
+              {item.name}
+            </a>
+          ))
+        }
       </nav>
       <p class="eyebrow" data-motion-intro-item>{eyebrow}</p>
       <h1 data-motion-intro-item>{heading}</h1>
@@ -53,7 +69,7 @@ const { eyebrow, heading, lede, ...seo } = Astro.props;
     text-underline-offset: 0.22em;
   }
 
-  nav a:first-child {
+  nav a.active {
     color: var(--signal);
   }
 

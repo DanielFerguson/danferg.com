@@ -1,0 +1,73 @@
+---
+import type SEO from "types/SEO";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import SkillGrid from "@components/SkillGrid.astro";
+import { publishedSkills } from "../../data/skills";
+
+const canonicalPath = "/skills";
+const SEO: SEO = {
+  title: "Agent Skills for practical work | Dan Ferg",
+  description:
+    "Explore practical Agent Skills published by Dan Ferg, with inspectable behaviour, clear boundaries, and direct installation options.",
+  imageUrl: "/images/og-default.png",
+  imageAlt: "Agent Skills published by Dan Ferg",
+  openGraph: { type: "website" },
+  canonicalUrl: canonicalPath,
+  schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Skills", url: canonicalPath },
+  ],
+};
+
+const itemListId = "https://danferg.com/skills#itemlist";
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: "Agent Skills published by Dan Ferg",
+  numberOfItems: publishedSkills.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: publishedSkills.map((skill, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: skill.name,
+    url: `https://danferg.com/skills/${skill.slug}`,
+  })),
+};
+
+const skillLabel = publishedSkills.length === 1 ? "skill" : "skills";
+---
+
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
+  <NavBar />
+  <main id="main-content" class="site-container archive">
+    <p class="breadcrumb"><a href="/">HOME</a> / SKILLS</p>
+    <SectionHeading
+      as="h1"
+      eyebrow="ARCHIVE_04 // SKILLS"
+      title="Useful skills, ready to install."
+      description={`${publishedSkills.length} published ${skillLabel} for practical work, with inspectable behaviour, clear boundaries, and an honest path from source to installation.`}
+    />
+    <SkillGrid skills={publishedSkills} />
+  </main>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .breadcrumb {
+    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+  }
+
+  .breadcrumb a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+</style>

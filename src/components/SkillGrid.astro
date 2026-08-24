@@ -1,0 +1,146 @@
+---
+import type { PublishedSkill } from "../data/skills";
+
+interface Props {
+  skills: PublishedSkill[];
+}
+
+const { skills } = Astro.props as Props;
+---
+
+<div class="skill-grid" data-motion-group>
+  {
+    skills.map((skill, index) => (
+      <a
+        href={`/skills/${skill.slug}`}
+        class="skill-card"
+        data-motion-item
+        data-motion-interactive
+        data-astro-prefetch="hover"
+      >
+        <span class="skill-card__top">
+          <span>SKILL_{String(index + 1).padStart(2, "0")}</span>
+          <span>V{skill.version}</span>
+        </span>
+        <strong data-motion-target>{skill.name}</strong>
+        <span class="skill-card__description">{skill.description}</span>
+        <span class="skill-card__meta">
+          <span class="skill-card__status">
+            <i aria-hidden="true" />
+            {skill.status}
+          </span>
+          <span>
+            {skill.skillCount} Agent {skill.skillCount === 1 ? "Skill" : "Skills"}
+          </span>
+        </span>
+        <span class="skill-card__arrow" aria-hidden="true" data-motion-arrow>→</span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .skill-card {
+    position: relative;
+    display: flex;
+    min-height: 15rem;
+    flex-direction: column;
+    padding: clamp(1.15rem, 2.5vw, 1.65rem);
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      color 140ms ease,
+      background-color 140ms ease;
+  }
+
+  .skill-card:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .skill-card:is(:hover, :focus-visible) {
+    color: var(--inverse-ink);
+    background: var(--inverse-surface);
+  }
+
+  .skill-card__top,
+  .skill-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    color: var(--ink-muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .skill-card strong {
+    margin-top: auto;
+    padding-top: 2.5rem;
+    color: var(--signal-emphasis);
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .skill-card__description {
+    max-width: 64rem;
+    margin-top: 0.75rem;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+    line-height: 1.6;
+  }
+
+  .skill-card__meta {
+    justify-content: flex-start;
+    margin-top: 1.35rem;
+  }
+
+  .skill-card__status i {
+    display: inline-block;
+    width: 0.42rem;
+    height: 0.42rem;
+    margin-right: 0.45rem;
+    background: var(--signal);
+  }
+
+  .skill-card__arrow {
+    position: absolute;
+    right: clamp(1.15rem, 2.5vw, 1.65rem);
+    bottom: clamp(1.15rem, 2.5vw, 1.65rem);
+    font-size: 1.15rem;
+  }
+
+  .skill-card:is(:hover, :focus-visible) :is(.skill-card__top, .skill-card__meta, .skill-card__description) {
+    color: var(--inverse-muted);
+  }
+
+  .skill-card:is(:hover, :focus-visible) strong {
+    color: var(--inverse-ink);
+  }
+
+  @media (max-width: 680px) {
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .skill-card,
+    .skill-card:only-child {
+      grid-column: auto;
+      min-height: 13rem;
+    }
+
+    .skill-card__meta {
+      padding-right: 2rem;
+    }
+  }
+</style>

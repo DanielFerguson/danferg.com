@@ -9,6 +9,31 @@
       "permanent": true
     },
     {
+      "source": "/chef",
+      "destination": "/skills/chef",
+      "permanent": true
+    },
+    {
+      "source": "/chef/install",
+      "destination": "/skills/chef/install",
+      "permanent": true
+    },
+    {
+      "source": "/chef/safety",
+      "destination": "/skills/chef/safety",
+      "permanent": true
+    },
+    {
+      "source": "/chef/privacy",
+      "destination": "/skills/chef/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/chef/terms",
+      "destination": "/skills/chef/terms",
+      "permanent": true
+    },
+    {
       "source": "/:path*/index",
       "destination": "/:path*",
       "permanent": true
