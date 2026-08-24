@@ -7,6 +7,7 @@ tags:
   - Rust / Bevy
   - Automation
 featured: true
+visible: false
 period: 2026–present
 status: Unreleased / in development
 role: Creator / game design / Rust engineering

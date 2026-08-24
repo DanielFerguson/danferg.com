@@ -7,6 +7,7 @@ tags:
   - Product strategy
   - Responsible technology
 featured: true
+visible: false
 period: 2026–present
 status: Concept under validation
 role: Founder / product strategy / research

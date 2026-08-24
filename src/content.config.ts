@@ -60,6 +60,7 @@ const projects = defineCollection({
     description: z.string().min(40),
     tags: z.array(z.string().min(1)).min(1),
     featured: z.boolean().optional(),
+    visible: z.boolean().optional(),
     highlight: z.boolean().optional(),
     highlightDiagram: z.string().min(1).optional(),
     period: z.string().min(1).optional(),

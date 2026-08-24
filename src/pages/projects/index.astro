@@ -27,6 +27,7 @@ const projects = (await getCollection("projects"))
     url: project.data.canonicalUrl,
     frontmatter: project.data,
   }))
+  .filter((project) => project.frontmatter.visible !== false)
   .sort(compareProjectsByPeriod);
 const itemListId = "https://danferg.com/projects#itemlist";
 const itemListJsonLd = {
