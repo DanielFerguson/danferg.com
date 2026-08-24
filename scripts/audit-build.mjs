@@ -25,21 +25,32 @@ function findAll(node, predicate, matches = []) {
   return matches;
 }
 
-async function listFiles(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
+async function listFiles(directory, { allowMissing = false } = {}) {
+  let entries;
+
+  try {
+    entries = await readdir(directory, { withFileTypes: true });
+  } catch (error) {
+    if (allowMissing && error?.code === "ENOENT") return [];
+    throw error;
+  }
+
   const files = [];
   for (const entry of entries) {
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await listFiles(path)));
-    else files.push(path);
+    if (entry.isDirectory()) {
+      files.push(...(await listFiles(path, { allowMissing })));
+    } else {
+      files.push(path);
+    }
   }
   return files;
 }
 
 const articleDraftPaths = [];
-for (const file of (await listFiles(articleDraftsRoot)).filter((path) =>
-  /\.(md|mdx)$/.test(path),
-)) {
+for (const file of (
+  await listFiles(articleDraftsRoot, { allowMissing: true })
+).filter((path) => /\.(md|mdx)$/.test(path))) {
   const source = await readFile(file, "utf8");
   const canonicalPath = source.match(/^canonicalUrl:\s*["']?([^\n"']+)/m)?.[1];
 
