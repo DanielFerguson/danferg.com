@@ -11,13 +11,14 @@
     "dev": "astro dev",
     "start": "astro dev",
     "check": "astro check && npm test",
+    "article:publish": "node --env-file-if-exists=.env scripts/article-publish.mjs",
     "audit:build": "node scripts/audit-build.mjs",
     "generate:og": "node scripts/generate-og.mjs",
     "prebuild": "npm run generate:og",
     "build": "astro build",
     "postbuild": "npm run audit:build",
     "preview": "astro preview",
-    "test": "node --test tests/rehype-mermaid-blocks.test.mjs",
+    "test": "node --test tests/rehype-mermaid-blocks.test.mjs tests/article-publishing.test.mjs",
     "astro": "astro"
   },
   "devDependencies": {

@@ -147,6 +147,42 @@ for (const file of htmlFiles) {
   }
 
   const canonicalUrl = attr(canonical, "href");
+  const audioPlayers = byTag("audio");
+  for (const player of audioPlayers) {
+    const sources = (player.childNodes || []).filter((node) => node.tagName === "source");
+    const source = sources[0];
+    const src = attr(source, "src");
+    const declaredBytes = Number(attr(player, "data-audio-byte-length"));
+
+    if (attr(player, "controls") === undefined) {
+      fail(`${route}: audio player is missing controls`);
+    }
+    if (attr(player, "preload") !== "metadata") {
+      fail(`${route}: audio player must preload metadata only`);
+    }
+    if (sources.length !== 1 || !src) {
+      fail(`${route}: audio player must contain one source`);
+      continue;
+    }
+    if (attr(source, "type") !== "audio/mpeg") {
+      fail(`${route}: audio source must use audio/mpeg (${src})`);
+    }
+    if (!Number.isSafeInteger(declaredBytes) || declaredBytes <= 0) {
+      fail(`${route}: audio player has an invalid byte length (${src})`);
+    }
+
+    const parsedAudioUrl = new URL(src, canonicalUrl || "https://danferg.com");
+    if (parsedAudioUrl.hostname === "danferg.com") {
+      const audioFile = await existingTarget(parsedAudioUrl.pathname);
+
+      if (!audioFile) {
+        fail(`${route}: local audio file does not exist (${src})`);
+      } else if ((await stat(audioFile)).size !== declaredBytes) {
+        fail(`${route}: local audio byte length does not match (${src})`);
+      }
+    }
+  }
+
   const ogImageUrl = attr(meta("property", "og:image"), "content");
   if (ogImageUrl) {
     const parsedImageUrl = new URL(ogImageUrl, canonicalUrl);

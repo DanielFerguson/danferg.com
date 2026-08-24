@@ -14,6 +14,15 @@ export async function getArticleFeedItems(): Promise<RSSFeedItem[]> {
       link: article.data.canonicalUrl,
       pubDate: asDate(article.data.date),
       categories: ["Articles"],
+      ...(article.data.audio
+        ? {
+            enclosure: {
+              url: article.data.audio.url,
+              type: article.data.audio.mimeType,
+              length: article.data.audio.byteLength,
+            },
+          }
+        : {}),
     })),
     ...editorialUpdates.map((update) => ({
       title: update.title,

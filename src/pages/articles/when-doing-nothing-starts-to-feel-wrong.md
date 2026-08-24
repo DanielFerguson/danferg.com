@@ -13,6 +13,17 @@ imageWidth: 1200
 imageHeight: 630
 imageType: image/png
 canonicalUrl: /articles/when-doing-nothing-starts-to-feel-wrong
+audio:
+  provider: "elevenlabs"
+  storage: "vercel-static"
+  url: "/audio/articles/when-doing-nothing-starts-to-feel-wrong-9c214751c033.mp3"
+  mimeType: "audio/mpeg"
+  byteLength: 11837065
+  voiceId: "v3p1kjzUvro6S76qmYmH"
+  modelId: "eleven_v3"
+  outputFormat: "mp3_44100_128"
+  sourceHash: "sha256:9c214751c033d8737c38aea1f3a0d0941d8dc0de1169a0d6d2716b3deee7c37b"
+  generatedAt: "2026-08-24T03:58:35.495Z"
 ---
 
 When I was a kid, I could play RuneScape for countless hours.

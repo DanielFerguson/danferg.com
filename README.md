@@ -43,14 +43,15 @@ No environment variables are required for local development.
 
 ## Useful commands
 
-| Command               | Purpose                                                                                                          |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`         | Start the Astro development server.                                                                              |
-| `npm run check`       | Run Astro and TypeScript diagnostics.                                                                            |
-| `npm run generate:og` | Regenerate the default and editorial social-sharing images.                                                      |
-| `npm run build`       | Generate social images, build the production site, and run the post-build audit.                                 |
-| `npm run audit:build` | Audit the generated site for metadata, structured data, links, feeds, image attributes, and performance budgets. |
-| `npm run preview`     | Preview the production build locally.                                                                            |
+| Command                             | Purpose                                                                                                          |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                       | Start the Astro development server.                                                                              |
+| `npm run check`                     | Run Astro and TypeScript diagnostics.                                                                            |
+| `npm run article:publish -- <slug>` | Generate missing ElevenLabs narration, promote a draft if needed, and run the publication checks.                |
+| `npm run generate:og`               | Regenerate the default and editorial social-sharing images.                                                      |
+| `npm run build`                     | Generate social images, build the production site, and run the post-build audit.                                 |
+| `npm run audit:build`               | Audit the generated site for metadata, structured data, links, feeds, image attributes, and performance budgets. |
+| `npm run preview`                   | Preview the production build locally.                                                                            |
 
 For the closest local equivalent to the production verification flow, run:
 
@@ -101,6 +102,51 @@ While `npm run dev` is running, drafts:
 During `npm run build`, the draft route supplies no static paths. Drafts are therefore absent from `dist`, the article archive, the homepage, RSS feeds, related content, and the sitemap. The post-build audit also fails if a draft canonical URL is ever emitted.
 
 To publish a draft, move it into `src/pages/articles/`, remove `draft: true`, add `layout: ../../layouts/ArticleLayout.astro`, and generate its final social images. Draft-only reference assets can live under `src/drafts/`, which is also excluded from the static output unless explicitly imported.
+
+### Article audio
+
+Published articles can include an AI-generated MP3 narrated with ElevenLabs. Create a local `.env` from `.env.example`, then provide an ElevenLabs API key and the ID of the voice you want to use:
+
+```dotenv
+ELEVENLABS_API_KEY=...
+ELEVENLABS_VOICE_ID=...
+```
+
+Preview the narration size without spending credits or changing files:
+
+```bash
+npm run article:publish -- when-doing-nothing-starts-to-feel-wrong --dry-run
+```
+
+Generate or refresh the MP3 and validate the article:
+
+```bash
+npm run article:publish -- when-doing-nothing-starts-to-feel-wrong
+```
+
+Eleven v3 is the default article model. The command is idempotent: it hashes the final spoken text together with the voice, model, and output format, then skips generation when the matching MP3 is already attached to the article. Use `--force-audio` only when you deliberately want a fresh performance with otherwise unchanged settings.
+
+FFmpeg must be installed for generation. Eleven v3 accepts shorter inputs and does not support continuity context or request-ID stitching, so the publisher splits long articles at paragraph or sentence boundaries with a 4,500-character safety limit. It writes every completed request immediately to the ignored `.artifacts/article-audio/` cache. If a later stream drops, the same run retries only the missing chunk. FFmpeg then losslessly assembles the segments without re-encoding them and decode-checks the complete MP3 before the article is changed.
+
+Generated files are written to `public/audio/articles/` and served as ordinary Vercel static assets. Article frontmatter records the public URL and generation details, so the player and RSS enclosure can later point to Cloudflare R2 without changing the page component. The command prepares local publication changes and runs the checks; listening, committing, and pushing remain explicit review steps.
+
+Raw Markdown is not sent directly to ElevenLabs. The narration starts with the article body rather than adding the title or byline, and the builder removes link destinations, images, code blocks, and production notes. Accessible Mermaid descriptions are retained.
+
+The builder adds restrained Eleven v3 pause tags after section headings and thematic breaks. It deliberately does not add a pause after every paragraph because excessive direction can make long-form speech less stable. The final transformed narration is included in the source hash, so changing pacing automatically marks the MP3 for regeneration.
+
+For an intentional pause of up to three seconds, add an author-controlled directive between paragraphs:
+
+```html
+<!-- audio:pause:1.4s -->
+```
+
+Eleven v3 expressive tags such as `[whispers]` are rejected when the selected model is Multilingual v2, rather than risking the tag being spoken aloud. Wrap anything that should be omitted entirely in these markers:
+
+```html
+<!-- audio:skip:start -->
+Content that should not be narrated.
+<!-- audio:skip:end -->
+```
 
 ### Mermaid diagrams
 

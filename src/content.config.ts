@@ -9,6 +9,19 @@ const canonicalPath = z
   .string()
   .regex(/^\/(?!\/).+|^\/$/, "Use a root-relative canonical path");
 const imageUrl = z.string().min(1);
+const audioUrl = z.union([canonicalPath, z.url()]);
+const articleAudio = z.object({
+  provider: z.literal("elevenlabs"),
+  storage: z.enum(["vercel-static", "cloudflare-r2"]),
+  url: audioUrl,
+  mimeType: z.literal("audio/mpeg"),
+  byteLength: z.number().int().positive(),
+  voiceId: z.string().min(1),
+  modelId: z.string().min(1),
+  outputFormat: z.string().regex(/^mp3_\d+_\d+$/),
+  sourceHash: z.string().regex(/^sha256:[a-f0-9]{64}$/),
+  generatedAt: z.iso.datetime({ offset: true }),
+});
 
 const editorialFields = {
   layout: z.string().optional(),
@@ -27,7 +40,7 @@ const editorialFields = {
 
 const articles = defineCollection({
   loader: glob({ pattern: "*.{md,mdx}", base: "./src/pages/articles" }),
-  schema: z.object(editorialFields),
+  schema: z.object({ ...editorialFields, audio: articleAudio.optional() }),
 });
 
 const articleDrafts = defineCollection({
@@ -37,6 +50,7 @@ const articleDrafts = defineCollection({
   }),
   schema: z.object({
     ...editorialFields,
+    audio: articleAudio.optional(),
     draft: z.literal(true),
     canonicalUrl: z
       .string()

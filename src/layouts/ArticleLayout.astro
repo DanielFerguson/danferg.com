@@ -4,6 +4,7 @@ import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
+import ArticleAudioPlayer from "@components/ArticleAudioPlayer.astro";
 
 const { frontmatter } = Astro.props;
 const isDraft = frontmatter.draft === true;
@@ -64,6 +65,9 @@ const SEO: SEO & {
         <p class="story-header__description">{frontmatter.description}</p>
       </div>
     </header>
+    {frontmatter.audio && (
+      <ArticleAudioPlayer audio={frontmatter.audio} title={frontmatter.title} />
+    )}
     <hr class="site-container ascii-rule" />
     <article class="prose-shell article-prose" data-motion-reveal>
       <slot />

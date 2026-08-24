@@ -1,0 +1,141 @@
+---
+interface AudioMetadata {
+  url: string;
+  mimeType: "audio/mpeg";
+  byteLength: number;
+}
+
+interface Props {
+  audio: AudioMetadata;
+  title: string;
+}
+
+const { audio, title } = Astro.props;
+const headingId = `listen-${title
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "")}`;
+---
+
+<section
+  class="site-container article-audio"
+  aria-labelledby={headingId}
+  data-article-audio
+  data-audio-title={title}
+>
+  <div class="article-audio__copy">
+    <p class="article-audio__eyebrow">LISTEN // AUDIO ARTICLE</p>
+    <h2 id={headingId}>Listen to this article</h2>
+    <p>AI-generated narration, produced with ElevenLabs.</p>
+  </div>
+  <div class="article-audio__player">
+    <audio
+      controls
+      preload="metadata"
+      aria-label={`Audio narration of ${title}`}
+      data-audio-control
+      data-audio-byte-length={audio.byteLength}
+    >
+      <source src={audio.url} type={audio.mimeType} />
+      Your browser does not support embedded audio. <a href={audio.url}>Download the MP3</a> instead.
+    </audio>
+    <a class="article-audio__download" href={audio.url} download>
+      Download MP3 <span aria-hidden="true">↓</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .article-audio {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(18rem, 1.25fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+    margin-block: 0 clamp(2rem, 4vw, 3.25rem);
+    padding-block: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .article-audio__copy,
+  .article-audio__player {
+    min-width: 0;
+  }
+
+  .article-audio__eyebrow {
+    margin: 0 0 0.55rem;
+    color: var(--signal);
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    letter-spacing: -0.035em;
+  }
+
+  .article-audio__copy > p:last-child {
+    max-width: 46ch;
+    margin: 0.65rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.72rem;
+    line-height: 1.55;
+  }
+
+  .article-audio__player {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  audio {
+    width: 100%;
+    min-height: 3.25rem;
+    accent-color: var(--signal);
+  }
+
+  .article-audio__download {
+    justify-self: end;
+    color: var(--ink-soft);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    text-underline-offset: 0.2em;
+  }
+
+  .article-audio__download:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .article-audio {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .article-audio__download {
+      justify-self: start;
+    }
+  }
+</style>
+
+<script>
+  const players = document.querySelectorAll<HTMLElement>("[data-article-audio]");
+
+  for (const player of players) {
+    const audio = player.querySelector<HTMLAudioElement>("[data-audio-control]");
+    const title = player.dataset.audioTitle;
+
+    if (!audio || !title || !("mediaSession" in navigator)) continue;
+
+    audio.addEventListener(
+      "play",
+      () => {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title,
+          artist: "Dan Ferguson",
+          album: "Dan Ferg — Articles",
+        });
+      },
+      { once: true },
+    );
+  }
+</script>
