@@ -5,21 +5,22 @@ import NavBar from "@components/NavBar.astro";
 
 const canonicalPath = "/chef";
 const sourceUrl = "https://github.com/DanielFerguson/chef-skills";
-const releaseUrl = `${sourceUrl}/releases/tag/v0.1.0`;
-const releaseAssetUrl = `${sourceUrl}/releases/download/v0.1.0`;
-const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.1.0.zip`;
-const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.1.0.zip`;
+const releaseUrl = `${sourceUrl}/releases/tag/v0.2.0`;
+const releaseAssetUrl = `${sourceUrl}/releases/download/v0.2.0`;
+const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.2.0.zip`;
+const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.2.0.zip`;
 const checksumsUrl = `${releaseAssetUrl}/SHA256SUMS`;
+const archivedReleaseUrl = `${sourceUrl}/releases/tag/v0.1.0`;
 const SEO: SEO = {
-  title: "Chef — local-first meal planning skills | Dan Ferg",
-  headline: "Plan together. Keep the useful context. Shop with a human in control.",
-  description: "Chef is a local-first set of Agent Skills for household meal planning, exact recipes, grocery preparation and useful feedback.",
+  title: "Chef — conversational meal planning | Dan Ferg",
+  headline: "Plan dinner naturally. Keep the context you actually want.",
+  description: "Chef is a conversational meal-planning assistant with transparent local Markdown memory, practical recipes, nutrition estimates and controlled grocery preparation.",
   imageUrl: "/images/og-default.png",
-  imageAlt: "Chef — local-first meal planning Agent Skills by Dan Ferg",
+  imageAlt: "Chef — conversational meal planning Agent Skills by Dan Ferg",
   openGraph: { type: "website" },
   canonicalUrl: canonicalPath,
   schemaType: "SoftwareApplication",
-  modifiedDate: "2026-08-13",
+  modifiedDate: "2026-08-24",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Chef", url: canonicalPath },
@@ -28,23 +29,20 @@ const SEO: SEO = {
     "@type": "SoftwareApplication",
     "@id": "https://danferg.com/chef#software",
     name: "Chef",
-    description: "Local-first Agent Skills for household meal planning and grocery preparation.",
+    description: "Conversational Agent Skills for household meal planning with transparent local Markdown memory.",
     url: "https://danferg.com/chef",
     codeRepository: sourceUrl,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Cross-platform",
-    softwareVersion: "0.1.0",
+    softwareVersion: "0.2.0",
     license: "https://opensource.org/license/mit",
     author: { "@id": "https://danferg.com/#person" },
   },
 };
 
 const skills = [
-  ["01", "Plan meals", "Riff on the real week—dates, people, portions, energy, leftovers and budget—then approve one exact plan."],
-  ["02", "Manage the household", "Keep explicit allergies and dietary needs separate from ordinary likes, dislikes and reviewable hunches."],
-  ["03", "Keep exact recipes", "Save immutable recipe versions, scale their ingredients and remember which version was actually planned."],
-  ["04", "Prepare the shop", "Compile a traceable grocery plan, export it anywhere, or optionally prepare a basket after a separate approval."],
-  ["05", "Learn from dinner", "Record portions, effort, leftovers and feedback without silently inventing new safety rules."],
+  ["01", "Plan, cook and remember", "Riff on the real week, choose meals naturally, get practical recipes and Bevel-friendly nutrition estimates, then keep explicit household context in readable Markdown."],
+  ["02", "Prepare the shop", "Build a reconciled grocery list or, after a direct cart request, preserve the existing basket, add sensible quantities and verify the result before handing it back."],
 ];
 ---
 
@@ -54,37 +52,37 @@ const skills = [
     <header class="site-container chef-hero" data-motion-intro-group>
       <div class="chef-hero__meta" data-motion-intro-item>
         <p>CHEF / AGENT SKILLS</p>
-        <span>0.1.0</span>
+        <span>0.2.0</span>
       </div>
-      <h1 data-motion-intro-item>Plan together. Keep the useful context. <em>Shop with a human in control.</em></h1>
+      <h1 data-motion-intro-item>Plan dinner naturally. <em>Keep the context you actually want.</em></h1>
       <p class="chef-hero__lede" data-motion-intro-item>
-        Chef is a local-first set of five Agent Skills that carries a household from
-        “what should we eat?” to an approved plan, exact recipes, a grocery list and useful feedback.
+        Chef is a conversational meal-planning assistant that can remember explicit likes, dislikes,
+        dietary needs and weekly plans in Markdown you can read and edit yourself.
       </p>
       <div class="chef-hero__actions" data-motion-intro-item>
         <a class="button button--primary" href={pluginDownloadUrl}>Download Chef plugin <span aria-hidden="true">↓</span></a>
         <a class="button" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
         <a class="button" href="/chef/install">Installation guide <span aria-hidden="true">→</span></a>
       </div>
-      <p class="release-note" data-motion-intro-item>Stable release 0.1.0 is available from GitHub. The OpenAI directory listing is not yet published.</p>
+      <p class="release-note" data-motion-intro-item>Stable release 0.2.0 is available from GitHub. The records-oriented 0.1 release remains archived, and the OpenAI directory listing is still separate.</p>
     </header>
 
     <section class="principle" aria-labelledby="principle-title">
       <div class="site-container principle__grid" data-motion-reveal>
         <div>
           <p class="eyebrow">01 // THE USEFUL BOUNDARY</p>
-          <h2 id="principle-title">Conversation for intent. Local records for decisions.</h2>
+          <h2 id="principle-title">A conversation first. Plain files when memory matters.</h2>
         </div>
         <div>
-          <p>Chef can help a household think out loud, but the chat is never the only copy of what matters. People, explicit constraints, preferences, plans, recipe versions, grocery plans and outcomes live in a folder the user chooses.</p>
-          <p>The included Python utility uses SQLite and JSON without a hosted Chef account. It can produce human-readable exports and backups. Local files are permission-restricted where supported, but they are not application-level encrypted in v0.1.</p>
+          <p>On a local Codex host, Chef silently reads <code>~/Documents/Chef/MEMORY.md</code>, then keeps detailed weekly plans and the recipes you explicitly save in nearby Markdown files. There is no Chef account, runtime utility or database to operate.</p>
+          <p>You can open those files, change the wording and add your own headings. Chef re-reads before editing and preserves manual changes. On hosts without local file access, the same conversation still works for the session, but Chef does not pretend it saved anything.</p>
         </div>
       </div>
     </section>
 
     <section class="site-container skills page-section" aria-labelledby="skills-title">
-      <p class="eyebrow">02 // FIVE FOCUSED SKILLS</p>
-      <h2 id="skills-title">One workflow, without one enormous prompt.</h2>
+      <p class="eyebrow">02 // TWO FOCUSED SKILLS</p>
+      <h2 id="skills-title">The whole meal-planning conversation, without the ceremony.</h2>
       <div class="skill-grid" data-motion-group>
         {skills.map(([number, title, description]) => (
           <article data-motion-item>
@@ -100,11 +98,11 @@ const skills = [
       <div class="site-container shop__grid" data-motion-reveal>
         <div>
           <p class="eyebrow">03 // OPTIONAL COMPUTER USE</p>
-          <h2 id="shop-title">Automation is a capability, not a promise.</h2>
+          <h2 id="shop-title">“Fill my cart” means fill it. Checkout still means stop.</h2>
         </div>
         <div>
-          <p>Chef always works as a grocery-list export. When the user’s agent has an appropriate browser or Computer Use capability, Chef can optionally help prepare a provider-neutral basket after a separate, exact approval.</p>
-          <p>It sets absolute intended quantities and requires verification evidence. If the result is unclear, it says so. Checkout, payment, fulfilment, restricted products and order placement remain human-controlled.</p>
+          <p>Asking for a grocery list only produces a list. When you directly ask Chef to fill a cart, that request is enough authority to use an available browser or shopping capability—there is no approval token to repeat.</p>
+          <p>Chef first inspects and preserves what is already there, resolves sensible quantities, then checks the basket itself. If something cannot be verified, it says so. Checkout, payment, fulfilment, restricted products and order placement remain human-controlled.</p>
           <a href="/chef/safety">Read the shopping and safety boundaries <span aria-hidden="true">→</span></a>
         </div>
       </div>
@@ -114,7 +112,7 @@ const skills = [
       <div>
         <p class="eyebrow">04 // GET CHEF</p>
         <h2 id="install-title">Download or install the stable release.</h2>
-        <p>Download the OpenAI plugin, use the portable Agent Skills package, or clone the public repository. Start a new Codex task after installation.</p>
+        <p>Download the OpenAI plugin, use the portable two-skill package, or clone the public repository. There is no Python runtime to install. Start a new Codex task after installation.</p>
       </div>
       <pre aria-label="Codex installation commands"><code>git clone https://github.com/DanielFerguson/chef-skills.git
 cd chef-skills
@@ -125,6 +123,7 @@ codex plugin add chef@chef-skills</code></pre>
         <a href={skillsDownloadUrl}>Agent Skills ZIP ↓</a>
         <a href={checksumsUrl}>SHA-256 checksums ↓</a>
         <a href={releaseUrl}>Release notes ↗</a>
+        <a href={archivedReleaseUrl}>Archived 0.1 release ↗</a>
         <a href="/chef/install">All installation options →</a>
         <a href="/chef/privacy">Privacy →</a>
         <a href="/chef/terms">Terms →</a>
@@ -271,16 +270,11 @@ codex plugin add chef@chef-skills</code></pre>
   }
 
   .skill-grid article {
-    grid-column: span 2;
+    grid-column: span 3;
     min-height: 15rem;
     padding: 1.25rem;
     border-right: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-  }
-
-  .skill-grid article:nth-child(4),
-  .skill-grid article:nth-child(5) {
-    grid-column: span 3;
   }
 
   .skill-grid span {
@@ -339,9 +333,7 @@ codex plugin add chef@chef-skills</code></pre>
       grid-template-columns: 1fr;
     }
 
-    .skill-grid article,
-    .skill-grid article:nth-child(4),
-    .skill-grid article:nth-child(5) {
+    .skill-grid article {
       grid-column: auto;
       min-height: 0;
     }

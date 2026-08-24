@@ -4,28 +4,31 @@ import ChefPageLayout from "@layouts/ChefPageLayout.astro";
 
 <ChefPageLayout
   title="Chef privacy | Dan Ferg"
-  description="How Chef stores household meal-planning data locally and what version 0.1 deliberately does not retain."
+  description="How Chef stores household meal-planning context in local Markdown and what it deliberately does not retain."
   imageUrl="/images/og-default.png"
   openGraph={{ type: "website" }}
   canonicalUrl="/chef/privacy"
-  modifiedDate="2026-08-13"
+  modifiedDate="2026-08-24"
   breadcrumbs={[{ name: "Home", url: "/" }, { name: "Chef", url: "/chef" }, { name: "Privacy", url: "/chef/privacy" }]}
   eyebrow="CHEF_DOCS // PRIVACY"
-  heading="Your household data stays in a folder you choose."
-  lede="Chef is local-first. There is no Chef account or hosted Chef database in version 0.1."
+  heading="Your household context stays readable and under your control."
+  lede="On local Codex hosts, Chef uses plain Markdown in your Documents folder. There is no Chef account or hosted Chef database."
 >
-  <p><strong>Effective 13 August 2026.</strong></p>
+  <p><strong>Effective 24 August 2026.</strong></p>
   <h2>What Chef stores</h2>
-  <p>Household names, people, explicit dietary and safety constraints, preferences, meal plans, exact recipe versions, grocery plans, concise shop-run evidence and meal outcomes are stored in a SQLite database in the folder the user chooses.</p>
-  <p>Only that folder's path is stored in a user-level Chef configuration file. Chef can create JSON, Markdown and SQLite backups when the user requests them.</p>
+  <p>On a local Codex host, household members, explicit dietary and safety requirements, preferences, planning defaults, weekly plans, grocery lists, saved recipes and meal outcomes are stored as readable Markdown under <code>~/Documents/Chef</code> by default. Advanced users and automated tests can use <code>CHEF_DATA_DIR</code> to select a different directory.</p>
+  <p><code>MEMORY.md</code> stays compact. Detailed plans and shopping lists live in weekly files, and reusable recipe files exist only when the user explicitly asks to save, favourite or repeat a recipe.</p>
+
+  <h2>When local files are unavailable</h2>
+  <p>Some hosts cannot read or write local files. Chef can still plan and cook with the context in that conversation, but it must not claim that a preference, plan or recipe was saved. The host may separately provide its own memory features under its own terms.</p>
 
   <h2>What Chef does not store</h2>
-  <p>Chef must not persist retailer credentials, cookies, payment information, screenshots or raw retailer pages. It does not send the local database to Daniel Ferguson.</p>
+  <p>Chef must not persist retailer credentials, cookies, payment information, screenshots or raw retailer pages. The plugin does not send local Markdown files to Daniel Ferguson.</p>
   <p>A host agent or optional Computer Use provider may process information under its own privacy terms. Review those terms before enabling browser automation.</p>
 
   <h2>Local protection and deletion</h2>
-  <p>Chef permission-restricts its local files where the operating system supports it. Version 0.1 does not provide application-level encryption, so anyone with access to the operating-system account or backups may be able to read them.</p>
-  <p>Users can export their data or remove the chosen data folder and Chef configuration themselves. Chef does not automate removal because that action is destructive.</p>
+  <p>Chef's Markdown is protected only by your operating-system permissions, device security and backups. Chef does not provide application-level encryption, so anyone with access to the operating-system account or backups may be able to read it.</p>
+  <p>You can inspect, edit, copy, back up or delete the folder yourself. Chef does not automate destructive deletion. Version 0.2 also never migrates, reads, modifies or deletes an existing <code>chef.sqlite3</code>; archived 0.1 data remains under your control.</p>
 
   <h2>Contact</h2>
   <p>Privacy questions can be sent to <a href="mailto:gday@danferg.com">gday@danferg.com</a>.</p>

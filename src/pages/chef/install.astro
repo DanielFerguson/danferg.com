@@ -1,24 +1,25 @@
 ---
 import ChefPageLayout from "@layouts/ChefPageLayout.astro";
 
-const releaseAssetUrl = "https://github.com/DanielFerguson/chef-skills/releases/download/v0.1.0";
-const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.1.0.zip`;
-const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.1.0.zip`;
+const releaseAssetUrl = "https://github.com/DanielFerguson/chef-skills/releases/download/v0.2.0";
+const pluginDownloadUrl = `${releaseAssetUrl}/chef-plugin-0.2.0.zip`;
+const skillsDownloadUrl = `${releaseAssetUrl}/chef-agent-skills-0.2.0.zip`;
 const checksumsUrl = `${releaseAssetUrl}/SHA256SUMS`;
+const archivedReleaseUrl = "https://github.com/DanielFerguson/chef-skills/releases/tag/v0.1.0";
 ---
 
 <ChefPageLayout
   title="Install Chef Agent Skills | Dan Ferg"
-  description="Install the Chef plugin in Codex or use its five portable Agent Skills with a compatible coding agent."
+  description="Install the Chef plugin in Codex or use its two conversational Agent Skills with a compatible agent."
   imageUrl="/images/og-default.png"
   openGraph={{ type: "website" }}
   canonicalUrl="/chef/install"
   breadcrumbs={[{ name: "Home", url: "/" }, { name: "Chef", url: "/chef" }, { name: "Install", url: "/chef/install" }]}
   eyebrow="CHEF_DOCS // INSTALL"
   heading="Install Chef from source."
-  lede="Stable 0.1.0 is available as an OpenAI plugin, portable Agent Skills package and public source. A one-click directory install will appear only after the listing is approved."
+  lede="Stable 0.2.0 is available as an OpenAI plugin, portable Agent Skills package and public source. A one-click directory install will appear only after the separate listing is approved."
 >
-  <h2>Download 0.1.0</h2>
+  <h2>Download 0.2.0</h2>
   <ul>
     <li><a href={pluginDownloadUrl}>Chef plugin ZIP</a></li>
     <li><a href={skillsDownloadUrl}>Portable Agent Skills ZIP</a></li>
@@ -31,14 +32,20 @@ const checksumsUrl = `${releaseAssetUrl}/SHA256SUMS`;
 cd chef-skills
 codex plugin marketplace add .
 codex plugin add chef@chef-skills</code></pre>
-  <p>Start a new Codex task after installation. You should see five Chef skills. No MCP server, app or hooks are included.</p>
+  <p>Start a new Codex task after installation. Chef contains two skills—<code>chef</code> and <code>chef-prepare-shop</code>—and both can activate from ordinary requests. No MCP server, app, hooks or runtime executable is included.</p>
 
   <h2>Portable Agent Skills</h2>
-  <p>Download the <a href={skillsDownloadUrl}>stable Agent Skills ZIP</a>, or copy the five folders from <code>plugins/chef/skills/</code> into your project's <code>.agents/skills/</code>. Copy <code>plugins/chef/scripts/</code> to <code>.agents/scripts/</code> so the shared CLI remains at the path each skill expects.</p>
-  <p>Third-party agents must support the Agent Skills folder convention or provide a way to load each <code>SKILL.md</code>. Their browser and Computer Use capabilities vary; grocery export remains available without them.</p>
+  <p>Download the <a href={skillsDownloadUrl}>stable Agent Skills ZIP</a>, or copy the two folders from <code>plugins/chef/skills/</code> into your project's <code>.agents/skills/</code>. The instructions and Markdown templates are the complete runtime package; Python is used only by repository maintainers for validation and packaging.</p>
+  <p>Third-party agents must support Agent Skills or provide another way to load each <code>SKILL.md</code>. Durable automatic memory also requires local file access. Without it, Chef still helps conversationally for the session and must not claim anything was saved.</p>
 
   <h2>First use</h2>
-  <p>Chef will ask where to keep your data. The suggested location is <code>Documents/Chef</code>. It stores only that folder pointer in your user configuration. The selected folder holds SQLite data, exports and backups you explicitly create.</p>
-  <pre><code>plugins/chef/scripts/chef-local init --data-dir "$HOME/Documents/Chef"</code></pre>
+  <p>Ask Chef to set itself up. On local Codex it creates readable Markdown under <code>~/Documents/Chef</code> by default:</p>
+  <pre><code>Set up Chef for our household. We usually cook for two,
+one person is allergic to peanuts, and we like quick Korean meals.</code></pre>
+  <p>The folder contains a compact <code>MEMORY.md</code>, detailed weekly plans and only the recipes you explicitly ask to save or favourite. Advanced users and automated tests can set <code>CHEF_DATA_DIR</code> to use a different directory.</p>
+  <p>If you start with an ordinary meal request, Chef helps first and asks once afterwards whether you want durable files. Chef 0.2 does not migrate, read, modify or delete an existing <code>chef.sqlite3</code>.</p>
+
+  <h2>Archived records-oriented release</h2>
+  <p>If you need the Python and SQLite workflow, internal recipe versions or explicit approval states, the <a href={archivedReleaseUrl}>Chef 0.1.0 release remains available</a>. It is archived rather than migrated into 0.2.</p>
   <p>Review the <a href="/chef/privacy">privacy notes</a> before adding household data, and the <a href="/chef/safety">safety boundary</a> before enabling optional Computer Use.</p>
 </ChefPageLayout>
