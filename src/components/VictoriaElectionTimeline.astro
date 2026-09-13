@@ -1,0 +1,74 @@
+---
+const events = [
+  { date: "2014", label: "Labor returns", text: "Daniel Andrews becomes Premier on 4 December. The government is re-elected in 2018 and 2022.", source: "Parliamentary history", url: "https://www.parliament.vic.gov.au/about/history-and-heritage/people-who-shaped-parliament/former-members/" },
+  { date: "2017–19", label: "Reform becomes a service", text: "The voluntary assisted dying law passes in 2017 and begins operating in June 2019. Free TAFE starts in 2019.", source: "Health Department", url: "https://www.health.vic.gov.au/voluntary-assisted-dying/about", extra: "Free TAFE", extraUrl: "https://www.vic.gov.au/seven-years-free-tafe-victoria" },
+  { date: "2020", label: "Pandemic failures examined", text: "The hotel quarantine inquiry reports on that year’s program. The Ombudsman also reports on the public housing tower lockdown.", source: "Ombudsman’s findings", url: "https://www.ombudsman.vic.gov.au/our-impact/news/public-housing-tower-lockdown/" },
+  { date: "2022", label: "Operation Watts reports", text: "The joint IBAC–Ombudsman investigation exposes earlier misuse of public resources for factional purposes.", source: "Joint investigation", url: "https://www.ombudsman.vic.gov.au/our-impact/news/joint-ibac-and-vo-report-highlights-widespread-misuse-of-public-resources-for-political-purposes/" },
+  { date: "2023", label: "New benefits, a cancellation, a new premier", text: "Free Kinder and the regional fare cap begin. The Commonwealth Games are cancelled in July; Jacinta Allan becomes Premier on 27 September.", source: "Games audit", url: "https://www.audit.vic.gov.au/report/withdrawal-2026-commonwealth-games?section=34600--what-we-found", extra: "Leadership dates", extraUrl: "https://www.parliament.vic.gov.au/about/history-and-heritage/people-who-shaped-parliament/former-members/" },
+  { date: "2024", label: "The Games bill is assessed", text: "The Auditor-General reports on the 2023 cancellation. The reporting year is different from the year of the decision.", source: "Auditor-General", url: "https://www.audit.vic.gov.au/report/withdrawal-2026-commonwealth-games?section=34600--what-we-found" },
+  { date: "2025", label: "Levy changes and major openings", text: "The new levy starts in July. Metro Tunnel opens on 30 November after years of construction; statewide Treaty commences on 12 December.", source: "Metro Tunnel", url: "https://bigbuild.vic.gov.au/projects/metro-tunnel/about/overview", extra: "Treaty commencement", extraUrl: "https://www.firstpeoplesrelations.vic.gov.au/treaty-negotiation-updates" },
+  { date: "July–Sept 2026", label: "Carroll takes over; old conduct and roads scrutinised", text: "Ben Carroll becomes Premier on 28 July. Richmond reports in August on 2016 dealings; the roads audit follows on 9 September.", source: "Current Premier", url: "https://www.vic.gov.au/premier", extra: "Richmond findings", extraUrl: "https://www.abc.net.au/news/2026-08-05/vic-operation-richmond-ibac-report-daniel-andrews-ufu/106997618" },
+  { date: "28 Nov 2026", label: "The next decision", text: "Victorians vote in the state election.", source: "Victorian Electoral Commission", url: "https://www.vec.vic.gov.au/voting/2026-state-election" },
+];
+---
+
+<ol class="election-timeline" role="list" aria-label="Victorian government timeline, 2014 to 2026">
+  {events.map((event) => (
+    <li>
+      <span class="election-timeline__date">{event.date}</span>
+      <div class="election-timeline__event">
+        <strong>{event.label}</strong>
+        <p>{event.text}</p>
+        <p class="election-timeline__source">
+          <a href={event.url}>{event.source}</a>
+          {event.extra && <> · <a href={event.extraUrl}>{event.extra}</a></>}
+        </p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .election-timeline {
+    margin: 2rem 0;
+    padding: 0;
+    list-style: none;
+  }
+  .election-timeline li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 8.2rem minmax(0, 1fr);
+    column-gap: 1.7rem;
+    margin: 0;
+    padding: 0 0 1.75rem 1.4rem;
+    border-left: 2px solid var(--signal-line);
+  }
+  .election-timeline li + li { margin-top: 0; }
+  .election-timeline li:last-child { padding-bottom: 0; }
+  .election-timeline li::before {
+    position: absolute;
+    top: 0.4rem;
+    left: -0.35rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 2px solid var(--paper);
+    border-radius: 50%;
+    background: var(--signal);
+    content: "";
+  }
+  .election-timeline__date {
+    color: var(--signal);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .election-timeline__event { font-size: 0.86rem; line-height: 1.65; }
+  .election-timeline__event p { margin: 0.4rem 0 0; }
+  .election-timeline__event .election-timeline__source { font-size: 0.74rem; }
+  @media (max-width: 540px) {
+    .election-timeline li { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; }
+  }
+  @media print {
+    .election-timeline li { break-inside: avoid; }
+  }
+</style>

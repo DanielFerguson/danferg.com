@@ -1,0 +1,37 @@
+---
+const observations = [{ year: "2021", value: 39 }, { year: "2024", value: 48 }];
+---
+
+<figure class="roads-comparison" aria-labelledby="roads-comparison-label" aria-describedby="roads-comparison-note">
+  <figcaption id="roads-comparison-label">State roads rated poor or very poor for remaining useful life</figcaption>
+  <div class="roads-comparison__scale" aria-hidden="true"><span>0%</span><span>100%</span></div>
+  <dl>
+    {observations.map(({ year, value }) => (
+      <div class="roads-comparison__row">
+        <dt>{year}</dt>
+        <dd>
+          <span class="roads-comparison__track" aria-hidden="true"><span style={`width: ${value}%`}></span></span>
+          <strong>About {value}%</strong>
+        </dd>
+      </div>
+    ))}
+  </dl>
+  <p id="roads-comparison-note">Structural life measure; this does not mean 48% of roads are immediately unsafe. Survey years, not report years.</p>
+  <p class="roads-comparison__source"><a href="https://www.audit.vic.gov.au/report/maintaining-state-roads">VAGO, Maintaining State Roads, 9 September 2026</a></p>
+</figure>
+
+<style>
+  .roads-comparison { margin: 2rem 0; padding: 1.25rem; border: 1px solid var(--line-strong); background: var(--paper-raised); }
+  .roads-comparison figcaption { color: var(--ink); font-size: 0.85rem; font-weight: 700; line-height: 1.5; }
+  .roads-comparison__scale { display: flex; justify-content: space-between; margin: 1rem 0 0.3rem 3.5rem; color: var(--ink-soft); font-size: 0.7rem; }
+  .roads-comparison dl { margin: 0; }
+  .roads-comparison__row { display: grid; grid-template-columns: 2.8rem minmax(0, 1fr); gap: 0.7rem; margin: 0.75rem 0; }
+  .roads-comparison dt { color: var(--ink); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .roads-comparison dd { margin: 0; }
+  .roads-comparison dd strong { display: block; margin-top: 0.25rem; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+  .roads-comparison__track { display: block; height: 0.85rem; margin-top: 0.2rem; background: var(--signal-soft); border: 1px solid var(--signal-line); }
+  .roads-comparison__track > span { display: block; height: 100%; background: var(--signal); }
+  .roads-comparison p { margin: 0.9rem 0 0; font-size: 0.78rem; line-height: 1.6; }
+  .roads-comparison .roads-comparison__source { font-size: 0.72rem; }
+  @media print { .roads-comparison { break-inside: avoid; } }
+</style>

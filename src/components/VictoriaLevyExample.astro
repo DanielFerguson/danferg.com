@@ -1,0 +1,32 @@
+<div class="levy-example" role="region" aria-label="Illustrative levy comparison; scroll horizontally if needed" tabindex="0">
+  <table>
+    <caption>Same $1 million valuation, different land use</caption>
+    <thead>
+      <tr><th scope="col">Property</th><th scope="col">2024–25</th><th scope="col">2026–27</th><th scope="col">Change</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">Residential</th><td>$219</td><td>$312</td><td>+$93<br /><span>42.5%</span></td></tr>
+      <tr><th scope="row">Primary production</th><td>$554</td><td>$569</td><td>+$15<br /><span>2.7%</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="levy-example-note">Illustration only: one property in each class, unchanged capital improved value, no concessions or rebates. These are annual levy totals, not council rates, my bill or a typical household.</p>
+
+<style>
+  .levy-example { margin-top: 1.8rem; overflow-x: auto; border: 1px solid var(--line-strong); background: var(--paper-raised); }
+  .levy-example table { width: 100%; min-width: 18rem; table-layout: fixed; border-collapse: collapse; font-size: 0.8rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  .levy-example caption { padding: 1rem; text-align: left; font-weight: 700; color: var(--ink); }
+  .levy-example th, .levy-example td { padding: 0.8rem 0.375rem; border-top: 1px solid var(--line-strong); text-align: right; vertical-align: top; }
+  .levy-example th:first-child { width: 31%; text-align: left; }
+  .levy-example thead { background: var(--signal-soft); color: var(--ink); }
+  .levy-example th[scope="row"] { color: var(--ink); font-weight: 600; }
+  .levy-example td span { color: var(--ink-soft); }
+  .levy-example-note { margin-top: 0.65rem; font-size: 0.76rem; line-height: 1.6; }
+  @media (max-width: 540px) {
+    .levy-example table { font-size: 0.75rem; }
+  }
+  @media print {
+    .levy-example { break-inside: avoid; overflow: visible; }
+    .levy-example table { min-width: 0; }
+  }
+</style>
