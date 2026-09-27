@@ -101,12 +101,6 @@ const embedUrl = (spotifyId: string) =>
 
           if (!spotifyId || !spotifyUrl || !episodeTitle) return;
 
-          if (event.isTrusted) {
-            window.posthog?.capture("podcast_episode_selected", {
-              episode_index: Number(button.dataset.episodeIndex),
-            });
-          }
-
           frame.src = `https://open.spotify.com/embed/episode/${spotifyId}/video?utm_source=generator`;
           frame.title = `Spotify video: ${episodeTitle}`;
           title.textContent = episodeTitle;

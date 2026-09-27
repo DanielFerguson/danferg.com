@@ -32,7 +32,6 @@
     "astro-robots-txt": "^1.0.0",
     "pagefind": "^1.5.2",
     "parse5": "^8.0.1",
-    "posthog-js": "^1.434.15",
     "prettier": "^3.9.9",
     "typescript": "^6.0.3"
   },

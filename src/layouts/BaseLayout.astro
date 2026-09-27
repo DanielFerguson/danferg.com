@@ -209,7 +209,6 @@ import "../styles/global.css";
 import { latinFontFileUrl } from "../utils/fonts";
 import Footer from "../components/Footer.astro";
 import MotionHead from "../components/MotionHead.astro";
-import PostHog from "../components/posthog.astro";
 import SiteMotion from "../components/SiteMotion.astro";
 import ThemeHead from "../components/ThemeHead.astro";
 ---
@@ -229,7 +228,6 @@ import ThemeHead from "../components/ThemeHead.astro";
     />
     <slot name="head" />
     <ThemeHead lightColor={lightThemeColor} darkColor={darkThemeColor} />
-    <PostHog />
     <MotionHead />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" />
