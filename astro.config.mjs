@@ -168,10 +168,10 @@ export default defineConfig({
     }),
   },
   trailingSlash: "never",
-  // Prefetch every internal link on hover or focus, so navigation feels instant
-  // without downloading pages the reader never points at.
+  // Prefetching is opt-in (data-astro-prefetch) so it only ever fetches pages:
+  // prefetchAll would also fetch MP3s, PDFs and the RSS feed on hover.
   prefetch: {
-    prefetchAll: true,
+    prefetchAll: false,
     defaultStrategy: "hover",
   },
 });

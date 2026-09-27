@@ -5,6 +5,7 @@ import { loadRenderers } from "astro:container";
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import { editorialUpdates } from "../data/editorial-updates";
 import { tags as tagCatalogue, type TagId } from "../data/taxonomy";
+import { FEED_CONTENT_END, FEED_CONTENT_START } from "./feed-markers";
 
 const SITE = "https://danferg.com";
 const asDate = (date: string) => new Date(`${date}T00:00:00.000Z`);
@@ -27,7 +28,14 @@ async function renderFeedContent(
   entry: CollectionEntry<"articles"> | CollectionEntry<"newsletters">,
 ) {
   const { Content } = await render(entry);
-  const html = await (await getContainer()).renderToString(Content);
+  const rendered = await (await getContainer()).renderToString(Content);
+  // MDX entries come back wrapped in their layout; keep only the body.
+  const start = rendered.indexOf(FEED_CONTENT_START);
+  const end = rendered.lastIndexOf(FEED_CONTENT_END);
+  const html =
+    start !== -1 && end > start
+      ? rendered.slice(start + FEED_CONTENT_START.length, end)
+      : rendered;
 
   return html
     .replace(/<script\b[\s\S]*?<\/script>/gi, "")

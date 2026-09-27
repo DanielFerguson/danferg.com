@@ -5,6 +5,7 @@ import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
 import { pageTitle } from "../utils/seo";
+import { FEED_CONTENT_END, FEED_CONTENT_START } from "../utils/feed-markers";
 
 const { frontmatter } = Astro.props;
 const formatDate = (date: string) =>
@@ -65,12 +66,15 @@ const SEO: SEO & {
     </header>
     <hr class="site-container ascii-rule" />
     <article class="prose-shell" data-motion-reveal data-pagefind-body>
-      <p class="archive-note">
+      <p class="archive-note" data-pagefind-ignore>
         <strong>From the 2022 archive.</strong> This newsletter has finished, so
         some plans here never happened. For current writing, see the
         <a href="/articles">articles</a> or the <a href="/rss.xml">RSS feed</a>.
       </p>
+      {/* Marks the body for feeds (see src/utils/feed-items.ts). */}
+      <Fragment set:html={FEED_CONTENT_START} />
       <slot />
+      <Fragment set:html={FEED_CONTENT_END} />
     </article>
     <RelatedContent currentPath={frontmatter.canonicalUrl} kind="newsletters" />
     <EditorialEndcap sourceTitle={frontmatter.title} />

@@ -38,6 +38,34 @@
   font-synthesis: none;
 }
 
+/*
+ * Browsers without light-dark() (Safari before 17.5) would drop every colour
+ * token above, leaving transparent buttons. Give them the light theme.
+ */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    --paper: #f8f7fc;
+    --paper-raised: #fdfcff;
+    --paper-muted: #aaa7bb;
+    --ink: #181d27;
+    --ink-soft: #414651;
+    --ink-muted: #666a74;
+    --line: rgb(79 57 246 / 18%);
+    --line-strong: rgb(27 16 112 / 48%);
+    --signal: #4f39f6;
+    --signal-emphasis: #1b1070;
+    --signal-fill: #4f39f6;
+    --signal-fill-hover: #1b1070;
+    --signal-bright: #cc66ff;
+    --signal-deep: #1b1070;
+    --signal-soft: #ede9ff;
+    --signal-line: #dbd5ff;
+    --inverse-surface: #181d27;
+    --code-surface: #181d27;
+    --code-ink: #f8f7fc;
+  }
+}
+
 :root[data-theme="light"] {
   color-scheme: light;
 }

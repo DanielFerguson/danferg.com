@@ -14,6 +14,7 @@ import { getCollection, render } from "astro:content";
 import getReadingTime from "reading-time";
 import { latinFontFileUrl } from "../utils/fonts";
 import { pageTitle } from "../utils/seo";
+import { FEED_CONTENT_END, FEED_CONTENT_START } from "../utils/feed-markers";
 import { extractCitationUrls } from "../utils/citations";
 import { tags as tagCatalogue, type TagId } from "../data/taxonomy";
 
@@ -134,7 +135,10 @@ const SEO: SEO & {
       {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} variant="compact" />}
       {frontmatter.summary && <ArticleSummary summary={frontmatter.summary} />}
       {showContents && <ArticleContents sections={sections} />}
+      {/* Marks the body for feeds (see src/utils/feed-items.ts). */}
+      <Fragment set:html={FEED_CONTENT_START} />
       <slot />
+      <Fragment set:html={FEED_CONTENT_END} />
       {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} />}
     </article>
     <AuthorNote />

@@ -88,14 +88,14 @@ const archive = {
   <h2 id="related-title">Related reading and next steps.</h2>
   <nav aria-label="Related content" data-motion-group>
     {related.map((item) => (
-      <a href={item.href} data-motion-item data-motion-interactive>
+      <a href={item.href} data-motion-item data-motion-interactive data-astro-prefetch="hover">
         <small>{item.meta}</small>
         <strong>{item.title}</strong>
         <span>{item.description}</span>
         <i aria-hidden="true" data-motion-arrow>→</i>
       </a>
     ))}
-    <a href={archive.href} data-motion-item data-motion-interactive>
+    <a href={archive.href} data-motion-item data-motion-interactive data-astro-prefetch="hover">
       <small>{archive.meta}</small>
       <strong>{archive.title}</strong>
       <span>{archive.description}</span>
