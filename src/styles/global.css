@@ -1,28 +1,36 @@
 @import "./reset.css";
 
 :root {
-  color-scheme: light;
-  --paper: #f8f7fc;
-  --paper-raised: #fdfcff;
-  --paper-muted: #aaa7bb;
-  --ink: #181d27;
-  --ink-soft: #414651;
-  --ink-muted: #717680;
-  --line: rgb(79 57 246 / 18%);
-  --line-strong: rgb(27 16 112 / 48%);
-  --signal: #4f39f6;
-  --signal-emphasis: #1b1070;
-  --signal-fill: #4f39f6;
-  --signal-fill-hover: #1b1070;
-  --signal-bright: #cc66ff;
-  --signal-deep: #1b1070;
-  --signal-soft: #ede9ff;
-  --signal-line: #dbd5ff;
+  /*
+   * Colour tokens hold both themes via light-dark(), which follows
+   * color-scheme: the OS preference by default, or the choice stored by the
+   * theme toggle (see ThemeHead.astro), which sets data-theme on <html>.
+   */
+  color-scheme: light dark;
+  --paper: light-dark(#f8f7fc, #11101a);
+  --paper-raised: light-dark(#fdfcff, #191725);
+  --paper-muted: light-dark(#aaa7bb, #aaa4bd);
+  --ink: light-dark(#181d27, #f5f2ff);
+  --ink-soft: light-dark(#414651, #d1ccdf);
+  /* #666a74 keeps small text at 4.5:1 or better on every light surface. */
+  --ink-muted: light-dark(#666a74, #aaa4b9);
+  --line: light-dark(rgb(79 57 246 / 18%), rgb(158 140 255 / 28%));
+  --line-strong: light-dark(rgb(27 16 112 / 48%), rgb(203 192 255 / 48%));
+  --signal: light-dark(#4f39f6, #a997ff);
+  --signal-emphasis: light-dark(#1b1070, #b6a8ff);
+  --signal-fill: light-dark(#4f39f6, #6049d2);
+  --signal-fill-hover: light-dark(#1b1070, #4935ad);
+  --signal-bright: light-dark(#cc66ff, #e49aff);
+  --signal-deep: light-dark(#1b1070, #251a63);
+  --signal-soft: light-dark(#ede9ff, #25203d);
+  --signal-line: light-dark(#dbd5ff, #554a7e);
   --inverse-ink: #f8f7fc;
   --inverse-muted: #aaa7bb;
-  --inverse-surface: #181d27;
-  --code-surface: #181d27;
-  --code-ink: #f8f7fc;
+  --inverse-surface: light-dark(#181d27, #29213f);
+  --code-surface: light-dark(#181d27, #09080e);
+  --code-ink: light-dark(#f8f7fc, #f5f2ff);
+  /* Smallest text size on the site: kickers, metadata, tags and captions. */
+  --text-label: 0.75rem;
   --content-width: 72rem;
   color: var(--ink);
   background: var(--paper);
@@ -30,52 +38,12 @@
   font-synthesis: none;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #11101a;
-  --paper-raised: #191725;
-  --paper-muted: #aaa4bd;
-  --ink: #f5f2ff;
-  --ink-soft: #d1ccdf;
-  --ink-muted: #aaa4b9;
-  --line: rgb(158 140 255 / 28%);
-  --line-strong: rgb(203 192 255 / 48%);
-  --signal: #a997ff;
-  --signal-emphasis: #b6a8ff;
-  --signal-fill: #6049d2;
-  --signal-fill-hover: #4935ad;
-  --signal-bright: #e49aff;
-  --signal-deep: #251a63;
-  --signal-soft: #25203d;
-  --signal-line: #554a7e;
-  --code-surface: #09080e;
-  --code-ink: #f5f2ff;
-  --inverse-surface: #29213f;
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    color-scheme: dark;
-    --paper: #11101a;
-    --paper-raised: #191725;
-    --paper-muted: #aaa4bd;
-    --ink: #f5f2ff;
-    --ink-soft: #d1ccdf;
-    --ink-muted: #aaa4b9;
-    --line: rgb(158 140 255 / 28%);
-    --line-strong: rgb(203 192 255 / 48%);
-    --signal: #a997ff;
-    --signal-emphasis: #b6a8ff;
-    --signal-fill: #6049d2;
-    --signal-fill-hover: #4935ad;
-    --signal-bright: #e49aff;
-    --signal-deep: #251a63;
-    --signal-soft: #25203d;
-    --signal-line: #554a7e;
-    --code-surface: #09080e;
-    --code-ink: #f5f2ff;
-    --inverse-surface: #29213f;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 * {
@@ -104,6 +72,25 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Balanced headings avoid one-word last lines; pretty body text avoids orphans. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li,
+blockquote,
+figcaption {
+  text-wrap: pretty;
+}
+
+/* Cross-document view transitions: a quick cross-fade between pages. */
+@view-transition {
+  navigation: auto;
+}
+
 ::selection {
   color: var(--paper);
   background: var(--signal);
@@ -128,7 +115,7 @@ a:focus-visible {
   padding: 0.65rem 0.8rem;
   color: var(--inverse-ink);
   background: var(--signal-deep);
-  font-size: 0.68rem;
+  font-size: var(--text-label);
   font-weight: 750;
   text-decoration: none;
   transform: translateY(calc(-100% - 1rem));
@@ -382,7 +369,7 @@ a:focus-visible {
   padding: 0.8rem 1rem;
   border-top: 1px solid var(--line);
   color: var(--ink-muted);
-  font-size: 0.64rem;
+  font-size: var(--text-label);
   line-height: 1.5;
   letter-spacing: 0.04em;
 }
@@ -429,6 +416,10 @@ a:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
   html {
     scroll-behavior: auto;
   }

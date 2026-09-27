@@ -142,8 +142,10 @@ export default defineConfig({
     }),
   },
   trailingSlash: "never",
+  // Prefetch every internal link on hover or focus, so navigation feels instant
+  // without downloading pages the reader never points at.
   prefetch: {
-    prefetchAll: false,
+    prefetchAll: true,
     defaultStrategy: "hover",
   },
 });

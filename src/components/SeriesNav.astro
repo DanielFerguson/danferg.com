@@ -71,7 +71,7 @@ const statusLabel: Record<string, string> = { published: "", draft: "In progress
     gap: 0.35rem 0.75rem;
     align-items: baseline;
     margin: 0 0 1.5rem;
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     line-height: 1.5;
     letter-spacing: 0.02em;
   }
@@ -110,7 +110,7 @@ const statusLabel: Record<string, string> = { published: "", draft: "In progress
     letter-spacing: 0.04em;
   }
   .series-nav__label a {
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     font-weight: 700;
   }
   .series-nav__description {
@@ -142,7 +142,7 @@ const statusLabel: Record<string, string> = { published: "", draft: "In progress
     border: 1px solid var(--line-strong);
     border-radius: 50%;
     color: var(--ink-soft);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
@@ -167,7 +167,7 @@ const statusLabel: Record<string, string> = { published: "", draft: "In progress
   }
   .series-nav__status {
     color: var(--ink-muted);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }

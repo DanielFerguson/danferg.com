@@ -139,7 +139,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   }
   .levy__hint {
     color: var(--ink-soft);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
     font-weight: 400;
   }
   .levy__controls {
@@ -159,7 +159,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   .levy__field label,
   .levy__check {
     color: var(--ink);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
     font-weight: 700;
   }
   .levy__field output {
@@ -186,7 +186,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
     display: flex;
     justify-content: space-between;
     color: var(--ink-muted);
-    font-size: 0.64rem;
+    font-size: var(--text-label);
     font-variant-numeric: tabular-nums;
   }
   .levy__exact {
@@ -244,7 +244,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   .levy__table thead th {
     color: var(--ink);
     background: var(--signal-soft);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     letter-spacing: 0.03em;
   }
   .levy__table th[scope="row"] {
@@ -263,7 +263,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   .levy__formula {
     display: block;
     color: var(--ink-muted);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
     font-weight: 400;
     line-height: 1.45;
   }
@@ -276,7 +276,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   tr[data-status="proposal"] .levy__version::after {
     content: " (never applied)";
     color: var(--ink-muted);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
     font-weight: 400;
   }
   .levy__bar {
@@ -304,11 +304,11 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   .levy__pct {
     display: block;
     color: var(--ink-muted);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
   }
   .levy__base {
     color: var(--ink-muted);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
   }
   .levy__compare {
     margin: 1rem 0 0;
@@ -325,7 +325,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
     padding: 0;
     list-style: none;
     color: var(--ink-soft);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
   }
   .levy__legend li,
   .levy__legend li + li {
@@ -350,14 +350,14 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
   .levy__note {
     margin: 0.9rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
   }
   .levy__source {
     margin: 0.75rem 0 0;
     padding-top: 0.75rem;
     border-top: 1px solid var(--line);
     color: var(--ink-muted);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
   }
   @media (max-width: 640px) {
     .levy {
@@ -434,7 +434,7 @@ const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amen
     td[data-cell="change"]::before {
       display: block;
       color: var(--ink-muted);
-      font-size: 0.6rem;
+      font-size: var(--text-label);
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;

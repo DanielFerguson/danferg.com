@@ -133,7 +133,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
   }
   .matrix__hint {
     color: var(--ink-soft);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
     font-weight: 400;
   }
   .matrix__table {
@@ -150,7 +150,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
   .matrix__table thead th {
     color: var(--ink);
     background: var(--signal-soft);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
     letter-spacing: 0.03em;
     line-height: 1.35;
   }
@@ -179,7 +179,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
   .matrix__body {
     display: block;
     color: var(--ink-muted);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     font-weight: 400;
     line-height: 1.45;
   }
@@ -187,7 +187,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
     display: block;
     margin-top: 0.3rem;
     color: var(--ink-soft);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     font-weight: 400;
     line-height: 1.45;
     font-variant-numeric: tabular-nums;
@@ -201,7 +201,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
     gap: 0.3rem;
     align-items: baseline;
     color: var(--ink);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
     font-weight: 700;
     line-height: 1.4;
   }
@@ -238,7 +238,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
     display: grid;
     grid-template-columns: 11rem minmax(0, 1fr);
     gap: 0.6rem;
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     line-height: 1.5;
   }
   .matrix__notes dt {
@@ -251,7 +251,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
   .matrix__sources {
     margin: 0.4rem 0 0;
     color: var(--ink-muted);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
   }
   .matrix__legend {
     display: flex;
@@ -261,7 +261,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
     padding: 0;
     list-style: none;
     color: var(--ink-soft);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
   }
   .matrix__legend li,
   .matrix__legend li + li {
@@ -271,7 +271,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
   .matrix__note {
     margin: 0.75rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.74rem;
+    font-size: var(--text-label);
   }
   @media (max-width: 720px) {
     .matrix {
@@ -314,7 +314,7 @@ const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id]
     .matrix__row td::before {
       content: attr(data-label);
       color: var(--ink-muted);
-      font-size: 0.64rem;
+      font-size: var(--text-label);
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;

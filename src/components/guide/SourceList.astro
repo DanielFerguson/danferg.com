@@ -69,7 +69,7 @@ const counts = kinds.map((kind) => ({ kind, count: citations.filter((c) => c.rec
     margin: 0 0 1.25rem;
     padding: 0;
     list-style: none;
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     color: var(--ink-soft);
   }
   .source-list__kinds li,
@@ -131,7 +131,7 @@ const counts = kinds.map((kind) => ({ kind, count: citations.filter((c) => c.rec
   }
   .source-list__meta {
     color: var(--ink-muted);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
   }
   .source-list__back {
     text-decoration: none;

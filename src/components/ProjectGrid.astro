@@ -121,7 +121,7 @@ const { projects } = Astro.props as Props;
     justify-content: space-between;
     margin-bottom: auto;
     color: var(--ink-muted);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     letter-spacing: 0.06em;
   }
 
@@ -155,7 +155,7 @@ const { projects } = Astro.props as Props;
 
   .project-cell__status {
     margin-top: 0.55rem;
-    font-size: 0.61rem;
+    font-size: var(--text-label);
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
@@ -171,7 +171,7 @@ const { projects } = Astro.props as Props;
   .project-cell__role {
     margin-top: 1.15rem;
     color: var(--ink-muted);
-    font-size: 0.59rem;
+    font-size: var(--text-label);
     font-weight: 700;
     letter-spacing: 0.035em;
     line-height: 1.5;
