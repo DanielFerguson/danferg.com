@@ -125,9 +125,16 @@ const currentState = (item: (typeof navigation)[number]) => {
     transform: rotate(-3deg);
   }
 
+  /* The nav fills the header's height so the current-page bar can sit on
+     the header's bottom border, like a tab. */
+  .nav-shell nav {
+    display: flex;
+    align-self: stretch;
+  }
+
   nav ul {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -157,12 +164,25 @@ const currentState = (item: (typeof navigation)[number]) => {
     color: var(--signal);
   }
 
+  nav a {
+    position: relative;
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+  }
+
   nav a[aria-current] {
     color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: var(--signal);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.45em;
+  }
+
+  nav a[aria-current]::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--signal);
+    content: "";
   }
 
   .nav-contact {
@@ -185,7 +205,7 @@ const currentState = (item: (typeof navigation)[number]) => {
     .nav-shell {
       min-height: auto;
       flex-wrap: wrap;
-      padding-block: 0.75rem;
+      padding-block: 0.75rem 0;
     }
 
     .nav-shell nav {
@@ -195,6 +215,8 @@ const currentState = (item: (typeof navigation)[number]) => {
       padding-top: 0.7rem;
       border-top: 1px dotted var(--line-strong);
       scrollbar-width: none;
+      /* Extend over the header's border so the current-page bar covers it. */
+      margin-bottom: -1px;
     }
 
     .nav-shell nav::-webkit-scrollbar {
@@ -211,9 +233,13 @@ const currentState = (item: (typeof navigation)[number]) => {
     }
 
     nav a {
-      display: inline-flex;
-      min-height: 2rem;
-      align-items: center;
+      min-height: 2.75rem;
+    }
+
+    /* The scrolling nav clips anything outside its box, so the bar is
+       placed at its bottom edge, which now overlaps the header border. */
+    nav a[aria-current]::after {
+      bottom: 0;
     }
 
     .nav-contact {
