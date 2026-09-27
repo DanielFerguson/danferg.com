@@ -1,19 +1,23 @@
 ---
 const projectToken = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
-const host = import.meta.env.PUBLIC_POSTHOG_HOST;
 const isDevelopment = import.meta.env.DEV;
+// In production, events go through the same-origin /relay rewrite in
+// vercel.json (US region), which ad blockers leave alone and which keeps the
+// CSP to 'self'. The dev server has no rewrites, so it talks to PostHog directly.
+const host = isDevelopment
+  ? import.meta.env.PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com"
+  : "/relay";
+const uiHost = "https://us.posthog.com";
 ---
 
 <script
   is:inline
-  define:vars={{ projectToken, host, isDevelopment }}
+  define:vars={{ projectToken, host, uiHost, isDevelopment }}
 >
-  if (!projectToken || !host) {
+  if (!projectToken) {
     if (isDevelopment) {
       throw new Error(
-        !projectToken
-          ? "PUBLIC_POSTHOG_PROJECT_TOKEN variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once PUBLIC_POSTHOG_PROJECT_TOKEN is configured"
-          : "PUBLIC_POSTHOG_HOST variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once PUBLIC_POSTHOG_HOST is configured",
+        "PUBLIC_POSTHOG_PROJECT_TOKEN variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once PUBLIC_POSTHOG_PROJECT_TOKEN is configured",
       );
     }
   } else {
@@ -64,6 +68,7 @@ const isDevelopment = import.meta.env.DEV;
 
     window.posthog.init(projectToken, {
       api_host: host,
+      ui_host: uiHost,
       defaults: "2026-01-30",
       capture_exceptions: {
         capture_unhandled_errors: true,

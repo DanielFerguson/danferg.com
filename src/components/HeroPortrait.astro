@@ -1,3 +1,10 @@
+---
+// Imported as a URL so Vite fingerprints it for long-lived caching without
+// re-encoding: the artwork is a four-colour dither that resizing or lossy
+// formats would smear, and the shader maps it back onto that palette.
+import portraitUrl from "../assets/images/dan-dark.png?url";
+---
+
 <figure
   class="hero-portrait"
   data-hero-portrait
@@ -37,12 +44,19 @@
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const saveData = navigator.connection?.saveData === true;
+      // Beside the headline (wide layouts) the portrait starts on the shader's
+      // backdrop so the pixel reveal is its entrance. Stacked below the fold,
+      // the static image stays visible until the shader is ready to take over.
+      const besideHeadline = window.matchMedia("(min-width: 901px)").matches;
 
       if (
         portrait instanceof HTMLElement &&
         portrait.matches("[data-hero-portrait]") &&
         !staticMode &&
-        !reducedMotion
+        !reducedMotion &&
+        !saveData &&
+        besideHeadline
       ) {
         portrait.dataset.heroShaderState = "loading";
       }
@@ -50,7 +64,7 @@
   </script>
   <img
     class="hero-portrait__image"
-    src="/images/dan-dark.png"
+    src={portraitUrl}
     alt="Dan Ferg in conversation at the CivVic and VicHealth Showcase"
     width="2280"
     height="1283"
@@ -65,8 +79,36 @@
     new URLSearchParams(window.location.search).get("hero") === "static";
   const disposers = new Set<() => void>();
 
-  const startExperiment = async () => {
-    if (staticMode || prefersReducedMotion.matches) return;
+  const saveData =
+    (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection?.saveData === true;
+
+  const whenIdle = (callback: () => void) => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback, { timeout: 800 });
+    } else {
+      setTimeout(callback, 200);
+    }
+  };
+
+  const enhance = async (portrait: HTMLElement) => {
+    try {
+      const { enhanceHeroPortrait } = await import(
+        "../scripts/hero-portrait-shader"
+      );
+      const dispose = await enhanceHeroPortrait(portrait);
+      if (dispose) disposers.add(dispose);
+    } catch {
+      portrait.dataset.heroShaderState = "fallback";
+    }
+  };
+
+  /**
+   * The WebGL set-up is the most expensive work on the homepage, so it waits
+   * for the portrait to be in view and for the main thread to be idle.
+   */
+  const startExperiment = () => {
+    if (staticMode || prefersReducedMotion.matches || saveData) return;
 
     const portraits = Array.from(
       document.querySelectorAll<HTMLElement>("[data-hero-portrait]"),
@@ -76,31 +118,32 @@
       ),
     );
 
-    if (portraits.length === 0) return;
+    for (const portrait of portraits) {
+      if (!("IntersectionObserver" in window)) {
+        whenIdle(() => void enhance(portrait));
+        continue;
+      }
 
-    portraits.forEach((portrait) => {
-      portrait.dataset.heroShaderState = "loading";
-    });
-
-    try {
-      const { enhanceHeroPortrait } = await import(
-        "../scripts/hero-portrait-shader"
+      // Beside the headline it is already on screen behind the backdrop, so
+      // start as soon as possible. Stacked below the fold, the static image
+      // stays up until a good part of the portrait is visible, so the reveal
+      // plays where it can be seen rather than off-screen during page load.
+      const besideHeadline = portrait.dataset.heroShaderState === "loading";
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          whenIdle(() => void enhance(portrait));
+        },
+        besideHeadline
+          ? { rootMargin: "200px 0px" }
+          : { threshold: 0.3 },
       );
-
-      await Promise.all(
-        portraits.map(async (portrait) => {
-          const dispose = await enhanceHeroPortrait(portrait);
-          if (dispose) disposers.add(dispose);
-        }),
-      );
-    } catch {
-      portraits.forEach((portrait) => {
-        portrait.dataset.heroShaderState = "fallback";
-      });
+      observer.observe(portrait);
     }
   };
 
-  void startExperiment();
+  startExperiment();
 
   window.addEventListener(
     "pagehide",

@@ -293,6 +293,11 @@ if (sitemapUrls.has("https://danferg.com/404")) fail("404 is present in sitemap"
 const datedSitemap = await Promise.all(sitemapFiles.map((file) => readFile(file, "utf8")));
 if (!datedSitemap.join("").includes("<lastmod>")) fail("Sitemap has no lastmod entries");
 
+const homepageHtml = await readFile(join(distRoot, "index.html"), "utf8");
+if (/const projectToken = (undefined|"")/.test(homepageHtml)) {
+  warn("PUBLIC_POSTHOG_PROJECT_TOKEN was not set for this build, so analytics are disabled");
+}
+
 const robotsText = await readFile(join(distRoot, "robots.txt"), "utf8");
 if (!/Sitemap:\s*https:\/\/danferg\.com\/sitemap-index\.xml/.test(robotsText)) fail("robots.txt does not advertise sitemap");
 
