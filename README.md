@@ -17,7 +17,8 @@ The site is deliberately content-first. Most editorial pages are Markdown or MDX
 ## Built with
 
 - [Astro](https://astro.build/) and TypeScript
-- [Tailwind CSS](https://tailwindcss.com/)
+- Hand-written, component-scoped CSS with shared design tokens in `src/styles/global.css`
+- Geist and Geist Mono, served through Astro's Fonts API
 - Markdown and MDX content collections with schema validation
 - [Motion](https://motion.dev/) and [Paper Shaders](https://shaders.paper.design/) for restrained interaction and visual effects
 - [Sharp](https://sharp.pixelplumbing.com/) for generated social images
@@ -75,7 +76,7 @@ npm run build
 │   ├── pages/               # Routes and Markdown/MDX content
 │   ├── styles/              # Global styles and design tokens
 │   └── content.config.ts    # Content collection schemas
-├── astro.config.mjs         # Astro, sitemap, MDX, RSS, and Tailwind setup
+├── astro.config.mjs         # Astro, fonts, sitemap, MDX, and Markdown setup
 └── vercel.json              # Redirects, caching, and security headers
 ```
 

@@ -7,9 +7,7 @@ import RelatedContent from "@components/RelatedContent.astro";
 import ArticleAudioPlayer from "@components/ArticleAudioPlayer.astro";
 import ArticleTags from "@components/ArticleTags.astro";
 import SeriesNav from "@components/SeriesNav.astro";
-// Running prose in articles reads in Geist Sans; the rest of the site stays on Geist Mono.
-import "@fontsource-variable/geist/wght.css";
-import "@fontsource-variable/geist/wght-italic.css";
+import { latinFontFileUrl } from "../utils/fonts";
 
 const { frontmatter } = Astro.props;
 const isDraft = frontmatter.draft === true;
@@ -56,6 +54,15 @@ const SEO: SEO & {
 ---
 
 <BaseLayout {...SEO}>
+  {/* Running prose in articles reads in Geist; the rest of the site stays on Geist Mono. */}
+  <link
+    slot="head"
+    rel="preload"
+    href={latinFontFileUrl("--font-sans")}
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
   <NavBar />
   <main id="main-content">
     <header class="site-container story-header" data-motion-intro-group>

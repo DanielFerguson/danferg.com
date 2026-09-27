@@ -1,10 +1,9 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
 import { rehypeMermaidBlocks } from "./rehype-mermaid-blocks.mjs";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import mdx from "@astrojs/mdx";
-import tailwindcss from "@tailwindcss/vite";
 import { readdirSync, readFileSync } from "node:fs";
 
 const editorialDirectories = [
@@ -45,11 +44,68 @@ for (const directory of editorialDirectories) {
   }
 }
 
+// Geist ships as variable fonts split by unicode range. Only the subsets this
+// English-language site renders are declared: Latin, Latin Extended and (for
+// Geist Mono) the box-drawing symbols used in the terminal-style components.
+const fontsourceFile = (family, file) =>
+  `./node_modules/@fontsource-variable/${family}/files/${file}.woff2`;
+const unicodeRanges = {
+  symbols2: "U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F",
+  latinExt:
+    "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF",
+  latin:
+    "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+};
+// Later faces win where ranges overlap, so Latin is declared last.
+const geistVariants = (family, subsets, styles) =>
+  styles.flatMap((style) =>
+    subsets.map(([subset, range]) => ({
+      src: [fontsourceFile(family, `${family}-${subset}-wght-${style}`)],
+      weight: "100 900",
+      style,
+      unicodeRange: [range],
+    })),
+  );
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://danferg.com",
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: "Geist Mono",
+      cssVariable: "--font-mono",
+      fallbacks: ["ui-monospace", "SFMono-Regular", "Consolas", "monospace"],
+      options: {
+        variants: geistVariants(
+          "geist-mono",
+          [
+            ["symbols2", unicodeRanges.symbols2],
+            ["latin-ext", unicodeRanges.latinExt],
+            ["latin", unicodeRanges.latin],
+          ],
+          ["normal"],
+        ),
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: "Geist",
+      cssVariable: "--font-sans",
+      fallbacks: ["system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+      options: {
+        variants: geistVariants(
+          "geist",
+          [
+            ["latin-ext", unicodeRanges.latinExt],
+            ["latin", unicodeRanges.latin],
+          ],
+          ["normal", "italic"],
+        ),
+      },
+    },
+  ],
   vite: {
-    plugins: [tailwindcss()],
     build: {
       rolldownOptions: {
         onwarn(warning, defaultHandler) {

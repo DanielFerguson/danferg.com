@@ -188,8 +188,9 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
   "\\u003c",
 );
 
-import "@fontsource-variable/geist-mono/wght.css";
+import { Font } from "astro:assets";
 import "../styles/global.css";
+import { latinFontFileUrl } from "../utils/fonts";
 import Footer from "../components/Footer.astro";
 import MotionHead from "../components/MotionHead.astro";
 import PostHog from "../components/posthog.astro";
@@ -201,6 +202,16 @@ import ThemeHead from "../components/ThemeHead.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-mono" />
+    <Font cssVariable="--font-sans" />
+    <link
+      rel="preload"
+      href={latinFontFileUrl("--font-mono")}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <slot name="head" />
     <ThemeHead lightColor={lightThemeColor} darkColor={darkThemeColor} />
     <PostHog />
     <MotionHead />
