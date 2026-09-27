@@ -24,9 +24,17 @@ const articleAudio = z.object({
   generatedAt: z.iso.datetime({ offset: true }),
 });
 
+// Search result titles get " | Dan Ferg" appended; 54 characters keeps the
+// whole <title> inside the 65-character budget checked by the build audit.
+const seoTitle = z.string().min(20).max(54);
+
 const editorialFields = {
   layout: z.string().optional(),
   title: z.string().min(1),
+  seoTitle: seoTitle.optional(),
+  // A self-contained answer to the question the piece explores. Rendered as
+  // an "In short" block and reused in feeds, llms.txt and structured data.
+  summary: z.string().min(80).max(420).optional(),
   description: z.string().min(40),
   date: isoDate,
   updatedDate: isoDate.optional(),
@@ -81,6 +89,7 @@ const projects = defineCollection({
   schema: z.object({
     layout: z.string().optional(),
     title: z.string().min(1),
+    seoTitle: seoTitle.optional(),
     description: z.string().min(40),
     tags: z.array(z.string().min(1)).min(1),
     featured: z.boolean().optional(),

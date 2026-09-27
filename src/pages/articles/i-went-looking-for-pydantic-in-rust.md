@@ -1,7 +1,9 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "I went looking for Pydantic in Rust"
+seoTitle: "Is there a Pydantic for Rust? Serde, Garde and types"
 description: "I went looking for a Rust equivalent to Pydantic and found a more interesting answer: Rust changes where validation lives."
+summary: "There's no one-for-one Rust equivalent of Pydantic (whose v2 core is itself written in Rust). Rust splits the job: Serde turns external data such as JSON into typed structs, then TryFrom conversions, newtypes or crates like Garde enforce business rules. Once data becomes a trusted domain type, the compiler helps preserve that guarantee, so validation is concentrated at the boundary."
 date: "2026-07-20"
 tags: [software]
 imageUrl: /images/og/articles/i-went-looking-for-pydantic-in-rust-og.png

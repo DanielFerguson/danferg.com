@@ -10,6 +10,7 @@ import {
 } from "../utils/project-assets";
 import { getNextProject } from "../data/project-journey";
 import { createContactMailto } from "../utils/contact-links";
+import { pageTitle } from "../utils/seo";
 
 const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
@@ -92,7 +93,7 @@ const SEO: SEO & {
   imageHeight?: number;
   imageType?: string;
 } = {
-  title: `${frontmatter.title} | Dan Ferg`,
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
   headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: projectSocialImage.src,

@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: StudList
+seoTitle: "StudList: a free Australian cattle marketplace"
 description: A free Australian cattle marketplace for advertising livestock, genetics, equipment, hay, and services without the fees of larger platforms.
 tags:
   - Agricultural technology
@@ -11,6 +12,7 @@ period: "2026"
 status: Active marketplace
 role: Co-creator / product / engineering
 imageKey: studlist
+imageAlt: "StudList homepage inviting sellers to list steers, studs, genetics, equipment and services, with six categories and free listing highlighted."
 canonicalUrl: /projects/studlist
 ---
 

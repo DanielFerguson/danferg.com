@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: SimpleXL
+seoTitle: "SimpleXL: a local-first spreadsheet SQL workbench"
 description: A local-first desktop workbench for importing spreadsheet data, inspecting its structure, and answering practical questions with read-only SQL.
 tags:
   - Desktop software
@@ -103,7 +104,7 @@ This is intentionally the edge of the feature. SimpleXL helps someone explore a 
 
 ## Building the fast path in Rust and Tauri
 
-The interface uses React and TypeScript, while Tauri 2 provides the desktop shell and a narrow typed command boundary. Rust owns file validation, streaming imports, workbook inspection, SQLite connections, query execution, cancellation, chart extraction, and native exports.
+The interface uses React and TypeScript, while Tauri 2 provides the desktop shell and a narrow typed command boundary. Rust owns [file validation](/articles/i-went-looking-for-pydantic-in-rust), streaming imports, workbook inspection, SQLite connections, query execution, cancellation, chart extraction, and native exports.
 
 Moving parsing and database work out of the webview keeps the interface responsive and makes the trust boundary easier to reason about. The workspace is disk-backed and ephemeral, result and preview pages cross the application boundary in bounded chunks, and long-running work reports progress or accepts cancellation at safe checkpoints.
 

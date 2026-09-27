@@ -8,6 +8,7 @@ import ArticleAudioPlayer from "@components/ArticleAudioPlayer.astro";
 import ArticleTags from "@components/ArticleTags.astro";
 import SeriesNav from "@components/SeriesNav.astro";
 import { latinFontFileUrl } from "../utils/fonts";
+import { pageTitle } from "../utils/seo";
 
 const { frontmatter } = Astro.props;
 const isDraft = frontmatter.draft === true;
@@ -28,7 +29,7 @@ const SEO: SEO & {
   imageHeight?: number;
   imageType?: string;
 } = {
-  title: `${frontmatter.title} | Dan Ferg`,
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
   headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: frontmatter.imageUrl,

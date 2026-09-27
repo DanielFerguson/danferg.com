@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Murray Grey Aus
+seoTitle: "Murray Grey Association Australia herd book platform"
 description: A purpose-built digital home and herd book for Murray Grey breeders, replacing fragile WordPress infrastructure with a fast, field-ready platform.
 tags:
   - Agricultural technology
@@ -13,6 +14,7 @@ role: Product design / full-stack engineering
 externalUrl: https://murraygreyaa.com.au/
 externalLabel: Visit Murray Grey Association Australia
 imageKey: murray-grey-association-australia
+imageAlt: "Murray Grey Association Australia homepage over Murray Grey cattle, with Find cattle, News, member Log in and Join MGAA links."
 canonicalUrl: /projects/murray-grey-association-australia
 ---
 

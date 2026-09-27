@@ -2,9 +2,10 @@
 layout: ../../layouts/ArticleLayout.astro
 title: "You are the product."
 description: "A 2021 reflection on free software, privacy, and personal data, retained with updated links to current Australian cyber-security guidance."
+summary: "Free services such as Google and Facebook are paid for with your personal data. To stop being the product, keep devices updated, use your operating system's built-in protections, judge browsers and search engines on their current privacy practices, back up important files, and use a reputable password manager with multi-factor authentication. The ACSC's current guidance is the place to start."
 date: "2021-01-02"
 tags: [privacy, software]
-updatedDate: "2026-07-12"
+updatedDate: "2026-09-27"
 imageUrl: /images/og/articles/you-are-the-product-og.png
 imageUrls:
   - /images/og/articles/you-are-the-product-16x9.png
@@ -19,13 +20,11 @@ canonicalUrl: /articles/you-are-the-product
 
 > **Archive note — reviewed July 2026:** This article preserves my perspective from January 2021, but security products and platform protections change quickly. I have removed the old vendor shortlists and linked to current guidance from the Australian Signals Directorate's Australian Cyber Security Centre. Start with its [current personal cyber-security guidance](https://www.cyber.gov.au/protect-yourself), not a five-year-old product recommendation.
 
-## You are the product.
-
-### Preface
+## Preface
 
 Alright, well that's quite a statement. What do I mean by that? We live in a world surrounded by ‘free'. Free shipping, free software, etc. However — all of these things boil down to the need to make a profit. The fallacy of ‘free' has blinded us by and large to the fact that we are paying for it, just in ways we don't immediately see.
 
-Free shipping is easy — typically prices for products are jacked up to include the typical shipping costs, so it looks like you're getting something for nothing. Classic sales trick. However, software can be a little tricker.
+Free shipping is easy — typically prices for products are jacked up to include the typical shipping costs, so it looks like you're getting something for nothing. Classic sales trick. However, software can be a little trickier.
 
 Services that we all use on a day to day basis, think Google, Facebook, etc. use and sell our information to advertising agencies in order to help businesses target us and maximise their returns. You'd be surprised the level of detail that these digital conglomerates know about you. Dare I say it, often these organisations know you better than you know yourself.
 
@@ -41,11 +40,11 @@ Side note: a good read about what a future that ignores the right to individuals
 
 But as we move into a new year — I propose we do something different. Instead of 'new year, new me', what if we say ‘new year, better me'? In order to take the first step, I propose that we take a digital cleanse; to make sure we're safe, secure, and that we stop being ‘the product'.
 
-### Our digital cleanse 🤖
+## Our digital cleanse 🤖
 
 First off, let's start with the basics…
 
-#### Antivirus 🦠
+### Antivirus 🦠
 
 Hey, we're all guilty of it and we all have our own ‘reasons' that we've used to justify to ourselves why we think that we don't need to run that scan.
 
@@ -58,22 +57,19 @@ Hey, we're all guilty of it and we all have our own ‘reasons' that we've used 
 
 **Updated guidance:** use the protections supported by your current operating system, keep them enabled and updated, and only install security software from a legitimate source. Phones do not work exactly like desktop computers: modern iOS and Android devices include built-in protections, and third-party “scanner” advice varies by platform. The ACSC maintains current advice on [antivirus software](https://www.cyber.gov.au/protect-yourself/securing-your-devices/how-secure-your-device/antivirus-software) and [protecting against malware](https://www.cyber.gov.au/protect-yourself/securing-your-devices/how-protect-yourself-malware).
 
-#### Use privacy-first software 🥸
+### Use privacy-first software 🥸
 
 The next thing is to change which search engine you're using, and your default browser.
 
-Now I know this may ruffle some features, but Chrome sucks. Don't get me wrong, user experience is second to none, and has some fantastic tools for developers. However, it tracks you — you become the product.
+Now I know this may ruffle some feathers, but Chrome sucks. Don't get me wrong, user experience is second to none, and has some fantastic tools for developers. However, it tracks you — you become the product.
 
 If you want to try an alternative, compare current privacy policies, tracking protections, update practices, and the settings available to you. A browser brand is not a permanent privacy guarantee, and those details can change after an article is published.
 
-If you really want to take back your identity, change your default search engine. For this, I recommend two very different options.
+If you really want to take back your identity, change your default search engine. The original version of this section recommended two specific search engines; as with browsers, compare the current privacy policy and tracking practices of any alternative rather than relying on an old recommendation.
 
-1. [DuckDuckGo](https://duckduckgo.com/) — this is the more privacy-first alternative. I've been using DDG for a while now, and haven't really needed to switch back to Google. One of the main issues with alternatives that I've found is trying to find very technical solutions websites; this is where others struggled and Google thrives. This hasn't been an issue for DDG, so give it a go!
-2. [Ecosia](https://www.ecosia.org/?c=en) — this one isn't for everyone, but each time you search, a portion of the ad revenue generated actually **goes towards planting trees!** It's still in it's infancy phase, and has a lot of growing to do, but it is a great option for those that want to actively be more sustainable.
+### Update all of the things ✨
 
-#### Update all of the thing ✨
-
-You know that update window that keeps popping up, and you keep saying “Try my tomorrow”? Well today's the day. You're going to commit to updating all of your devices.
+You know that update window that keeps popping up, and you keep saying “Try me tomorrow”? Well today's the day. You're going to commit to updating all of your devices.
 
 Pretty much every update you will get will include some form of component to it that is centered on creating a more secure environment for you to operate on.
 
@@ -81,17 +77,17 @@ Not that long ago, we saw the devastating impact on the WannaCry virus, and all 
 
 This wasn't the first, and definitely will not be the last large scale ransomware attack we will see. As we become more and more digital citizens, we are more reliant on the tools and services that being so affords us. So please, backup your important documents; to the cloud, and if they're sensitive and/or very important, to offline storage as well, and make sure that everything is up-to-date!
 
-Ok, now we more into the more involved solutions.
+Ok, now we move into the more involved solutions.
 
 These take a little bit more effort and time, but please believe me — they are becoming increasingly important; and I'll tell you why.
 
-#### Password Managers! 🗂
+### Password Managers! 🗂
 
 I will be straight with you — they are a bit of a pain to setup, but **you will never need to remember a password EVER AGAIN..** well, maybe just one.
 
 I like to think I'm quite savvy when it comes to the ‘run of the mill' cyber attacks, but this year I found out the hard way that some of my passwords had been compromised due to one of the services I use being hacked and my credentials leaked.
 
-This lead me to go on a frenzy of deleting unused accounts, rapidly changing passwords to be 20 characters long and all different. However, how the hell was I going to manage all of these password? Enter, the password manager.
+This led me to go on a frenzy of deleting unused accounts, rapidly changing passwords to be 20 characters long and all different. However, how the hell was I going to manage all of these passwords? Enter, the password manager.
 
 I've tried a few over the last couple of years, but the one that I was with the longest, Dashlane, never really made me want to use it. It was cumbersome, obstructive and overall quite unintuitive to use. (However, from what I hear, they've done some good work addressing these issues now)
 
@@ -101,12 +97,12 @@ And best of all, no two passwords are the same. So the next time a service that 
 
 Rather than preserving a vendor shortlist here, use the ACSC's current guide to [choosing and securing a reputable password manager](https://www.cyber.gov.au/protect-yourself/securing-your-accounts/password-managers). Prefer unique credentials or passkeys where supported, and protect important accounts and the password-manager vault with multi-factor authentication.
 
-#### Use a VPN ☁️
+### Use a VPN ☁️
 
 The original version of this section treated a commercial VPN as a blanket answer. That was too simple. A VPN can be useful in some circumstances, but it shifts trust to the VPN provider and does not make unsafe behaviour or a compromised device secure. Keep devices and browsers updated, verify sensitive sites, use multi-factor authentication, and start with the ACSC's maintained [steps for securing yourself online](https://www.cyber.gov.au/protect-yourself/easy-steps-secure-yourself-online).
 
-### “If you have nothing to hide, you have nothing to fear”
+## “If you have nothing to hide, you have nothing to fear”
 
 As promised, a list of readings if you are interested in this topic.
 
-[Sydney Criminal Laywers — The Fallacy of ‘You Have Nothing to Fear if You Have Nothing to Hide'](https://www.sydneycriminallawyers.com.au/blog/the-fallacy-of-you-have-nothing-to-fear-if-you-have-nothing-to-hide/)
+[Sydney Criminal Lawyers — The Fallacy of ‘You Have Nothing to Fear if You Have Nothing to Hide'](https://www.sydneycriminallawyers.com.au/blog/the-fallacy-of-you-have-nothing-to-fear-if-you-have-nothing-to-hide/)

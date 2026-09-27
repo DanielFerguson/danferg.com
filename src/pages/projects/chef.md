@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Chef
+seoTitle: "Chef: conversational meal-planning Agent Skills"
 description: A meal-planning application prototype distilled into two conversational Agent Skills with transparent Markdown memory.
 tags:
   - Product design
@@ -53,7 +54,7 @@ The database was solving problems the public skill did not yet have.
 
 ## Markdown is enough for this version
 
-Chef 0.2 reduces the public product to two skills. The main `chef` skill handles household setup, planning, recipes, cooking guidance, nutrition estimates and feedback. `chef-prepare-shop` handles grocery lists and explicitly requested basket filling.
+Chef 0.2 reduces the public product to [two skills](/skills/chef). The main `chef` skill handles household setup, planning, recipes, cooking guidance, nutrition estimates and feedback. `chef-prepare-shop` handles grocery lists and explicitly requested basket filling.
 
 On local Codex, the durable record is now ordinary Markdown under `~/Documents/Chef`:
 

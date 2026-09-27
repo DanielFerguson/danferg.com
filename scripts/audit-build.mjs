@@ -222,6 +222,7 @@ for (const file of htmlFiles) {
   const descriptionLength = attr(description, "content")?.length || 0;
   const titleLength = normalizeText(textContent(titleNodes[0])).length;
   if (titleLength > 65) warn(`${route}: title is ${titleLength} characters`);
+  if (titleLength < 30 && indexable) warn(`${route}: title is only ${titleLength} characters`);
   if (descriptionLength > 165) warn(`${route}: description is ${descriptionLength} characters`);
 
   const anchors = byTag("a").map((node) => ({ href: attr(node, "href"), text: normalizeText(textContent(node)) }));

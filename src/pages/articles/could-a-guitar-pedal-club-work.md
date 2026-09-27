@@ -1,7 +1,9 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "Could a guitar pedal club work?"
+seoTitle: "Could a guitar pedal subscription club work?"
 description: "My dad’s pedal-trading habit led me to ask whether a subscription library could work—and whether buying and selling is part of the fun."
+summary: "Possibly, as a small owner-operated business rather than a passive subscription. An Australian service, The Pedal Library, already charges A$29–A$39 a month plus A$26 return freight, or A$84–A$104 per two-monthly swap. My rough model leaves about A$1 a month per member at A$29 including freight, but about A$24 at A$39 plus freight—enough to recover roughly A$275 of pedal inventory per member in about a year."
 date: "2026-08-24"
 tags: [startups, product, music]
 imageUrl: /images/og/articles/could-a-guitar-pedal-club-work-og.png

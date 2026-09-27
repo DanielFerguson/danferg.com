@@ -4,6 +4,7 @@ import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
+import { pageTitle } from "../utils/seo";
 
 const { frontmatter } = Astro.props;
 const formatDate = (date: string) =>
@@ -22,7 +23,7 @@ const SEO: SEO & {
   imageHeight?: number;
   imageType?: string;
 } = {
-  title: `${frontmatter.title} | Dan Ferg`,
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
   headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: frontmatter.imageUrl,

@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Land Index
+seoTitle: "Innovative Land Index: GovHack agricultural land map"
 description: A GovHack geospatial prototype combining soil, rainfall, water, and proximity data to make agricultural land value visible in planning decisions.
 tags:
   - Geospatial data
@@ -13,6 +14,7 @@ role: Team CeRDIfy / software & data
 externalUrl: https://innovative-land-index.vercel.app/
 externalLabel: Open interactive prototype
 imageKey: land-index
+imageAlt: "Innovative Land Index prototype explaining its soil, rainfall and distance-based index, above a map colouring the index with planning-zone overlays."
 canonicalUrl: /projects/land-index
 ---
 

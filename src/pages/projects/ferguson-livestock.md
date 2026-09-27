@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Ferguson Livestock
+seoTitle: "Ferguson Livestock: Murray Grey stud and beef boxes"
 description: A Murray Grey cattle stud and farm-direct beef venture built in Snake Valley, combining farm operations, decision-support software, brand, commerce, and fulfilment.
 tags:
   - Agribusiness
@@ -14,6 +15,7 @@ role: Co-founder / operations / brand / product & engineering
 externalUrl: https://www.fergusonlivestock.com.au
 externalLabel: Visit Ferguson Livestock
 imageKey: ferguson-livestock
+imageAlt: "Ferguson Livestock homepage, “Raised here. Delivered by us.”, showing beef boxes sold out, cuts still available, and 5kg and 10kg box prices."
 canonicalUrl: /projects/ferguson-livestock
 ---
 

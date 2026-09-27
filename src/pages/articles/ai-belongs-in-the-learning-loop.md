@@ -2,6 +2,7 @@
 layout: ../../layouts/ArticleLayout.astro
 title: "AI belongs in the learning loop."
 description: "A first-principles sketch of how AI might support durable learning, personalised practice and better teacher insight—without becoming an answer machine."
+summary: "AI should protect the cognitive work of learning, not hand students answers. In one 2025 study, students using a general-purpose GPT did better in practice but scored 17 per cent worse in an unassisted exam. The model I'm sketching has students attempt, explain and later retrieve ideas, with AI giving hints, probing questions and spaced review while teachers own goals, relationships and judgement."
 date: "2026-07-17"
 tags: [ai, education, product]
 imageUrl: /images/og/articles/ai-belongs-in-the-learning-loop-og.png
@@ -40,7 +41,7 @@ flowchart TB
     direction LR
     L1["Difficult question"] --> L2["Student attempts<br/>AI hints and probes"] --> L3["Student explains<br/>and applies"] --> L4["Revisit later"] --> L5["Evidence of<br/>durable learning"]
   end
-  A1 ~~~ L1
+  Answer ~~~ Learning
 ```
 
 ## Performance is not the same as learning

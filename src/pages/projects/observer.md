@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Observer
+seoTitle: "Observer: service monitoring for small teams"
 description: A service-monitoring prototype that warned small teams before customers did, tracked recovery, and turned infrastructure anxiety into an operational signal.
 tags:
   - Developer tools
@@ -11,6 +12,7 @@ period: "2022"
 status: Private-beta prototype
 role: Founder / product / engineering
 imageKey: observer
+imageAlt: "Observer landing page, “Let's take back your peace of mind”, above the private-beta dashboard with Teams, Reports and a last-30-days view."
 canonicalUrl: /projects/observer
 ---
 
@@ -18,7 +20,7 @@ canonicalUrl: /projects/observer
 
 Before Observer, an outage at Imperial Wealth often became visible through a director receiving worried questions from customers. By the time the problem reached the development team, people had already missed opportunities and the response had inherited someone else's urgency.
 
-One Saturday morning, the flow changed. Observer sent me a text message when a production service failed. I was able to open AWS, inspect the logs, restart the service, and ship a fix before customers realised what had happened. A second message confirmed that the service was healthy again.
+[One Saturday morning](/newsletters/2022-05-16-lets-start-the-week-off-right), the flow changed. Observer sent me a text message when a production service failed. I was able to open AWS, inspect the logs, restart the service, and ship a fix before customers realised what had happened. A second message confirmed that the service was healthy again.
 
 That experience captured the product in one sentence: **the team responsible for a service should learn about a failure before the people depending on it.**
 
@@ -41,7 +43,7 @@ The dashboard presented recent performance and incident data without trying to b
 
 Observer began with services I was already responsible for. That made the early prioritisation unusually concrete: alerts had to arrive quickly, the mobile experience mattered, and a recovery notification was as important as the outage notification.
 
-I then moved the product into a private beta with friends and colleagues, using their real websites and infrastructure to test where my assumptions broke. The roadmap expanded to include teams, a more useful mobile dashboard, and clearer reporting. Recharts powered the small, deliberately restrained data visualisations.
+I then moved the product into a [private beta with friends and colleagues](/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout), using their real websites and infrastructure to test where my assumptions broke. The roadmap expanded to include teams, a more useful mobile dashboard, and clearer reporting. Recharts powered the small, deliberately restrained data visualisations.
 
 The beta also forced me to work on the parts founders often postpone: the public explanation, onboarding, feedback path, and product positioning. A monitoring engine could be technically correct and still fail as a product if people did not know what to connect or what they would receive when something went wrong.
 

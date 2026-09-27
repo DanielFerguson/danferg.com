@@ -1,7 +1,8 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "When doing nothing starts to feel wrong."
-description: "After years of turning pressure into action, I'm wondering whether my trouble enjoying games and doing nothing is part of burnout, or a deeper dependence on being useful."
+description: "After years of turning pressure into action, I wonder if my trouble enjoying games and doing nothing is part of burnout, or a deeper dependence on being useful."
+summary: "Burnout may not be the whole explanation. After years of running businesses, where pressure could always become action, I may have come to depend on being useful: progression games feel like work, and 90 minutes with nothing to do felt like helplessness. Making leisure productive leaves the rule “my time ought to produce something” intact. The harder practice is allowing rest that needs no justification."
 date: "2026-08-11"
 tags: [reflections]
 imageUrl: /images/og/articles/when-doing-nothing-starts-to-feel-wrong-og.png
@@ -69,7 +70,7 @@ The difference is that the rewards persist when I shut my laptop.
 
 Hours in RuneScape might leave me with more imaginary coins. Hours spent building something might leave me with a new feature, a customer, a piece of machinery, a better process or a skill I can use again tomorrow.
 
-Reality is also a much deeper system. RuneScape has an experience table and a wiki. Someone has calculated the optimal method. There was no wiki explaining the optimal strategy for building Communiti Labs. Customers behaved unexpectedly. Competitors reacted. Technology changed. We made decisions with incomplete information, and the outcome mattered to real people.
+Reality is also a much deeper system. RuneScape has an experience table and a wiki. Someone has calculated the optimal method. There was no wiki explaining the optimal strategy for building [Communiti Labs](/projects/communitilabs). Customers behaved unexpectedly. Competitors reacted. Technology changed. We made decisions with incomplete information, and the outcome mattered to real people.
 
 Once I had experienced that, I can see why some games began to feel hollow.
 

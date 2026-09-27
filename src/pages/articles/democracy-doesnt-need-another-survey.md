@@ -1,10 +1,16 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: "Democracy doesn't need another survey. It needs a feedback loop."
+seoTitle: "Survey fatigue: why engagement needs a feedback loop"
 description: "Survey fatigue is partly a burden problem. The deeper failure is that institutions keep improving how they ask for input without explaining what happened next."
+summary: "Survey fatigue is mainly a burden problem: long questionnaires, repeated requests and confusing questions suppress participation, and a new channel helps when it reduces that burden or improves access. The deeper failure comes after submit, when organisations too often fail to explain what they heard, what changed, what didn't and why. Participation needs a complete feedback loop, not just better collection."
 date: "2026-07-17"
 tags: [civic-tech, product]
-imageUrl: /images/og-default.png
+imageUrl: /images/og/articles/democracy-doesnt-need-another-survey-og.png
+imageUrls:
+  - /images/og/articles/democracy-doesnt-need-another-survey-16x9.png
+  - /images/og/articles/democracy-doesnt-need-another-survey-4x3.png
+  - /images/og/articles/democracy-doesnt-need-another-survey-1x1.png
 imageAlt: Social card for Democracy doesn't need another survey. It needs a feedback loop.
 imageWidth: 1200
 imageHeight: 630

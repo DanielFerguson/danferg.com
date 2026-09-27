@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: WP Flame
+seoTitle: "WP Flame: a WordPress performance flight recorder"
 description: A self-hosted performance flight recorder for dynamic WordPress, turning bounded request traces into explainable evidence—and a focused commercial software business.
 tags:
   - Developer tools
@@ -13,6 +14,7 @@ role: Founder / product / engineering
 externalUrl: https://wp-flame-web.vercel.app/
 externalLabel: Explore WP Flame
 imageKey: wp-flame
+imageAlt: "WP Flame sample trace of a WooCommerce product request, showing capture completeness, span counts and a timeline split by plugin, theme and database."
 canonicalUrl: /projects/wp-flame
 ---
 
