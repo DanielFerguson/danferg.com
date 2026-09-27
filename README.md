@@ -51,6 +51,7 @@ No environment variables are required for local development.
 | `npm run check`                     | Run Astro and TypeScript diagnostics.                                                                            |
 | `npm run article:publish -- <slug>` | Generate missing ElevenLabs narration, promote a draft if needed, and run the publication checks.                |
 | `npm run generate:og`               | Regenerate the default and editorial social-sharing images.                                                      |
+| `npm run dither:portrait`           | Turn a photo into the four-colour dithered portrait style used by the homepage and About page (see the script).  |
 | `npm run build`                     | Generate social images, build the production site, and run the post-build audit.                                 |
 | `npm run audit:build`               | Audit the generated site for metadata, structured data, links, feeds, image attributes, and performance budgets. |
 | `npm run preview`                   | Preview the production build locally.                                                                            |
@@ -67,7 +68,7 @@ npm run build
 ```text
 .
 ├── public/                  # Static files and generated social images
-├── scripts/                 # Social-image generation and build auditing
+├── scripts/                 # Social images, portrait dithering and build auditing
 ├── src/
 │   ├── assets/              # Images processed by Astro
 │   ├── components/          # Shared UI and content components

@@ -1,12 +1,12 @@
 ---
 import type SEO from "types/SEO";
-import { Image } from "astro:assets";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import WorkHistory from "@components/WorkHistory.astro";
 import ConversionEndcap from "@components/ConversionEndcap.astro";
-import portrait from "../assets/images/danferg.webp";
+import HeroPortrait from "@components/HeroPortrait.astro";
+import portraitUrl from "../assets/images/dan-about-dark.png?url";
 import { createContactMailto } from "../utils/contact-links";
 
 const canonicalPath = "/about";
@@ -86,16 +86,14 @@ const SEO: SEO = {
           what those ventures taught me, including the parts that didn’t work.
         </p>
       </div>
-      <figure class="about-hero__portrait" data-motion-intro-item>
-        <Image
-          src={portrait}
-          alt="Dan Ferg presenting a workshop on designing a business with no-code tools, with the slides on two screens behind him"
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 900px) 28rem, calc(100vw - 2.5rem)"
-          loading="eager"
-          fetchpriority="high"
+      <div class="about-hero__portrait" data-motion-intro-item>
+        <HeroPortrait
+          src={portraitUrl}
+          alt="Dan Ferg presenting a workshop on designing a business with no-code tools"
+          width={1900}
+          height={1425}
         />
-      </figure>
+      </div>
     </header>
 
     <section class="site-container page-section" aria-labelledby="now-title">
@@ -201,16 +199,10 @@ const SEO: SEO = {
     line-height: 1.7;
   }
 
-  .about-hero__portrait {
-    margin: 0;
-  }
-
-  .about-hero__portrait img {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--line-strong);
+  .about-hero__portrait :global(.hero-portrait) {
     aspect-ratio: 4 / 3;
-    object-fit: cover;
+    border: 1px solid var(--line-strong);
+    background: var(--signal-soft);
   }
 
   .now-grid {

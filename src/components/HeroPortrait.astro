@@ -1,8 +1,28 @@
 ---
-// Imported as a URL so Vite fingerprints it for long-lived caching without
-// re-encoding: the artwork is a four-colour dither that resizing or lossy
-// formats would smear, and the shader maps it back onto that palette.
-import portraitUrl from "../assets/images/dan-dark.png?url";
+/**
+ * A four-colour dithered portrait (made with scripts/dither-portrait.mjs) that
+ * a WebGL shader re-pixelates and themes. Without the shader, an SVG filter
+ * maps the dark palette onto the light theme's.
+ *
+ * Images are imported as URLs so Vite fingerprints them for long-lived caching
+ * without re-encoding: resizing or lossy formats would smear the dither, and
+ * the shader maps it back onto the palette.
+ */
+import defaultPortraitUrl from "../assets/images/dan-dark.png?url";
+
+interface Props {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  src = defaultPortraitUrl,
+  alt = "Dan Ferg in conversation at the CivVic and VicHealth Showcase",
+  width = 2280,
+  height = 1283,
+} = Astro.props;
 ---
 
 <figure
@@ -64,10 +84,10 @@ import portraitUrl from "../assets/images/dan-dark.png?url";
   </script>
   <img
     class="hero-portrait__image"
-    src={portraitUrl}
-    alt="Dan Ferg in conversation at the CivVic and VicHealth Showcase"
-    width="2280"
-    height="1283"
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
   />
 </figure>
 
@@ -156,9 +176,35 @@ import portraitUrl from "../assets/images/dan-dark.png?url";
 </script>
 
 <style>
+  .hero-portrait {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+  }
+
   .hero-portrait__filters {
     position: absolute;
     pointer-events: none;
+  }
+
+  .hero-portrait__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    filter: url("#hero-portrait-light-palette");
+  }
+
+  :global(:root[data-theme="dark"]) .hero-portrait__image {
+    filter: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme])) .hero-portrait__image {
+      filter: none;
+    }
   }
 
   .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],

@@ -20,7 +20,8 @@
     "preview": "astro preview",
     "test": "node --test tests/rehype-mermaid-blocks.test.mjs tests/article-publishing.test.mjs",
     "astro": "astro",
-    "search:index": "npx pagefind --site dist"
+    "search:index": "npx pagefind --site dist",
+    "dither:portrait": "node scripts/dither-portrait.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
