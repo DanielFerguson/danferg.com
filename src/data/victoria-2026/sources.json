@@ -1,0 +1,1451 @@
+{
+  "vec-election": {
+    "title": "2026 State election",
+    "publisher": "Victorian Electoral Commission",
+    "url": "https://www.vec.vic.gov.au/voting/2026-state-election",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Election day is Saturday 28 November 2026; rolls close 3 November; early voting runs 18–27 November."
+  },
+  "peo-levels": {
+    "title": "Three levels of government",
+    "publisher": "Parliamentary Education Office",
+    "url": "https://peo.gov.au/understand-our-parliament/how-parliament-works/three-levels-of-government/three-levels-of-government",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Which responsibilities sit with state, federal and local government."
+  },
+  "dtp-road-map": {
+    "title": "Map of DTP-managed roads",
+    "publisher": "Department of Transport and Planning",
+    "url": "https://transport.vic.gov.au/road-and-active-transport/business-and-industry/road-and-traffic-management/map-of-dtp-managed-roads",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Whether a particular road is managed by the state or by a council."
+  },
+  "vic-premier": {
+    "title": "The Premier",
+    "publisher": "Victorian Government",
+    "url": "https://www.vic.gov.au/premier",
+    "kind": "government",
+    "published": "2026-07-29",
+    "checked": "2026-09-13",
+    "establishes": "Ben Carroll was sworn in as Premier on 28 July 2026."
+  },
+  "abc-carroll": {
+    "title": "Ben Carroll elected Victorian Premier as Jacinta Allan resigns",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-07-28/ben-carroll-elected-vic-premier-as-jacinta-allan-resigns/106799850",
+    "kind": "media",
+    "published": "2026-07-28",
+    "checked": "2026-09-13",
+    "establishes": "Allan resigned ahead of an expected spill; Carroll was elected unanimously by caucus after a brief second nomination; his first commitments were a construction royal commission, a special prosecutor and stronger IBAC powers."
+  },
+  "abc-kourakis": {
+    "title": "Christopher Kourakis to head Victoria’s royal commission into the construction sector",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-20/vic-premier-ben-carroll-announces-construction-royal-commission/107057862",
+    "kind": "media",
+    "published": "2026-08-20",
+    "checked": "2026-09-13",
+    "establishes": "The commissioner, budget and the August 2027 reporting date for the construction-integrity royal commission."
+  },
+  "vic-royal-commission": {
+    "title": "Royal Commission into the Integrity of Major Public and Civil Infrastructure Construction Projects in Victoria",
+    "publisher": "Victorian Government",
+    "url": "https://www.vic.gov.au/royal-commission-integrity-major-construction-projects",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "The commission’s terms of reference and status."
+  },
+  "abc-srl": {
+    "title": "Suburban Rail Loop cost cuts questioned as fare levy abolished",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-27/suburban-rail-loop-victoria-cost-cuts-questioned/107080970",
+    "kind": "media",
+    "published": "2026-08-27",
+    "checked": "2026-09-13",
+    "establishes": "The August 2026 SRL review, the Auditor-General’s comment that the ‘savings’ were never in the project estimate, and the abolition of an undisclosed 1% fare levy introduced in January 2025."
+  },
+  "parliament-former-members": {
+    "title": "People who shaped Parliament: former members",
+    "publisher": "Parliament of Victoria",
+    "url": "https://www.parliament.vic.gov.au/about/history-and-heritage/people-who-shaped-parliament/former-members/",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Premiership dates for Andrews (from 4 December 2014) and Allan (27 September 2023 to 28 July 2026)."
+  },
+  "metro-tunnel": {
+    "title": "Metro Tunnel overview",
+    "publisher": "Victoria’s Big Build",
+    "url": "https://bigbuild.vic.gov.au/projects/metro-tunnel/about/overview",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Opened 30 November 2025 with five stations; full timetable from 1 February 2026."
+  },
+  "melton-94": {
+    "title": "New Melton Station opens with 94 level crossings gone for good",
+    "publisher": "Victoria’s Big Build",
+    "url": "https://bigbuild.vic.gov.au/news/level-crossing-removal-project/new-melton-station-opens-with-94-level-crossings-gone-for-good",
+    "kind": "government",
+    "published": "2026-09-01",
+    "checked": "2026-09-13",
+    "establishes": "94 crossings removed as at 1 September 2026; the program target is 110."
+  },
+  "pto-fare-cap": {
+    "title": "The daily travel cap in regional Victoria now matches fares in metro Melbourne",
+    "publisher": "Public Transport Ombudsman",
+    "url": "https://www.ptovic.com.au/news-publications/news/the-daily-travel-cap-in-regional-victoria-now-matches-fares-in-metro-melbourne",
+    "kind": "independent",
+    "published": "2023-03-31",
+    "checked": "2026-09-13",
+    "establishes": "Regional daily fares capped at the metropolitan daily fare from 31 March 2023."
+  },
+  "tv-free-travel": {
+    "title": "Free travel for children and eligible concession travellers",
+    "publisher": "Transport Victoria",
+    "url": "https://transport.vic.gov.au/news-and-resources/news/free-travel-for-children-and-eligible-concession-travellers",
+    "kind": "government",
+    "published": "2025-12-02",
+    "checked": "2026-09-13",
+    "establishes": "Under-18s travel free statewide with a Youth myki from 1 January 2026; free weekend travel expanded to seniors, carers and DSP recipients."
+  },
+  "tafe-history": {
+    "title": "Seven years of Free TAFE in Victoria",
+    "publisher": "Victorian Government",
+    "url": "https://www.vic.gov.au/seven-years-free-tafe-victoria",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Free TAFE began in 2019."
+  },
+  "tafe-245k": {
+    "title": "Free TAFE: bigger, better, guaranteed",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/free-tafe-bigger-better-guaranteed",
+    "kind": "government",
+    "published": "2026-04-24",
+    "checked": "2026-09-13",
+    "establishes": "The government’s own figure of more than 245,000 students and $816 million in waived fees; a participation count, not an outcome measure."
+  },
+  "kinder-launch": {
+    "title": "More money in families’ pockets as Free Kinder kicks off",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/more-money-families-pockets-free-kinder-kicks",
+    "kind": "government",
+    "published": "2023-01-18",
+    "checked": "2026-09-13",
+    "establishes": "Free Kinder started with the 2023 school year."
+  },
+  "kinder-rules": {
+    "title": "Free Kinder",
+    "publisher": "Victorian Government",
+    "url": "https://www.vic.gov.au/free-kinder",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Current eligibility: funded three- and four-year-old programs at participating services, not all childcare."
+  },
+  "vsba": {
+    "title": "About the Victorian School Building Authority",
+    "publisher": "Victorian School Building Authority",
+    "url": "https://www.schoolbuildings.vic.gov.au/about-us",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "121 new schools opened since 2017, the authority’s founding year."
+  },
+  "heart-hospital": {
+    "title": "Victorian Heart Hospital",
+    "publisher": "Victorian Health Building Authority",
+    "url": "https://www.vhba.vic.gov.au/health/specialist-centres/victorian-heart-hospital",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Opened February 2023."
+  },
+  "footscray-hospital": {
+    "title": "New Footscray Hospital opens its doors to patients",
+    "publisher": "Victorian Health Building Authority",
+    "url": "https://www.vhba.vic.gov.au/news/new-footscray-hospital-opens-its-doors-patients",
+    "kind": "government",
+    "published": "2026-02-18",
+    "checked": "2026-09-13",
+    "establishes": "Opened 18 February 2026 as a replacement hospital."
+  },
+  "bendigo-hospital": {
+    "title": "Bendigo Hospital project",
+    "publisher": "Victorian Health Building Authority",
+    "url": "https://www.vhba.vic.gov.au/health/hospitals/bendigo-hospital",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Construction began June 2014 under the previous government; opened January 2017; second stage completed June 2018."
+  },
+  "ratios-act": {
+    "title": "Nursing and midwifery legislation and regulation",
+    "publisher": "Department of Health",
+    "url": "https://www.health.vic.gov.au/nursing-and-midwifery/nursing-and-midwifery-legislation-and-regulation",
+    "kind": "legislation",
+    "checked": "2026-09-13",
+    "establishes": "The Safe Patient Care Act 2015 wrote ratios into statute; ratios had existed in enterprise agreements since 2000."
+  },
+  "fertility-care": {
+    "title": "Public fertility care",
+    "publisher": "Department of Health",
+    "url": "https://www.health.vic.gov.au/public-health/public-fertility-care",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Operating since October 2022."
+  },
+  "rental-changes": {
+    "title": "New changes to the rental laws",
+    "publisher": "Consumer Affairs Victoria",
+    "url": "https://www.consumer.vic.gov.au/housing/renting/new-changes-to-the-rental-laws",
+    "kind": "government",
+    "published": "2026-03-30",
+    "checked": "2026-09-13",
+    "establishes": "From 25 November 2025 the remaining no-fault end-of-fixed-term ground was removed; other no-fault grounds (sale, owner moving in, renovation) remain."
+  },
+  "solar-homes": {
+    "title": "Solar Victoria hits 500,000 approvals",
+    "publisher": "Solar Victoria",
+    "url": "https://www.solar.vic.gov.au/solar-victoria-hits-500000-approvals",
+    "kind": "government",
+    "published": "2026-05-28",
+    "checked": "2026-09-13",
+    "establishes": "Household installations supported through the scheme; approvals are not unique households."
+  },
+  "vret-progress": {
+    "title": "Victorian Renewable Energy Target progress report 2024–25",
+    "publisher": "Department of Energy, Environment and Climate Action (tabled in Parliament)",
+    "url": "https://www.parliament.vic.gov.au/4aaef0/globalassets/tabled-paper-documents/tabled-paper-9503/vret-progress-report-2024-25-final.pdf",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "42.4% of Victorian electricity generation came from renewables in the 2024–25 financial year (37.8% the year before). Generation, not total energy use."
+  },
+  "vad": {
+    "title": "About voluntary assisted dying",
+    "publisher": "Department of Health",
+    "url": "https://www.health.vic.gov.au/voluntary-assisted-dying/about",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Operating since 19 June 2019 under the 2017 Act, passed on a conscience vote."
+  },
+  "conversion-ban": {
+    "title": "Change or suppression practices: reporting",
+    "publisher": "Victorian Equal Opportunity and Human Rights Commission",
+    "url": "https://www.humanrights.vic.gov.au/change-or-suppression-practices/reporting-practices/",
+    "kind": "independent",
+    "checked": "2026-09-13",
+    "establishes": "The prohibition has been in force since 17 February 2022."
+  },
+  "rcfv-227": {
+    "title": "Landmark royal commission recommendations implemented",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/landmark-royal-commission-recommendations-implemented",
+    "kind": "government",
+    "published": "2023-01-28",
+    "checked": "2026-09-13",
+    "establishes": "The government’s claim that all 227 family violence recommendations were implemented; an implementation claim, not an outcome measure."
+  },
+  "treaty": {
+    "title": "Treaty negotiation updates",
+    "publisher": "First Peoples – State Relations",
+    "url": "https://www.firstpeoplesrelations.vic.gov.au/treaty-negotiation-updates",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Statewide Treaty received royal assent on 13 November 2025 and commenced on 12 December 2025."
+  },
+  "wilson-treaty": {
+    "title": "Repealing Treaty to save taxpayers $1 billion",
+    "publisher": "Jess Wilson MP",
+    "url": "https://www.jesswilsonkew.com.au/news/2026-05-01-repealing-treaty-to-save-taxpayers-1-billion",
+    "kind": "media",
+    "published": "2026-05-01",
+    "checked": "2026-09-13",
+    "establishes": "The Liberal leader’s stated commitment to repeal the Statewide Treaty Act if elected."
+  },
+  "vago-roads": {
+    "title": "Maintaining State Roads",
+    "publisher": "Victorian Auditor-General’s Office",
+    "url": "https://www.audit.vic.gov.au/report/maintaining-state-roads",
+    "kind": "independent",
+    "published": "2026-09-09",
+    "checked": "2026-09-13",
+    "establishes": "Road condition by remaining useful life for 2021 and 2024, the regional 50.38% figure, the defect gap, pavement spending, DTP’s funding advice and the $3 billion-a-year estimate."
+  },
+  "premier-roads-352": {
+    "title": "Safer roads and fixing potholes our priority",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/safer-roads-and-fixing-potholes-our-priority",
+    "kind": "government",
+    "published": "2026-08-30",
+    "checked": "2026-09-13",
+    "establishes": "The extra $352 million, the pothole target for 2026, and the offsets, including deferring three level-crossing removals from 2032 to 2033."
+  },
+  "tac-annual": {
+    "title": "Lives lost – annual",
+    "publisher": "Transport Accident Commission",
+    "url": "https://www.tac.vic.gov.au/road-safety/statistics/lives-lost-annual",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Annual road deaths by calendar year and the Melbourne/rural split."
+  },
+  "tac-ytd": {
+    "title": "Lives lost – year to date",
+    "publisher": "Transport Accident Commission",
+    "url": "https://www.tac.vic.gov.au/road-safety/statistics/lives-lost-year-to-date",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Provisional 2026 deaths compared with the same period in 2025; revised as cases are finalised."
+  },
+  "sro-esvf": {
+    "title": "Understanding the Emergency Services and Volunteers Fund",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/owning-property/emergency-services-and-volunteers-fund/understanding-emergency-services-and-volunteers-fund",
+    "kind": "government",
+    "published": "2026-05-22",
+    "checked": "2026-09-13",
+    "establishes": "The levy replaced the Fire Services Property Levy on 1 July 2025; councils collect it; it is a fixed charge plus a rate on capital improved value."
+  },
+  "sro-calc": {
+    "title": "ESVF calculations and discounts",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/owning-property/emergency-services-and-volunteers-fund/emergency-services-and-volunteers-fund-calculations-and-discounts",
+    "kind": "government",
+    "published": "2026-08-24",
+    "checked": "2026-09-13",
+    "establishes": "How liability is calculated, land-use classification, the $50 pensioner concession and single-farm-enterprise treatment."
+  },
+  "esvf-may-amendment": {
+    "title": "Equipping our emergency services for the future",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/sites/default/files/2025-05/250515-Equipping-Our-Emergency-Services-For-The-Future.pdf",
+    "kind": "government",
+    "published": "2025-05-15",
+    "checked": "2026-09-13",
+    "establishes": "The proposed primary-production rate was cut from 83 to 71.8 cents per $1,000 of value on 15 May 2025."
+  },
+  "esvf-drought-freeze": {
+    "title": "Expanding drought support for farmers across our state",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/expanding-drought-support-farmers-across-our-state",
+    "kind": "government",
+    "published": "2025-05-30",
+    "checked": "2026-09-13",
+    "establishes": "Primary production held at 28.7 cents for 2025–26 statewide, announced 30 May 2025."
+  },
+  "budget-update-dec-2025": {
+    "title": "2025–26 Budget Update (pp. 132–133)",
+    "publisher": "Department of Treasury and Finance",
+    "url": "https://www.dtf.vic.gov.au/sites/default/files/2025-12/2025-26-Budget-Update.pdf",
+    "kind": "government",
+    "published": "2025-12-05",
+    "checked": "2026-09-13",
+    "establishes": "Farm-rate relief continued, the volunteer farmland rebate cap raised from 2026–27, and the fixed-charge alignment for non-principal residences deferred to 1 July 2027."
+  },
+  "acm-freeze-2030": {
+    "title": "Victorian government quietly extends freeze on farm fire levy",
+    "publisher": "Hepburn Advocate (ACM)",
+    "url": "https://www.hepburnadvocate.com.au/story/9289791/victorian-government-quietly-extends-freeze-on-farm-fire-levy/",
+    "kind": "media",
+    "published": "2026-06-11",
+    "checked": "2026-09-13",
+    "establishes": "Regional press reading of the May 2026 budget papers: the farm rate stays at 28.7 cents through the forward estimates to mid-2030. Not confirmed from the budget papers directly."
+  },
+  "sro-current-rates": {
+    "title": "ESVF current rates",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/current-rates/emergency-services-and-volunteers-fund-current-rates",
+    "kind": "government",
+    "published": "2026-07-21",
+    "checked": "2026-09-13",
+    "establishes": "2026–27 fixed charges ($139 residential, $282 other) and variable rates (17.3 cents residential, 28.7 cents primary production)."
+  },
+  "sro-historical-rates": {
+    "title": "ESVF and Fire Services Property Levy historical rates",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/about-us/rates-and-statistics/historical-rates/emergency-services-and-volunteers-fund-and-fire-services-property-levy-historical-rates",
+    "kind": "government",
+    "published": "2026-08-07",
+    "checked": "2026-09-13",
+    "establishes": "2024–25 FSPL rates ($132 and $267 fixed; 8.7 and 28.7 cents variable) and 2025–26 ESVF rates."
+  },
+  "volunteer-rebate": {
+    "title": "Eligible Volunteers Rebate Scheme guideline",
+    "publisher": "Service Victoria",
+    "url": "https://service.vic.gov.au/find-services/housing-and-property/eligible-volunteers-rebate-scheme/guideline",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Who can claim, the service requirements, the farm caps ($1,710 in 2025–26; $3,152 in 2026–27), annual reapplication, and that claims can be made before or after paying."
+  },
+  "abc-cfa-rally": {
+    "title": "CFA volunteers and farmers rally in Bendigo against the emergency services levy",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-06-14/cfa-firefighters-volunteer-rally-protest-bendigo/106775498",
+    "kind": "media",
+    "published": "2026-06-14",
+    "checked": "2026-09-13",
+    "establishes": "The Coalition’s stated commitment to scrap the levy and return to the Fire Services Property Levy."
+  },
+  "author-levy-calc": {
+    "title": "Levy worked examples",
+    "publisher": "Author calculation from SRO rate schedules",
+    "url": "#levy-calculator",
+    "kind": "author",
+    "checked": "2026-09-13",
+    "establishes": "Fixed charge plus rate × value ÷ 1,000, for one property per class at an unchanged value, with no concessions unless selected."
+  },
+  "watts-report": {
+    "title": "Operation Watts: joint investigation report",
+    "publisher": "IBAC and Victorian Ombudsman",
+    "url": "https://www.ombudsman.vic.gov.au/our-impact/investigation-reports/operation-watts-a-joint-investigation-into-allegations-of-serious-corrupt-conduct-involving-victorian-public-officers-including-members-of-parliament/",
+    "kind": "independent",
+    "published": "2022-07-20",
+    "checked": "2026-09-13",
+    "establishes": "Substantiated misuse of public resources for factional purposes; investigators could not recommend prosecution given difficulties of proof and the state of the law."
+  },
+  "daintree-ibac-annual": {
+    "title": "IBAC annual report 2022–23 (p. 39, Operation Daintree)",
+    "publisher": "IBAC",
+    "url": "https://www.parliament.vic.gov.au/globalassets/tabled-paper-documents/tabled-paper-7598/ibac-annual-report-2022_23.pdf",
+    "kind": "independent",
+    "checked": "2026-09-13",
+    "establishes": "The $1.2 million contract, improper adviser influence, breaches of public duty, and that the statutory corrupt-conduct threshold was not met."
+  },
+  "richmond-abc": {
+    "title": "IBAC’s Operation Richmond report on Daniel Andrews and the UFU",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-05/vic-operation-richmond-ibac-report-daniel-andrews-ufu/106997618",
+    "kind": "media",
+    "published": "2026-08-05",
+    "checked": "2026-09-13",
+    "establishes": "Detailed account of the findings; used because IBAC’s report download sits behind an anti-bot check. No corrupt-conduct finding; blackmail allegation not substantiated; Carroll accepted the recommendations."
+  },
+  "games-audit": {
+    "title": "Withdrawal from the 2026 Commonwealth Games",
+    "publisher": "Victorian Auditor-General’s Office",
+    "url": "https://www.audit.vic.gov.au/report/withdrawal-2026-commonwealth-games?section=34600--what-we-found",
+    "kind": "independent",
+    "published": "2024-03-20",
+    "checked": "2026-09-13",
+    "establishes": "Over $589 million spent including the $380 million settlement; the business case understated costs; the $6.9 billion hosting estimate was overstated, with about $5.9 billion a fairer figure."
+  },
+  "hotel-quarantine": {
+    "title": "COVID-19 Hotel Quarantine Inquiry final report",
+    "publisher": "Board of Inquiry (Coate)",
+    "url": "https://quarantineinquiry.archive.royalcommission.vic.gov.au/sites/default/files/0387_rc_covid-19-final-report_volume-1_2_digital.pdf",
+    "kind": "independent",
+    "published": "2020-12-21",
+    "checked": "2026-09-13",
+    "establishes": "Systemic failures of governance and accountability in the 2020 program."
+  },
+  "tower-lockdown": {
+    "title": "Public housing tower lockdown investigation",
+    "publisher": "Victorian Ombudsman",
+    "url": "https://www.ombudsman.vic.gov.au/our-impact/news/public-housing-tower-lockdown/",
+    "kind": "independent",
+    "published": "2020-12-17",
+    "checked": "2026-09-13",
+    "establishes": "The immediate lockdown breached human rights; a temporary lockdown was warranted; the government disputed the legal conclusion."
+  },
+  "ombudsman-politicisation": {
+    "title": "Creeping politicisation of public sector a reality in Victoria",
+    "publisher": "Victorian Ombudsman",
+    "url": "https://www.ombudsman.vic.gov.au/our-impact/news/creeping-politicisation-of-public-sector-a-reality-in-victoria-ombudsman/",
+    "kind": "independent",
+    "published": "2023-12-06",
+    "checked": "2026-09-13",
+    "establishes": "Findings of politicisation and secrecy; the specific stacking allegation was not substantiated."
+  },
+  "sandon-release": {
+    "title": "IBAC’s Operation Sandon uncovers serious corruption risks in Victoria’s planning system",
+    "publisher": "IBAC (via Medianet)",
+    "url": "https://newshub.medianet.com.au/2023/07/ibacs-operation-sandon-uncovers-serious-corruption-risks-in-victorias-planning-system/14262/",
+    "kind": "independent",
+    "published": "2023-07-27",
+    "checked": "2026-09-13",
+    "establishes": "Adverse findings against Casey councillors and a developer; weaknesses in planning and lobbying controls."
+  },
+  "sandon-charges": {
+    "title": "Two charged following IBAC’s Operation Sandon",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2025-09-03/operation-sandon-casey-council-ibac-charges/105730716",
+    "kind": "media",
+    "published": "2025-09-03",
+    "checked": "2026-09-13",
+    "establishes": "A former councillor and a development consultant were charged in September 2025; no state MP or minister was charged; charges are not convictions."
+  },
+  "watson-review": {
+    "title": "Review of the Victorian branch of the CFMEU (redacted)",
+    "publisher": "Geoffrey Watson SC for the union administrator; tendered to the Queensland CFMEU inquiry",
+    "url": "https://www.cfmeuinquiry.qld.gov.au/__data/assets/pdf_file/0005/897476/gw-13-watson-report-victoria-redacted.pdf",
+    "kind": "independent",
+    "published": "2026-02-11",
+    "checked": "2026-09-13",
+    "establishes": "Documented corruption, intimidation and government inaction; the widely quoted $15 billion figure is an estimate the administrator redacted as untested, not an audited loss."
+  },
+  "manufacturing-consent": {
+    "title": "Manufacturing Consent",
+    "publisher": "Penguin Books Australia",
+    "url": "https://www.penguin.com.au/books/manufacturing-consent-9781407054056",
+    "kind": "research",
+    "checked": "2026-09-13",
+    "establishes": "Bibliographic details: Edward S. Herman and Noam Chomsky, first published 1988."
+  },
+  "newscorp-brands": {
+    "title": "Audience networks",
+    "publisher": "News Corp Australia",
+    "url": "https://www.newscorpaustralia.com/growth-solutions/audience-networks/",
+    "kind": "media",
+    "checked": "2026-09-13",
+    "establishes": "The Herald Sun and The Weekly Times sit in News Corp’s metropolitan and agricultural portfolios."
+  },
+  "dnr-2026": {
+    "title": "Digital News Report: Australia 2026",
+    "publisher": "University of Canberra News & Media Research Centre",
+    "url": "https://www.canberra.edu.au/about-uc/media/newsroom/2026/june/dnr-2026-younger-australians-are-rewriting-the-rules-of-news-consumption",
+    "kind": "research",
+    "published": "2026-06-16",
+    "checked": "2026-09-13",
+    "establishes": "Social media (56%) overtook direct visits to news websites (52%) as the main pathway to online news; television is still the largest single source."
+  },
+  "acma-4th": {
+    "title": "Digital platforms’ efforts to combat disinformation and misinformation: fourth report",
+    "publisher": "Australian Communications and Media Authority",
+    "url": "https://www.acma.gov.au/sites/default/files/2025-09/Digital%20platforms%20efforts%20to%20combat%20disinformation%20and%20misinformation_4th%20report%20to%20government_0.pdf",
+    "kind": "independent",
+    "published": "2025-09-12",
+    "checked": "2026-09-13",
+    "establishes": "Platforms reported global takedowns of coordinated operations but did not report Australia as a target in the 2024 reporting period."
+  },
+  "abc-fourth-term": {
+    "title": "No smooth ride for Labor to a fourth term in Victoria",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-09-13/no-smooth-ride-for-labor-to-a-fourth-term-in-victoria/107142386",
+    "kind": "media",
+    "published": "2026-09-13",
+    "checked": "2026-09-13",
+    "establishes": "The current shape of the contest: Wilson leading the Liberals, One Nation polling as a disruptor, and crime, debt, roads and integrity as the campaign’s running issues."
+  },
+  "west-gate-tunnel": {
+    "title": "West Gate Tunnel Project",
+    "publisher": "Victoria’s Big Build",
+    "url": "https://bigbuild.vic.gov.au/projects/west-gate-tunnel-project",
+    "kind": "government",
+    "checked": "2026-09-13",
+    "establishes": "Opened to traffic on 14 December 2025, tolled; originally due in 2022."
+  },
+  "hq-charges-dropped": {
+    "title": "WorkSafe drops charges over Victoria’s hotel quarantine program",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2024-05-01/vic-covid-hotel-quarantine-charges-worksafe-dropped/103789052",
+    "kind": "media",
+    "published": "2024-05-01",
+    "checked": "2026-09-13",
+    "establishes": "The occupational health and safety charges against the health department were withdrawn in May 2024 after key evidence was ruled inadmissible."
+  },
+  "hq-settlement": {
+    "title": "Victorian government settles COVID hotel quarantine class action",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-03-16/victorian-government-settles-covid-hotel-quarantine-class-action/106459494",
+    "kind": "media",
+    "published": "2026-03-16",
+    "checked": "2026-09-13",
+    "establishes": "A $125 million settlement agreed on the eve of trial, subject to court approval, framed by the government as avoiding protracted litigation rather than an admission."
+  },
+  "hv-rental-report": {
+    "title": "Rental report, September quarter 2025",
+    "publisher": "Homes Victoria",
+    "url": "https://www.dffh.vic.gov.au/publications/rental-report",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "Bond-based median weekly rents for the September quarter 2025: $580 in metropolitan Melbourne (up 3.5% in a year) and $470 in regional Victoria (up 4.6%). The latest quarter published when checked; nothing for 2026 was found."
+  },
+  "reiv-kusher-apr-2026": {
+    "title": "Victoria’s housing market steady but softer on prices and rents",
+    "publisher": "Real Estate Institute of Victoria (Cameron Kusher)",
+    "url": "https://reiv.com.au/our-industry/news/cameron-kusher-april-2026",
+    "kind": "research",
+    "published": "2026-04-19",
+    "checked": "2026-09-15",
+    "establishes": "Industry commentary on March 2026 advertised rents: regional median house rent $520 a week, up 6.1% in a year, with regional vacancy at 2.3%. Advertised-rent figures, not bond medians, so not directly comparable with the official series."
+  },
+  "anglicare-snapshot-2026": {
+    "title": "Finding an affordable rental ‘a fairytale’ for vulnerable Victorians",
+    "publisher": "Anglicare Victoria",
+    "url": "https://www.anglicarevic.org.au/news/finding-an-affordable-rental-a-fairytale-for-vulnerable-victorians-new-report/",
+    "kind": "independent",
+    "published": "2026-04-30",
+    "checked": "2026-09-15",
+    "establishes": "The March 2026 Rental Affordability Snapshot: of 15,244 listings, 121 (0.8%) were affordable for a household on income support; in regional Victoria 75 of 2,682 (3%) were, and 1,325 (49%) suited a minimum-wage household. A one-weekend survey of advertised listings, not of rents paid."
+  },
+  "premier-800k": {
+    "title": "Affordability Partnership to build 800,000 Victorian homes",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/affordability-partnership-build-800000-victorian-homes",
+    "kind": "government",
+    "published": "2023-09-20",
+    "checked": "2026-09-15",
+    "establishes": "The Housing Statement target of 800,000 homes over the decade from 2024, or 80,000 a year. A target, not a completion count."
+  },
+  "abs-building-activity-mar-2026": {
+    "title": "Building Activity, Australia, March 2026",
+    "publisher": "Australian Bureau of Statistics",
+    "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-activity-australia/latest-release",
+    "kind": "independent",
+    "published": "2026-07-08",
+    "checked": "2026-09-15",
+    "establishes": "Victoria completed 14,519 dwellings and commenced 13,972 in the March quarter 2026, seasonally adjusted: a run rate in the mid-50,000s a year against an 80,000 target."
+  },
+  "property-council-2025-completions": {
+    "title": "New housing figures show Victoria falling behind New South Wales",
+    "publisher": "Property Council of Australia (Victoria)",
+    "url": "https://www.propertycouncil.com.au/media-releases/new-housing-figures-show-victoria-falling-behind-new-south-wales",
+    "kind": "research",
+    "published": "2026-04-08",
+    "checked": "2026-09-15",
+    "establishes": "The industry body’s reading of ABS data: 54,156 homes completed in Victoria in calendar 2025, 10% fewer than in 2024. An industry lobby’s figure; the ABS annual table was not read directly."
+  },
+  "nhsac-aug-2026": {
+    "title": "Quarterly report, August 2026",
+    "publisher": "National Housing Supply and Affordability Council",
+    "url": "https://nhsac.gov.au/reports-and-submissions/quarterly-report-august-2026",
+    "kind": "independent",
+    "published": "2026-08-21",
+    "checked": "2026-09-15",
+    "establishes": "Victoria’s rolling twelve-month completions were down 9% and it had built 32% of its National Housing Accord share; nationally the 1.2 million target is now projected for the December quarter of 2030."
+  },
+  "premier-bhb-apr-2026": {
+    "title": "Big Housing Build hits new heights",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/big-housing-build-hits-new-heights",
+    "kind": "government",
+    "published": "2026-04-13",
+    "checked": "2026-09-15",
+    "establishes": "The government’s own count: 12,000 homes ‘completed or underway’ and more than 7,000 completed, with the Big Housing Build and Regional Housing Fund now totalling $6.3 billion for at least 13,300 homes. ‘Completed or underway’ blends delivered with funded."
+  },
+  "abc-bhb-foi": {
+    "title": "Big Housing Build faced budget blowout in early days",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-04-13/victorian-government-big-housing-build-budget-blowout-foi/106534886",
+    "kind": "media",
+    "published": "2026-04-13",
+    "checked": "2026-09-15",
+    "establishes": "Freedom-of-information documents showing about $1 billion of cost pressure on the program by early 2023 and a considered option to cut about 1,110 homes; the government says the program is on time and budget."
+  },
+  "hv-regional-housing-fund": {
+    "title": "Regional Housing Fund",
+    "publisher": "Homes Victoria",
+    "url": "https://www.homes.vic.gov.au/regional-housing-fund",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "The $1 billion fund for more than 1,300 regional social and affordable homes by 2028: 630-plus completed or under construction, 377 ‘new and upgraded’ completed, of which 90 are new homes, 72 transitional and 187 upgrades of existing stock. Undated page."
+  },
+  "vhr-sep-2025": {
+    "title": "Applications on the Victorian Housing Register",
+    "publisher": "Homes Victoria",
+    "url": "https://www.homes.vic.gov.au/applications-victorian-housing-register-vhr",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "At September 2025, 67,261 applications (56,532 new, 10,729 transfers), 38,731 of them priority access. Applications are households, not people. No 2026 quarter was published when checked."
+  },
+  "aihw-shs-2024-25": {
+    "title": "Specialist homelessness services annual report 2024–25: client geography",
+    "publisher": "Australian Institute of Health and Welfare",
+    "url": "https://www.aihw.gov.au/reports/homelessness-services/specialist-homelessness-services-annual-report/contents/client-geography",
+    "kind": "independent",
+    "published": "2026-02-27",
+    "checked": "2026-09-15",
+    "establishes": "Latrobe–Gippsland had 7,800 homelessness-service clients (251 per 10,000 people) and Victoria’s North West 283 per 10,000, against a national rate of 106. The five regions with the most clients in Australia were all Victorian."
+  },
+  "chp-rogs-2026": {
+    "title": "Victoria’s spending on social housing shrinks as unmet need soars",
+    "publisher": "Council to Homeless Persons",
+    "url": "https://chp.org.au/article/victorias-spending-on-social-housing-shrinks-as-unmet-need-soars/",
+    "kind": "research",
+    "published": "2026-01-30",
+    "checked": "2026-09-15",
+    "establishes": "The peak body’s reading of the Productivity Commission’s Report on Government Services 2026: social housing is 2.88% of Victorian households, the lowest share of any state, and net public housing stock grew by 36 dwellings over the decade while community housing grew by 5,389. An advocacy body’s summary; the report itself was not read."
+  },
+  "budget-2026-col": {
+    "title": "Helping with the cost of living, Victorian Budget 2026/27",
+    "publisher": "Department of Treasury and Finance",
+    "url": "https://www.budget.vic.gov.au/helping-cost-living",
+    "kind": "government",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "Budget allocations: $759 million for a 20% registration rebate (up to $186 a car), $278 million for half-price public transport to 1 January 2027, about $566 million in concessions, $26 million for emergency accommodation, $15 million for long-term housing and $6.1 million for vulnerable renters. Allocations, not yet outcomes."
+  },
+  "premier-psb-jan-2026": {
+    "title": "Real power bill relief for Victorians",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/real-power-bill-relief-victorians",
+    "kind": "government",
+    "published": "2026-01-27",
+    "checked": "2026-09-15",
+    "establishes": "The 2025–26 Power Saving Bonus was $100, for concession-card holders only, and closed on 31 March 2026. No further round had been announced when checked."
+  },
+  "pbo-land-tax-2024": {
+    "title": "Victorian land tax changes: COVID Debt Levy on landholdings",
+    "publisher": "Parliamentary Budget Office (Victoria)",
+    "url": "https://static.pbo.vic.gov.au/files/PBO_Victorian-land-tax-changes_PUBLICATION.pdf",
+    "kind": "independent",
+    "published": "2024-01-31",
+    "checked": "2026-09-15",
+    "establishes": "The 2023 change cut the land-tax threshold from $300,000 to $50,000 for ten years from 1 January 2024, bringing about 380,000 new taxpayers in at an average of $878 and raising existing payers’ bills by $2,132 on average; $5,653 million over 2023–24 to 2026–27."
+  },
+  "sro-fhb-duty": {
+    "title": "First home buyer duty exemption or concession",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/buying-property/land-transfer-stamp-duty/concessions-exemptions-and-waivers/first-home-buyers/first-home-buyer-duty-exemption-or-concession",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "The existing first-home-buyer stamp-duty relief applies to homes up to $750,000."
+  },
+  "sro-regional-fhog-closed": {
+    "title": "Regional First Home Owner Grant (closed)",
+    "publisher": "State Revenue Office",
+    "url": "https://www.sro.vic.gov.au/about-us/our-organisation/closed-taxes-levies-and-grants/regional-first-home-owner-grant",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "The $20,000 regional grant for new homes ran from 1 July 2017 to 30 June 2021 and is listed among closed grants."
+  },
+  "premier-renters-nov-2025": {
+    "title": "New laws in effect today strengthen renter rights",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/new-laws-effect-today-strengthen-renter-rights",
+    "kind": "government",
+    "published": "2025-11-25",
+    "checked": "2026-09-15",
+    "establishes": "From 25 November 2025: rental bidding banned, no-fault evictions abolished, 90 days’ notice for rent increases and certain notices to vacate, minimum standards required before advertising. Statewide, so it applies to regional renters."
+  },
+  "spi-rental-taskforce": {
+    "title": "Landlord crackdown: Victoria makes rental taskforce permanent",
+    "publisher": "Smart Property Investment",
+    "url": "https://www.smartpropertyinvestment.com.au/tax-and-legal/28088-landlord-crackdown-victoria-makes-rental-taskforce-permanent",
+    "kind": "media",
+    "published": "2026-08-31",
+    "checked": "2026-09-15",
+    "establishes": "Consumer Affairs Victoria’s figures, as reported: the Rental Taskforce had inspected more than 600 properties and issued about 130 infringements since 2024, and was made permanent in August 2026. The CAV statement itself was not read."
+  },
+  "premier-townhouses-sep-2026": {
+    "title": "More homes built faster for working people",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/more-homes-built-faster-working-people",
+    "kind": "government",
+    "published": "2026-09-02",
+    "checked": "2026-09-15",
+    "establishes": "The Carroll government’s claim that applications for up to four homes on a block are now assessed in ten business days and that townhouse applications are up almost 50%. Permits in Melbourne’s middle suburbs, not completions, and nothing regional."
+  },
+  "planning-housing-targets": {
+    "title": "Housing targets for local government areas",
+    "publisher": "Department of Transport and Planning (Plan for Victoria)",
+    "url": "https://www.planning.vic.gov.au/planforvictoria/housing-for-all-victorians/housing-targets",
+    "kind": "government",
+    "published": "2025-02-14",
+    "checked": "2026-09-15",
+    "establishes": "Capacity targets to 2051 for each council, including Greater Geelong 128,600, Ballarat 46,900, Greater Bendigo 37,000 and Greater Shepparton 15,250. Councils must implement them through planning schemes; the page attaches no delivery funding."
+  },
+  "premier-shgf-apr-2026": {
+    "title": "Budget boom for social housing growth",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/budget-boom-social-housing-growth",
+    "kind": "government",
+    "published": "2026-04-24",
+    "checked": "2026-09-15",
+    "establishes": "An $860 million top-up to the Social Housing Growth Fund, for more than 7,000 social homes with community housing organisations. No regional allocation or timetable on the page."
+  },
+  "lib-fhb-stamp-duty": {
+    "title": "Liberals and Nationals to abolish stamp duty for first homebuyers",
+    "publisher": "Liberal Party of Victoria",
+    "url": "https://vicliberal.org.au/policies/2025-05-26-liberals-and-nationals-to-abolish-stamp-duty-for-first-homebuyers",
+    "kind": "party",
+    "published": "2025-05-26",
+    "checked": "2026-09-15",
+    "establishes": "The joint commitment to abolish stamp duty for first home buyers on properties up to $1 million, established or off the plan, with a PBO estimate of more than 17,000 exemptions in the first full year. No cost, start date or regional variant on the page."
+  },
+  "wilson-budget-reply-2026": {
+    "title": "Appropriation (2026–2027) Bill: budget reply",
+    "publisher": "Jess Wilson MP, Legislative Assembly Hansard",
+    "url": "https://www.parliament.vic.gov.au/parliamentary-activity/hansard/hansard-details/HANSARD-2145855009-35502",
+    "kind": "party",
+    "published": "2026-05-12",
+    "checked": "2026-09-15",
+    "establishes": "The Liberal leader’s restatement of the first-home-buyer stamp-duty pledge, the promise to lift the land-tax threshold back to $300,000 by $50,000 a year over five years, the claim of $534 a year in household savings, and the offsets she named: scrapping Treaty and a 2% smaller public sector."
+  },
+  "lib-housing-plan-feb-2026": {
+    "title": "A new plan to restore dreams of home ownership",
+    "publisher": "Liberal Party of Victoria",
+    "url": "https://vicliberal.org.au/media-releases/2026-02-25-a-new-plan-to-restore-dreams-of-home-ownership",
+    "kind": "party",
+    "published": "2026-02-25",
+    "checked": "2026-09-15",
+    "establishes": "The joint housing plan: clear the backlog of 27 precinct structure plans, expand the Capital City Zone, return structure planning to councils in place of Labor’s activity centres, and ‘partner with councils’ on regional expansion. No dwelling target or dollar figure."
+  },
+  "nats-policies": {
+    "title": "Our policies",
+    "publisher": "The Nationals Victoria",
+    "url": "https://vic.nationals.org.au/policies/",
+    "kind": "party",
+    "checked": "2026-09-15",
+    "establishes": "The Nationals’ standing list: the stamp-duty and land-tax pledges, repeal of the short-stay levy and the emergency-services levy, and regional planning measures such as mandated approval timeframes and annual approval audits. Undated page."
+  },
+  "nats-100-days": {
+    "title": "Liberals and Nationals launch ‘Our First 100 Days’ plan",
+    "publisher": "The Nationals Victoria",
+    "url": "https://vic.nationals.org.au/media-releases/danny-obrien-mp-liberals-and-nationals-launch-our-first-100-days-plan/",
+    "kind": "party",
+    "published": "2026-08-20",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s first-100-days list. It contains no housing, stamp-duty, land-tax or renter item."
+  },
+  "acm-housing-forum-sep-2026": {
+    "title": "Frosty reception as major parties lock horns on housing",
+    "publisher": "Bendigo Advertiser (ACM)",
+    "url": "https://www.bendigoadvertiser.com.au/story/9342710/frosty-reception-as-major-parties-lock-horns-on-housing/",
+    "kind": "media",
+    "published": "2026-09-02",
+    "checked": "2026-09-15",
+    "establishes": "David Southwick telling a developer forum the Coalition would drop the target of 70% of new homes in established areas and let the market decide the split."
+  },
+  "greens-housing-jul-2026": {
+    "title": "Greens unveil bold housing plan to bring down the cost of buying a home by abolishing stamp duty",
+    "publisher": "Australian Greens Victoria",
+    "url": "https://greens.org.au/vic/news/media-release/greens-unveil-bold-housing-plan-bring-down-cost-buying-home-abolishing-stamp",
+    "kind": "party",
+    "published": "2026-07-09",
+    "checked": "2026-09-15",
+    "establishes": "The Greens’ plan: abolish stamp duty on homes to $1.1 million with a sliding scale to $1.6 million, build more than 88,000 public homes from a $4 billion initial investment, funded by a 5.3% land tax on residential investment holdings above $5 million, claimed at $6.4 billion over a decade. The party’s own figures."
+  },
+  "greens-rent-caps-jul-2026": {
+    "title": "Fastest rent hikes in Australia show why Victoria needs rent caps",
+    "publisher": "Australian Greens Victoria",
+    "url": "https://greens.org.au/vic/news/media-release/fastest-rent-hikes-australia-show-why-victoria-needs-rent-caps-saving",
+    "kind": "party",
+    "published": "2026-07-09",
+    "checked": "2026-09-15",
+    "establishes": "A two-year rent freeze followed by a permanent cap at the lower of wage growth or inflation, attached to the property. The $15,590 saving claimed by 2030 is attributed to PBO modelling that was not located."
+  },
+  "hansard-rent-controls-apr-2026": {
+    "title": "Residential Tenancies Amendment (Rent Controls) Bill 2026: leave to introduce",
+    "publisher": "Legislative Assembly Hansard",
+    "url": "https://www.parliament.vic.gov.au/parliamentary-activity/hansard/hansard-details/HANSARD-2145855009-35166",
+    "kind": "legislation",
+    "published": "2026-04-01",
+    "checked": "2026-09-15",
+    "establishes": "The motion to introduce the Greens’ rent-controls bill was defeated 31 to 48, Labor voting no. Coalition members voted to allow the debate, which is procedural, not support for rent caps."
+  },
+  "onenation-housing": {
+    "title": "Housing policy",
+    "publisher": "One Nation Victoria",
+    "url": "https://vic.onenation.org.au/housing-policy",
+    "kind": "party",
+    "checked": "2026-09-15",
+    "establishes": "One Nation’s housing page: cut immigration and ban non-citizen ownership (federal matters), allow superannuation for deposits, review state fees and charges, tax-free renting of rooms and granny flats, faster land release. Undated, uncosted, no regional measure."
+  },
+  "sv-housing": {
+    "title": "Housing for all",
+    "publisher": "Victorian Socialists",
+    "url": "https://www.victoriansocialists.org.au/policies/housing-for-all",
+    "kind": "party",
+    "checked": "2026-09-15",
+    "establishes": "The party’s standing policy: 15,000 public homes a year for a decade, a 25% rent cut followed by a five-year freeze, and a state bank. Uncosted; no regional measure."
+  },
+  "pollbludger-resolve-jul-2026": {
+    "title": "Resolve Strategic: Labor 27, Coalition 27, One Nation 22 in Victoria",
+    "publisher": "The Poll Bludger",
+    "url": "https://www.pollbludger.net/2026/07/14/resolve-strategic-labor-27-coalition-27-one-nation-22-in-victoria/",
+    "kind": "media",
+    "published": "2026-07-14",
+    "checked": "2026-09-15",
+    "establishes": "A July 2026 poll with One Nation at 22% of the primary vote; the context for taking the party’s housing page seriously. One poll, not a projection."
+  },
+  "tenants-vic-2026": {
+    "title": "Election 2026",
+    "publisher": "Tenants Victoria",
+    "url": "https://tenantsvic.org.au/election-2026/",
+    "kind": "research",
+    "checked": "2026-09-15",
+    "establishes": "The tenant advocacy body’s asks: lock in the 2025 reforms, extend minimum standards to leases that pre-date March 2021, and fund an excessive-rent-increase checker. No party responses were recorded on the page when checked."
+  },
+  "abc-haff-sep-2026": {
+    "title": "Commonwealth invests millions in Victorian crisis housing",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-09-04/commonwealth-invests-millions-victoria-crisis-housing/107111648",
+    "kind": "media",
+    "published": "2026-09-04",
+    "checked": "2026-09-15",
+    "establishes": "$145 million of federal Housing Australia Future Fund money for 234 crisis and transitional homes, including in Greater Geelong, Mildura and Swan Hill, delivered with the state and community housing providers. Federal money, so not a state commitment."
+  },
+  "parl-short-stay-levy": {
+    "title": "Short stay levy",
+    "publisher": "Parliament of Victoria",
+    "url": "https://www.parliament.vic.gov.au/news/economy/short-stay-levy/",
+    "kind": "legislation",
+    "published": "2024-09-19",
+    "checked": "2026-09-15",
+    "establishes": "A 7.5% levy on short-stay bookings from 1 January 2025, with revenue going to Homes Victoria and 25% of it to be invested in regional Victoria."
+  },
+  "greens-platform-housing": {
+    "title": "Make housing affordable",
+    "publisher": "Australian Greens Victoria",
+    "url": "https://greens.org.au/vic/platform/housing",
+    "kind": "party",
+    "checked": "2026-09-15",
+    "establishes": "The standing platform: 88,000 public homes, a 30% affordable requirement in developments of 15 or more units statewide, a legislated goal to end homelessness by 2036, and the investor land tax described here as raising about $2 billion over four years, against $6.4 billion over a decade in the July release."
+  },
+  "esc-vdo-2026-27": {
+    "title": "Victorian Default Offer price review 2026–27",
+    "publisher": "Essential Services Commission",
+    "url": "https://www.esc.vic.gov.au/electricity-and-gas/prices-tariffs-and-benchmarks/victorian-default-offer/victorian-default-offer-price-review-2026-27",
+    "kind": "independent",
+    "published": "2026-05-20",
+    "checked": "2026-09-15",
+    "establishes": "The regulated benchmark electricity bill for a typical household fell to $1,591 from 1 July 2026, down $84 or 5%. A benchmark for standing offers, not what any given household on a market offer pays."
+  },
+  "esc-market-report-2023-24": {
+    "title": "Victorian Energy Market Report 2023–24",
+    "publisher": "Essential Services Commission",
+    "url": "https://www.esc.vic.gov.au/media-centre/annual-victorian-energy-market-report-shows-more-customers-debt-fewer-disconnections",
+    "kind": "independent",
+    "published": "2024-11-29",
+    "checked": "2026-09-15",
+    "establishes": "About 121,000 electricity customers a month were more than $300 in arrears in 2023–24, up 20,000, while disconnections for non-payment fell to 7,669. The latest annual report found; nothing for 2024–25 was located."
+  },
+  "dffh-energy-concession": {
+    "title": "Annual electricity concession",
+    "publisher": "Department of Families, Fairness and Housing",
+    "url": "https://services.dffh.vic.gov.au/annual-electricity-concession",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "Concession-card holders receive 17.5% off electricity usage and service costs, after retailer discounts, above a small annual threshold."
+  },
+  "vago-renewables-2025": {
+    "title": "Managing the transition to renewable energy",
+    "publisher": "Victorian Auditor-General’s Office",
+    "url": "https://www.audit.vic.gov.au/report/managing-transition-renewable-energy",
+    "kind": "independent",
+    "published": "2025-12-03",
+    "checked": "2026-09-15",
+    "establishes": "The 2025 renewable target was on track; the 2030 target depends on the federal Capacity Investment Scheme delivering in full plus state support and on-time transmission; the 2 GW offshore-wind target for 2032 will be missed (end of 2033 at the earliest); the Western Renewables Link had slipped to late 2029 and VNI West to late 2030; Snowy 2.0 will not be available when Yallourn closes."
+  },
+  "deeca-emissions-targets": {
+    "title": "Victoria’s greenhouse gas emissions and targets",
+    "publisher": "Department of Energy, Environment and Climate Action",
+    "url": "https://www.climatechange.vic.gov.au/victorias-greenhouse-gas-emissions-and-targets",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "Emissions in 2023 were 84.2 million tonnes, 31.4% below 2005; legislated targets of 45–50% by 2030, 75–80% by 2035 and net zero by 2045. The latest inventory published is for 2023."
+  },
+  "energyaustralia-yallourn": {
+    "title": "EnergyAustralia reaffirms Yallourn closure date",
+    "publisher": "EnergyAustralia",
+    "url": "https://www.energyaustralia.com.au//about-us/media/news/energyaustralia-reaffirms-yallourn-closure-date",
+    "kind": "research",
+    "published": "2025-03-19",
+    "checked": "2026-09-15",
+    "establishes": "The owner’s statement that Yallourn closes in mid-2028 and that it had not met the state or AEMO to discuss an extension. A company statement; the 2021 closure agreement with the state is confidential."
+  },
+  "aemo-esoo-2026": {
+    "title": "2026 Electricity Statement of Opportunities",
+    "publisher": "Australian Energy Market Operator",
+    "url": "https://www.aemo.com.au/newsroom/media-release/2026-ESOO",
+    "kind": "independent",
+    "published": "2026-08-25",
+    "checked": "2026-09-15",
+    "establishes": "No reliability gaps forecast anywhere in the national market before 2030, with a record 9.1 GW of generation and storage connected in 2025–26; gaps after 2030 flagged as an early signal. The media release; the report’s Victoria-specific tables were not read."
+  },
+  "aemo-gsoo-2026": {
+    "title": "2026 Gas Statement of Opportunities",
+    "publisher": "Australian Energy Market Operator",
+    "url": "https://www.aemo.com.au/newsroom/media-release/2026-gsoo",
+    "kind": "independent",
+    "published": "2026-03-26",
+    "checked": "2026-09-15",
+    "establishes": "Peak-day gas supply risk in the southern states pushed out a year to around 2029–30, with Victorian production forecast to fall by about half by 2030. Committed projects could delay shortfalls further."
+  },
+  "energy-vic-electric-standards": {
+    "title": "Electric and efficiency standards for buildings",
+    "publisher": "Department of Energy, Environment and Climate Action",
+    "url": "https://www.energy.vic.gov.au/households/save-with-all-electric-home/electric-and-efficiency-standards-for-buildings",
+    "kind": "legislation",
+    "checked": "2026-09-15",
+    "establishes": "The gas rules as they stand: new homes and commercial buildings all-electric from 1 January 2027; failed gas hot-water systems replaced with electric from 1 March 2027; rental minimum standards phased from March 2027 to July 2030. Gas heating and cooktops in existing homes are not covered; exemptions apply where compliance is impractical or costly."
+  },
+  "premier-gas-june-2025": {
+    "title": "Securing Victoria’s gas supply while slashing energy bills",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/securing-victorias-gas-supply-while-slashing-energy-bills",
+    "kind": "government",
+    "published": "2025-06-24",
+    "checked": "2026-09-15",
+    "establishes": "The June 2025 decision that eased and deferred the electrification rules: the start moved to 2027, the owner-occupier gas-heating replacement requirement dropped, repairs allowed, and gas reserved for industry."
+  },
+  "aap-wrl-pause": {
+    "title": "Major transmission project paused after public outcry",
+    "publisher": "AAP, via ACM mastheads",
+    "url": "https://www.bordermail.com.au/story/9350906/major-transmission-project-paused-after-public-outcry/",
+    "kind": "media",
+    "published": "2026-09-15",
+    "checked": "2026-09-15",
+    "establishes": "Premier Carroll’s pause of the Western Renewables Link on 15 September 2026 pending an independent cost assessment to be published by the end of 2026, with no compulsory acquisitions meanwhile; cost estimates of $479 million in 2019 and $1.53 billion in 2024. A single same-day wire story; no Premier’s release had been found when checked."
+  },
+  "abc-vni-west-cost-2025": {
+    "title": "VNI West transmission line cost blows out as farmers fight on",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2025-08-01/transmission-line-vni-west-cost-blow-out-victoria-farmers-fight/105599880",
+    "kind": "media",
+    "published": "2025-08-01",
+    "checked": "2026-09-15",
+    "establishes": "VNI West’s estimate rose from $3.9 billion to $7.6 billion, with a possible $11.4 billion, and completion moved to 2030; the then energy minister’s line that transmission is needed to keep the lights on."
+  },
+  "premier-landholder-payments": {
+    "title": "Landholder payments for a fairer renewables transition",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/landholder-payments-fairer-renewables-transition",
+    "kind": "government",
+    "published": "2023-02-23",
+    "checked": "2026-09-15",
+    "establishes": "Landholders hosting VNI West or the Western Renewables Link are paid $8,000 per kilometre per year for 25 years, to be extended to Marinus Link and renewable-zone connections. The policy; uptake not verified."
+  },
+  "vicgrid-rez-declared": {
+    "title": "Renewable energy zones declared",
+    "publisher": "VicGrid",
+    "url": "https://www.vicgrid.com.au/about/news/news-stories/renewable-energy-zones-declared",
+    "kind": "government",
+    "published": "2026-06-03",
+    "checked": "2026-09-15",
+    "establishes": "Six renewable energy zones formally declared on 3 June 2026 (South West, Central Highlands, Gippsland, Western, North West and an offshore-cable zone on the Gippsland shoreline), with Central North still in consultation."
+  },
+  "premier-offshore-auction": {
+    "title": "Offshore wind powering ahead",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/offshore-wind-powering-ahead",
+    "kind": "government",
+    "published": "2026-08-26",
+    "checked": "2026-09-15",
+    "establishes": "The request for proposals for Victoria’s first 2 GW of offshore wind opened on 26 August 2026, closing August 2027 with contracts expected in 2028; the government’s claim of 68,000 transition jobs by 2040, 37% of them regional."
+  },
+  "abc-star-of-the-south": {
+    "title": "Star of the South offshore wind timeline pushed out",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-05-21/star-of-the-south-timeline-update-wind-energy/106683110",
+    "kind": "media",
+    "published": "2026-05-21",
+    "checked": "2026-09-15",
+    "establishes": "The most advanced Gippsland offshore project puts first power at 2032 at best and possibly 2037."
+  },
+  "sec-news": {
+    "title": "News",
+    "publisher": "SEC Victoria",
+    "url": "https://www.secvictoria.com.au/news",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "What the revived SEC has delivered: a stake in the 600 MW Melbourne Renewable Energy Hub battery operating since December 2025, the Horsham solar and battery park under way, and the Delburn wind farm under construction. The government’s own account."
+  },
+  "agvic-drought": {
+    "title": "Drought support",
+    "publisher": "Agriculture Victoria",
+    "url": "https://agriculture.vic.gov.au/farm-management/drought-support",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "The $146.5 million drought support package, with statewide grants and advisory programs closing 30 September 2026 and additional measures for the south-west."
+  },
+  "risk-frontiers-jan-2026-fires": {
+    "title": "Victorian bushfires, January 2026",
+    "publisher": "Risk Frontiers",
+    "url": "https://riskfrontiers.com/insights/vic-bushfires-january-2026/",
+    "kind": "research",
+    "checked": "2026-09-15",
+    "establishes": "The January 2026 fires burned more than 400,000 hectares and destroyed about 300 homes, with a State of Disaster declared for 18 council areas on 10 January."
+  },
+  "coalition-gas-ban": {
+    "title": "Liberals and Nationals to scrap Labor’s gas ban",
+    "publisher": "Liberal Party of Victoria, via National Tribune",
+    "url": "https://www.nationaltribune.com.au/liberals-and-nationals-to-scrap-labor-s-gas-ban/",
+    "kind": "party",
+    "published": "2026-07-21",
+    "checked": "2026-09-15",
+    "establishes": "The joint commitment to repeal the new-home gas connection ban and oppose the March 2027 electric hot-water replacement rule. No timing or cost."
+  },
+  "coalition-gas-rfp": {
+    "title": "Boosting local gas, lowering energy bills sooner",
+    "publisher": "Liberal Party of Victoria, via Mirage News",
+    "url": "https://www.miragenews.com/boosting-local-gas-lowering-energy-bills-sooner-1708588/",
+    "kind": "party",
+    "published": "2026-07-12",
+    "checked": "2026-09-15",
+    "establishes": "A statewide request for proposals for conventional gas exploration and production within 60 days of forming government. Acreage, royalty terms and first-production timing are not stated."
+  },
+  "bellarine-times-fracking": {
+    "title": "Liberals rule out fracking, back gas exploration",
+    "publisher": "Bellarine Times",
+    "url": "https://timesnewsgroup.com.au/bellarinetimes/news/liberals-rule-out-fracking-back-gas-exploration/",
+    "kind": "media",
+    "published": "2026-07-26",
+    "checked": "2026-09-15",
+    "establishes": "The Liberals’ statement that they do not support fracking, so the constitutionally entrenched ban is not proposed for repeal."
+  },
+  "abc-coalition-vni-west": {
+    "title": "Victorian Coalition promises to scrap VNI West transmission project",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-19/victorian-coalition-promises-to-scrap-vni-west-transmission-line/107053638",
+    "kind": "media",
+    "published": "2026-08-19",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s 19 August pledge to scrap VNI West and review the Western Renewables Link, with gas, coal to end of life and Melbourne solar parks named as the replacement; the $7.6–11.4 billion cost range quoted."
+  },
+  "abc-coalition-firming": {
+    "title": "Labor and the Coalition on how Victoria keeps the lights on",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-23/victoria-energy-supply-labor-coalition-election/107065912",
+    "kind": "media",
+    "published": "2026-08-23",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s ‘Energy Security Requirement’: competitive tenders for new firm generation before Yallourn closes, described as technology-agnostic while its own text expects gas to provide most of the capacity. No megawatt target or cost."
+  },
+  "abc-coalition-coal": {
+    "title": "Victorian opposition pledges to keep coal plants running to end of life",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-14/victorian-opposition-coal-power-pledge/107033138",
+    "kind": "media",
+    "published": "2026-08-14",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s position that Loy Yang A and B run to the end of their technical lives, with no new coal; EnergyAustralia and AGL restating 2028 and 2035 closures."
+  },
+  "abc-buffer-zones": {
+    "title": "Report claims Coalition’s renewable ‘buffer zone’ puts projects at risk",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-06-19/report-says-coalition-renewable-buffer-zone-risks-projects/106802794",
+    "kind": "media",
+    "published": "2026-06-19",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s rebuttable 2 km buffer between renewable projects and homes, and the Clean Energy Council’s estimate that it would make 70% of Victorian land unviable and put 26,000 jobs and $19 million a year in council payments at risk. The council is the industry lobby."
+  },
+  "nats-farmer-rights-may-2026": {
+    "title": "Driving down energy costs and protecting farmer rights",
+    "publisher": "The Nationals Victoria",
+    "url": "https://vic.nationals.org.au/media-releases/danny-obrien-mp-driving-down-energy-costs-and-protecting-farmer-rights/",
+    "kind": "party",
+    "published": "2026-05-07",
+    "checked": "2026-09-15",
+    "establishes": "The joint May 2026 position: pause the transmission projects pending a review of the Victorian Transmission Plan, repeal compulsory land-access powers and rescind fines issued to farmers. Later escalated to scrapping VNI West."
+  },
+  "abc-wilson-first-day": {
+    "title": "Jess Wilson’s first day as Victorian Liberal leader",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2025-11-19/victoria-liberals-jess-wilson-first-day/106025500",
+    "kind": "media",
+    "published": "2025-11-19",
+    "checked": "2026-09-15",
+    "establishes": "Wilson’s statement that there are no plans to change the legislated renewable and emissions targets, while declining to personally commit to net zero by 2045."
+  },
+  "greens-energy-policy": {
+    "title": "Energy policy",
+    "publisher": "Australian Greens Victoria",
+    "url": "https://greens.org.au/vic/policies/energy-policy",
+    "kind": "party",
+    "published": "2025-10-04",
+    "checked": "2026-09-15",
+    "establishes": "The Greens’ standing policy: 100% renewable electricity by 2030, public ownership of transmission and distribution, publicly owned storage, government-backed household loans for solar and batteries. An aims document without 2026 costings."
+  },
+  "pbo-greens-2022": {
+    "title": "Post-election report: Greens costings (2022)",
+    "publisher": "Parliamentary Budget Office (Victoria)",
+    "url": "https://static.pbo.vic.gov.au/files/PBO-POST-Greens-Costings-FINAL.pdf",
+    "kind": "independent",
+    "published": "2022-11-30",
+    "checked": "2026-09-15",
+    "establishes": "The last independent costing of Greens energy policy: about $2.19 billion for the household off-gas plan and $10 billion for public renewables to 2030, on 2022 settings. No 2026 costing exists yet."
+  },
+  "onenation-energy": {
+    "title": "Affordable energy policy",
+    "publisher": "One Nation Victoria",
+    "url": "https://vic.onenation.org.au/energy-policy",
+    "kind": "party",
+    "checked": "2026-09-15",
+    "establishes": "One Nation’s energy page: no new renewable subsidies, a gas reserve, reversal of the new-home gas ban, small modular nuclear, a review of overhead transmission with a preference for undergrounding, a ban on offshore wind and on wind or solar on prime farmland, and re-nationalised networks. Undated and uncosted."
+  },
+  "abc-onenation-loy-yang": {
+    "title": "One Nation commits to coal at Loy Yang and lifting nuclear ban",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-31/one-nation-victoria-energy-policy-announcement/107097686",
+    "kind": "media",
+    "published": "2026-08-31",
+    "checked": "2026-09-15",
+    "establishes": "One Nation’s launch at Loy Yang A: keep the plant open past 2035, repeal the nuclear prohibition, scrap the western renewable zones and the offshore wind zone, and reverse net zero; its state leader saying the figures had not been discussed; AGL restating 2035."
+  },
+  "stockandland-vff-vni": {
+    "title": "Coalition vows to scrap VNI West and $814 fines if elected",
+    "publisher": "Stock & Land",
+    "url": "https://www.stockandland.com.au/story/9333998/coalition-vows-to-scrap-the-vni-west-and-814-fines-if-elected/",
+    "kind": "media",
+    "published": "2026-08-20",
+    "checked": "2026-09-15",
+    "establishes": "The Victorian Farmers Federation president calling VNI West a failed project, and the Clean Energy Council asking what the replacement plan is."
+  },
+  "abc-farmers-ripon": {
+    "title": "Farmers welcome Coalition promise as One Nation courts Ripon",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-20/coalition-one-nation-ripon-vni-west-election-nationals/107054552",
+    "kind": "media",
+    "published": "2026-08-20",
+    "checked": "2026-09-15",
+    "establishes": "Farmers Fightback’s reaction to the scrap pledge and the contest between the Nationals and One Nation for transmission-corridor votes in Ripon."
+  },
+  "foe-election-2026": {
+    "title": "Victorian election 2026 platform",
+    "publisher": "Friends of the Earth Melbourne",
+    "url": "https://www.melbournefoe.org.au/vic_election_2026",
+    "kind": "research",
+    "published": "2026-05-15",
+    "checked": "2026-09-15",
+    "establishes": "The environment group’s asks of candidates: keep the legislated targets, fund solar for renters and public housing, an equitable off-gas plan, and community benefit packages for regions hosting offshore wind. Advocacy, presented as the counterweight to the landholder groups."
+  },
+  "hansard-vicgrid-2024": {
+    "title": "National Electricity (Victoria) Amendment (VicGrid) Bill 2024: committee divisions",
+    "publisher": "Legislative Council Hansard",
+    "url": "https://www.parliament.vic.gov.au/parliamentary-activity/hansard/hansard-details/HANSARD-974425065-26372",
+    "kind": "legislation",
+    "published": "2024-05-02",
+    "checked": "2026-09-15",
+    "establishes": "How the crossbench voted on the VicGrid planning powers: the Greens, Legalise Cannabis and Animal Justice with Labor; the Libertarian, One Nation and several independents with the Coalition."
+  },
+  "abc-vicgrid-stage-2": {
+    "title": "VicGrid legislation passes Victorian parliament",
+    "publisher": "ABC Rural",
+    "url": "https://www.abc.net.au/news/rural/2025-08-29/vic-grid-legislation-passes-victorian-parliament-renewable/105710780",
+    "kind": "media",
+    "published": "2025-08-29",
+    "checked": "2026-09-15",
+    "establishes": "The 2025 VicGrid bill passed with Greens and Legalise Cannabis amendments; the fine for refusing land access was cut from $12,200 to about $8,000 while the access power itself was retained."
+  },
+  "budget-fiscal-strategy": {
+    "title": "Delivering our fiscal strategy, Victorian Budget 2026/27",
+    "publisher": "Department of Treasury and Finance",
+    "url": "https://www.budget.vic.gov.au/delivering-our-fiscal-strategy",
+    "kind": "government",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "The government’s own framing: an operating surplus of more than $700 million in 2025–26, $1 billion in 2026–27 rising to $2 billion by 2029–30, net debt falling as a share of the economy from 2026–27, and the five-step strategy the state says it is three steps through. Forecasts on an accrual measure, not the cash position."
+  },
+  "abc-budget-2026-wrap": {
+    "title": "Victorian government spruiks first surplus in seven years in 2026 budget",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-05-05/victorian-state-budget-2026-wrap/106638608",
+    "kind": "media",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "The budget’s headline numbers as reported: a $1.048 billion surplus for 2026–27, net debt projected at $199.3 billion by 2029–30, about $40 billion of further borrowing over four years, and interest of $24.4 million a day rising to $32.3 million. Also S&P analyst Rebecca Hrvatin’s comment that there is no path to repayment at the moment, and RMIT’s David Hayward on spending windfalls."
+  },
+  "aap-budget-2026-debt": {
+    "title": "State budget 2026: Victoria’s debt to reach $200 billion by 2030",
+    "publisher": "AAP (Callum Godde), via ACM mastheads",
+    "url": "https://www.thecourier.com.au/story/9239642/state-budget-2026-victorias-debt-to-reach-200-billion-by-2030/",
+    "kind": "media",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "Net debt of $175.6 billion in 2026–27, 24.9% of the state economy, reaching $199.3 billion by mid-2030; interest of $11.8 billion a year by then; the 2026–27 surplus revised down from $1.9 billion to about $1 billion; and cash deficits of more than $30 billion across the four years. Also Saul Eslake’s point that repayment cannot begin until cash surpluses do."
+  },
+  "vago-afr-2024-25": {
+    "title": "Auditor-General’s report on the Annual Financial Report of the State of Victoria 2024–25",
+    "publisher": "Victorian Auditor-General’s Office",
+    "url": "https://www.audit.vic.gov.au/report/auditor-generals-report-annual-financial-report-state-victoria-2024-25",
+    "kind": "independent",
+    "published": "2025-11-24",
+    "checked": "2026-09-15",
+    "establishes": "An unqualified audit opinion, alongside a net operating loss of $2.6 billion in 2024–25, accumulated losses of $50.6 billion over six years, gross debt of $187.9 billion heading for $236.6 billion by June 2029, the highest debt-to-economy ratio of any state at about 30%, interest at $6.8 billion or 6.7% of revenue rising to $10.6 billion by 2028–29, and cash deficits every year since 2016–17."
+  },
+  "pbo-regional-metro": {
+    "title": "Regional and metropolitan investment: 2025–26 Victorian Budget",
+    "publisher": "Parliamentary Budget Office (Victoria)",
+    "url": "https://static.pbo.vic.gov.au/files/PBO_Regional-and-metropolitan-investment-2025-26_PUBLIC.pdf",
+    "kind": "independent",
+    "published": "2025-11-10",
+    "checked": "2026-09-15",
+    "establishes": "Asset investment per person of $19,338 in metropolitan Victoria against $12,348 in the regions, 56.6% more — and that excluding five major projects the metropolitan figure falls to $9,632, which is 22% below the regional figure. Regional projects are 48.4% of projects but 12% of investment. The measure is lifetime capital expenditure, not annual spending. Requested by Danny O’Brien MP."
+  },
+  "dtf-credit-rating": {
+    "title": "State credit rating",
+    "publisher": "Department of Treasury and Finance",
+    "url": "https://www.dtf.vic.gov.au/state-credit-rating",
+    "kind": "government",
+    "checked": "2026-09-15",
+    "establishes": "Victoria rated AA with a stable outlook by S&P and Aa2 with a stable outlook by Moody’s, as published when last updated in October 2025. No 2026 ratings action was found."
+  },
+  "vago-srl-2026": {
+    "title": "Auditor-General’s report on the Suburban Rail Loop, as reported",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-08-26/victorian-auditor-general-report-on-srl/107079060",
+    "kind": "media",
+    "published": "2026-08-26",
+    "checked": "2026-09-15",
+    "establishes": "The Auditor-General’s finding that SRL East is more likely than not to exceed its disclosed cost, and the undisclosed 1% fare charge introduced at the start of 2025 that was projected to raise about $8 billion to 2062, roughly $4.8 billion of it for the project, while having raised about $6.5 million by August. Reported from the audit; the report itself was not read directly."
+  },
+  "pitcher-budget-2026": {
+    "title": "Victorian State Budget 2026–27: analysis",
+    "publisher": "Pitcher Partners",
+    "url": "https://www.pitcher.com.au/insights/victorian-state-budget-2026-27-analysis/",
+    "kind": "research",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "The tax mix for 2026–27 as read from the budget papers: land tax $7.6 billion, payroll tax about $12.5 billion, land transfer duty $10 billion rising to $12.4 billion by 2029–30, with total tax collections above $50 billion a year by 2030. A professional-services reading, not the budget papers themselves."
+  },
+  "budget-regional-2026": {
+    "title": "Regional Victoria, the place to be, Victorian Budget 2026/27",
+    "publisher": "Department of Treasury and Finance",
+    "url": "https://www.budget.vic.gov.au/regional-victoria-place-be",
+    "kind": "government",
+    "published": "2026-05-05",
+    "checked": "2026-09-15",
+    "establishes": "The regional allocations in the 2026–27 budget: $481 million for regional transport services, $318 million for regional rail, $277 million for regional education and health, $75 million for the Regional Health Infrastructure Fund, $95 million for nine school upgrades, $84 million for agriculture and $73 million for road upgrades, alongside the claim of more than $50 billion invested in regional Victoria over twelve years."
+  },
+  "lib-10-year-plan": {
+    "title": "Liberals and Nationals unveil 10-year economic plan",
+    "publisher": "Liberal Party of Victoria, via Mirage News",
+    "url": "https://www.miragenews.com/liberals-nationals-unveil-10-year-economic-plan-1670059/",
+    "kind": "party",
+    "published": "2026-05-08",
+    "checked": "2026-09-15",
+    "establishes": "The Coalition’s fiscal plan: a cash surplus by 2032, a payroll tax threshold of $1.2 million by 2028–29 and a metropolitan rate of 4.8% from 2030–31, repeal of the emergency-services, schools, GP and short-stay taxes, a land-tax threshold restored to $300,000, and as savings a $1 billion Treaty repeal, a back-office hiring freeze, a Charter of Budget Honesty and a royal commission into the Big Build."
+  },
+  "premier-10-8-blackhole": {
+    "title": "Cuts only way to deliver Liberals’ $10.8 billion black hole",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/cuts-only-way-deliver-liberals-108-billion-blackhole",
+    "kind": "government",
+    "published": "2025-10-28",
+    "checked": "2026-09-15",
+    "establishes": "Labor’s $10.8 billion costing of five Coalition commitments — a fee freeze, first-home-buyer stamp duty, the emergency-services levy, the short-stay levy and a schools payroll exemption — and its claim about police, teachers and nurses. The release shows no arithmetic, and predates the Coalition’s 10-year plan."
+  },
+  "rcv-election-platform": {
+    "title": "2026 Victorian election platform",
+    "publisher": "Rural Councils Victoria",
+    "url": "https://ruralcouncilsvictoria.org.au/vicvotes2026/",
+    "kind": "research",
+    "checked": "2026-09-15",
+    "establishes": "What rural councils are asking of every party: a $1 billion rural and regional productivity fund with at least 25% guaranteed for rural Victoria, separate state-road maintenance money, and an extension of the Safe Local Roads and Streets Program beyond 2027. An advocacy platform from affected councils."
+  },
+  "cpi-ibac-reform": {
+    "title": "Sharpening the watchdog’s teeth: how to strengthen the Victorian IBAC",
+    "publisher": "The Centre for Public Integrity",
+    "url": "https://publicintegrity.org.au/research_papers/victorian-ibac-reform/",
+    "kind": "research",
+    "published": "2022-08-10",
+    "checked": "2026-09-15",
+    "establishes": "The structural limits on IBAC as they stood: public hearings only in ‘exceptional circumstances’, read by courts as rare and unusual and with no equivalent in the NSW commission; a jurisdiction confined to conduct amounting to a criminal offence; and commissioner appointments running through government-dominated committees. Advocacy research from 2022, so it describes the problem the 2026 bill is meant to address, not current law."
+  },
+  "integrity-agencies-funding": {
+    "title": "Victoria’s integrity agencies renew call for transparent, independent funding",
+    "publisher": "IBAC, Victorian Ombudsman and the Auditor-General",
+    "url": "https://www.ibac.vic.gov.au/Victorias-integrity-agencies-renew-call-for-transparent-independent-funding",
+    "kind": "independent",
+    "published": "2026-02-18",
+    "checked": "2026-09-15",
+    "establishes": "The three watchdogs’ joint request for a transparent funding process: written explanations of budget decisions, the ability to brief parliamentary oversight committees beforehand, exemption from efficiency dividends and a published funding protocol. The Ombudsman’s description of current processes as opaque and shrouded in secrecy. No dollar figures."
+  },
+  "cpi-political-finance": {
+    "title": "Victorian political finance bill an important first step, but broader reform still needed",
+    "publisher": "The Centre for Public Integrity",
+    "url": "https://publicintegrity.org.au/media-release-victorian-political-finance-bill-important-first-step-broader-reform-needed/",
+    "kind": "research",
+    "published": "2026-06-03",
+    "checked": "2026-09-15",
+    "establishes": "The June 2026 political finance bill: a donation cap of $7,500 per election period, 21-day disclosure restored, expanded public funding, and the removal of the nominated-entity arrangements at the heart of a High Court decision — described by the Centre as an emergency repair job rather than a long-term solution."
+  },
+  "ovic-annual-2024-25": {
+    "title": "OVIC annual report 2024–25",
+    "publisher": "Office of the Victorian Information Commissioner",
+    "url": "https://ovic.vic.gov.au/newsitem/ovics-2024-2025-annual-report-tabled-in-victorian-parliament/",
+    "kind": "independent",
+    "published": "2025-11-14",
+    "checked": "2026-09-15",
+    "establishes": "Victorians made 58,181 freedom-of-information requests in 2024–25, up 9.4% and another record, with privacy complaints up 51% and security incident notifications up 50%. Volumes only; timeliness and agency compliance rates were not on the page."
+  },
+  "abc-royal-commission-july": {
+    "title": "Ben Carroll calls a royal commission, but critics await details",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-07-29/victoria-royal-commission-construction-big-build-ben-carroll/106972514",
+    "kind": "media",
+    "published": "2026-07-29",
+    "checked": "2026-09-15",
+    "establishes": "Carroll’s promise of exhaustive terms of reference covering contractors, labour hire, government and unions; Jess Wilson calling it a fake royal commission with no completion timing, no guaranteed reporting date and no assurance ministers would be called; and former IBAC commissioner Robert Redlich’s warning that a commission is only as good as its terms of reference."
+  },
+  "premier-rc-powers": {
+    "title": "More powers for the construction royal commission",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/more-powers-construction-royal-commission",
+    "kind": "government",
+    "published": "2026-09-08",
+    "checked": "2026-09-15",
+    "establishes": "Victoria’s first Office of the Special Prosecutor, with authority to prosecute; power for royal commissions to compel written statements and information outside hearings; and evidence-sharing with Victoria Police, IBAC and regulators."
+  },
+  "premier-ibac-powers": {
+    "title": "More powers for IBAC to investigate corruption",
+    "publisher": "Premier of Victoria",
+    "url": "https://www.premier.vic.gov.au/more-powers-ibac-investigate-corruption",
+    "kind": "government",
+    "published": "2026-09-08",
+    "checked": "2026-09-15",
+    "establishes": "The government’s account of its IBAC bill: follow-the-money powers over private subcontractors on government projects, a lower threshold covering conduct short of a criminal offence including serious disciplinary matters, and provisions for investigating elected officials over serious breaches of conduct codes."
+  },
+  "ashurst-ibac-bill": {
+    "title": "IBAC’s new powers: what they mean for the private sector",
+    "publisher": "Ashurst",
+    "url": "https://www.ashurstperkinscoie.com/en/insights/ibacs-new-powers-what-they-mean-for-the-private-sector/",
+    "kind": "research",
+    "published": "2026-09-15",
+    "checked": "2026-09-15",
+    "establishes": "What the bill changes in law: jurisdiction extended to associated entities such as contractors, subcontractors and joint-venture partners handling public money; ‘relevant offence’ replaced with any criminal offence or serious disciplinary matter; a benefit need not actually be obtained; and transitional provisions covering conduct from commencement plus pre-commencement conduct not previously dismissed or completed. A law firm’s analysis, not the bill text."
+  },
+  "aap-ibac-carveout": {
+    "title": "Reforms blocking Big Build corruption probe under fire",
+    "publisher": "AAP (Melissa Meehan and Allanah Sciberras), via ACM mastheads",
+    "url": "https://www.thecourier.com.au/story/9346058/reforms-blocking-big-build-corruption-probe-under-fire/",
+    "kind": "media",
+    "published": "2026-09-08",
+    "checked": "2026-09-15",
+    "establishes": "The late amendment, circulated at 6pm on the Monday, that stops IBAC investigating already-addressed government construction matters, including the organised-crime allegations referred to it two years earlier and not taken up; Carroll’s position that the royal commission covers the ground and that a new referral could still trigger an investigation; and the opposition and Greens responses."
+  },
+  "abc-ibac-june-2026": {
+    "title": "Victoria’s anti-corruption watchdog IBAC to get extended powers",
+    "publisher": "ABC News",
+    "url": "https://www.abc.net.au/news/2026-06-01/extended-powers-for-anti-corruption-ibac-victorian-government/106746190",
+    "kind": "media",
+    "published": "2026-06-01",
+    "checked": "2026-09-15",
+    "establishes": "The June announcement of follow-the-money powers, described by the then Premier as the most far-reaching overhaul of IBAC since 2012 and said to apply to recent allegations; the opposition’s complaint about the timing; and Geoffrey Watson SC calling it a positive step that could have come in February."
+  },
+  "ibac-bill-status": {
+    "title": "Independent Broad-based Anti-corruption Commission Amendment Bill 2026",
+    "publisher": "Victorian Legislation",
+    "url": "https://www.legislation.vic.gov.au/bills/independent-broad-based-anti-corruption-commission-amendment-bill-2026",
+    "kind": "legislation",
+    "checked": "2026-09-15",
+    "establishes": "The bill’s progress: introduced in the Legislative Assembly on 8 September 2026, passed there on 10 September, and at second reading in the Legislative Council when checked. Not law."
+  },
+  "greens-integrity-policy": {
+    "title": "Democracy and integrity policy",
+    "publisher": "Australian Greens Victoria",
+    "url": "https://greens.org.au/vic/policies/democracy-and-integrity-policy",
+    "kind": "party",
+    "published": "2026-05-15",
+    "checked": "2026-09-15",
+    "establishes": "The Greens’ platform: more funding for integrity bodies, removing the limits on public hearings, banning for-profit business donations and capping donations, a five-year lobbying cooling-off period for ministers and senior staff, removing commercial-in-confidence exemptions from freedom of information, and parliamentary reforms on debate and the production of documents. Uncosted."
+  },
+  "ti-royal-commission": {
+    "title": "Strong royal commission and IBAC reforms key to win back Victorians’ trust",
+    "publisher": "Transparency International Australia",
+    "url": "https://transparency.org.au/strong-royal-commission-and-ibac-reforms-key-to-win-back-victorians-trust/",
+    "kind": "research",
+    "published": "2026-07-28",
+    "checked": "2026-09-15",
+    "establishes": "The anti-corruption group’s asks: the broadest possible terms of reference, examination of whether the previous government ignored or enabled corruption, an assessment of where IBAC and police fell short, and implementation of the follow-the-money powers. Advocacy."
+  },
+  "mandarin-corruption-bills": {
+    "title": "Victoria debates big corruption bills",
+    "publisher": "The Mandarin",
+    "url": "https://www.themandarin.com.au/319794-victoria-debates-big-corruption-bills/",
+    "kind": "media",
+    "published": "2026-09-08",
+    "checked": "2026-09-15",
+    "establishes": "That non-compliance with compulsion outside hearings becomes a criminal offence, that the Office of the Special Prosecutor may refer royal commission evidence to police, IBAC and regulators, and that the government is racing the caretaker timeline. Read in part; the article is paywalled."
+  }
+}

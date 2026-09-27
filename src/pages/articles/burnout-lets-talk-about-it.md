@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "Burnout; let's talk about it."
 description: "This year has been the wildest, most productive, most humbling year of my life to date. I completely burned out, and it sucked. Let's talk about it."
 date: "2021-10-19"
+tags: [reflections, startups]
 imageUrl: /images/og/articles/burnout-lets-talk-about-it-og.png
 imageUrls:
   - /images/og/articles/burnout-lets-talk-about-it-16x9.png

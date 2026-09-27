@@ -1,53 +1,201 @@
 ---
-const events = [
-  { date: "2014", label: "Labor returns", text: "Daniel Andrews becomes Premier on 4 December. The government is re-elected in 2018 and 2022.", source: "Parliamentary history", url: "https://www.parliament.vic.gov.au/about/history-and-heritage/people-who-shaped-parliament/former-members/" },
-  { date: "2017–19", label: "Reform becomes a service", text: "The voluntary assisted dying law passes in 2017 and begins operating in June 2019. Free TAFE starts in 2019.", source: "Health Department", url: "https://www.health.vic.gov.au/voluntary-assisted-dying/about", extra: "Free TAFE", extraUrl: "https://www.vic.gov.au/seven-years-free-tafe-victoria" },
-  { date: "2020", label: "Pandemic failures examined", text: "The hotel quarantine inquiry reports on that year’s program. The Ombudsman also reports on the public housing tower lockdown.", source: "Ombudsman’s findings", url: "https://www.ombudsman.vic.gov.au/our-impact/news/public-housing-tower-lockdown/" },
-  { date: "2022", label: "Operation Watts reports", text: "The joint IBAC–Ombudsman investigation exposes earlier misuse of public resources for factional purposes.", source: "Joint investigation", url: "https://www.ombudsman.vic.gov.au/our-impact/news/joint-ibac-and-vo-report-highlights-widespread-misuse-of-public-resources-for-political-purposes/" },
-  { date: "2023", label: "New benefits, a cancellation, a new premier", text: "Free Kinder and the regional fare cap begin. The Commonwealth Games are cancelled in July; Jacinta Allan becomes Premier on 27 September.", source: "Games audit", url: "https://www.audit.vic.gov.au/report/withdrawal-2026-commonwealth-games?section=34600--what-we-found", extra: "Leadership dates", extraUrl: "https://www.parliament.vic.gov.au/about/history-and-heritage/people-who-shaped-parliament/former-members/" },
-  { date: "2024", label: "The Games bill is assessed", text: "The Auditor-General reports on the 2023 cancellation. The reporting year is different from the year of the decision.", source: "Auditor-General", url: "https://www.audit.vic.gov.au/report/withdrawal-2026-commonwealth-games?section=34600--what-we-found" },
-  { date: "2025", label: "Levy changes and major openings", text: "The new levy starts in July. Metro Tunnel opens on 30 November after years of construction; statewide Treaty commences on 12 December.", source: "Metro Tunnel", url: "https://bigbuild.vic.gov.au/projects/metro-tunnel/about/overview", extra: "Treaty commencement", extraUrl: "https://www.firstpeoplesrelations.vic.gov.au/treaty-negotiation-updates" },
-  { date: "July–Sept 2026", label: "Carroll takes over; old conduct and roads scrutinised", text: "Ben Carroll becomes Premier on 28 July. Richmond reports in August on 2016 dealings; the roads audit follows on 9 September.", source: "Current Premier", url: "https://www.vic.gov.au/premier", extra: "Richmond findings", extraUrl: "https://www.abc.net.au/news/2026-08-05/vic-operation-richmond-ibac-report-daniel-andrews-ufu/106997618" },
-  { date: "28 Nov 2026", label: "The next decision", text: "Victorians vote in the state election.", source: "Victorian Electoral Commission", url: "https://www.vec.vic.gov.au/voting/2026-state-election" },
-];
+/**
+ * Timeline of the Labor years, grouped by premiership, with track filters and
+ * conduct-year → report-year pairs. Static HTML first; filters are added by script.
+ */
+import timeline from "../data/victoria-2026/timeline.json";
+import { sourceRecords } from "../data/victoria-2026/guide-store";
+
+type Track = keyof typeof timeline.tracks;
+
+const eras = timeline.eras.map((era) => ({
+  ...era,
+  events: timeline.events.filter((event) => event.era === era.id),
+}));
+const trackIds = Object.keys(timeline.tracks) as Track[];
 ---
 
-<ol class="election-timeline" role="list" aria-label="Victorian government timeline, 2014 to 2026">
-  {events.map((event) => (
-    <li>
-      <span class="election-timeline__date">{event.date}</span>
-      <div class="election-timeline__event">
-        <strong>{event.label}</strong>
-        <p>{event.text}</p>
-        <p class="election-timeline__source">
-          <a href={event.url}>{event.source}</a>
-          {event.extra && <> · <a href={event.extraUrl}>{event.extra}</a></>}
-        </p>
-      </div>
-    </li>
-  ))}
-</ol>
+<figure class="election-timeline" data-timeline aria-labelledby="timeline-label">
+  <figcaption id="timeline-label">
+    <span>The Labor years, 2014 to 2026</span>
+    <span class="election-timeline__hint">Grouped by premier. Where a finding arrived long after the conduct, both dates are shown.</span>
+  </figcaption>
+
+  <div class="election-timeline__filters" role="group" aria-label="Show events of one kind" data-timeline-filters hidden>
+    <button type="button" data-track="all" aria-pressed="true">All</button>
+    {trackIds.map((track) => (
+      <button type="button" data-track={track} aria-pressed="false">
+        <span class="election-timeline__swatch" data-track={track} aria-hidden="true"></span>
+        {timeline.tracks[track]}
+      </button>
+    ))}
+  </div>
+
+  <ol class="election-timeline__eras" role="list">
+    {eras.map((era) => (
+      <li class="election-timeline__era" data-era={era.id}>
+        <h3 class="election-timeline__band">
+          <span>{era.premier}</span>
+          <span class="election-timeline__band-dates">{era.label.split("·")[1]?.trim()}</span>
+        </h3>
+        <ol role="list">
+          {era.events.map((event) => (
+            <li class="election-timeline__event" data-track={event.track} id={`timeline-${event.id}`}>
+              <span class="election-timeline__date">{event.shown}</span>
+              <div class="election-timeline__body">
+                <p class="election-timeline__title">
+                  <span class="election-timeline__swatch" data-track={event.track} aria-hidden="true"></span>
+                  <strong>{event.label}</strong>
+                  <span class="election-timeline__track">{timeline.tracks[event.track as Track]}</span>
+                </p>
+                {"pair" in event && event.pair && (
+                  <p class="election-timeline__pair">
+                    <span>Conduct {event.pair.conduct}</span>
+                    <span aria-hidden="true">→</span>
+                    <span>Reported {event.pair.report}</span>
+                  </p>
+                )}
+                <p>{event.text}</p>
+                <p class="election-timeline__source">
+                  {event.sources.map((key, index) => (
+                    <>
+                      {index > 0 && " · "}
+                      <a href={sourceRecords[key].url} rel="noopener">{sourceRecords[key].publisher}</a>
+                    </>
+                  ))}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </li>
+    ))}
+  </ol>
+  <p class="election-timeline__empty" data-timeline-empty hidden>No events of that kind in this period.</p>
+</figure>
 
 <style>
   .election-timeline {
     margin: 2rem 0;
     padding: 0;
+  }
+  .election-timeline figcaption {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .election-timeline__hint {
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+    font-weight: 400;
+  }
+  .election-timeline__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0 0 1.25rem;
+  }
+  .election-timeline__filters button {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: var(--paper);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+  }
+  .election-timeline__filters button:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--ink);
+  }
+  .election-timeline__filters button[aria-pressed="true"] {
+    border-color: var(--signal-fill);
+    color: var(--paper);
+    background: var(--signal-fill);
+  }
+  .election-timeline__filters button[aria-pressed="true"] .election-timeline__swatch {
+    box-shadow: 0 0 0 1.5px var(--paper);
+  }
+  .election-timeline__swatch {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--signal-line);
+  }
+  .election-timeline__swatch[data-track="delivery"] { background: var(--signal-fill); }
+  .election-timeline__swatch[data-track="integrity"] { background: var(--signal-emphasis); }
+  .election-timeline__swatch[data-track="levy"] { background: var(--signal-bright); }
+  .election-timeline__swatch[data-track="leadership"] { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-soft); }
+  .election-timeline__swatch[data-track="election"] { background: var(--ink); }
+
+  .election-timeline__eras,
+  .election-timeline__era ol {
+    margin: 0;
+    padding: 0;
     list-style: none;
   }
-  .election-timeline li {
+  .election-timeline__era,
+  .election-timeline__era + .election-timeline__era {
+    margin: 0;
+    padding: 0;
+  }
+  .election-timeline__band {
+    position: sticky;
+    top: 4.25rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin: 0 0 0.75rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--signal);
+    color: var(--ink);
+    background: var(--paper-raised);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+  }
+  .election-timeline__band::before {
+    content: none;
+  }
+  .election-timeline__band-dates {
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .election-timeline__event {
     position: relative;
     display: grid;
-    grid-template-columns: 8.2rem minmax(0, 1fr);
-    column-gap: 1.7rem;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    column-gap: 1.5rem;
     margin: 0;
-    padding: 0 0 1.75rem 1.4rem;
+    padding: 0 0 1.5rem 1.4rem;
     border-left: 2px solid var(--signal-line);
   }
-  .election-timeline li + li { margin-top: 0; }
-  .election-timeline li:last-child { padding-bottom: 0; }
-  .election-timeline li::before {
+  .election-timeline__event + .election-timeline__event {
+    margin-top: 0;
+  }
+  .election-timeline__era:last-child .election-timeline__event:last-child {
+    padding-bottom: 0.5rem;
+  }
+  .election-timeline__event::before {
     position: absolute;
-    top: 0.4rem;
+    top: 0.35rem;
     left: -0.35rem;
     width: 0.6rem;
     height: 0.6rem;
@@ -56,19 +204,117 @@ const events = [
     background: var(--signal);
     content: "";
   }
+  .election-timeline__event[data-track="integrity"]::before { background: var(--signal-emphasis); }
+  .election-timeline__event[data-track="levy"]::before { background: var(--signal-bright); }
+  .election-timeline__event[data-track="leadership"]::before { background: var(--paper); border-color: var(--ink-soft); }
+  .election-timeline__event[data-track="election"]::before { background: var(--ink); }
   .election-timeline__date {
     color: var(--signal);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
+    line-height: 1.5;
     font-variant-numeric: tabular-nums;
   }
-  .election-timeline__event { font-size: 0.86rem; line-height: 1.65; }
-  .election-timeline__event p { margin: 0.4rem 0 0; }
-  .election-timeline__event .election-timeline__source { font-size: 0.74rem; }
+  .election-timeline__body {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .election-timeline__body p {
+    margin: 0.35rem 0 0;
+  }
+  .election-timeline__title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.55rem;
+    align-items: center;
+    margin: 0 !important;
+  }
+  .election-timeline__title strong {
+    color: var(--ink);
+  }
+  .election-timeline__track {
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .election-timeline__pair {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.15rem 0.55rem;
+    border: 1px dashed var(--line-strong);
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .election-timeline__source {
+    font-size: 0.72rem;
+  }
+  .election-timeline__empty {
+    margin: 0.5rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+  }
+  .election-timeline__event[hidden],
+  .election-timeline__era[hidden] {
+    display: none;
+  }
   @media (max-width: 540px) {
-    .election-timeline li { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; }
+    .election-timeline__event {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0.2rem;
+      padding-left: 1.1rem;
+    }
+    .election-timeline__band {
+      top: 3.75rem;
+      flex-direction: column;
+      gap: 0;
+    }
   }
   @media print {
-    .election-timeline li { break-inside: avoid; }
+    .election-timeline__filters {
+      display: none;
+    }
+    .election-timeline__band {
+      position: static;
+    }
+    .election-timeline__event {
+      break-inside: avoid;
+    }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-timeline]").forEach((root) => {
+    const filters = root.querySelector<HTMLElement>("[data-timeline-filters]");
+    const empty = root.querySelector<HTMLElement>("[data-timeline-empty]");
+    if (!filters) return;
+    filters.hidden = false;
+    const buttons = Array.from(filters.querySelectorAll<HTMLButtonElement>("button[data-track]"));
+    const events = Array.from(root.querySelectorAll<HTMLElement>(".election-timeline__event"));
+    const eras = Array.from(root.querySelectorAll<HTMLElement>(".election-timeline__era"));
+
+    const apply = (track: string) => {
+      for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.track === track));
+      let shown = 0;
+      for (const event of events) {
+        const visible = track === "all" || event.dataset.track === track;
+        event.hidden = !visible;
+        if (visible) shown += 1;
+      }
+      for (const era of eras) {
+        era.hidden = !era.querySelector(".election-timeline__event:not([hidden])");
+      }
+      if (empty) empty.hidden = shown > 0;
+      root.dataset.filter = track;
+    };
+
+    filters.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-track]");
+      if (button?.dataset.track) apply(button.dataset.track);
+    });
+  });
+</script>

@@ -1,0 +1,147 @@
+---
+/**
+ * Renders every source cited so far, in first-use order, with what each one establishes.
+ * Place after the last <Cite /> in the article.
+ */
+import { listCitations, sourceKindLabels, type SourceKind } from "../../data/victoria-2026/guide-store";
+
+const citations = listCitations(Astro.locals);
+const kinds: SourceKind[] = ["independent", "government", "legislation", "research", "party", "media", "author"];
+const kindHelp: Record<SourceKind, string> = {
+  independent: "Auditor-General, IBAC, Ombudsman, inquiries, regulators. Best for performance and conduct.",
+  government: "Departments, agencies and ministerial releases. Good for what exists and what was decided; not proof of value or outcomes.",
+  legislation: "Acts, regulations and official rule pages.",
+  research: "University and peer-reviewed work.",
+  party: "Policy pages, media releases and speeches from a party or candidate. Proof of what is proposed, not of cost or effect.",
+  media: "News reporting, used where the primary document is inaccessible or for events not yet documented elsewhere.",
+  author: "My own arithmetic from published rates or data. Reproducible from the inputs shown.",
+};
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric" }).format(
+    new Date(`${date}T00:00:00`),
+  );
+const counts = kinds.map((kind) => ({ kind, count: citations.filter((c) => c.record.kind === kind).length })).filter((k) => k.count > 0);
+---
+
+<div class="source-list" data-source-list>
+  <ul class="source-list__kinds" aria-label="Types of source used">
+    {counts.map(({ kind, count }) => (
+      <li data-kind={kind} title={kindHelp[kind]}>
+        <span class="source-list__dot" aria-hidden="true"></span>
+        {sourceKindLabels[kind]} <span class="source-list__count">{count}</span>
+      </li>
+    ))}
+  </ul>
+  <ol class="source-list__items">
+    {citations.map(({ number, uses, record }) => (
+      <li id={`source-${number}`} data-kind={record.kind}>
+        <span class="source-list__n" aria-hidden="true">{String(number).padStart(2, "0")}</span>
+        <div>
+          <a href={record.url} rel="noopener">
+            <strong>{record.publisher}</strong>: {record.title}
+          </a>
+          <p class="source-list__est">{record.establishes}</p>
+          <p class="source-list__meta">
+            <span class="source-list__dot" aria-hidden="true"></span>
+            {sourceKindLabels[record.kind]}
+            {record.published && <> · published {formatDate(record.published)}</>}
+            <> · checked {formatDate(record.checked)}</>
+            {uses > 1 && <> · cited {uses} times</>}
+            <> · </>
+            <a class="source-list__back" href={`#cite-${number}-1`} aria-label={`Back to first citation of source ${number}`}>↩</a>
+          </p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .source-list {
+    margin: 1.5rem 0;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .source-list__kinds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+  }
+  .source-list__kinds li,
+  .source-list__kinds li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .source-list__count {
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .source-list__dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.35rem;
+    border-radius: 50%;
+    background: var(--signal-line);
+    vertical-align: 0.05em;
+  }
+  [data-kind="independent"] .source-list__dot { background: var(--signal-fill); }
+  [data-kind="government"] .source-list__dot { background: var(--signal-line); }
+  [data-kind="legislation"] .source-list__dot { background: var(--ink-muted); }
+  [data-kind="research"] .source-list__dot { background: var(--signal-bright); }
+  [data-kind="party"] .source-list__dot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--signal-line); }
+  [data-kind="media"] .source-list__dot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-muted); }
+  [data-kind="author"] .source-list__dot { background: var(--ink); }
+  .source-list__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .source-list__items li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 6rem;
+  }
+  .source-list__items li + li {
+    margin-top: 0;
+  }
+  .source-list__items li:target {
+    background: var(--signal-soft);
+    box-shadow: 0 0 0 0.5rem var(--signal-soft);
+  }
+  .source-list__n {
+    color: var(--signal);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .source-list__items p {
+    margin: 0.15rem 0 0;
+  }
+  .source-list__est {
+    color: var(--ink-soft);
+  }
+  .source-list__meta {
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+  }
+  .source-list__back {
+    text-decoration: none;
+  }
+  @media print {
+    .source-list__items li {
+      break-inside: avoid;
+    }
+    .source-list__back {
+      display: none;
+    }
+  }
+</style>

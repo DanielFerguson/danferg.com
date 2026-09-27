@@ -1,0 +1,72 @@
+---
+/**
+ * Small inline label that names what kind of claim a fact is, so the prose doesn't have to
+ * keep saying it. Kinds mirror the article's own distinctions.
+ *
+ * Usage: <Tag kind="delivered" />
+ */
+import { tagKinds, type TagKind } from "../../data/victoria-2026/tags";
+
+interface Props {
+  kind: TagKind;
+}
+
+const { kind } = Astro.props;
+const tag = tagKinds[kind];
+---
+
+<span class="claim-tag" data-kind={kind} title={`${tag.label}: ${tag.help}`}>
+  <span class="visually-hidden">Claim type: </span>{tag.label}
+</span>
+
+<style is:global>
+  .claim-tag {
+    display: inline-block;
+    margin-left: 0.35em;
+    padding: 0.05em 0.45em 0.05em 0.4em;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-soft);
+    font-size: 0.6em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    vertical-align: 0.25em;
+    white-space: nowrap;
+    cursor: help;
+  }
+  .claim-tag::before {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 0.55em;
+    margin-right: 0.45em;
+    border-radius: 50%;
+    background: var(--signal-line);
+    vertical-align: 0.05em;
+  }
+  .claim-tag[data-kind="delivered"]::before { background: var(--signal-fill); }
+  .claim-tag[data-kind="outcome"]::before { background: var(--signal-bright); }
+  .claim-tag[data-kind="funded"]::before { background: var(--signal-line); }
+  .claim-tag[data-kind="promise"]::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--signal); }
+  .claim-tag[data-kind="govt"]::before { background: var(--ink-muted); }
+  .claim-tag[data-kind="independent"]::before { background: var(--signal-emphasis); }
+  .claim-tag[data-kind="author"]::before { background: var(--ink); }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media print {
+    .claim-tag {
+      color: var(--ink);
+    }
+  }
+</style>

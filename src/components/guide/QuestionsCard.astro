@@ -1,0 +1,162 @@
+---
+/**
+ * The five questions as a card that can be copied or shared. Print-friendly.
+ */
+interface Question {
+  q: string;
+  detail: string;
+}
+
+interface Props {
+  title?: string;
+  questions: Question[];
+  sourcePath: string;
+}
+
+const { title = "Five questions to bring to the conversation", questions, sourcePath } = Astro.props;
+const plainText = [
+  title,
+  "",
+  ...questions.map((item, index) => `${index + 1}. ${item.q} ${item.detail}`),
+  "",
+  `From danferg.com${sourcePath}`,
+].join("\n");
+---
+
+<aside class="questions-card" aria-labelledby="questions-card-title" data-questions-card>
+  <div class="questions-card__head">
+    <p id="questions-card-title">{title}</p>
+    <div class="questions-card__actions" data-questions-actions hidden>
+      <button type="button" data-copy>Copy</button>
+      <button type="button" data-share hidden>Share</button>
+      <span class="questions-card__status" role="status" data-status></span>
+    </div>
+  </div>
+  <ol>
+    {questions.map((item) => (
+      <li>
+        <strong>{item.q}</strong> {item.detail}
+      </li>
+    ))}
+  </ol>
+  <p class="questions-card__foot">danferg.com{sourcePath}</p>
+  <textarea class="visually-hidden" aria-hidden="true" tabindex="-1" data-plain readonly>{plainText}</textarea>
+</aside>
+
+<style>
+  .questions-card {
+    margin: 2rem 0;
+    padding: 1.25rem 1.4rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--signal);
+    background: var(--paper-raised);
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+  .questions-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .questions-card__head p {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .questions-card__actions {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .questions-card button {
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink);
+    background: var(--paper);
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  .questions-card button:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--signal);
+  }
+  .questions-card__status {
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+  }
+  .questions-card ol {
+    margin: 1rem 0 0.75rem;
+    padding-left: 1.4rem;
+  }
+  .questions-card li {
+    padding-left: 0.2rem;
+  }
+  .questions-card li + li {
+    margin-top: 0.5rem;
+  }
+  .questions-card strong {
+    color: var(--ink);
+  }
+  .questions-card__foot {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+  @media print {
+    .questions-card {
+      break-inside: avoid;
+    }
+    .questions-card__actions {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const card = document.querySelector<HTMLElement>("[data-questions-card]");
+  if (card) {
+    const actions = card.querySelector<HTMLElement>("[data-questions-actions]");
+    const copy = card.querySelector<HTMLButtonElement>("[data-copy]");
+    const share = card.querySelector<HTMLButtonElement>("[data-share]");
+    const status = card.querySelector<HTMLElement>("[data-status]");
+    const plain = card.querySelector<HTMLTextAreaElement>("[data-plain]");
+    const text = plain?.value ?? "";
+    const say = (message: string) => {
+      if (!status) return;
+      status.textContent = message;
+      window.setTimeout(() => {
+        if (status.textContent === message) status.textContent = "";
+      }, 2500);
+    };
+
+    if (actions && navigator.clipboard) actions.hidden = false;
+
+    copy?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        say("Copied");
+      } catch {
+        plain?.select();
+        say("Select and copy the text");
+      }
+    });
+
+    if (share && typeof navigator.share === "function") {
+      share.hidden = false;
+      share.addEventListener("click", async () => {
+        try {
+          await navigator.share({ title: document.title, text, url: window.location.href.split("#")[0] });
+        } catch {
+          /* cancelled */
+        }
+      });
+    }
+  }
+</script>

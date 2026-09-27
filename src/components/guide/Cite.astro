@@ -1,0 +1,230 @@
+---
+/**
+ * Numbered citation with a margin note. Numbers are assigned in order of first use
+ * and match the list rendered by <SourceList />.
+ *
+ * Usage in MDX: <Cite k="vago-roads" /> or <Cite k={["a", "b"]} />
+ */
+import { registerCitation, sourceKindLabels } from "../../data/victoria-2026/guide-store";
+
+interface Props {
+  k: string | string[];
+}
+
+const keys = Array.isArray(Astro.props.k) ? Astro.props.k : [Astro.props.k];
+const entries = keys.map((key) => registerCitation(Astro.locals, key));
+
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric" }).format(
+    new Date(`${date}T00:00:00`),
+  );
+---
+
+{
+  entries.map((entry, index) => {
+    const { number, uses, record } = entry;
+    const id = `cite-${number}-${uses}`;
+    const noteId = `sidenote-${number}-${uses}`;
+    return (
+      <span class="cite-wrap">
+        {index > 0 && <span class="cite-sep" aria-hidden="true">,</span>}
+        <a
+          class="cite"
+          id={id}
+          href={`#source-${number}`}
+          aria-label={`Source ${number}: ${record.publisher}, ${record.title}`}
+          aria-describedby={noteId}
+          aria-expanded="false"
+          data-cite
+        >
+          {number}
+        </a>
+        <span class="sidenote" id={noteId} role="note" data-kind={record.kind}>
+          <span class="sidenote__n" aria-hidden="true">{number}</span>
+          <a class="sidenote__link" href={record.url} rel="noopener">
+            <span class="sidenote__publisher">{record.publisher}</span>
+            <span class="sidenote__title">{record.title}</span>
+          </a>
+          <span class="sidenote__est">{record.establishes}</span>
+          <span class="sidenote__meta">
+            {sourceKindLabels[record.kind]}
+            {record.published && <> · {formatDate(record.published)}</>}
+            <> · checked {formatDate(record.checked)}</>
+          </span>
+        </span>
+      </span>
+    );
+  })
+}
+
+<style is:global>
+  .article-prose p,
+  .article-prose li,
+  .article-prose figcaption {
+    position: relative;
+  }
+  .cite-wrap {
+    display: inline;
+  }
+  .cite-sep {
+    font-size: 0.68em;
+    vertical-align: super;
+    color: var(--ink-muted);
+  }
+  .article-prose a.cite {
+    display: inline-block;
+    min-width: 1.15em;
+    margin-left: 0.12em;
+    padding: 0 0.28em;
+    border: 1px solid var(--signal-line);
+    border-radius: 2px;
+    color: var(--signal);
+    background: var(--signal-soft);
+    font-size: 0.62em;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: 0.45em;
+    font-variant-numeric: tabular-nums;
+  }
+  .article-prose a.cite:is(:hover, :focus-visible),
+  .article-prose a.cite[aria-expanded="true"] {
+    color: var(--paper);
+    background: var(--signal-fill);
+    border-color: var(--signal-fill);
+  }
+  .sidenote {
+    display: none;
+    font-size: 0.7rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .sidenote__n {
+    display: inline-block;
+    min-width: 1.4em;
+    margin-right: 0.3em;
+    color: var(--signal);
+    font-weight: 700;
+  }
+  .sidenote__link {
+    color: var(--ink);
+    text-decoration-color: var(--signal-line);
+  }
+  .sidenote__publisher {
+    font-weight: 700;
+  }
+  .sidenote__publisher::after {
+    content: ": ";
+  }
+  .sidenote__est {
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .sidenote__meta {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+    letter-spacing: 0.02em;
+  }
+  .sidenote[data-kind="independent"] .sidenote__n {
+    color: var(--signal-emphasis);
+  }
+  /* Narrow screens: the citation opens a note under its paragraph. */
+  .sidenote.is-open {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 6;
+    margin-top: 0.35rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--signal);
+    background: var(--paper-raised);
+    box-shadow: 0 10px 24px rgb(0 0 0 / 10%);
+  }
+  /* Wide screens: margin notes beside the paragraph. */
+  @media (min-width: 1180px) {
+    .article-prose .sidenote {
+      display: block;
+      float: right;
+      clear: right;
+      width: 12.75rem;
+      margin: -0.15rem -14.6rem 0.7rem 0;
+      position: static;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .article-prose .sidenote.is-open {
+      position: static;
+      margin: -0.15rem -14.6rem 0.7rem 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+  @media (min-width: 1440px) {
+    .article-prose .sidenote {
+      width: 15rem;
+      margin-right: -17.25rem;
+    }
+    .article-prose .sidenote.is-open {
+      margin-right: -17.25rem;
+    }
+  }
+  @media print {
+    .sidenote {
+      display: none !important;
+    }
+    .article-prose a.cite {
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+  }
+</style>
+
+<script>
+  const WIDE = window.matchMedia("(min-width: 1180px)");
+
+  function closeAll(except?: Element) {
+    document.querySelectorAll<HTMLElement>(".sidenote.is-open").forEach((note) => {
+      if (note !== except) {
+        note.classList.remove("is-open");
+        const trigger = document.querySelector<HTMLElement>(`[aria-describedby="${note.id}"]`);
+        trigger?.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement | null;
+    const cite = target?.closest<HTMLAnchorElement>("a.cite[data-cite]");
+    if (!cite) {
+      if (!target?.closest(".sidenote.is-open")) closeAll();
+      return;
+    }
+    if (WIDE.matches) return; // margin note already visible; follow the link to the source list
+    event.preventDefault();
+    const noteId = cite.getAttribute("aria-describedby");
+    const note = noteId ? document.getElementById(noteId) : null;
+    if (!note) return;
+    const open = note.classList.contains("is-open");
+    closeAll(note);
+    note.classList.toggle("is-open", !open);
+    cite.setAttribute("aria-expanded", String(!open));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeAll();
+  });
+
+  WIDE.addEventListener("change", () => closeAll());
+</script>

@@ -1,0 +1,53 @@
+---
+interface Props {
+  id: string;
+  caption: string;
+  rows: Array<{
+    name: string;
+    position: string;
+    question: string;
+    source: string;
+    sourceLabel: string;
+  }>;
+}
+
+const { id, caption, rows } = Astro.props;
+---
+
+<div class="policy-comparison" role="region" aria-labelledby={`${id}-caption`} aria-describedby={`${id}-help`} tabindex="0">
+  <table>
+    <caption id={`${id}-caption`}>{caption}</caption>
+    <thead>
+      <tr><th scope="col">Party or member</th><th scope="col">Verified position</th><th scope="col">What I still need answered</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <th scope="row">{row.name}</th>
+          <td>{row.position} <a href={row.source}>{row.sourceLabel}</a></td>
+          <td>{row.question}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="policy-comparison-help" id={`${id}-help`}>On a narrow screen, scroll the table sideways. Keyboard users can focus the table and use the arrow keys. The sections below explain the comparisons.</p>
+
+<style>
+  .policy-comparison { max-width: 100%; margin-top: 1.8rem; overflow-x: auto; border: 1px solid var(--line-strong); background: var(--paper-raised); }
+  .policy-comparison:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+  .policy-comparison table { width: 100%; min-width: 36rem; table-layout: fixed; border-collapse: collapse; font-size: 0.79rem; line-height: 1.65; }
+  .policy-comparison caption { padding: 1rem; text-align: left; font-weight: 700; color: var(--ink); }
+  .policy-comparison th, .policy-comparison td { padding: 0.85rem 0.7rem; border-top: 1px solid var(--line-strong); text-align: left; vertical-align: top; overflow-wrap: break-word; }
+  .policy-comparison th:first-child { width: 23%; }
+  .policy-comparison thead { background: var(--signal-soft); color: var(--ink); }
+  .policy-comparison th[scope="row"] { color: var(--ink); font-weight: 650; }
+  .policy-comparison td a { display: block; margin-top: 0.45rem; }
+  .policy-comparison-help { margin-top: 0.65rem; color: var(--ink-soft); font-size: 0.72rem; line-height: 1.6; }
+  @media print {
+    .policy-comparison { overflow: visible; }
+    .policy-comparison table { min-width: 0; }
+    .policy-comparison tr { break-inside: avoid; }
+    .policy-comparison-help { display: none; }
+  }
+</style>

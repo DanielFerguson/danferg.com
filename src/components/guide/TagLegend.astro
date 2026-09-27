@@ -1,0 +1,44 @@
+---
+import { tagKinds } from "../../data/victoria-2026/tags";
+import Tag from "./Tag.astro";
+
+const order = ["promise", "funded", "delivered", "outcome", "govt", "independent", "author"] as const;
+---
+
+<dl class="tag-legend">
+  {order.map((kind) => (
+    <div>
+      <dt><Tag kind={kind} /></dt>
+      <dd>{tagKinds[kind].help}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .tag-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 0.5rem 1.5rem;
+    margin: 1rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .tag-legend div {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: start;
+  }
+  .tag-legend dt {
+    font-size: 1.3em;
+    line-height: 1;
+  }
+  .tag-legend dt :global(.claim-tag) {
+    margin-left: 0;
+    vertical-align: baseline;
+  }
+  .tag-legend dd {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+</style>

@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "I went looking for Pydantic in Rust"
 description: "I went looking for a Rust equivalent to Pydantic and found a more interesting answer: Rust changes where validation lives."
 date: "2026-07-20"
+tags: [software]
 imageUrl: /images/og/articles/i-went-looking-for-pydantic-in-rust-og.png
 imageUrls:
   - /images/og/articles/i-went-looking-for-pydantic-in-rust-16x9.png

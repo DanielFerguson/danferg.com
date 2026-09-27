@@ -1,32 +1,567 @@
-<div class="levy-example" role="region" aria-label="Illustrative levy comparison; scroll horizontally if needed" tabindex="0">
-  <table>
-    <caption>Same $1 million valuation, different land use</caption>
-    <thead>
-      <tr><th scope="col">Property</th><th scope="col">2024–25</th><th scope="col">2026–27</th><th scope="col">Change</th></tr>
-    </thead>
-    <tbody>
-      <tr><th scope="row">Residential</th><td>$219</td><td>$312</td><td>+$93<br /><span>42.5%</span></td></tr>
-      <tr><th scope="row">Primary production</th><td>$554</td><td>$569</td><td>+$15<br /><span>2.7%</span></td></tr>
-    </tbody>
-  </table>
-</div>
-<p class="levy-example-note">Illustration only: one property in each class, unchanged capital improved value, no concessions or rebates. These are annual levy totals, not council rates, my bill or a typical household.</p>
+---
+/**
+ * Levy calculator. Server-renders the reproducible $1 million example, then lets the reader
+ * change the value, the land use and the volunteer rebate. Shows every version of the levy
+ * that has been proposed or applied since 2024–25, so it is clear why people remember
+ * different numbers. Arithmetic lives in ../data/victoria-2026/levy-calc.ts.
+ */
+import {
+  BASE_VERSION_ID,
+  calculateLevy,
+  formatCiv,
+  formatDollars,
+  formatPct,
+  formatSigned,
+  levyData,
+  type LevyClass,
+} from "../data/victoria-2026/levy-calc";
+import { sourceRecords } from "../data/victoria-2026/guide-store";
+
+const { civ, class: cls } = levyData.defaults;
+const lines = calculateLevy(civ, cls, false);
+const other: LevyClass = cls === "primary" ? "residential" : "primary";
+const otherLines = calculateLevy(civ, other, false);
+const current = lines.find((l) => l.version.id === "esvf-2026-27")!;
+const otherCurrent = otherLines.find((l) => l.version.id === "esvf-2026-27")!;
+const maxTotal = Math.max(...lines.map((l) => l.gross), ...otherLines.map((l) => l.gross));
+const rateSources = ["sro-historical-rates", "sro-current-rates", "esvf-may-amendment", "volunteer-rebate"] as const;
+---
+
+<figure class="levy" id="levy-calculator" data-levy aria-labelledby="levy-label">
+  <figcaption id="levy-label">
+    <span>What one property pays: fixed charge + rate × value</span>
+    <span class="levy__hint">Every version of the levy since 2024–25, for the property you choose. Illustration only: one assessment, no other concessions unless selected.</span>
+  </figcaption>
+
+  <form class="levy__controls" data-levy-form hidden>
+    <div class="levy__field">
+      <label for="levy-class">Property type</label>
+      <select id="levy-class" name="class">
+        <option value="primary" selected={cls === "primary"}>Primary production (farm)</option>
+        <option value="residential" selected={cls === "residential"}>Residential, principal home</option>
+      </select>
+    </div>
+    <div class="levy__field levy__field--civ">
+      <label for="levy-civ">Capital improved value <output data-levy-civ-out for="levy-civ">{formatCiv(civ)}</output></label>
+      <input id="levy-civ" name="civ" type="range" min={levyData.civRange.min} max={levyData.civRange.max} step={levyData.civRange.step} value={civ} />
+      <div class="levy__civ-scale" aria-hidden="true"><span>{formatCiv(levyData.civRange.min)}</span><span>{formatCiv(levyData.civRange.max)}</span></div>
+      <label class="levy__exact" for="levy-civ-exact">or type a value <input id="levy-civ-exact" type="number" inputmode="numeric" min="0" step="1000" value={civ} /></label>
+    </div>
+    <label class="levy__check">
+      <input type="checkbox" name="volunteer" />
+      <span>Eligible CFA, VICSES or Shepparton Search and Rescue volunteer (applies the rebate where it exists)</span>
+    </label>
+  </form>
+
+  <div class="levy__table-wrap">
+    <table class="levy__table" data-levy-table>
+      <caption data-levy-caption>{levyData.classes[cls].label}, {formatCiv(civ)}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Version</th>
+          <th scope="col">Fixed</th>
+          <th scope="col">Rate × value</th>
+          <th scope="col" data-levy-rebate-col hidden>Rebate</th>
+          <th scope="col">Total</th>
+          <th scope="col">vs 2024–25</th>
+        </tr>
+      </thead>
+      <tbody>
+        {lines.map((line) => (
+          <tr data-version={line.version.id} data-status={line.version.status}>
+            <th scope="row">
+              <span class="levy__version">{line.version.label}</span>
+              <span class="levy__sublabel">{line.version.sublabel}</span>
+              <span class="levy__formula">{formatDollars(line.fixed)} + {line.version.rate[cls]}¢ per $1,000</span>
+            </th>
+            <td data-cell="fixed">{formatDollars(line.fixed)}</td>
+            <td data-cell="variable">{formatDollars(line.variable)}</td>
+            <td data-cell="rebate" data-levy-rebate-col hidden>{line.rebate ? `−${formatDollars(line.rebate)}` : "—"}</td>
+            <td data-cell="net">
+              <strong>{formatDollars(line.net)}</strong>
+              <span class="levy__bar" aria-hidden="true"><span style={`width:${(line.gross / maxTotal) * 100}%`}><i data-fixed style={`width:${(line.fixed / line.gross) * 100}%`}></i></span></span>
+            </td>
+            <td data-cell="change">
+              {line.version.id === BASE_VERSION_ID ? (
+                <span class="levy__base">baseline</span>
+              ) : (
+                <>
+                  <span data-cell="change-abs">{formatSigned(line.changeVsBase!)}</span>
+                  <span class="levy__pct" data-cell="change-pct">{formatPct(line.changePctVsBase!)}</span>
+                </>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="levy__compare" data-levy-compare>
+    Before any rebate, a <span data-other-class>{levyData.classes[other].short}</span> of the same value pays <strong data-other-net>{formatDollars(otherCurrent.gross)}</strong> in 2026–27, so this <span data-this-class>{levyData.classes[cls].short}</span> pays <strong data-ratio>{Math.round(((current.gross - otherCurrent.gross) / otherCurrent.gross) * 100)}% more</strong>. That is a comparison between land uses in one year, which is a different thing from how much this property’s own bill has moved.
+  </p>
+
+  <ul class="levy__legend" aria-label="How to read the bars">
+    <li><span class="levy__swatch levy__swatch--fixed" aria-hidden="true"></span>Fixed charge</li>
+    <li><span class="levy__swatch" aria-hidden="true"></span>Rate × value</li>
+    <li><span class="levy__swatch levy__swatch--proposal" aria-hidden="true"></span>Proposed, never applied</li>
+  </ul>
+
+  <p class="levy__note">
+    Volunteer rebates began with the new levy: a principal home’s levy is rebated in full; farmland rebates are capped ($1,710 in 2025–26; $3,152 in 2026–27, which covers a farm valued at $10 million). Eligibility carries service requirements and an annual application. Bills also move with valuations and with fixed-charge indexation, and other classes (commercial, industrial, vacant) have their own rates.
+  </p>
+  <p class="levy__source">
+    Rates: {rateSources.map((key, index) => (
+      <>
+        {index > 0 && " · "}
+        <a href={sourceRecords[key].url} rel="noopener">{sourceRecords[key].publisher}: {sourceRecords[key].title}</a>
+      </>
+    ))}. Arithmetic is mine and reproducible from the formula shown on each row.
+  </p>
+</figure>
 
 <style>
-  .levy-example { margin-top: 1.8rem; overflow-x: auto; border: 1px solid var(--line-strong); background: var(--paper-raised); }
-  .levy-example table { width: 100%; min-width: 18rem; table-layout: fixed; border-collapse: collapse; font-size: 0.8rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
-  .levy-example caption { padding: 1rem; text-align: left; font-weight: 700; color: var(--ink); }
-  .levy-example th, .levy-example td { padding: 0.8rem 0.375rem; border-top: 1px solid var(--line-strong); text-align: right; vertical-align: top; }
-  .levy-example th:first-child { width: 31%; text-align: left; }
-  .levy-example thead { background: var(--signal-soft); color: var(--ink); }
-  .levy-example th[scope="row"] { color: var(--ink); font-weight: 600; }
-  .levy-example td span { color: var(--ink-soft); }
-  .levy-example-note { margin-top: 0.65rem; font-size: 0.76rem; line-height: 1.6; }
-  @media (max-width: 540px) {
-    .levy-example table { font-size: 0.75rem; }
+  .levy {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .levy figcaption {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .levy__hint {
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+    font-weight: 400;
+  }
+  .levy__controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 0.9rem 1.5rem;
+    margin: 1rem 0 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .levy__field {
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+  }
+  .levy__field label,
+  .levy__check {
+    color: var(--ink);
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+  .levy__field output {
+    margin-left: 0.4rem;
+    color: var(--signal);
+    font-variant-numeric: tabular-nums;
+  }
+  .levy select,
+  .levy input[type="number"] {
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink);
+    background: var(--paper-raised);
+    font: inherit;
+    font-size: 0.8rem;
+  }
+  .levy input[type="range"] {
+    width: 100%;
+    accent-color: var(--signal-fill);
+  }
+  .levy__civ-scale {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .levy__exact {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    color: var(--ink-soft) !important;
+    font-weight: 400 !important;
+  }
+  .levy__exact input {
+    max-width: 10rem;
+  }
+  .levy__check {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-weight: 400 !important;
+    color: var(--ink-soft) !important;
+  }
+  .levy__check input {
+    margin-top: 0.3rem;
+    accent-color: var(--signal-fill);
+  }
+  .levy__table-wrap {
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+  .levy__table-wrap:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 4px;
+  }
+  .levy__table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  .levy__table caption {
+    padding: 0 0 0.6rem;
+    text-align: left;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .levy__table th,
+  .levy__table td {
+    padding: 0.65rem 0.5rem;
+    border-top: 1px solid var(--line-strong);
+    text-align: right;
+    vertical-align: top;
+  }
+  .levy__table thead th:first-child {
+    text-align: left;
+  }
+  .levy__table thead th {
+    color: var(--ink);
+    background: var(--signal-soft);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+  }
+  .levy__table th[scope="row"] {
+    width: 34%;
+    text-align: left;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .levy__table td[data-cell="net"] {
+    min-width: 9rem;
+  }
+  .levy__version {
+    display: block;
+  }
+  .levy__sublabel,
+  .levy__formula {
+    display: block;
+    color: var(--ink-muted);
+    font-size: 0.66rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+  .levy__formula {
+    margin-top: 0.15rem;
+  }
+  tr[data-status="proposal"] th[scope="row"] {
+    color: var(--ink-soft);
+  }
+  tr[data-status="proposal"] .levy__version::after {
+    content: " (never applied)";
+    color: var(--ink-muted);
+    font-size: 0.66rem;
+    font-weight: 400;
+  }
+  .levy__bar {
+    display: block;
+    height: 0.55rem;
+    margin-top: 0.35rem;
+    border: 1px solid var(--signal-line);
+    background: var(--paper);
+  }
+  .levy__bar > span {
+    position: relative;
+    display: block;
+    height: 100%;
+    background: var(--signal);
+  }
+  tr[data-status="proposal"] .levy__bar > span {
+    background: repeating-linear-gradient(135deg, var(--signal) 0 3px, var(--signal-soft) 3px 6px);
+  }
+  .levy__bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    display: block;
+    background: var(--signal-emphasis);
+  }
+  .levy__pct {
+    display: block;
+    color: var(--ink-muted);
+    font-size: 0.7rem;
+  }
+  .levy__base {
+    color: var(--ink-muted);
+    font-size: 0.7rem;
+  }
+  .levy__compare {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+  .levy__compare strong {
+    color: var(--ink);
+  }
+  .levy__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+  }
+  .levy__legend li,
+  .levy__legend li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .levy__swatch {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.55rem;
+    margin-right: 0.35rem;
+    border: 1px solid var(--signal-line);
+    background: var(--signal);
+    vertical-align: -0.05em;
+  }
+  .levy__swatch--fixed {
+    background: var(--signal-emphasis);
+  }
+  .levy__swatch--proposal {
+    background: repeating-linear-gradient(135deg, var(--signal) 0 3px, var(--signal-soft) 3px 6px);
+  }
+  .levy__note {
+    margin: 0.9rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+  }
+  .levy__source {
+    margin: 0.75rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: 0.7rem;
+  }
+  @media (max-width: 640px) {
+    .levy {
+      padding: 1rem;
+    }
+    .levy__controls {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    /* Cards instead of a sideways-scrolling table. */
+    .levy__table-wrap {
+      overflow: visible;
+    }
+    .levy__table,
+    .levy__table tbody,
+    .levy__table caption {
+      display: block;
+      min-width: 0;
+      width: auto;
+    }
+    .levy__table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .levy__table tbody tr {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "head head"
+        "net change"
+        "fixed variable"
+        "rebate rebate";
+      gap: 0.35rem 0.75rem;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--line-strong);
+    }
+    .levy__table tbody th,
+    .levy__table tbody td {
+      padding: 0;
+      border: 0;
+      text-align: left;
+    }
+    .levy__table th[scope="row"] {
+      grid-area: head;
+      width: auto;
+    }
+    td[data-cell="net"] {
+      grid-area: net;
+      min-width: 0;
+    }
+    td[data-cell="net"] strong {
+      font-size: 1.05rem;
+    }
+    td[data-cell="change"] {
+      grid-area: change;
+      text-align: right;
+    }
+    td[data-cell="fixed"] {
+      grid-area: fixed;
+    }
+    td[data-cell="variable"] {
+      grid-area: variable;
+      text-align: right;
+    }
+    td[data-cell="rebate"] {
+      grid-area: rebate;
+    }
+    td[data-cell="fixed"]::before,
+    td[data-cell="variable"]::before,
+    td[data-cell="rebate"]::before,
+    td[data-cell="net"]::before,
+    td[data-cell="change"]::before {
+      display: block;
+      color: var(--ink-muted);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    td[data-cell="fixed"]::before { content: "Fixed"; }
+    td[data-cell="variable"]::before { content: "Rate × value"; }
+    td[data-cell="rebate"]::before { content: "Rebate"; }
+    td[data-cell="net"]::before { content: "Total"; }
+    td[data-cell="change"]::before { content: "vs 2024–25"; }
+    td[data-cell="rebate"][hidden] {
+      display: none;
+    }
   }
   @media print {
-    .levy-example { break-inside: avoid; overflow: visible; }
-    .levy-example table { min-width: 0; }
+    .levy {
+      break-inside: avoid;
+    }
+    .levy__controls {
+      display: none;
+    }
+    .levy__table-wrap {
+      overflow: visible;
+    }
+    .levy__table {
+      min-width: 0;
+    }
   }
 </style>
+
+<script>
+  import {
+    BASE_VERSION_ID,
+    calculateLevy,
+    formatCiv,
+    formatDollars,
+    formatPct,
+    formatSigned,
+    levyData,
+    type LevyClass,
+  } from "../data/victoria-2026/levy-calc";
+
+  document.querySelectorAll<HTMLElement>("[data-levy]").forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>("[data-levy-form]");
+    const table = root.querySelector<HTMLTableElement>("[data-levy-table]");
+    if (!form || !table) return;
+    form.hidden = false;
+
+    const classSelect = form.elements.namedItem("class") as HTMLSelectElement;
+    const range = form.elements.namedItem("civ") as HTMLInputElement;
+    const exact = form.querySelector<HTMLInputElement>("#levy-civ-exact")!;
+    const volunteer = form.elements.namedItem("volunteer") as HTMLInputElement;
+    const civOut = form.querySelector<HTMLOutputElement>("[data-levy-civ-out]");
+    const caption = table.querySelector<HTMLElement>("[data-levy-caption]");
+    const rebateCols = Array.from(root.querySelectorAll<HTMLElement>("[data-levy-rebate-col]"));
+    const compare = root.querySelector<HTMLElement>("[data-levy-compare]");
+
+    const clamp = (value: number) => Math.max(0, Math.min(200_000_000, Math.round(value)));
+
+    const render = () => {
+      const cls = (classSelect.value as LevyClass) || "primary";
+      const civ = clamp(Number(exact.value) || Number(range.value) || levyData.defaults.civ);
+      const useRebate = volunteer.checked;
+      const lines = calculateLevy(civ, cls, useRebate);
+      const other: LevyClass = cls === "primary" ? "residential" : "primary";
+      const otherLines = calculateLevy(civ, other, false);
+      const maxTotal = Math.max(...lines.map((l) => l.gross), ...otherLines.map((l) => l.gross), 1);
+      const baseNet = lines.find((l) => l.version.id === BASE_VERSION_ID)?.net ?? 0;
+
+      if (civOut) civOut.value = formatCiv(civ);
+      if (caption) caption.textContent = `${levyData.classes[cls].label}, ${formatCiv(civ)}`;
+      for (const col of rebateCols) col.hidden = !useRebate;
+
+      for (const line of lines) {
+        const row = table.querySelector<HTMLTableRowElement>(`tr[data-version="${line.version.id}"]`);
+        if (!row) continue;
+        const set = (selector: string, text: string) => {
+          const cell = row.querySelector<HTMLElement>(selector);
+          if (cell) cell.textContent = text;
+        };
+        set('[data-cell="fixed"]', formatDollars(line.fixed));
+        set('[data-cell="variable"]', formatDollars(line.variable));
+        set('[data-cell="rebate"]', line.rebate ? `−${formatDollars(line.rebate)}` : "—");
+        const net = row.querySelector<HTMLElement>('[data-cell="net"] strong');
+        if (net) net.textContent = formatDollars(line.net);
+        const formula = row.querySelector<HTMLElement>(".levy__formula");
+        if (formula) formula.textContent = `${formatDollars(line.fixed)} + ${line.version.rate[cls]}¢ per $1,000`;
+        const bar = row.querySelector<HTMLElement>(".levy__bar > span");
+        if (bar) {
+          bar.style.width = `${(line.gross / maxTotal) * 100}%`;
+          const fixedPart = bar.querySelector<HTMLElement>("[data-fixed]");
+          if (fixedPart) fixedPart.style.width = `${(line.fixed / Math.max(line.gross, 1)) * 100}%`;
+        }
+        if (line.version.id !== BASE_VERSION_ID) {
+          set('[data-cell="change-abs"]', formatSigned(line.changeVsBase ?? 0));
+          set('[data-cell="change-pct"]', baseNet > 0 ? formatPct(line.changePctVsBase ?? 0) : "");
+        }
+      }
+
+      if (compare) {
+        const current = lines.find((l) => l.version.id === "esvf-2026-27");
+        const otherCurrent = otherLines.find((l) => l.version.id === "esvf-2026-27");
+        const otherClassEl = compare.querySelector<HTMLElement>("[data-other-class]");
+        const thisClassEl = compare.querySelector<HTMLElement>("[data-this-class]");
+        const otherNetEl = compare.querySelector<HTMLElement>("[data-other-net]");
+        const ratioEl = compare.querySelector<HTMLElement>("[data-ratio]");
+        if (current && otherCurrent && otherClassEl && thisClassEl && otherNetEl && ratioEl) {
+          otherClassEl.textContent = levyData.classes[other].short;
+          thisClassEl.textContent = levyData.classes[cls].short;
+          otherNetEl.textContent = formatDollars(otherCurrent.gross);
+          const diff = otherCurrent.gross > 0 ? Math.round(((current.gross - otherCurrent.gross) / otherCurrent.gross) * 100) : 0;
+          ratioEl.textContent = diff >= 0 ? `${diff}% more` : `${Math.abs(diff)}% less`;
+        }
+      }
+    };
+
+    range.addEventListener("input", () => {
+      exact.value = range.value;
+      render();
+    });
+    exact.addEventListener("input", () => {
+      const value = clamp(Number(exact.value) || 0);
+      range.value = String(Math.max(Number(range.min), Math.min(Number(range.max), value)));
+      render();
+    });
+    classSelect.addEventListener("change", render);
+    volunteer.addEventListener("change", render);
+    form.addEventListener("submit", (event) => event.preventDefault());
+    render();
+  });
+</script>

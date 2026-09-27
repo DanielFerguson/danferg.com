@@ -1,0 +1,92 @@
+---
+import type SEO from "types/SEO";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import ContentList from "@components/ContentList.astro";
+import ArchiveFilters from "@components/ArchiveFilters.astro";
+import { loadArchive, tagCounts } from "../../../data/article-index";
+import { tags as tagCatalogue, tagHref, type TagId } from "../../../data/taxonomy";
+
+export async function getStaticPaths() {
+  const archive = await loadArchive();
+  // Only tags with at least one article get a page, so no page is generated without inbound links.
+  return tagCounts(archive).map((tag) => ({ params: { tag: tag.id }, props: { archive } }));
+}
+
+interface Props {
+  archive: Awaited<ReturnType<typeof loadArchive>>;
+}
+
+const { archive } = Astro.props;
+const tag = Astro.params.tag as TagId;
+const definition = tagCatalogue[tag];
+const matching = archive.filter((item) => item.tags.includes(tag));
+const items = matching.map(({ date: _date, tags, series, draft: _draft, ...item }) => ({
+  ...item,
+  tags: tags.map((id) => ({ id, label: tagCatalogue[id].label, href: tagHref(id) })),
+  series: series?.id,
+}));
+const chips = tagCounts(archive);
+const canonicalUrl = tagHref(tag);
+const SEO: SEO = {
+  title: `${definition.label}: articles | Dan Ferg`,
+  description: `${definition.description} ${matching.length} ${matching.length === 1 ? "article" : "articles"} by Dan Ferg tagged ${definition.label}.`,
+  imageUrl: "/images/og-default.png",
+  openGraph: { type: "website" },
+  canonicalUrl,
+  schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Articles", url: "/articles" },
+    { name: definition.label, url: canonicalUrl },
+  ],
+};
+const itemListId = `https://danferg.com${canonicalUrl}#itemlist`;
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: `Dan Ferg articles tagged ${definition.label}`,
+  numberOfItems: matching.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: matching.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.title,
+    url: new URL(item.href, "https://danferg.com").toString(),
+  })),
+};
+---
+
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
+  <NavBar />
+  <main id="main-content" class="site-container archive">
+    <p class="breadcrumb"><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / {definition.label.toUpperCase()}</p>
+    <SectionHeading
+      as="h1"
+      eyebrow={`ARCHIVE_02 // TAG`}
+      title={definition.label}
+      description={`${definition.description} ${matching.length} ${matching.length === 1 ? "article" : "articles"}.`}
+    />
+    <ArchiveFilters tags={chips} total={archive.length} activeTag={tag} />
+    <ContentList items={items} orderedLabel={`Articles tagged ${definition.label}`} />
+  </main>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .breadcrumb {
+    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
+    color: var(--ink-muted);
+    font-size: 0.64rem;
+  }
+
+  .breadcrumb a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+</style>

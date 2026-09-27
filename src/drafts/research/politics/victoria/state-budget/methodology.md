@@ -1,0 +1,13 @@
+# Part 10: research method and traceability
+
+Checked 15 September 2026, Australia/Melbourne. Scope is the state's fiscal position — operating result, cash position, net debt, interest, the tax mix — and what each party's published promises and offsets would do to it, with the regional distribution of capital investment as the local lens. Individual portfolio promises are not re-litigated here; they are carried forward from parts 6 to 8 with their source keys.
+
+Unlike parts 7 and 8, this research was done by the writer directly rather than through parallel research passes, because the load-bearing material is concentrated in a small number of primary documents and the risk of a subagent flattening the accrual-versus-cash distinction was the main thing to avoid.
+
+Pages fetched and read for this part: the budget's fiscal strategy page; the ABC and AAP/ACM budget-day reports; the Pitcher Partners tax-mix analysis; the Auditor-General's report on the Annual Financial Report of the State 2024–25; the Parliamentary Budget Office's regional and metropolitan investment analysis; the Department of Treasury and Finance credit-rating page; the two ABC reports on the Auditor-General's Suburban Rail Loop findings and the Premier's response; the Coalition's 10-year economic plan (Mirage mirror of the party release); the Premier's "$10.8 billion black hole" release; the budget's regional page; and the Rural Councils Victoria election platform. Budget Papers 2 and 5 were not read directly and that is recorded as a limit.
+
+Evidence rules as in earlier parts, plus four specific to this topic. An operating surplus and a cash deficit are different measures and both belong in the same paragraph. An unqualified audit opinion means the accounts are accurate, not that the position is healthy. A claimed saving is only a saving against a figure that was actually budgeted. And a figure whose arithmetic is not published cannot be used by either side, which rules out Labor's $10.8 billion as a fact and the Coalition's $15 billion "Big Build corruption" as an offset.
+
+The Parliamentary Budget Office's regional finding is quoted in both directions deliberately: the 56.6% per-person gap that favours the writer's own grievance, and the 22% reversal when five major projects are excluded, which narrows it. The draft treats the correction as the most valuable thing in the article rather than burying it.
+
+Writing constraints: first person, Dan's stated position, no invented personal or local detail; one `AUTHOR:` comment inviting his prior view on state debt, since the piece opens by admitting this is the topic where his instincts are least reliable. Same five questions. No numerical party score.

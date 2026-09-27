@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "When doing nothing starts to feel wrong."
 description: "After years of turning pressure into action, I'm wondering whether my trouble enjoying games and doing nothing is part of burnout, or a deeper dependence on being useful."
 date: "2026-08-11"
+tags: [reflections]
 imageUrl: /images/og/articles/when-doing-nothing-starts-to-feel-wrong-og.png
 imageUrls:
   - /images/og/articles/when-doing-nothing-starts-to-feel-wrong-16x9.png

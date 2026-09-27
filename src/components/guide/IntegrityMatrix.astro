@@ -1,0 +1,339 @@
+---
+/**
+ * One row per investigation; one column per kind of finding. Makes the difference between
+ * "misconduct substantiated", "corrupt-conduct finding", "charged" and "convicted" visible
+ * at a glance. Status cells stay compact; the explanations sit in a notes line under each row.
+ * Fits the article column without sideways scrolling; stacks into cards on narrow screens.
+ */
+import matrix from "../../data/victoria-2026/integrity.json";
+import { sourceRecords } from "../../data/victoria-2026/guide-store";
+
+type Status = keyof typeof matrix.legend;
+type FindingColumnId = "substantiated" | "corrupt" | "charges" | "conviction";
+const glyph: Record<Status, string> = {
+  yes: "●",
+  partly: "◐",
+  no: "○",
+  na: "–",
+  none: "○",
+  laid: "●",
+  dropped: "◌",
+  pending: "◐",
+};
+const shortLabel: Record<FindingColumnId, string> = {
+  substantiated: "Substantiated?",
+  corrupt: "Corrupt-conduct finding?",
+  charges: "Charged?",
+  conviction: "Convicted?",
+};
+const findingColumns = matrix.columns.filter((c): c is (typeof matrix.columns)[number] & { id: FindingColumnId } =>
+  ["substantiated", "corrupt", "charges", "conviction"].includes(c.id),
+);
+const cell = (row: (typeof matrix.rows)[number], id: FindingColumnId) => row[id] as { status: Status; text: string };
+---
+
+<figure class="matrix" aria-labelledby="matrix-label" aria-describedby="matrix-help">
+  <figcaption id="matrix-label">
+    <span>What each investigation actually found</span>
+    <span class="matrix__hint" id="matrix-help">Reading across a row: was the conduct substantiated, did it meet the legal test for corruption, was anyone charged, was anyone convicted. Hover or focus a column heading for what it means.</span>
+  </figcaption>
+
+  <table class="matrix__table">
+    <thead>
+      <tr>
+        <th scope="col">Investigation</th>
+        {findingColumns.map((column) => (
+          <th scope="col"><abbr title={column.help}>{shortLabel[column.id]}</abbr></th>
+        ))}
+      </tr>
+    </thead>
+    {matrix.rows.map((row) => {
+      const notes = findingColumns
+        .map((column) => ({ column, value: cell(row, column.id) }))
+        .filter(({ value }) => value.text);
+      return (
+        <tbody id={`matrix-${row.id}`}>
+          <tr class="matrix__row">
+            <th scope="row">
+              <span class="matrix__name">{row.name}</span>
+              <span class="matrix__body">{row.body}</span>
+              <span class="matrix__when">
+                <span>Conduct {row.conduct.period} <em>({row.conduct.premier})</em></span>
+                <span aria-hidden="true"> → </span>
+                <span>Reported {row.reported.date} <em>({row.reported.premier})</em></span>
+              </span>
+            </th>
+            {findingColumns.map((column) => {
+              const value = cell(row, column.id);
+              return (
+                <td data-label={shortLabel[column.id]} data-status={value.status}>
+                  <span class="matrix__status">
+                    <span class="matrix__glyph" aria-hidden="true">{glyph[value.status]}</span>
+                    <span>{matrix.legend[value.status]}</span>
+                  </span>
+                </td>
+              );
+            })}
+          </tr>
+          <tr class="matrix__notes">
+            <td colspan={findingColumns.length + 1}>
+              {notes.length > 0 && (
+                <dl>
+                  {notes.map(({ column, value }) => (
+                    <div>
+                      <dt>{shortLabel[column.id].replace(/\?$/, "")}</dt>
+                      <dd>{value.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <p class="matrix__sources">
+                Source{row.sources.length > 1 ? "s" : ""}:{" "}
+                {row.sources.map((key, index) => (
+                  <>
+                    {index > 0 && " · "}
+                    <a href={sourceRecords[key].url} rel="noopener">{sourceRecords[key].publisher}</a>
+                  </>
+                ))}
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      );
+    })}
+  </table>
+
+  <ul class="matrix__legend" aria-label="Symbols">
+    <li><span class="matrix__glyph" data-status="yes" aria-hidden="true">●</span> Yes / charges laid</li>
+    <li><span class="matrix__glyph" data-status="partly" aria-hidden="true">◐</span> In part / not yet determined</li>
+    <li><span class="matrix__glyph" data-status="no" aria-hidden="true">○</span> No / none</li>
+    <li><span class="matrix__glyph" data-status="dropped" aria-hidden="true">◌</span> Charges dropped</li>
+    <li><span class="matrix__glyph" data-status="na" aria-hidden="true">–</span> Not a body that makes that finding</li>
+  </ul>
+  <p class="matrix__note">A dash in the last three columns is the normal result for audits, inquiries and human-rights findings: those bodies report failures, they don’t prosecute. The only case here that has reached a court involves a former councillor and a consultant, not a premier or a minister.</p>
+</figure>
+
+<style>
+  .matrix {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .matrix figcaption {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .matrix__hint {
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+    font-weight: 400;
+  }
+  .matrix__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .matrix__table th,
+  .matrix__table td {
+    padding: 0.7rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .matrix__table thead th {
+    color: var(--ink);
+    background: var(--signal-soft);
+    font-size: 0.66rem;
+    letter-spacing: 0.03em;
+    line-height: 1.35;
+  }
+  .matrix__table thead th:first-child {
+    width: 38%;
+  }
+  .matrix__table thead abbr {
+    text-decoration: underline dotted;
+    text-underline-offset: 0.2em;
+    cursor: help;
+  }
+  .matrix__row th,
+  .matrix__row td {
+    border-top: 1px solid var(--line-strong);
+  }
+  .matrix__row th[scope="row"] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .matrix__notes td {
+    padding-top: 0;
+  }
+  .matrix__name {
+    display: block;
+  }
+  .matrix__body {
+    display: block;
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+  .matrix__when {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+    font-weight: 400;
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+  }
+  .matrix__when em {
+    font-style: normal;
+    color: var(--ink-muted);
+  }
+  .matrix__status {
+    display: flex;
+    gap: 0.3rem;
+    align-items: baseline;
+    color: var(--ink);
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .matrix__glyph {
+    flex-shrink: 0;
+    display: inline-block;
+    width: 1em;
+    color: var(--signal);
+  }
+  [data-status="yes"] .matrix__glyph,
+  [data-status="laid"] .matrix__glyph {
+    color: var(--signal-emphasis);
+  }
+  [data-status="partly"] .matrix__glyph,
+  [data-status="pending"] .matrix__glyph {
+    color: var(--signal);
+  }
+  [data-status="no"] .matrix__glyph,
+  [data-status="none"] .matrix__glyph,
+  [data-status="dropped"] .matrix__glyph,
+  [data-status="na"] .matrix__glyph {
+    color: var(--ink-muted);
+  }
+  td[data-status="na"] .matrix__status {
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+  .matrix__notes dl {
+    display: grid;
+    gap: 0.2rem;
+    margin: 0;
+  }
+  .matrix__notes dl div {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
+  }
+  .matrix__notes dt {
+    color: var(--ink-muted);
+  }
+  .matrix__notes dd {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .matrix__sources {
+    margin: 0.4rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.66rem;
+  }
+  .matrix__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+  }
+  .matrix__legend li,
+  .matrix__legend li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .matrix__note {
+    margin: 0.75rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+  }
+  @media (max-width: 720px) {
+    .matrix {
+      padding: 1rem;
+    }
+    .matrix__table,
+    .matrix__table tbody,
+    .matrix__table tr,
+    .matrix__table th,
+    .matrix__table td {
+      display: block;
+      width: auto;
+    }
+    .matrix__table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .matrix__table tbody {
+      padding: 0.85rem 0;
+      border-top: 1px solid var(--line-strong);
+    }
+    .matrix__row th,
+    .matrix__row td,
+    .matrix__notes td {
+      padding: 0;
+      border: 0;
+    }
+    .matrix__row th[scope="row"] {
+      margin-bottom: 0.5rem;
+    }
+    .matrix__row td {
+      display: grid;
+      grid-template-columns: 9.5rem minmax(0, 1fr);
+      gap: 0.5rem;
+      padding: 0.15rem 0;
+    }
+    .matrix__row td::before {
+      content: attr(data-label);
+      color: var(--ink-muted);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.7;
+    }
+    .matrix__notes td {
+      margin-top: 0.4rem;
+    }
+    .matrix__notes dl div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+  @media print {
+    .matrix {
+      break-inside: avoid;
+    }
+    .matrix__table tbody {
+      break-inside: avoid;
+    }
+  }
+</style>

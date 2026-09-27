@@ -1,19 +1,16 @@
 ---
-const sections = [
-  ["why-im-looking", "Why I’m looking more closely"],
-  ["what-im-checking", "What I’m checking"],
-  ["the-years-behind-this-election", "The years behind this election"],
-  ["what-deserves-credit", "What deserves credit"],
-  ["regional-roads", "Regional roads"],
-  ["emergency-services-levy", "The emergency-services levy"],
-  ["integrity-findings", "What the investigations found"],
-  ["information-and-influence", "Information and influence"],
-  ["questions-before-voting", "Questions before voting"],
-];
+import { guideSections } from "../data/victoria-2026/sections";
+
+interface Props {
+  sections?: Array<[id: string, label: string]>;
+  label?: string;
+}
+
+const { sections = guideSections, label = "In this guide" } = Astro.props;
 ---
 
 <nav class="election-contents" id="contents" tabindex="-1" aria-labelledby="contents-label">
-  <p id="contents-label" class="election-contents__label">In this guide</p>
+  <p id="contents-label" class="election-contents__label">{label}</p>
   <ol role="list">
     {sections.map(([id, label], index) => (
       <li>

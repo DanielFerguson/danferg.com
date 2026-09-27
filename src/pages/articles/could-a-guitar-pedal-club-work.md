@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "Could a guitar pedal club work?"
 description: "My dad’s pedal-trading habit led me to ask whether a subscription library could work—and whether buying and selling is part of the fun."
 date: "2026-08-24"
+tags: [startups, product, music]
 imageUrl: /images/og/articles/could-a-guitar-pedal-club-work-og.png
 imageUrls:
   - /images/og/articles/could-a-guitar-pedal-club-work-16x9.png

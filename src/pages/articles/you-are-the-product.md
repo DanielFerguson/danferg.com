@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "You are the product."
 description: "A 2021 reflection on free software, privacy, and personal data, retained with updated links to current Australian cyber-security guidance."
 date: "2021-01-02"
+tags: [privacy, software]
 updatedDate: "2026-07-12"
 imageUrl: /images/og/articles/you-are-the-product-og.png
 imageUrls:

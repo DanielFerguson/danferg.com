@@ -1,0 +1,251 @@
+---
+/**
+ * Search box and tag chips for the articles archive.
+ * Chips are plain links to the static tag and series pages, so filtering works without
+ * script; on the archive page a script upgrades them to filter the list in place and keeps
+ * the choice in the URL so a filtered view can be shared.
+ */
+import { tagHref, type SeriesId, type TagId } from "../data/taxonomy";
+
+interface TagChip {
+  id: TagId;
+  label: string;
+  count: number;
+}
+interface Props {
+  tags: TagChip[];
+  activeTag?: TagId;
+  activeSeries?: SeriesId;
+  total: number;
+  /** When true, chips filter in place and the URL carries the state. */
+  live?: boolean;
+}
+
+const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
+---
+
+<section class="archive-filters" data-archive-filters={live ? "live" : undefined} aria-label="Find an article">
+  <div class="archive-filters__search" data-site-search hidden>
+    <p class="archive-filters__label" id="site-search-label">Search articles</p>
+    <div data-site-search-mount></div>
+  </div>
+
+  <div class="archive-filters__group">
+    <p class="archive-filters__label">Filter by tag</p>
+    <ul class="archive-filters__chips" role="list">
+      <li>
+        <a href="/articles" data-filter-tag="" aria-current={!activeTag && !activeSeries ? "true" : undefined}>All <small>{total}</small></a>
+      </li>
+      {tags.map((tag) => (
+        <li>
+          <a href={tagHref(tag.id)} data-filter-tag={tag.id} aria-current={activeTag === tag.id ? "true" : undefined}>
+            {tag.label} <small>{tag.count}</small>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="archive-filters__status" role="status" aria-live="polite" data-filter-status></p>
+  </div>
+
+</section>
+
+<style>
+  .archive-filters {
+    display: grid;
+    gap: 1.5rem;
+    margin: 0 0 2.25rem;
+  }
+  .archive-filters__label {
+    margin: 0 0 0.55rem;
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .archive-filters__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .archive-filters__chips li,
+  .archive-filters__chips li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .archive-filters__chips a {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .archive-filters__chips a small {
+    color: var(--ink-muted);
+    font-size: 0.62rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .archive-filters__chips a:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--ink);
+  }
+  .archive-filters__chips a[aria-current="true"] {
+    border-color: var(--signal-fill);
+    color: var(--paper);
+    background: var(--signal-fill);
+  }
+  .archive-filters__chips a[aria-current="true"] small {
+    color: var(--paper);
+    opacity: 0.8;
+  }
+  .archive-filters__status {
+    min-height: 1.2em;
+    margin: 0.6rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+  }
+  /* Pagefind UI, themed to the site tokens. */
+  .archive-filters__search {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--signal);
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-background: var(--paper-raised);
+    --pagefind-ui-border: var(--line-strong);
+    --pagefind-ui-tag: var(--signal-soft);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 2px;
+    --pagefind-ui-font: inherit;
+  }
+  .archive-filters__search :global(.pagefind-ui__search-input) {
+    font-family: inherit;
+    font-weight: 400;
+  }
+  .archive-filters__search :global(.pagefind-ui__result-title) {
+    font-size: 0.95rem;
+  }
+  .archive-filters__search :global(.pagefind-ui__result-excerpt) {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .archive-filters__search :global(mark) {
+    background: var(--signal-soft);
+    color: var(--ink);
+  }
+  @media print {
+    .archive-filters {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Site search: Pagefind indexes the built site, so its assets exist only after `npm run build`.
+  // Load it if it is there; otherwise leave the search box hidden (development, or a failed load).
+  const search = document.querySelector<HTMLElement>("[data-site-search]");
+  const mount = search?.querySelector<HTMLElement>("[data-site-search-mount]");
+  if (search && mount && !import.meta.env.DEV) {
+    const base = "/pagefind/";
+    (async () => {
+      try {
+        const head = await fetch(`${base}pagefind-ui.js`, { method: "HEAD" });
+        if (!head.ok) return;
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = `${base}pagefind-ui.css`;
+        document.head.append(css);
+        const module = await import(/* @vite-ignore */ `${base}pagefind-ui.js`);
+        const PagefindUI = module.PagefindUI ?? (window as unknown as { PagefindUI?: unknown }).PagefindUI;
+        if (!PagefindUI) return;
+        search.hidden = false;
+        // eslint-disable-next-line new-cap
+        new (PagefindUI as new (options: Record<string, unknown>) => unknown)({
+          element: mount,
+          showImages: false,
+          showSubResults: true,
+          excerptLength: 30,
+          translations: { placeholder: "Search every article…", zero_results: "Nothing matched [SEARCH_TERM]." },
+        });
+        const input = mount.querySelector<HTMLInputElement>("input");
+        if (input) input.setAttribute("aria-labelledby", "site-search-label");
+      } catch {
+        /* no index available here */
+      }
+    })();
+  }
+
+  // In-place filtering on the archive page. Tag pages and series pages are the no-script path.
+  const filters = document.querySelector<HTMLElement>('[data-archive-filters="live"]');
+  const list = document.querySelector<HTMLElement>(".content-list");
+  if (filters && list) {
+    const items = Array.from(list.querySelectorAll<HTMLLIElement>(":scope > li"));
+    const chips = Array.from(filters.querySelectorAll<HTMLAnchorElement>("[data-filter-tag], [data-filter-series]"));
+    const status = filters.querySelector<HTMLElement>("[data-filter-status]");
+    const heading = document.querySelector<HTMLElement>("[data-archive-title]");
+
+    const apply = (tag: string, seriesId: string, push: boolean) => {
+      let shown = 0;
+      for (const item of items) {
+        const tags = (item.dataset.tags || "").split(" ").filter(Boolean);
+        const inSeries = item.dataset.series || "";
+        const visible = (!tag || tags.includes(tag)) && (!seriesId || inSeries === seriesId);
+        item.hidden = !visible;
+        if (visible) {
+          shown += 1;
+          // The scroll-reveal animation parks off-screen items at opacity 0 until the first of
+          // them scrolls into view; filtering can hide that first item, so make sure the
+          // survivors are visible regardless.
+          item.style.removeProperty("opacity");
+          item.style.removeProperty("transform");
+        }
+      }
+      for (const chip of chips) {
+        const active = chip.dataset.filterTag !== undefined
+          ? (chip.dataset.filterTag || "") === tag && !seriesId
+          : chip.dataset.filterSeries === seriesId;
+        if (active) chip.setAttribute("aria-current", "true");
+        else chip.removeAttribute("aria-current");
+      }
+      const activeChip = chips.find((chip) => chip.getAttribute("aria-current") === "true");
+      const label = activeChip?.childNodes[0]?.textContent?.trim() || "All";
+      if (status) status.textContent = tag || seriesId ? `${shown} ${shown === 1 ? "article" : "articles"} tagged ${label}. Press Escape or choose All to clear.` : "";
+      if (heading) heading.dataset.filtered = tag || seriesId ? "true" : "false";
+      if (push) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("tag");
+        url.searchParams.delete("series");
+        if (tag) url.searchParams.set("tag", tag);
+        if (seriesId) url.searchParams.set("series", seriesId);
+        history.pushState({ tag, seriesId }, "", url);
+      }
+    };
+
+    filters.addEventListener("click", (event) => {
+      const chip = (event.target as HTMLElement).closest<HTMLAnchorElement>("[data-filter-tag], [data-filter-series]");
+      if (!chip || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      if (chip.dataset.filterTag !== undefined) apply(chip.dataset.filterTag || "", "", true);
+      else apply("", chip.dataset.filterSeries || "", true);
+      list.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+    window.addEventListener("popstate", () => {
+      const params = new URLSearchParams(window.location.search);
+      apply(params.get("tag") || "", params.get("series") || "", false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && (new URLSearchParams(window.location.search).get("tag") || new URLSearchParams(window.location.search).get("series"))) apply("", "", true);
+    });
+    const initial = new URLSearchParams(window.location.search);
+    if (initial.get("tag") || initial.get("series")) apply(initial.get("tag") || "", initial.get("series") || "", false);
+  }
+</script>

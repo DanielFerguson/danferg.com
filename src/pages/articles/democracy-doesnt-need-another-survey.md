@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "Democracy doesn't need another survey. It needs a feedback loop."
 description: "Survey fatigue is partly a burden problem. The deeper failure is that institutions keep improving how they ask for input without explaining what happened next."
 date: "2026-07-17"
+tags: [civic-tech, product]
 imageUrl: /images/og-default.png
 imageAlt: Social card for Democracy doesn't need another survey. It needs a feedback loop.
 imageWidth: 1200

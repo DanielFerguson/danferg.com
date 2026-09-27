@@ -3,6 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "A better, brighter, cleaner future."
 description: "A reflection on aligning everyday financial choices with personal values, retained with current links for independently comparing Australian super funds."
 date: "2020-12-23"
+tags: [reflections, money]
 updatedDate: "2026-07-12"
 imageUrl: /images/og/articles/a-better-brighter-cleaner-future-og.png
 imageUrls:

@@ -258,6 +258,36 @@ a:focus-visible {
   text-decoration-color: currentColor;
 }
 
+/* Long-form reading: article body copy uses the proportional Geist face at a
+   comfortable measure. Headings, kickers, figures, tables, tags, citation marks
+   and code keep Geist Mono so the page still reads as one family. */
+.article-prose > p,
+.article-prose > ul,
+.article-prose > ol,
+.article-prose > blockquote,
+.article-prose .guide-method__body > p {
+  font-family: "Geist Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.08rem);
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+.article-prose > p strong,
+.article-prose > ul strong,
+.article-prose > ol strong {
+  font-weight: 650;
+}
+.article-prose > p code,
+.article-prose > ul code,
+.article-prose > ol code,
+.article-prose a.cite,
+.article-prose .claim-tag,
+.article-prose .sidenote {
+  font-family: "Geist Mono Variable", "SFMono-Regular", Consolas, monospace;
+}
+.article-prose a.cite {
+  vertical-align: 0.35em;
+}
+
 .prose-shell blockquote {
   margin: 1.75em 0;
   padding: 1rem 1.25rem;

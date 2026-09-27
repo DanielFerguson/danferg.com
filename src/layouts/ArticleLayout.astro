@@ -5,6 +5,11 @@ import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
 import ArticleAudioPlayer from "@components/ArticleAudioPlayer.astro";
+import ArticleTags from "@components/ArticleTags.astro";
+import SeriesNav from "@components/SeriesNav.astro";
+// Running prose in articles reads in Geist Sans; the rest of the site stays on Geist Mono.
+import "@fontsource-variable/geist/wght.css";
+import "@fontsource-variable/geist/wght-italic.css";
 
 const { frontmatter } = Astro.props;
 const isDraft = frontmatter.draft === true;
@@ -15,6 +20,7 @@ const formatDate = (date: string) =>
     year: "numeric",
   }).format(new Date(`${date}T00:00:00`));
 const modifiedDate = frontmatter.modifiedDate || frontmatter.updatedDate;
+const series = frontmatter.series as { id: "working-out-my-vote"; part: number } | undefined;
 
 const SEO: SEO & {
   headline: string;
@@ -62,15 +68,20 @@ const SEO: SEO & {
           </p>
           <h1>{frontmatter.title}</h1>
         </div>
-        <p class="story-header__description">{frontmatter.description}</p>
+        <div class="story-header__aside">
+          <p class="story-header__description">{frontmatter.description}</p>
+          <ArticleTags tags={frontmatter.tags} pagefind />
+        </div>
       </div>
     </header>
     {frontmatter.audio && (
       <ArticleAudioPlayer audio={frontmatter.audio} title={frontmatter.title} />
     )}
     <hr class="site-container ascii-rule" />
-    <article class="prose-shell article-prose" data-motion-reveal>
+    <article class="prose-shell article-prose" data-motion-reveal data-pagefind-body>
+      {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} variant="compact" />}
       <slot />
+      {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} />}
     </article>
     <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" />
     <EditorialEndcap sourceTitle={frontmatter.title} />
@@ -118,6 +129,11 @@ const SEO: SEO & {
     font-size: clamp(2.25rem, 5.5vw, 5rem);
     line-height: 0.95;
     letter-spacing: -0.07em;
+  }
+
+  .story-header__aside {
+    display: grid;
+    gap: 0.9rem;
   }
 
   .story-header__description {

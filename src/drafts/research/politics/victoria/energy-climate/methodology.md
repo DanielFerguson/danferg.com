@@ -1,0 +1,11 @@
+# Part 8: research method and traceability
+
+Checked 15 September 2026, Australia/Melbourne. Scope is electricity and gas supply, bills, transmission and renewable-zone siting, offshore wind, the SEC, the legislated targets, and the regional climate shocks of 2025–26 (drought, January fires), for Victoria’s 2026 election. The emergency-services levy is in part 3 and part 6; household cost-of-living measures other than energy are in part 7.
+
+Method follows parts 6 and 7: three parallel research passes (baseline and government; Coalition; crossbench) recording per claim the title, publisher, date, URL, date checked, whether the live page was read or only indexed, a short quote, mechanism, funding and period, timing, regional distribution and what remains unspecified. Joint Liberal–National commitments counted once. Silence in the sources found recorded as a research limit.
+
+Before drafting, the coordinating writer re-fetched the load-bearing pages: the ESC default-offer decision, the Auditor-General’s transition report, the AEMO 2026 ESOO and GSOO releases, the energy.vic.gov.au standards page, the Premier’s offshore-auction and landholder-payment releases, the ABC reports on the Coalition’s VNI West pledge, firming policy, coal position and buffer zones, the Coalition gas-ban release, the One Nation Loy Yang report, the ABC VNI West cost report and the Agriculture Victoria drought page. The Western Renewables Link pause was confirmed only as a single AAP wire story syndicated across ACM mastheads on the day of writing; the draft says so and the changelog commits to updating when a primary release appears.
+
+Evidence rules as in earlier parts, plus: a regulator’s benchmark price is not a household’s bill; an auction opening is delivered, contracted megawatts are not; a company’s closure date is the company’s statement; industry-lobby estimates (Clean Energy Council) and farmer-lobby characterisations (VFF, Farmers Fightback) are both labelled as advocacy; federal levers (Capacity Investment Scheme, offshore licences, nuclear prohibition) are named as federal wherever a state party invokes them.
+
+Writing constraints: first person, Dan’s stated position, no invented local detail; one `AUTHOR:` comment for whether a corridor or zone touches his area. Same five questions and table columns. No numerical party score.

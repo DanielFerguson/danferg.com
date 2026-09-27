@@ -1,0 +1,338 @@
+{
+  "legend": {
+    "yes": "Yes",
+    "partly": "In part",
+    "no": "No",
+    "na": "Not that kind of body",
+    "none": "None",
+    "laid": "Charges laid",
+    "dropped": "Charges dropped",
+    "pending": "Not yet determined"
+  },
+  "columns": [
+    {
+      "id": "conduct",
+      "label": "Conduct",
+      "help": "When the conduct happened and who was Premier at the time."
+    },
+    {
+      "id": "reported",
+      "label": "Reported",
+      "help": "When the finding landed and who was Premier then."
+    },
+    {
+      "id": "substantiated",
+      "label": "Failure or misconduct substantiated?",
+      "help": "Whether the body found the conduct or administrative failure it examined actually happened."
+    },
+    {
+      "id": "corrupt",
+      "label": "Corrupt-conduct finding?",
+      "help": "A statutory finding that conduct met the legal definition of corrupt conduct. Auditors, inquiries and private reviews cannot make one."
+    },
+    {
+      "id": "charges",
+      "label": "Criminal charges?",
+      "help": "Whether anyone was charged over the conduct. A charge is not a conviction."
+    },
+    {
+      "id": "conviction",
+      "label": "Conviction?",
+      "help": "Whether a court has convicted anyone."
+    }
+  ],
+  "rows": [
+    {
+      "id": "watts",
+      "name": "Operation Watts",
+      "body": "IBAC and Victorian Ombudsman",
+      "conduct": {
+        "period": "About 2014–2020",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "20 July 2022",
+        "premier": "Andrews"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Publicly funded staff doing factional work, nepotism, bullying"
+      },
+      "corrupt": {
+        "status": "no",
+        "text": "Conduct called egregious; prosecution not recommended given the state of the law"
+      },
+      "charges": {
+        "status": "none",
+        "text": ""
+      },
+      "conviction": {
+        "status": "none",
+        "text": ""
+      },
+      "sources": [
+        "watts-report"
+      ]
+    },
+    {
+      "id": "daintree",
+      "name": "Operation Daintree",
+      "body": "IBAC",
+      "conduct": {
+        "period": "2018",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "19 April 2023",
+        "premier": "Andrews"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Improper adviser influence over a $1.2 million contract; breaches of public duty"
+      },
+      "corrupt": {
+        "status": "no",
+        "text": "Statutory threshold not met"
+      },
+      "charges": {
+        "status": "none",
+        "text": ""
+      },
+      "conviction": {
+        "status": "none",
+        "text": ""
+      },
+      "sources": [
+        "daintree-ibac-annual"
+      ]
+    },
+    {
+      "id": "richmond",
+      "name": "Operation Richmond",
+      "body": "IBAC",
+      "conduct": {
+        "period": "2016, with later dealings",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "5 August 2026",
+        "premier": "Carroll"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Secret negotiations that bypassed the responsible minister, the CFA and the department"
+      },
+      "corrupt": {
+        "status": "no",
+        "text": "No corrupt-conduct finding; blackmail allegation not substantiated"
+      },
+      "charges": {
+        "status": "none",
+        "text": ""
+      },
+      "conviction": {
+        "status": "none",
+        "text": ""
+      },
+      "sources": [
+        "richmond-abc"
+      ]
+    },
+    {
+      "id": "games",
+      "name": "Commonwealth Games withdrawal",
+      "body": "Auditor-General",
+      "conduct": {
+        "period": "2022–2023",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "20 March 2024",
+        "premier": "Allan"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Business case understated costs; advice not frank or timely; over $589 million spent"
+      },
+      "corrupt": {
+        "status": "na",
+        "text": "An audit, not an integrity investigation"
+      },
+      "charges": {
+        "status": "na",
+        "text": ""
+      },
+      "conviction": {
+        "status": "na",
+        "text": ""
+      },
+      "sources": [
+        "games-audit"
+      ]
+    },
+    {
+      "id": "hotel-quarantine",
+      "name": "Hotel quarantine",
+      "body": "Coate Board of Inquiry",
+      "conduct": {
+        "period": "2020",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "21 December 2020",
+        "premier": "Andrews"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Systemic failures of governance and accountability"
+      },
+      "corrupt": {
+        "status": "na",
+        "text": "An inquiry, not an integrity investigation"
+      },
+      "charges": {
+        "status": "dropped",
+        "text": "WorkSafe charges against the health department were withdrawn in May 2024; a $125 million civil settlement was agreed in March 2026 without an admission"
+      },
+      "conviction": {
+        "status": "none",
+        "text": ""
+      },
+      "sources": [
+        "hotel-quarantine",
+        "hq-charges-dropped",
+        "hq-settlement"
+      ]
+    },
+    {
+      "id": "tower-lockdown",
+      "name": "Public housing tower lockdown",
+      "body": "Victorian Ombudsman",
+      "conduct": {
+        "period": "July 2020",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "17 December 2020",
+        "premier": "Andrews"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Immediate lockdown breached human rights; a temporary lockdown itself was warranted"
+      },
+      "corrupt": {
+        "status": "na",
+        "text": "A human-rights finding, disputed by the government"
+      },
+      "charges": {
+        "status": "na",
+        "text": ""
+      },
+      "conviction": {
+        "status": "na",
+        "text": ""
+      },
+      "sources": [
+        "tower-lockdown"
+      ]
+    },
+    {
+      "id": "politicisation",
+      "name": "Public service politicisation",
+      "body": "Victorian Ombudsman",
+      "conduct": {
+        "period": "Andrews years",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "6 December 2023",
+        "premier": "Allan"
+      },
+      "substantiated": {
+        "status": "partly",
+        "text": "Politicisation and excessive secrecy found; stacking with party operatives not substantiated"
+      },
+      "corrupt": {
+        "status": "na",
+        "text": ""
+      },
+      "charges": {
+        "status": "na",
+        "text": ""
+      },
+      "conviction": {
+        "status": "na",
+        "text": ""
+      },
+      "sources": [
+        "ombudsman-politicisation"
+      ]
+    },
+    {
+      "id": "sandon",
+      "name": "Operation Sandon",
+      "body": "IBAC",
+      "conduct": {
+        "period": "About 2014–2019, City of Casey",
+        "premier": "Andrews"
+      },
+      "reported": {
+        "date": "27 July 2023",
+        "premier": "Andrews"
+      },
+      "substantiated": {
+        "status": "yes",
+        "text": "Councillors advanced a developer’s interests for payment; planning and lobbying controls weak"
+      },
+      "corrupt": {
+        "status": "partly",
+        "text": "Adverse findings against two councillors and a developer; none against a premier or minister"
+      },
+      "charges": {
+        "status": "laid",
+        "text": "A former councillor and a development consultant charged in September 2025"
+      },
+      "conviction": {
+        "status": "pending",
+        "text": ""
+      },
+      "sources": [
+        "sandon-release",
+        "sandon-charges"
+      ]
+    },
+    {
+      "id": "watson",
+      "name": "Watson review of the Victorian CFMEU",
+      "body": "Geoffrey Watson SC, for the union’s administrator",
+      "conduct": {
+        "period": "Roughly 2019–2024",
+        "premier": "Andrews, Allan"
+      },
+      "reported": {
+        "date": "11 February 2026",
+        "premier": "Allan"
+      },
+      "substantiated": {
+        "status": "partly",
+        "text": "Documented corruption, intimidation and government inaction; a private review, not tested by an integrity body"
+      },
+      "corrupt": {
+        "status": "na",
+        "text": "The $15 billion figure is an untested estimate; a royal commission is now examining the sector"
+      },
+      "charges": {
+        "status": "na",
+        "text": ""
+      },
+      "conviction": {
+        "status": "na",
+        "text": ""
+      },
+      "sources": [
+        "watson-review",
+        "abc-kourakis"
+      ]
+    }
+  ]
+}
