@@ -19,7 +19,9 @@ const SEO: SEO = {
   imageAlt: "Chef — conversational meal planning Agent Skills by Dan Ferg",
   openGraph: { type: "website" },
   canonicalUrl: canonicalPath,
-  schemaType: "SoftwareApplication",
+  // The page describes the SoftwareApplication below rather than being one.
+  schemaType: "WebPage",
+  mainEntityId: "https://danferg.com/skills/chef#software",
   modifiedDate: "2026-08-24",
   breadcrumbs: [
     { name: "Home", url: "/" },
@@ -65,7 +67,7 @@ const skills = [
         <a class="button" href={sourceUrl}>View source on GitHub <span aria-hidden="true">↗</span></a>
         <a class="button" href="/skills/chef/install">Installation guide <span aria-hidden="true">→</span></a>
       </div>
-      <p class="release-note" data-motion-intro-item>Stable release 0.2.0 is available from GitHub. The records-oriented 0.1 release remains archived, and the OpenAI directory listing is still separate.</p>
+      <p class="release-note" data-motion-intro-item>Stable release 0.2.0 is available from GitHub. The records-oriented 0.1 release remains archived, and the OpenAI directory listing is still separate. <a href="/projects/chef">Read how Chef came together</a>.</p>
     </header>
 
     <section class="principle" aria-labelledby="principle-title">
@@ -234,6 +236,13 @@ codex plugin add chef@chef-skills</code></pre>
     color: var(--ink-muted);
     font-size: var(--text-label);
     line-height: 1.65;
+  }
+
+  .release-note a {
+    color: var(--signal);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
   .principle,

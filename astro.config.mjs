@@ -5,21 +5,24 @@ import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import mdx from "@astrojs/mdx";
 import { readdirSync, readFileSync } from "node:fs";
+import { MIN_INDEXABLE_TAG_ARTICLES } from "./src/data/taxonomy.ts";
 
-const editorialDirectories = [
-  new URL("./src/pages/articles/", import.meta.url),
-  new URL("./src/pages/newsletters/", import.meta.url),
-  new URL("./src/pages/projects/", import.meta.url),
-];
+const editorialDirectories = {
+  "/articles": new URL("./src/pages/articles/", import.meta.url),
+  "/newsletters": new URL("./src/pages/newsletters/", import.meta.url),
+  "/projects": new URL("./src/pages/projects/", import.meta.url),
+};
 
-const lastModifiedByPath = new Map([
-  ["/", new Date("2026-07-12T00:00:00.000Z")],
-  ["/articles", new Date("2026-07-12T00:00:00.000Z")],
-  ["/newsletters", new Date("2022-12-09T00:00:00.000Z")],
-  ["/consulting", new Date("2026-07-12T00:00:00.000Z")],
-]);
+const lastModifiedByPath = new Map();
+const excludedFromSitemap = new Set();
+const articleTagCounts = new Map();
+const toDate = (isoDate) => new Date(`${isoDate}T00:00:00.000Z`);
+const noteLatest = (path, date) => {
+  const current = lastModifiedByPath.get(path);
+  if (!current || date > current) lastModifiedByPath.set(path, date);
+};
 
-for (const directory of editorialDirectories) {
+for (const [sectionPath, directory] of Object.entries(editorialDirectories)) {
   for (const filename of readdirSync(directory)) {
     if (!/\.(md|mdx)$/.test(filename)) continue;
 
@@ -34,14 +37,35 @@ for (const directory of editorialDirectories) {
       /^(?:date|publishedDate):\s*["']?(\d{4}-\d{2}-\d{2})/m,
     )?.[1];
     const lastModified = updatedDate || publishedDate;
+    const hidden = /^visible:\s*false\s*$/m.test(source);
 
-    if (canonicalPath && lastModified) {
-      lastModifiedByPath.set(
-        canonicalPath,
-        new Date(`${lastModified}T00:00:00.000Z`),
-      );
+    if (canonicalPath && hidden) excludedFromSitemap.add(canonicalPath);
+    if (canonicalPath && lastModified && !hidden) {
+      const date = toDate(lastModified);
+      lastModifiedByPath.set(canonicalPath, date);
+      // Archive pages and the homepage change whenever an entry does.
+      noteLatest(sectionPath, date);
+      noteLatest("/", date);
+    }
+
+    if (sectionPath === "/articles") {
+      const tags = source.match(/^tags:\s*\[([^\]]*)\]/m)?.[1] ?? "";
+      for (const tag of tags.split(",").map((value) => value.trim()).filter(Boolean)) {
+        articleTagCounts.set(tag, (articleTagCounts.get(tag) ?? 0) + 1);
+      }
     }
   }
+}
+
+for (const [tag, count] of articleTagCounts) {
+  if (count < MIN_INDEXABLE_TAG_ARTICLES) excludedFromSitemap.add(`/articles/tag/${tag}`);
+}
+
+// Standalone pages declare their own modifiedDate in their SEO props.
+for (const page of ["about", "consulting", "speaking"]) {
+  const source = readFileSync(new URL(`./src/pages/${page}.astro`, import.meta.url), "utf8");
+  const modified = source.match(/modifiedDate:\s*["'](\d{4}-\d{2}-\d{2})["']/)?.[1];
+  if (modified) lastModifiedByPath.set(`/${page}`, toDate(modified));
 }
 
 // Geist ships as variable fonts split by unicode range. Only the subsets this
@@ -125,6 +149,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) =>
+        !excludedFromSitemap.has(new URL(page).pathname.replace(/\/$/, "")),
       serialize(item) {
         const pathname = new URL(item.url).pathname.replace(/\/$/, "") || "/";
         const lastmod = lastModifiedByPath.get(pathname);

@@ -103,6 +103,8 @@ const SEO: SEO & {
   imageType: "image/webp",
   openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
+  // Unlisted case studies stay reachable by link but out of search results.
+  robots: frontmatter.visible === false ? "noindex,follow" : undefined,
   schemaType: "CreativeWork",
   publishedDate: frontmatter.publishedDate || frontmatter.date,
   modifiedDate: frontmatter.modifiedDate || frontmatter.updatedDate,

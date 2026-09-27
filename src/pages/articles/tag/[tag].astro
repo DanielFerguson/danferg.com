@@ -7,7 +7,14 @@ import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 import ArchiveFilters from "@components/ArchiveFilters.astro";
 import { loadArchive, tagCounts } from "../../../data/article-index";
-import { tags as tagCatalogue, tagHref, type TagId } from "../../../data/taxonomy";
+import { getCollection } from "astro:content";
+import {
+  MIN_INDEXABLE_TAG_ARTICLES,
+  tags as tagCatalogue,
+  tagHref,
+  type TagId,
+} from "../../../data/taxonomy";
+import { pageTitle } from "../../../utils/seo";
 
 export async function getStaticPaths() {
   const archive = await loadArchive();
@@ -30,8 +37,20 @@ const items = matching.map(({ date: _date, tags, series, draft: _draft, ...item 
 }));
 const chips = tagCounts(archive);
 const canonicalUrl = tagHref(tag);
+const indexable = matching.length >= MIN_INDEXABLE_TAG_ARTICLES;
+const projects = await getCollection("projects");
+const relatedProjects = definition.projects
+  .map((path) => projects.find((project) => project.data.canonicalUrl === path))
+  .filter((project) => project !== undefined)
+  .map((project) => ({
+    title: project.data.title,
+    description: project.data.description,
+    href: project.data.canonicalUrl,
+    meta: "CASE STUDY",
+  }));
 const SEO: SEO = {
-  title: `${definition.label}: articles | Dan Ferg`,
+  title: pageTitle(definition.label, definition.title),
+  robots: indexable ? undefined : "noindex,follow",
   description: `${definition.description} ${matching.length} ${matching.length === 1 ? "article" : "articles"} by Dan Ferg tagged ${definition.label}.`,
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
@@ -71,6 +90,13 @@ const itemListJsonLd = {
     />
     <ArchiveFilters tags={chips} total={archive.length} activeTag={tag} />
     <ContentList items={items} orderedLabel={`Articles tagged ${definition.label}`} />
+    {relatedProjects.length > 0 && (
+      <section class="tag-projects" aria-labelledby="tag-projects-title">
+        <h2 id="tag-projects-title">Related work</h2>
+        <p>Case studies where these ideas were put into practice.</p>
+        <ContentList items={relatedProjects} orderedLabel={`Case studies related to ${definition.label}`} />
+      </section>
+    )}
   </main>
 </BaseLayout>
 
@@ -88,5 +114,21 @@ const itemListJsonLd = {
   .breadcrumb a {
     color: var(--ink);
     text-underline-offset: 0.2em;
+  }
+
+  .tag-projects {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .tag-projects h2 {
+    margin: 0;
+    font-size: clamp(1.45rem, 3vw, 2.2rem);
+    letter-spacing: -0.05em;
+  }
+
+  .tag-projects > p {
+    margin: 0.6rem 0 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
   }
 </style>

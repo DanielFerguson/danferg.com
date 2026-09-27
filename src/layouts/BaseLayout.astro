@@ -8,6 +8,9 @@ export interface Props extends SEO {
   imageType?: string;
   articleSection?: string;
   citationUrls?: string[];
+  keywords?: string[];
+  abstract?: string;
+  wordCount?: number;
   mainEntityId?: string;
   lightThemeColor?: string;
   darkThemeColor?: string;
@@ -33,6 +36,9 @@ const {
   modifiedDate,
   articleSection,
   citationUrls = [],
+  keywords = [],
+  abstract,
+  wordCount,
   mainEntityId,
   breadcrumbs = [],
   jsonLd,
@@ -137,6 +143,9 @@ const contentJsonLd = hasContentEntity
       ...(isArticle && citationUrls.length > 0
         ? { citation: citationUrls.map(absoluteUrl) }
         : {}),
+      ...(keywords.length > 0 ? { keywords } : {}),
+      ...(abstract ? { abstract } : {}),
+      ...(isArticle && wordCount ? { wordCount } : {}),
     }
   : null;
 const structuredData = {
@@ -146,7 +155,15 @@ const structuredData = {
       "@type": "Person",
       "@id": personId,
       name: "Dan Ferg",
+      alternateName: ["Daniel Ferguson", "Dan Ferguson"],
       url: siteUrl,
+      mainEntityOfPage: `${siteUrl}/about`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Melbourne",
+        addressRegion: "VIC",
+        addressCountry: "AU",
+      },
       jobTitle: "Product consultant, advisor and software builder",
       description:
         "Dan Ferg builds useful software and advises teams on product, traction, go-to-market strategy, and community-centred technology.",

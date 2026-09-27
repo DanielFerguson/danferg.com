@@ -3,26 +3,35 @@
  *
  * Tags are flat. A tag must be listed here before an article can use it, so a typo in
  * frontmatter fails the content schema instead of quietly creating a new tag.
+ * Each tag names the case studies that best illustrate it; tag pages and related
+ * reading use them to connect writing with the work behind it.
  * A series groups multi-part work in order; parts are listed here so unpublished parts can
  * still appear as "coming" without breaking links.
  */
 
 export const tags = {
-  startups: { label: "Startups", description: "Building companies, experiments in public, launches and endings." },
-  product: { label: "Product", description: "Product thinking, design decisions and what makes something useful." },
-  software: { label: "Software", description: "Code, languages, architecture and the trade-offs between them." },
-  ai: { label: "AI", description: "Models, learning systems and how to tell whether they are working." },
-  hardware: { label: "Hardware", description: "Connected devices, sensors and the physical side of software." },
-  "civic-tech": { label: "Civic tech", description: "Community engagement, institutions and the feedback loops between them." },
-  politics: { label: "Politics", description: "Elections, policy, public accountability and how to check a claim." },
-  "victorian-election-2026": { label: "Victorian election 2026", description: "Working through the November 2026 state election as a regional voter." },
-  "regional-victoria": { label: "Regional Victoria", description: "Country roads, farms, levies and living outside Melbourne." },
-  education: { label: "Education", description: "Learning, teaching and the systems around them." },
-  privacy: { label: "Privacy", description: "Personal data, security and what free software costs." },
-  money: { label: "Money", description: "Everyday financial choices and what they say about values." },
-  music: { label: "Music", description: "Guitars, pedals and the odd side project." },
-  reflections: { label: "Reflections", description: "Burnout, rest, direction and the personal side of building things." },
-} as const;
+  startups: { title: "Startup lessons: launches, experiments and endings", label: "Startups", description: "Building companies, experiments in public, launches and endings.", projects: ["/projects/airproxy", "/projects/observer", "/projects/wp-flame"] },
+  product: { title: "Product thinking and what makes software useful", label: "Product", description: "Product thinking, design decisions and what makes something useful.", projects: ["/projects/communitilabs", "/projects/wp-flame"] },
+  software: { title: "Software engineering notes and trade-offs", label: "Software", description: "Code, languages, architecture and the trade-offs between them.", projects: ["/projects/simplexl", "/projects/wp-flame", "/projects/airproxy"] },
+  ai: { title: "AI, learning systems and how to evaluate them", label: "AI", description: "Models, learning systems and how to tell whether they are working.", projects: ["/projects/chef", "/projects/communitilabs"] },
+  hardware: { title: "Hardware, sensors and connected devices", label: "Hardware", description: "Connected devices, sensors and the physical side of software.", projects: ["/projects/balance-board"] },
+  "civic-tech": { title: "Civic tech and community engagement", label: "Civic tech", description: "Community engagement, institutions and the feedback loops between them.", projects: ["/projects/communitilabs", "/projects/helping-group", "/projects/land-index", "/projects/guardian"] },
+  politics: { title: "Politics, policy and how to check a claim", label: "Politics", description: "Elections, policy, public accountability and how to check a claim.", projects: [] },
+  "victorian-election-2026": { title: "Victorian election 2026: a regional voter's guide", label: "Victorian election 2026", description: "Working through the November 2026 state election as a regional voter.", projects: [] },
+  "regional-victoria": { title: "Regional Victoria: roads, farms and levies", label: "Regional Victoria", description: "Country roads, farms, levies and living outside Melbourne.", projects: ["/projects/ferguson-livestock", "/projects/murray-grey-association-australia"] },
+  education: { title: "Education, learning and teaching", label: "Education", description: "Learning, teaching and the systems around them.", projects: ["/projects/swin-lead"] },
+  privacy: { title: "Privacy, personal data and security", label: "Privacy", description: "Personal data, security and what free software costs.", projects: ["/projects/guardian"] },
+  money: { title: "Money and everyday financial choices", label: "Money", description: "Everyday financial choices and what they say about values.", projects: [] },
+  music: { title: "Music, guitars and effects pedals", label: "Music", description: "Guitars, pedals and the odd side project.", projects: [] },
+  reflections: { title: "Reflections on burnout, rest and direction", label: "Reflections", description: "Burnout, rest, direction and the personal side of building things.", projects: ["/projects/helping-group", "/projects/communitilabs"] },
+} as const satisfies Record<
+  string,
+  { title: string; label: string; description: string; projects: readonly string[] }
+>;
+
+// Tag archives with fewer articles than this are noindexed and kept out of the
+// sitemap: a page listing one article adds little beyond the article itself.
+export const MIN_INDEXABLE_TAG_ARTICLES = 3;
 
 export type TagId = keyof typeof tags;
 export const tagIds = Object.keys(tags) as [TagId, ...TagId[]];
