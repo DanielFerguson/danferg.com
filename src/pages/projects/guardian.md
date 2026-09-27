@@ -16,6 +16,8 @@ externalLabel: View source
 imageKey: guardian
 imageAlt: "Guardian's coming-soon page pitching privacy-first instant contact tracing, with an email sign-up and the shield logo on a phone."
 canonicalUrl: /projects/guardian
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## The problem

@@ -16,6 +16,8 @@ externalLabel: Read the Swinburne story
 imageKey: swin-lead
 imageAlt: "Swinburne Leadership Hub homepage welcoming students to “the new home for student leadership”, with Community, Projects and Join links."
 canonicalUrl: /projects/swin-lead
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## A home for leadership outside the org chart

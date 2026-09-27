@@ -16,6 +16,7 @@ externalLabel: Visit Murray Grey Association Australia
 imageKey: murray-grey-association-australia
 imageAlt: "Murray Grey Association Australia homepage over Murray Grey cattle, with Find cattle, News, member Log in and Join MGAA links."
 canonicalUrl: /projects/murray-grey-association-australia
+publishedDate: "2026-07-11"
 ---
 
 ## Replacing a fragile foundation

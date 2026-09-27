@@ -16,6 +16,8 @@ externalLabel: Open interactive prototype
 imageKey: land-index
 imageAlt: "Innovative Land Index prototype explaining its soil, rainfall and distance-based index, above a map colouring the index with planning-zone overlays."
 canonicalUrl: /projects/land-index
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## The planning question

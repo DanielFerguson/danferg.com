@@ -16,6 +16,8 @@ externalLabel: Visit Helping Group
 imageKey: helping-group
 imageAlt: "Helping Group homepage stating its mission to help Australians connect and thrive together, above logos of organisations that supported it."
 canonicalUrl: /projects/helping-group
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## It started with somewhere safe to sleep

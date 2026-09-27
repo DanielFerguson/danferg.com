@@ -17,6 +17,7 @@ externalLabel: Visit TellTail
 imageKey: telltail
 imageAlt: "TellTail concept page, “Notice when their normal changes”, beside a rendered dog collar that is a design concept, not a shipping device."
 canonicalUrl: /projects/telltail
+publishedDate: "2026-07-11"
 ---
 
 ## More good time with the pets we love

@@ -14,6 +14,8 @@ role: Product concept / prototyping
 imageKey: yfocus
 imageAlt: "yFocus holding page explaining the platform is still being built and inviting people who want to refine ideas faster to get in touch."
 canonicalUrl: /projects/yfocus
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## The problem before the product

@@ -16,6 +16,7 @@ externalLabel: Explore WP Flame
 imageKey: wp-flame
 imageAlt: "WP Flame sample trace of a WooCommerce product request, showing capture completeness, span counts and a timeline split by plugin, theme and database."
 canonicalUrl: /projects/wp-flame
+publishedDate: "2026-07-11"
 ---
 
 ## Building around a real frustration

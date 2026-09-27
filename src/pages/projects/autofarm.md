@@ -17,6 +17,7 @@ externalLabel: View source
 imageKey: autofarm
 imageAlt: "AutoFarm's pixel-art opening: the farmer beside an empty fenced plot, a goal to inspect the workshop, and story text setting up the farm."
 canonicalUrl: /projects/autofarm
+publishedDate: "2026-07-11"
 ---
 
 ## A game I have wanted to make

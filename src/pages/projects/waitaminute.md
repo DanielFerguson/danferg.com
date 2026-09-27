@@ -16,6 +16,7 @@ externalLabel: View source
 imageKey: waitaminute
 imageAlt: "WaitAMinute settings with soft and hard blocks for reddit.com, youtube.com and x.com beside a 26-second countdown with a maths-problem bypass."
 canonicalUrl: /projects/waitaminute
+publishedDate: "2026-07-11"
 ---
 
 ## The gap between intention and habit

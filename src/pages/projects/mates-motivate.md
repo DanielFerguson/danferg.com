@@ -16,6 +16,8 @@ externalLabel: View source
 imageKey: mates-motivate
 imageAlt: "Mates Motivate landing page, “Achieve your goals, celebrate success”, saying your mates are the best motivator, beside a person cheering above clouds."
 canonicalUrl: /projects/mates-motivate
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## Motivation is easier to borrow

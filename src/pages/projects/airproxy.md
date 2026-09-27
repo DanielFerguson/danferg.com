@@ -14,6 +14,8 @@ role: Co-founder / product / engineering
 imageKey: airproxy
 imageAlt: "Airproxy homepage headline “Use Airtable in production; fearlessly.” with a public-launch banner and copy about avoiding Airtable rate limits."
 canonicalUrl: /projects/airproxy
+publishedDate: "2022-12-13"
+updatedDate: "2026-07-10"
 ---
 
 ## The tension inside Airtable

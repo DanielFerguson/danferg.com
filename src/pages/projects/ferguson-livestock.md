@@ -17,6 +17,8 @@ externalLabel: Visit Ferguson Livestock
 imageKey: ferguson-livestock
 imageAlt: "Ferguson Livestock homepage, “Raised here. Delivered by us.”, showing beef boxes sold out, cuts still available, and 5kg and 10kg box prices."
 canonicalUrl: /projects/ferguson-livestock
+publishedDate: "2026-07-11"
+updatedDate: "2026-07-16"
 ---
 
 ## Why we started it

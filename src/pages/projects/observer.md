@@ -14,6 +14,8 @@ role: Founder / product / engineering
 imageKey: observer
 imageAlt: "Observer landing page, “Let's take back your peace of mind”, above the private-beta dashboard with Teams, Reports and a last-30-days view."
 canonicalUrl: /projects/observer
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## The call no technical leader wants

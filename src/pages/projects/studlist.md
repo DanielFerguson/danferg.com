@@ -14,6 +14,7 @@ role: Co-creator / product / engineering
 imageKey: studlist
 imageAlt: "StudList homepage inviting sellers to list steers, studs, genetics, equipment and services, with six categories and free listing highlighted."
 canonicalUrl: /projects/studlist
+publishedDate: "2026-07-11"
 ---
 
 ## A marketplace we wanted to exist
