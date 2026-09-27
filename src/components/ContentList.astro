@@ -6,6 +6,10 @@ export interface ContentItem {
   meta: string;
   detail?: string;
   external?: boolean;
+  /** Tag chips; also written to data-tags for client-side filtering. */
+  tags?: Array<{ id: string; label: string; href: string }>;
+  /** Series id, written to data-series for filtering. */
+  series?: string;
 }
 
 interface Props {
@@ -19,7 +23,7 @@ const { items, orderedLabel } = Astro.props;
 <ol class="content-list" aria-label={orderedLabel} data-motion-group>
   {
     items.map((item, index) => (
-      <li data-motion-item>
+      <li data-motion-item data-tags={item.tags?.map((tag) => tag.id).join(" ") || undefined} data-series={item.series || undefined}>
         <a
           href={item.href}
           target={item.external ? "_blank" : undefined}
@@ -31,6 +35,13 @@ const { items, orderedLabel } = Astro.props;
           <span class="content-list__copy">
             <strong>{item.title}</strong>
             <span>{item.description}</span>
+            {item.tags && item.tags.length > 0 && (
+              <span class="content-list__tags" aria-label="Tags">
+                {item.tags.map((tag) => (
+                  <span class="content-list__tag" data-tag={tag.id}>{tag.label}</span>
+                ))}
+              </span>
+            )}
           </span>
           <span class="content-list__meta">
             <span>{item.meta}</span>
@@ -73,7 +84,7 @@ const { items, orderedLabel } = Astro.props;
   .content-list__index,
   .content-list__meta {
     color: var(--ink-muted);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     line-height: 1.55;
   }
 
@@ -99,6 +110,29 @@ const { items, orderedLabel } = Astro.props;
     display: grid;
     gap: 0.4rem;
     text-transform: uppercase;
+  }
+
+  .content-list__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.1rem;
+  }
+
+  .content-list__tag {
+    padding: 0.08em 0.5em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+
+  li[hidden] {
+    display: none;
   }
 
   .content-list__arrow {

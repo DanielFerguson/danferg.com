@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Mates Motivate
+seoTitle: "Mates Motivate: a social accountability goal app"
 description: A social accountability MVP for setting a goal, building a visible check-in streak, and inviting trusted friends to encourage the work.
 tags:
   - Behaviour design
@@ -13,7 +14,10 @@ role: Founder / product / engineering
 externalUrl: https://github.com/DanielFerguson/matesmotivate.com
 externalLabel: View source
 imageKey: mates-motivate
+imageAlt: "Mates Motivate landing page, “Achieve your goals, celebrate success”, saying your mates are the best motivator, beside a person cheering above clouds."
 canonicalUrl: /projects/mates-motivate
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## Motivation is easier to borrow
@@ -48,7 +52,7 @@ That kept the product centred on support:
 
 ## What I built
 
-I moved from user stories to a deliberately plain prototype before investing in polish. Mocking up the data model and experience together helped expose the relationships the backend would need: users own goals, mates share responsibility, check-ins form the history, and encouragement belongs to a particular person, goal, and day.
+I moved from user stories to a [deliberately plain prototype](/newsletters/2022-05-30-observer-mates-motivate-and-a-bit-of-burnout) before investing in polish. Mocking up the data model and experience together helped expose the relationships the backend would need: users own goals, mates share responsibility, check-ins form the history, and encouragement belongs to a particular person, goal, and day.
 
 The working MVP used Laravel for the application and domain model, React and Inertia for the interface, Tailwind for styling, and Laravel Socialite for the original Twitter-based identity and invitation flow. It included goal creation and editing, configurable streaks, friend invitations, check-ins, encouragement, progress history, and completion feedback.
 

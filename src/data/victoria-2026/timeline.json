@@ -1,0 +1,200 @@
+{
+  "eras": [
+    { "id": "andrews", "premier": "Daniel Andrews", "from": "2014-12-04", "to": "2023-09-27", "label": "Andrews · Dec 2014 – Sep 2023" },
+    { "id": "allan", "premier": "Jacinta Allan", "from": "2023-09-27", "to": "2026-07-28", "label": "Allan · Sep 2023 – Jul 2026" },
+    { "id": "carroll", "premier": "Ben Carroll", "from": "2026-07-28", "to": null, "label": "Carroll · Jul 2026 –" }
+  ],
+  "tracks": {
+    "delivery": "Delivery",
+    "integrity": "Integrity",
+    "levy": "Levy",
+    "leadership": "Leadership",
+    "election": "Election"
+  },
+  "events": [
+    {
+      "id": "andrews-elected",
+      "date": "2014-12-04",
+      "shown": "Dec 2014",
+      "era": "andrews",
+      "track": "leadership",
+      "label": "Labor returns",
+      "text": "Daniel Andrews becomes Premier. The government is re-elected in November 2018 and November 2022.",
+      "sources": ["parliament-former-members"]
+    },
+    {
+      "id": "vad-tafe",
+      "date": "2019-06-19",
+      "shown": "2017–19",
+      "era": "andrews",
+      "track": "delivery",
+      "label": "Reform becomes a service",
+      "text": "The voluntary assisted dying law passes in 2017 on a conscience vote and begins operating in June 2019. Free TAFE starts in 2019.",
+      "sources": ["vad", "tafe-history"]
+    },
+    {
+      "id": "pandemic-2020",
+      "date": "2020-12-21",
+      "shown": "2020",
+      "era": "andrews",
+      "track": "integrity",
+      "label": "Pandemic failures examined",
+      "text": "The hotel quarantine inquiry and the Ombudsman’s public housing tower report both land in December, on events from the same year.",
+      "sources": ["hotel-quarantine", "tower-lockdown"]
+    },
+    {
+      "id": "watts-2022",
+      "date": "2022-07-20",
+      "shown": "Jul 2022",
+      "era": "andrews",
+      "track": "integrity",
+      "label": "Operation Watts reports",
+      "text": "IBAC and the Ombudsman substantiate misuse of public resources for factional purposes. Conduct examined runs back several years.",
+      "pair": { "conduct": "2014–20", "report": "2022" },
+      "sources": ["watts-report"]
+    },
+    {
+      "id": "kinder-fares-2023",
+      "date": "2023-03-31",
+      "shown": "2023",
+      "era": "andrews",
+      "track": "delivery",
+      "label": "Free Kinder and the regional fare cap",
+      "text": "Free Kinder starts with the school year; regional daily fares are capped at the metropolitan fare from 31 March. The Heart Hospital opens in February.",
+      "sources": ["kinder-launch", "pto-fare-cap", "heart-hospital"]
+    },
+    {
+      "id": "games-cancelled",
+      "date": "2023-07-18",
+      "shown": "Jul 2023",
+      "era": "andrews",
+      "track": "integrity",
+      "label": "Commonwealth Games cancelled",
+      "text": "The government withdraws from hosting the 2026 Games. The Auditor-General’s assessment arrives eight months later.",
+      "pair": { "conduct": "Jul 2023", "report": "Mar 2024" },
+      "sources": ["games-audit"]
+    },
+    {
+      "id": "allan-premier",
+      "date": "2023-09-27",
+      "shown": "Sep 2023",
+      "era": "allan",
+      "track": "leadership",
+      "label": "Jacinta Allan becomes Premier",
+      "text": "Andrews resigns; Allan takes over on 27 September. The Ombudsman’s politicisation report follows in December.",
+      "sources": ["parliament-former-members", "ombudsman-politicisation"]
+    },
+    {
+      "id": "games-audit",
+      "date": "2024-03-20",
+      "shown": "Mar 2024",
+      "era": "allan",
+      "track": "integrity",
+      "label": "The Games bill is assessed",
+      "text": "VAGO puts the cost of not hosting at more than $589 million and finds the business case understated costs.",
+      "sources": ["games-audit"]
+    },
+    {
+      "id": "levy-proposal-2025",
+      "date": "2025-05-30",
+      "shown": "May 2025",
+      "era": "allan",
+      "track": "levy",
+      "label": "The levy proposal is cut, then frozen",
+      "text": "The proposed farm rate drops from 83 to 71.8 cents on 15 May; on 30 May it is held at the old 28.7 cents for 2025–26 as drought relief.",
+      "sources": ["esvf-may-amendment", "esvf-drought-freeze"]
+    },
+    {
+      "id": "levy-starts",
+      "date": "2025-07-01",
+      "shown": "Jul 2025",
+      "era": "allan",
+      "track": "levy",
+      "label": "The new levy starts",
+      "text": "The Emergency Services and Volunteers Fund levy replaces the Fire Services Property Levy on 1 July.",
+      "sources": ["sro-esvf"]
+    },
+    {
+      "id": "openings-2025",
+      "date": "2025-12-12",
+      "shown": "Nov–Dec 2025",
+      "era": "allan",
+      "track": "delivery",
+      "label": "Metro Tunnel and Treaty",
+      "text": "Metro Tunnel opens on 30 November after a decade of construction; the West Gate Tunnel follows on 14 December; statewide Treaty commences on 12 December.",
+      "sources": ["metro-tunnel", "treaty"]
+    },
+    {
+      "id": "watson-2026",
+      "date": "2026-02-11",
+      "shown": "Feb 2026",
+      "era": "allan",
+      "track": "integrity",
+      "label": "The Watson review of the CFMEU surfaces",
+      "text": "A review for the union’s administrator documents corruption on construction sites and government inaction. Its $15 billion cost figure is an untested estimate.",
+      "sources": ["watson-review"]
+    },
+    {
+      "id": "carroll-premier",
+      "date": "2026-07-28",
+      "shown": "28 Jul 2026",
+      "era": "carroll",
+      "track": "leadership",
+      "label": "Allan resigns; Carroll takes over",
+      "text": "Allan resigns ahead of an expected spill, amid the construction-integrity crisis and poor polling. Carroll is elected unanimously and announces a royal commission on his first day.",
+      "sources": ["abc-carroll", "vic-premier"]
+    },
+    {
+      "id": "richmond-2026",
+      "date": "2026-08-05",
+      "shown": "5 Aug 2026",
+      "era": "carroll",
+      "track": "integrity",
+      "label": "Operation Richmond reports on 2016",
+      "text": "IBAC finds Andrews and senior officials bypassed proper process in the firefighters’ union negotiations. No corrupt-conduct finding; the blackmail allegation is not substantiated.",
+      "pair": { "conduct": "2016", "report": "Aug 2026" },
+      "sources": ["richmond-abc"]
+    },
+    {
+      "id": "royal-commission",
+      "date": "2026-08-20",
+      "shown": "20 Aug 2026",
+      "era": "carroll",
+      "track": "integrity",
+      "label": "Construction royal commission established",
+      "text": "Former South Australian chief justice Christopher Kourakis is appointed; the commission reports in August 2027, after the election.",
+      "sources": ["abc-kourakis", "vic-royal-commission"]
+    },
+    {
+      "id": "srl-roads-2026",
+      "date": "2026-08-30",
+      "shown": "Late Aug 2026",
+      "era": "carroll",
+      "track": "delivery",
+      "label": "SRL trimmed; fare levy scrapped; roads money added",
+      "text": "The SRL review claims $1 billion in savings the Auditor-General says were never in the estimate; an undisclosed 1% fare levy is abolished; $352 million is added for roads.",
+      "sources": ["abc-srl", "premier-roads-352"]
+    },
+    {
+      "id": "vago-roads-2026",
+      "date": "2026-09-09",
+      "shown": "9 Sep 2026",
+      "era": "carroll",
+      "track": "integrity",
+      "label": "The roads audit lands",
+      "text": "VAGO finds almost half of state roads poor or very poor for remaining life, on 2024 survey data.",
+      "pair": { "conduct": "2021–24 surveys", "report": "Sep 2026" },
+      "sources": ["vago-roads"]
+    },
+    {
+      "id": "election-2026",
+      "date": "2026-11-28",
+      "shown": "28 Nov 2026",
+      "era": "carroll",
+      "track": "election",
+      "label": "The next decision",
+      "text": "Victorians vote. Early voting runs from 18 November.",
+      "sources": ["vec-election"]
+    }
+  ]
+}

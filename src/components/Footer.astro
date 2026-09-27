@@ -4,16 +4,26 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="site-container footer-grid" data-motion-group>
-    <div data-motion-item>
-      <p class="footer-label">// FIND ME ONLINE</p>
-      <nav aria-label="Social links">
-        <a href="https://github.com/danielferguson" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a href="https://www.linkedin.com/in/danferg" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-        <a href="/consulting">Consulting →</a>
-        <a href="/rss.xml">RSS →</a>
-      </nav>
+    <div class="footer-links" data-motion-item>
+      <div>
+        <p class="footer-label">// FIND ME ONLINE</p>
+        <nav aria-label="Social links">
+          <a href="https://github.com/danielferguson" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/danferg" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="/rss.xml">RSS →</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-label">// ALSO ON THIS SITE</p>
+        <nav aria-label="More pages">
+          <a href="/about" data-astro-prefetch="hover">About →</a>
+          <a href="/consulting" data-astro-prefetch="hover">Consulting →</a>
+          <a href="/skills" data-astro-prefetch="hover">Agent Skills →</a>
+          <a href="/newsletters" data-astro-prefetch="hover">Newsletter archive →</a>
+        </nav>
+      </div>
     </div>
-    <p class="footer-note" data-motion-item>Technology is my weapon of choice for affecting change in the world around us.</p>
+    <p class="footer-note" data-motion-item>Technology is my weapon of choice for effecting change in the world around us.</p>
   </div>
   <div class="site-container footer-base">
     <p>© {year} Dan Ferg</p>
@@ -37,7 +47,7 @@ const year = new Date().getFullYear();
   .footer-label {
     margin: 0 0 1rem;
     color: var(--signal-bright);
-    font-size: 0.66rem;
+    font-size: var(--text-label);
     font-weight: 700;
     letter-spacing: 0.08em;
   }
@@ -54,7 +64,12 @@ const year = new Date().getFullYear();
   }
 
   nav a:hover {
-    color: var(--signal);
+    color: var(--signal-bright);
+  }
+
+  .footer-links {
+    display: grid;
+    gap: 1.75rem;
   }
 
   .footer-note {
@@ -71,7 +86,7 @@ const year = new Date().getFullYear();
     padding-block: 1rem;
     border-top: 1px dotted rgb(247 246 241 / 35%);
     color: var(--inverse-muted);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
   }
 
   .footer-base p {

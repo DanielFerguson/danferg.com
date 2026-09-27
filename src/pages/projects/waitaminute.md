@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: WaitAMinute
+seoTitle: "WaitAMinute: a Chrome extension to pause distractions"
 description: A privacy-conscious Chrome extension that adds configurable friction before distracting websites, turning an automatic visit into a deliberate choice.
 tags:
   - Behaviour design
@@ -13,7 +14,9 @@ role: Creator / product / extension engineering
 externalUrl: https://github.com/DanielFerguson/waitaminute
 externalLabel: View source
 imageKey: waitaminute
+imageAlt: "WaitAMinute settings with soft and hard blocks for reddit.com, youtube.com and x.com beside a 26-second countdown with a maths-problem bypass."
 canonicalUrl: /projects/waitaminute
+publishedDate: "2026-07-11"
 ---
 
 ## The gap between intention and habit

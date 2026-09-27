@@ -10,6 +10,7 @@ import {
 } from "../utils/project-assets";
 import { getNextProject } from "../data/project-journey";
 import { createContactMailto } from "../utils/contact-links";
+import { pageTitle } from "../utils/seo";
 
 const { frontmatter } = Astro.props;
 const projectUrl = getProjectExternalUrl(frontmatter);
@@ -92,7 +93,7 @@ const SEO: SEO & {
   imageHeight?: number;
   imageType?: string;
 } = {
-  title: `${frontmatter.title} | Dan Ferg`,
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
   headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: projectSocialImage.src,
@@ -102,6 +103,8 @@ const SEO: SEO & {
   imageType: "image/webp",
   openGraph: { type: "article" },
   canonicalUrl: frontmatter.canonicalUrl,
+  // Unlisted case studies stay reachable by link but out of search results.
+  robots: frontmatter.visible === false ? "noindex,follow" : undefined,
   schemaType: "CreativeWork",
   publishedDate: frontmatter.publishedDate || frontmatter.date,
   modifiedDate: frontmatter.modifiedDate || frontmatter.updatedDate,
@@ -166,7 +169,7 @@ const SEO: SEO & {
       </div>
     )}
 
-    <article class="prose-shell" data-motion-reveal>
+    <article class="prose-shell" data-motion-reveal data-pagefind-body>
       <slot />
     </article>
 
@@ -204,7 +207,7 @@ const SEO: SEO & {
   .project-visual__bar {
     margin: 0;
     color: var(--ink-muted);
-    font-size: 0.62rem;
+    font-size: var(--text-label);
     letter-spacing: 0.06em;
   }
 
@@ -276,7 +279,7 @@ const SEO: SEO & {
 
   .project-meta dt {
     color: var(--signal);
-    font-size: 0.58rem;
+    font-size: var(--text-label);
     font-weight: 750;
     letter-spacing: 0.06em;
   }
@@ -284,7 +287,7 @@ const SEO: SEO & {
   .project-meta dd {
     margin: 0.4rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     line-height: 1.5;
   }
 

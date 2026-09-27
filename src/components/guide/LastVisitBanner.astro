@@ -1,0 +1,95 @@
+---
+/**
+ * "Updated since your last visit" notice. Reads the changelog rendered on the page and a
+ * per-browser timestamp; renders nothing without JavaScript or on a first visit.
+ */
+interface Props {
+  storageKey: string;
+}
+
+const { storageKey } = Astro.props;
+---
+
+<div class="last-visit" data-last-visit data-storage-key={storageKey} hidden role="status">
+  <p>
+    <strong>Updated since you were last here</strong>
+    <span data-last-visit-text></span>
+    <a href="#material-updates">See what changed</a>
+    <button type="button" data-last-visit-dismiss aria-label="Dismiss">×</button>
+  </p>
+</div>
+
+<style>
+  .last-visit {
+    margin: 0 0 1.5rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--signal);
+    background: var(--paper-raised);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .last-visit p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    align-items: baseline;
+    margin: 0;
+  }
+  .last-visit strong {
+    color: var(--ink);
+  }
+  .last-visit button {
+    margin-left: auto;
+    padding: 0 0.35rem;
+    border: 0;
+    color: var(--ink-muted);
+    background: transparent;
+    font: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .last-visit button:is(:hover, :focus-visible) {
+    color: var(--ink);
+  }
+  @media print {
+    .last-visit {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const banner = document.querySelector<HTMLElement>("[data-last-visit]");
+  if (banner) {
+    const key = banner.dataset.storageKey || "guide:last-visit";
+    const entries = Array.from(document.querySelectorAll<HTMLElement>("[data-changelog] > li[data-date]"));
+    const latest = entries.map((li) => li.dataset.date!).sort().at(-1);
+    let previous: string | null = null;
+    try {
+      previous = localStorage.getItem(key);
+    } catch {
+      previous = null;
+    }
+    const format = (iso: string) =>
+      new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "long", year: "numeric" }).format(new Date(`${iso}T00:00:00`));
+
+    if (previous && latest && latest > previous) {
+      const count = entries.filter((li) => li.dataset.date! > previous!).length;
+      const text = banner.querySelector<HTMLElement>("[data-last-visit-text]");
+      if (text) text.textContent = `on ${format(previous)}: ${count} material ${count === 1 ? "update" : "updates"}.`;
+      banner.hidden = false;
+    }
+    banner.querySelector("[data-last-visit-dismiss]")?.addEventListener("click", () => {
+      banner.hidden = true;
+    });
+    try {
+      const today = new Date();
+      const iso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      if (!previous || iso > previous) localStorage.setItem(key, iso);
+    } catch {
+      /* storage unavailable; nothing to remember */
+    }
+  }
+</script>

@@ -1,0 +1,105 @@
+{
+  "note": "Rates in cents per $1,000 of capital improved value (CIV). Fixed charges in dollars per assessment. Sources: SRO current and historical rate schedules; May 2025 government amendment; 30 May 2025 drought announcement; Service Victoria rebate guideline.",
+  "classes": {
+    "residential": {
+      "label": "Residential, principal home",
+      "short": "home"
+    },
+    "primary": {
+      "label": "Primary production (farm)",
+      "short": "farm"
+    }
+  },
+  "versions": [
+    {
+      "id": "fspl-2024-25",
+      "label": "2024–25",
+      "sublabel": "Fire Services Property Levy (old scheme)",
+      "status": "actual",
+      "fixed": {
+        "residential": 132,
+        "primary": 267
+      },
+      "rate": {
+        "residential": 8.7,
+        "primary": 28.7
+      },
+      "rebate": null
+    },
+    {
+      "id": "esvf-proposal-83",
+      "label": "Original proposal",
+      "sublabel": "ESVF as first tabled, early 2025",
+      "status": "proposal",
+      "fixed": {
+        "residential": 136,
+        "primary": 275
+      },
+      "rate": {
+        "residential": 17.3,
+        "primary": 83
+      },
+      "rebate": null
+    },
+    {
+      "id": "esvf-proposal-71-8",
+      "label": "15 May 2025 revision",
+      "sublabel": "ESVF after the government’s amendment",
+      "status": "proposal",
+      "fixed": {
+        "residential": 136,
+        "primary": 275
+      },
+      "rate": {
+        "residential": 17.3,
+        "primary": 71.8
+      },
+      "rebate": null
+    },
+    {
+      "id": "esvf-2025-26",
+      "label": "2025–26",
+      "sublabel": "ESVF year one, farm rate frozen",
+      "status": "actual",
+      "fixed": {
+        "residential": 136,
+        "primary": 275
+      },
+      "rate": {
+        "residential": 17.3,
+        "primary": 28.7
+      },
+      "rebate": {
+        "residentialCap": null,
+        "primaryCap": 1710
+      }
+    },
+    {
+      "id": "esvf-2026-27",
+      "label": "2026–27",
+      "sublabel": "ESVF current year, farm rate still frozen",
+      "status": "actual",
+      "fixed": {
+        "residential": 139,
+        "primary": 282
+      },
+      "rate": {
+        "residential": 17.3,
+        "primary": 28.7
+      },
+      "rebate": {
+        "residentialCap": null,
+        "primaryCap": 3152
+      }
+    }
+  ],
+  "defaults": {
+    "civ": 1000000,
+    "class": "primary"
+  },
+  "civRange": {
+    "min": 200000,
+    "max": 12000000,
+    "step": 50000
+  }
+}

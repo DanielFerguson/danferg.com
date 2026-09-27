@@ -1,0 +1,193 @@
+---
+/**
+ * Where an article sits in a multi-part series. Parts come from src/data/taxonomy.ts so
+ * unwritten parts can be listed as planned; a part is linked only when it exists in the
+ * published collection (or, in development, in the drafts collection).
+ */
+import { getCollection } from "astro:content";
+import { series as seriesCatalogue, seriesHref, type SeriesId } from "../data/taxonomy";
+
+interface Props {
+  id: SeriesId;
+  part: number;
+  currentPath: string;
+  variant?: "compact" | "full";
+}
+
+const { id, part, currentPath, variant = "full" } = Astro.props;
+const definition = seriesCatalogue[id];
+const published = new Set((await getCollection("articles")).map((entry) => entry.data.canonicalUrl));
+const drafts = new Set(
+  import.meta.env.DEV ? (await getCollection("articleDrafts")).map((entry) => entry.data.canonicalUrl) : [],
+);
+const parts = definition.parts.map((item) => {
+  const isCurrent = item.part === part || item.path === currentPath;
+  const status = item.path && published.has(item.path) ? "published" : item.path && drafts.has(item.path) ? "draft" : "planned";
+  return { ...item, isCurrent, status, linkable: !isCurrent && status !== "planned" && Boolean(item.path) };
+});
+const index = parts.findIndex((item) => item.isCurrent);
+const previous = index > 0 ? parts[index - 1] : undefined;
+const next = index >= 0 && index < parts.length - 1 ? parts[index + 1] : undefined;
+const statusLabel: Record<string, string> = { published: "", draft: "In progress", planned: "Planned" };
+---
+
+{variant === "compact" ? (
+  <p class="series-line">
+    <span class="series-line__kicker">Series</span>
+    <a href={seriesHref(id)}>{definition.label}</a>
+    <span class="series-line__part">Part {part} of {parts.length}</span>
+  </p>
+) : (
+  <nav class="series-nav" aria-label={`${definition.label} series`}>
+    <p class="series-nav__label">
+      <span>{definition.label}</span>
+      <a href={seriesHref(id)}>All parts →</a>
+    </p>
+    <p class="series-nav__description">{definition.description}</p>
+    <ol>
+      {parts.map((item) => (
+        <li aria-current={item.isCurrent ? "page" : undefined} data-status={item.isCurrent ? "current" : item.status}>
+          <span class="series-nav__n" aria-hidden="true">{item.part}</span>
+          <span class="series-nav__body">
+            {item.linkable ? <a href={item.path}>{item.title}</a> : <span class="series-nav__title">{item.title}</span>}
+            <span class="series-nav__status">{item.isCurrent ? "You are here" : statusLabel[item.status]}</span>
+          </span>
+        </li>
+      ))}
+    </ol>
+    {(previous?.linkable || next?.linkable) && (
+      <p class="series-nav__pager">
+        {previous?.linkable && <a href={previous.path} rel="prev">← Part {previous.part}: {previous.title}</a>}
+        {next?.linkable && <a href={next.path} rel="next">Part {next.part}: {next.title} →</a>}
+      </p>
+    )}
+  </nav>
+)}
+
+<style>
+  .series-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+    align-items: baseline;
+    margin: 0 0 1.5rem;
+    font-size: var(--text-label);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  .series-line__kicker {
+    color: var(--ink-muted);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .series-line a {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .series-line__part {
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .series-nav {
+    margin: 2.5rem 0 0;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--signal);
+    background: var(--paper-raised);
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  .series-nav__label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    justify-content: space-between;
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .series-nav__label a {
+    font-size: var(--text-label);
+    font-weight: 700;
+  }
+  .series-nav__description {
+    margin: 0.4rem 0 0.9rem;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+  }
+  .series-nav ol {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .series-nav li,
+  .series-nav li + li {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: baseline;
+    margin: 0;
+    padding: 0.2rem 0;
+  }
+  .series-nav__n {
+    display: inline-grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  li[data-status="current"] .series-nav__n {
+    border-color: var(--signal-fill);
+    color: var(--paper);
+    background: var(--signal-fill);
+  }
+  .series-nav__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    align-items: baseline;
+  }
+  li[data-status="current"] .series-nav__title {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  li[data-status="planned"] .series-nav__title,
+  li[data-status="draft"] .series-nav__title {
+    color: var(--ink-soft);
+  }
+  .series-nav__status {
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .series-nav__pager {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    margin: 1rem 0 0;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.76rem;
+  }
+  .series-nav__pager a[rel="next"] {
+    margin-left: auto;
+    text-align: right;
+  }
+  @media print {
+    .series-nav {
+      break-inside: avoid;
+    }
+  }
+</style>

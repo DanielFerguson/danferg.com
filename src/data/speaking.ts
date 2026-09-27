@@ -84,7 +84,7 @@ export const selectedTalks: TalkAppearance[] = [
     kind: "talk",
     title: "Concept to Production",
     description:
-      "The five steps I use to take startup ideas from a rough concept to a product people can use.",
+      "The five steps I use to take startup ideas from a rough concept to a product people can use. The slides and notes are in the 9 May 2022 newsletter.",
     href: "https://www.youtube.com/watch?v=_SZP7QmIIfE",
     date: "2022-05-03",
     topic: "Entrepreneurship",

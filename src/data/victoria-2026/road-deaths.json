@@ -1,0 +1,12 @@
+{
+  "source": "tac-annual",
+  "annual": [
+    { "year": 2020, "total": 211 },
+    { "year": 2021, "total": 234 },
+    { "year": 2022, "total": 241 },
+    { "year": 2023, "total": 295 },
+    { "year": 2024, "total": 284, "melbourne": 136, "rural": 148 },
+    { "year": 2025, "total": 291, "melbourne": 134, "rural": 157 }
+  ],
+  "yearToDate": { "asAt": "2026-09-11", "total": 175, "priorYearSamePeriod": 207, "rural": 97, "ruralPrior": 109, "source": "tac-ytd" }
+}

@@ -1,3 +1,30 @@
+---
+/**
+ * A four-colour dithered portrait (made with scripts/dither-portrait.mjs) that
+ * a WebGL shader re-pixelates and themes. Without the shader, an SVG filter
+ * maps the dark palette onto the light theme's.
+ *
+ * Images are imported as URLs so Vite fingerprints them for long-lived caching
+ * without re-encoding: resizing or lossy formats would smear the dither, and
+ * the shader maps it back onto the palette.
+ */
+import defaultPortraitUrl from "../assets/images/dan-dark.png?url";
+
+interface Props {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  src = defaultPortraitUrl,
+  alt = "Dan Ferg in conversation at the CivVic and VicHealth Showcase",
+  width = 2280,
+  height = 1283,
+} = Astro.props;
+---
+
 <figure
   class="hero-portrait"
   data-hero-portrait
@@ -37,12 +64,19 @@
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const saveData = navigator.connection?.saveData === true;
+      // Beside the headline (wide layouts) the portrait starts on the shader's
+      // backdrop so the pixel reveal is its entrance. Stacked below the fold,
+      // the static image stays visible until the shader is ready to take over.
+      const besideHeadline = window.matchMedia("(min-width: 901px)").matches;
 
       if (
         portrait instanceof HTMLElement &&
         portrait.matches("[data-hero-portrait]") &&
         !staticMode &&
-        !reducedMotion
+        !reducedMotion &&
+        !saveData &&
+        besideHeadline
       ) {
         portrait.dataset.heroShaderState = "loading";
       }
@@ -50,10 +84,10 @@
   </script>
   <img
     class="hero-portrait__image"
-    src="/images/dan-dark.png"
-    alt="Dan Ferg in conversation at the CivVic and VicHealth Showcase"
-    width="2280"
-    height="1283"
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
   />
 </figure>
 
@@ -65,8 +99,36 @@
     new URLSearchParams(window.location.search).get("hero") === "static";
   const disposers = new Set<() => void>();
 
-  const startExperiment = async () => {
-    if (staticMode || prefersReducedMotion.matches) return;
+  const saveData =
+    (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection?.saveData === true;
+
+  const whenIdle = (callback: () => void) => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback, { timeout: 800 });
+    } else {
+      setTimeout(callback, 200);
+    }
+  };
+
+  const enhance = async (portrait: HTMLElement) => {
+    try {
+      const { enhanceHeroPortrait } = await import(
+        "../scripts/hero-portrait-shader"
+      );
+      const dispose = await enhanceHeroPortrait(portrait);
+      if (dispose) disposers.add(dispose);
+    } catch {
+      portrait.dataset.heroShaderState = "fallback";
+    }
+  };
+
+  /**
+   * The WebGL set-up is the most expensive work on the homepage, so it waits
+   * for the portrait to be in view and for the main thread to be idle.
+   */
+  const startExperiment = () => {
+    if (staticMode || prefersReducedMotion.matches || saveData) return;
 
     const portraits = Array.from(
       document.querySelectorAll<HTMLElement>("[data-hero-portrait]"),
@@ -76,31 +138,32 @@
       ),
     );
 
-    if (portraits.length === 0) return;
+    for (const portrait of portraits) {
+      if (!("IntersectionObserver" in window)) {
+        whenIdle(() => void enhance(portrait));
+        continue;
+      }
 
-    portraits.forEach((portrait) => {
-      portrait.dataset.heroShaderState = "loading";
-    });
-
-    try {
-      const { enhanceHeroPortrait } = await import(
-        "../scripts/hero-portrait-shader"
+      // Beside the headline it is already on screen behind the backdrop, so
+      // start as soon as possible. Stacked below the fold, the static image
+      // stays up until a good part of the portrait is visible, so the reveal
+      // plays where it can be seen rather than off-screen during page load.
+      const besideHeadline = portrait.dataset.heroShaderState === "loading";
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          whenIdle(() => void enhance(portrait));
+        },
+        besideHeadline
+          ? { rootMargin: "200px 0px" }
+          : { threshold: 0.3 },
       );
-
-      await Promise.all(
-        portraits.map(async (portrait) => {
-          const dispose = await enhanceHeroPortrait(portrait);
-          if (dispose) disposers.add(dispose);
-        }),
-      );
-    } catch {
-      portraits.forEach((portrait) => {
-        portrait.dataset.heroShaderState = "fallback";
-      });
+      observer.observe(portrait);
     }
   };
 
-  void startExperiment();
+  startExperiment();
 
   window.addEventListener(
     "pagehide",
@@ -113,9 +176,51 @@
 </script>
 
 <style>
+  .hero-portrait {
+    position: relative;
+    /*
+     * Beside a headline the portrait is a tall panel. Its height follows the
+     * homepage headline block as the viewport widens: 30rem up to about 1024px
+     * wide, rising to about 555px from 1440px. Pages share this so every hero
+     * portrait has the same shape; stacked layouts switch to 4:3 below.
+     */
+    height: clamp(30rem, calc(30rem + 18vw - 184px), 34.7rem);
+    margin: 0;
+    overflow: hidden;
+    border-block: 1px solid var(--line-strong);
+    background: var(--signal-soft);
+  }
+
+  @media (max-width: 900px) {
+    .hero-portrait {
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+
   .hero-portrait__filters {
     position: absolute;
     pointer-events: none;
+  }
+
+  .hero-portrait__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    filter: url("#hero-portrait-light-palette");
+  }
+
+  :global(:root[data-theme="dark"]) .hero-portrait__image {
+    filter: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme])) .hero-portrait__image {
+      filter: none;
+    }
   }
 
   .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],

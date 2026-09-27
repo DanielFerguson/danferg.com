@@ -38,6 +38,8 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
       {
         actions.map((action, index) => {
           const opensAway = action.external || action.href.startsWith("mailto:");
+          // Only prefetch pages, never feeds or downloadable files.
+          const isPage = !opensAway && !/\.[a-z0-9]+$/i.test(action.href);
 
           return (
             <a
@@ -45,7 +47,7 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
               href={action.href}
               target={action.external ? "_blank" : undefined}
               rel={action.external ? "noopener noreferrer" : undefined}
-              data-astro-prefetch={opensAway ? undefined : "hover"}
+              data-astro-prefetch={isPage ? "hover" : undefined}
               data-motion-interactive
             >
               <span class="conversion-endcap__action-copy">
@@ -161,7 +163,7 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
 
   .conversion-endcap__action small {
     color: var(--signal);
-    font-size: 0.56rem;
+    font-size: var(--text-label);
     font-weight: 750;
     letter-spacing: 0.07em;
   }
@@ -179,7 +181,7 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
 
   .conversion-endcap__action-copy > span {
     color: var(--ink-soft);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     line-height: 1.55;
   }
 

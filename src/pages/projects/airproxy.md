@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Airproxy
+seoTitle: "Airproxy: an edge cache for the Airtable API"
 description: An edge-first cache and proxy that made Airtable practical as a production backend without inheriting rate limits, attachment constraints, or operational fragility.
 tags:
   - Developer tools
@@ -11,7 +12,10 @@ period: "2023"
 status: Archived product
 role: Co-founder / product / engineering
 imageKey: airproxy
+imageAlt: "Airproxy homepage headline “Use Airtable in production; fearlessly.” with a public-launch banner and copy about avoiding Airtable rate limits."
 canonicalUrl: /projects/airproxy
+publishedDate: "2022-12-13"
+updatedDate: "2026-07-10"
 ---
 
 ## The tension inside Airtable
@@ -40,7 +44,7 @@ Airproxy was the productised answer: a cloud-native layer between Airtable and t
 - API credentials and the underlying base structure stayed behind the proxy instead of leaking into client applications.
 - Product teams retained the editing experience their non-technical colleagues already understood.
 
-The architecture used Cloudflare Workers, KV, and Durable Objects for the edge and caching layer; Node and Upstash QStash for background work; and Next.js, Tailwind, and Vercel for the customer-facing product. I launched it in early 2023 with a co-founder, taking it from an operational lesson to a public developer product.
+The architecture used Cloudflare Workers, KV, and Durable Objects for the edge and caching layer; Node and Upstash QStash for background work; and Next.js, Tailwind, and Vercel for the customer-facing product. I [launched it in early 2023](/articles/launching-airproxy) with a co-founder, taking it from an operational lesson to a public developer product.
 
 ## The product judgement
 

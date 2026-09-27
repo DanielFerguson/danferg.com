@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: AutoFarm
+seoTitle: "AutoFarm: a Rust and Bevy farming automation game"
 description: An unreleased Rust and Bevy farming game where players learn the work by hand, then reclaim time by configuring drones and machines to do it well.
 tags:
   - Game development
@@ -14,12 +15,14 @@ role: Creator / game design / Rust engineering
 externalUrl: https://github.com/DanielFerguson/autofarm
 externalLabel: View source
 imageKey: autofarm
+imageAlt: "AutoFarm's pixel-art opening: the farmer beside an empty fenced plot, a goal to inspect the workshop, and story text setting up the farm."
 canonicalUrl: /projects/autofarm
+publishedDate: "2026-07-11"
 ---
 
 ## A game I have wanted to make
 
-AutoFarm brings together several parts of my life that do not usually meet in the same project: a love of farming games, a background in software, firsthand experience building a real agricultural business, and a fascination with drones and autonomous equipment.
+AutoFarm brings together several parts of my life that do not usually meet in the same project: a love of farming games, a background in software, firsthand experience building a [real agricultural business](/projects/ferguson-livestock), and a fascination with drones and autonomous equipment.
 
 It is an unreleased top-down farming game built in Rust with the Bevy engine. The player is a software engineer who has spent their savings taking over their parents' small Australian property. The farm needs to earn before ambitious technology can be funded, so the opening is deliberately grounded: inspect the workshop, prepare soil, plant wheat, water it, manage the crop, harvest, sell the produce, and slowly repair what has been left behind.
 

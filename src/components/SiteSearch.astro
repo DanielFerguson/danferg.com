@@ -1,0 +1,114 @@
+---
+/**
+ * Pagefind search box. Its space is reserved from first paint so the page
+ * does not shift when the UI arrives. Pagefind indexes the built site, so its
+ * assets exist only after `npm run build`; in development, or if they fail to
+ * load, the box is removed and the page works without it.
+ */
+interface Props {
+  label: string;
+  placeholder: string;
+}
+
+const { label, placeholder } = Astro.props;
+---
+
+<div class="site-search" data-site-search data-placeholder={placeholder}>
+  <p class="site-search__label" id="site-search-label">{label}</p>
+  <div data-site-search-mount></div>
+</div>
+
+<style>
+  .site-search__label {
+    margin: 0 0 0.55rem;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Matches the height of Pagefind's search field at this scale. */
+  [data-site-search-mount] {
+    min-height: 3.2rem;
+  }
+
+  /* Pagefind UI, themed to the site tokens. */
+  .site-search {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--signal);
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-background: var(--paper-raised);
+    --pagefind-ui-border: var(--line-strong);
+    --pagefind-ui-tag: var(--signal-soft);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 2px;
+    --pagefind-ui-font: inherit;
+  }
+
+  .site-search :global(.pagefind-ui__search-input) {
+    font-family: inherit;
+    font-weight: 400;
+  }
+
+  .site-search :global(.pagefind-ui__result-title) {
+    font-size: 0.95rem;
+  }
+
+  .site-search :global(.pagefind-ui__result-excerpt) {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .site-search :global(mark) {
+    background: var(--signal-soft);
+    color: var(--ink);
+  }
+
+  /* Search needs JavaScript; without it, don't leave an empty box. */
+  @media print, (scripting: none) {
+    .site-search {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const search = document.querySelector<HTMLElement>("[data-site-search]");
+  const mount = search?.querySelector<HTMLElement>("[data-site-search-mount]");
+  const unavailable = () => {
+    if (search) search.hidden = true;
+  };
+  if (search && mount && import.meta.env.DEV) unavailable();
+  if (search && mount && !import.meta.env.DEV) {
+    const base = "/pagefind/";
+    (async () => {
+      try {
+        const head = await fetch(`${base}pagefind-ui.js`, { method: "HEAD" });
+        if (!head.ok) return unavailable();
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = `${base}pagefind-ui.css`;
+        document.head.append(css);
+        const module = await import(/* @vite-ignore */ `${base}pagefind-ui.js`);
+        const PagefindUI = module.PagefindUI ?? (window as unknown as { PagefindUI?: unknown }).PagefindUI;
+        if (!PagefindUI) return unavailable();
+        // eslint-disable-next-line new-cap
+        new (PagefindUI as new (options: Record<string, unknown>) => unknown)({
+          element: mount,
+          showImages: false,
+          showSubResults: true,
+          excerptLength: 30,
+          translations: {
+            placeholder: search.dataset.placeholder,
+            zero_results: "Nothing matched [SEARCH_TERM].",
+          },
+        });
+        const input = mount.querySelector<HTMLInputElement>("input");
+        if (input) input.setAttribute("aria-labelledby", "site-search-label");
+      } catch {
+        unavailable();
+      }
+    })();
+  }
+</script>

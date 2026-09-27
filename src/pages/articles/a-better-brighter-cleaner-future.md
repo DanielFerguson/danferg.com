@@ -3,7 +3,8 @@ layout: ../../layouts/ArticleLayout.astro
 title: "A better, brighter, cleaner future."
 description: "A reflection on aligning everyday financial choices with personal values, retained with current links for independently comparing Australian super funds."
 date: "2020-12-23"
-updatedDate: "2026-07-12"
+tags: [reflections, money]
+updatedDate: "2026-09-27"
 imageUrl: /images/og/articles/a-better-brighter-cleaner-future-og.png
 imageUrls:
   - /images/og/articles/a-better-brighter-cleaner-future-16x9.png
@@ -18,9 +19,7 @@ canonicalUrl: /articles/a-better-brighter-cleaner-future
 
 > **Archive note — reviewed July 2026:** This is a personal reflection from 2020, not financial advice or a current product comparison. Providers, fees, insurance, performance, and investment options change. Before switching, use ASIC Moneysmart's current guidance on [choosing a super fund](https://moneysmart.gov.au/how-super-works/choosing-a-super-fund) and [super investment options](https://moneysmart.gov.au/grow-your-super/super-investment-options), and consider licensed advice for your circumstances.
 
-## A better, brighter, cleaner future.
-
-### The issue at hand
+## The issue at hand
 
 This is actually something that is very near and dear to my heart. I believe that you have a powerful voice. One of the ways you can be clearly heard is through how you choose to spend your money 💰.
 
@@ -37,7 +36,7 @@ I'm asking you to think over, discuss and act on two crazy simple things.
 
 Find choices that align with your ethics, your values. Make sure that your money is supporting things you love, creating a future that you want to see.
 
-### Ok… but why? 🤷‍♂️
+## Ok… but why? 🤷‍♂️
 
 If this year has shown us anything, it's that the climate crisis is just that — a crisis.
 
@@ -45,17 +44,17 @@ We need to become more proactive with our life choices, and need systemic change
 
 However, I'm not negligent to the fact that we are all very busy. In fact, I'd say this year now more than ever, for some of us at least. So I wanted to help provide two excruciatingly simple things that everyone can do to make a large impact.
 
-### Compare the current options
+## Compare the current options
 
 The original article listed several providers here. I have removed that shortlist because it would turn a values argument into an outdated product recommendation. Compare current options on investment approach, long-term performance, fees, insurance, service, and the consequences of switching—not on a single label or an old article.
 
-### And some good reading resources
+## And some good reading resources
 
 - [ASIC Moneysmart — Choosing a super fund](https://moneysmart.gov.au/how-super-works/choosing-a-super-fund)
 - [ASIC Moneysmart — Super investment options, including ethical or ESG options](https://moneysmart.gov.au/grow-your-super/super-investment-options)
 
-### Disclaimer 🚨
+## Disclaimer 🚨
 
 Please note that I am in no way, shape or form a financial advisor. If you have any financial questions about your particular situation, please consult a professional.
 
-Also, I am in no way affiliated, endorsed or paid by the options above. They simply operate with values similar to mine (at the time of writing). Please make sure if you choose to move superannuation and/or bank, they align with your values.
+Also, I was in no way affiliated, endorsed or paid by the providers the original article listed. They simply operated with values similar to mine (at the time of writing). Please make sure if you choose to move superannuation and/or bank, they align with your values.

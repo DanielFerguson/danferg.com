@@ -11,7 +11,7 @@ import { compareProjectsByPeriod } from "../../utils/project-sort";
 const SEO: SEO = {
   title: "Projects in software and social impact | Dan Ferg",
   description:
-    "Explore Dan Ferg's projects across startups, social impact, community technology, leadership, and practical software.",
+    "Case studies of products Dan Ferg has built and led, from civic tech and cattle marketplaces to developer tools and games: what worked, what didn't and why.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/projects",
@@ -56,6 +56,10 @@ const itemListJsonLd = {
       description={`${projects.length} experiments, products, and ventures. Some shipped, some taught me what to build next; all started with a real problem.`}
     />
     <ProjectGrid projects={projects} />
+    <p class="skills-note">
+      Looking for something you can install? <a href="/skills">Browse my Agent Skills</a>,
+      including Chef for meal planning.
+    </p>
   </main>
 </BaseLayout>
 
@@ -67,11 +71,23 @@ const itemListJsonLd = {
   .breadcrumb {
     margin: 0 0 clamp(2.5rem, 4vw, 4rem);
     color: var(--ink-muted);
-    font-size: 0.64rem;
+    font-size: var(--text-label);
   }
 
   .breadcrumb a {
     color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .skills-note {
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  .skills-note a {
+    color: var(--signal);
+    font-weight: 700;
     text-underline-offset: 0.2em;
   }
 </style>

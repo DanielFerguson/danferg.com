@@ -1,0 +1,33 @@
+{
+  "source": "vago-roads",
+  "bands": [
+    { "id": "veryGood", "label": "Very good", "years": "more than 15 years" },
+    { "id": "good", "label": "Good", "years": "" },
+    { "id": "fair", "label": "Fair", "years": "" },
+    { "id": "poor", "label": "Poor", "years": "5 to 15 years remaining" },
+    { "id": "veryPoor", "label": "Very poor", "years": "under 5 years remaining" }
+  ],
+  "statewide": [
+    { "year": "2021", "veryGood": 36.75, "good": 14.45, "fair": 9.33, "poor": 13.27, "veryPoor": 26.2 },
+    { "year": "2024", "veryGood": 33.83, "good": 12.69, "fair": 5.94, "poor": 10.5, "veryPoor": 37.04 }
+  ],
+  "regional2024PoorOrVeryPoor": 50.38,
+  "regions2024": [
+    { "name": "Loddon Mallee", "group": "Regional", "veryPoor": 54.28, "veryGood": 19.28 },
+    { "name": "Hume", "group": "Regional", "veryPoor": 47.98, "veryGood": 24.77 },
+    { "name": "Grampians", "group": "Regional", "veryPoor": 39.22, "veryGood": 32.19 },
+    { "name": "Barwon South West", "group": "Regional", "veryPoor": 27.34, "veryGood": 40.92 },
+    { "name": "Gippsland", "group": "Regional", "veryPoor": 21.0, "veryGood": 49.37 },
+    { "name": "Metro Eastern", "group": "Metropolitan", "veryPoor": 30.75, "veryGood": 42.15 },
+    { "name": "Metro South Central", "group": "Metropolitan", "veryPoor": 29.16, "veryGood": 34.28 },
+    { "name": "Metro Western", "group": "Metropolitan", "veryPoor": 23.29, "veryGood": 48.62 },
+    { "name": "Western Roads Upgrade", "group": "Metropolitan", "veryPoor": 19.55, "veryGood": 34.03 }
+  ],
+  "network": { "lengthKm": 23000, "regionalShare": 82 },
+  "pavementSpend": [
+    { "year": "2022–23", "millions": 466.5 },
+    { "year": "2023–24", "millions": 476.6 },
+    { "year": "2024–25", "millions": 611.7 }
+  ],
+  "funding2026_27": { "budgeted": 1040, "added": 352, "total": 1390, "dtpEstimateToHoldCondition": 3000 }
+}

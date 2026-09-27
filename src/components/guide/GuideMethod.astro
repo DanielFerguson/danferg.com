@@ -1,0 +1,76 @@
+---
+/** Collapsible method note so the ground rules don't sit between the reader and the story. */
+interface Props {
+  summary: string;
+  id?: string;
+}
+
+const { summary, id = "how-im-assessing-this" } = Astro.props;
+---
+
+<details class="guide-method" id={id}>
+  <summary>{summary}</summary>
+  <div class="guide-method__body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .guide-method {
+    margin: 1.75rem 0 2.5rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+  .guide-method summary {
+    padding: 0.85rem 1.15rem;
+    color: var(--ink);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    list-style: none;
+  }
+  .guide-method summary::-webkit-details-marker {
+    display: none;
+  }
+  .guide-method summary::before {
+    display: inline-block;
+    width: 1.1em;
+    color: var(--signal);
+    content: "+";
+    font-weight: 700;
+  }
+  .guide-method[open] summary::before {
+    content: "–";
+  }
+  .guide-method summary:is(:hover, :focus-visible) {
+    background: var(--signal-soft);
+  }
+  .guide-method__body {
+    padding: 0 1.15rem 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .guide-method__body :global(p) {
+    margin-block: 0.9em;
+  }
+  @media print {
+    .guide-method {
+      break-inside: avoid;
+    }
+    .guide-method summary::before {
+      content: none;
+    }
+  }
+</style>
+
+<script>
+  // Open the method note when someone follows a link to it.
+  const open = () => {
+    const target = location.hash ? document.querySelector<HTMLDetailsElement>(`details${location.hash}`) : null;
+    if (target) target.open = true;
+  };
+  open();
+  window.addEventListener("hashchange", open);
+</script>

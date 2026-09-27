@@ -8,6 +8,9 @@ export interface Props extends SEO {
   imageType?: string;
   articleSection?: string;
   citationUrls?: string[];
+  keywords?: string[];
+  abstract?: string;
+  wordCount?: number;
   mainEntityId?: string;
   lightThemeColor?: string;
   darkThemeColor?: string;
@@ -33,6 +36,9 @@ const {
   modifiedDate,
   articleSection,
   citationUrls = [],
+  keywords = [],
+  abstract,
+  wordCount,
   mainEntityId,
   breadcrumbs = [],
   jsonLd,
@@ -137,6 +143,9 @@ const contentJsonLd = hasContentEntity
       ...(isArticle && citationUrls.length > 0
         ? { citation: citationUrls.map(absoluteUrl) }
         : {}),
+      ...(keywords.length > 0 ? { keywords } : {}),
+      ...(abstract ? { abstract } : {}),
+      ...(isArticle && wordCount ? { wordCount } : {}),
     }
   : null;
 const structuredData = {
@@ -146,7 +155,14 @@ const structuredData = {
       "@type": "Person",
       "@id": personId,
       name: "Dan Ferg",
+      alternateName: ["Daniel Ferguson", "Dan Ferguson"],
       url: siteUrl,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Melbourne",
+        addressRegion: "VIC",
+        addressCountry: "AU",
+      },
       jobTitle: "Product consultant, advisor and software builder",
       description:
         "Dan Ferg builds useful software and advises teams on product, traction, go-to-market strategy, and community-centred technology.",
@@ -188,8 +204,9 @@ const structuredDataJson = JSON.stringify(structuredData).replace(
   "\\u003c",
 );
 
-import "@fontsource-variable/geist-mono/wght.css";
+import { Font } from "astro:assets";
 import "../styles/global.css";
+import { latinFontFileUrl } from "../utils/fonts";
 import Footer from "../components/Footer.astro";
 import MotionHead from "../components/MotionHead.astro";
 import PostHog from "../components/posthog.astro";
@@ -201,6 +218,16 @@ import ThemeHead from "../components/ThemeHead.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-mono" />
+    <Font cssVariable="--font-sans" />
+    <link
+      rel="preload"
+      href={latinFontFileUrl("--font-mono")}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <slot name="head" />
     <ThemeHead lightColor={lightThemeColor} darkColor={darkThemeColor} />
     <PostHog />
     <MotionHead />

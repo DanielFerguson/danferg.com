@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Swin Lead
+seoTitle: "Swin Lead: Swinburne student leadership community"
 description: A student-led leadership community that gave Swinburne's thinkers, builders, and organisers a place to share their work, find collaborators, and learn in public.
 tags:
   - Community building
@@ -13,14 +14,17 @@ role: Early co-creator / community & product
 externalUrl: https://www.swinburne.edu.au/news/2021/05/Meet-the-enterprising-graduate-behind-Swinburnes-Leadership-Hub/
 externalLabel: Read the Swinburne story
 imageKey: swin-lead
+imageAlt: "Swinburne Leadership Hub homepage welcoming students to “the new home for student leadership”, with Community, Projects and Join links."
 canonicalUrl: /projects/swin-lead
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## A home for leadership outside the org chart
 
 Swin Lead—originally the Swinburne Leadership Hub—started with a coffee and a shared observation. Swinburne was full of students creating clubs, social initiatives, apps, events, and ambitious projects, but their work was scattered across courses and organisations. There was no obvious home where those leaders could find one another, share what they were learning, or invite somebody into an idea.
 
-The initial conversation followed Chris Dilger hearing about my work on Helping Homes. Rather than treating one initiative as an isolated success story, we asked what would happen if student leaders had an ongoing place to experiment, learn, and grow together.
+The initial conversation followed Chris Dilger hearing about my work on [Helping Homes](/projects/helping-group). Rather than treating one initiative as an isolated success story, we asked what would happen if student leaders had an ongoing place to experiment, learn, and grow together.
 
 ## What the Hub became
 
@@ -38,7 +42,7 @@ The Hub also created its own community rituals. **Beans with Leadership**, a sho
 
 I helped shape the original proposition, early community model, and product experience. My contribution sat between technology and culture: making the platform useful enough to bring people in while helping establish the language and activities that gave them a reason to stay.
 
-That included sharing my own leadership experience in workshops, helping student projects become visible, and contributing to the web platform as the Hub evolved beyond its first version.
+That included sharing my own leadership experience in [workshops](/speaking), helping student projects become visible, and contributing to the web platform as the Hub evolved beyond its first version.
 
 ## Building a platform others could own
 

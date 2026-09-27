@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { seriesIds, tagIds } from "./data/taxonomy";
 
 const isoDate = z
   .string()
@@ -23,9 +24,17 @@ const articleAudio = z.object({
   generatedAt: z.iso.datetime({ offset: true }),
 });
 
+// Search result titles get " | Dan Ferg" appended; 54 characters keeps the
+// whole <title> inside the 65-character budget checked by the build audit.
+const seoTitle = z.string().min(20).max(54);
+
 const editorialFields = {
   layout: z.string().optional(),
   title: z.string().min(1),
+  seoTitle: seoTitle.optional(),
+  // A self-contained answer to the question the piece explores. Rendered as
+  // an "In short" block and reused in feeds, llms.txt and structured data.
+  summary: z.string().min(80).max(420).optional(),
   description: z.string().min(40),
   date: isoDate,
   updatedDate: isoDate.optional(),
@@ -36,6 +45,12 @@ const editorialFields = {
   imageHeight: z.number().int().positive().optional(),
   imageType: z.string().min(1).optional(),
   canonicalUrl: canonicalPath,
+  // Flat, controlled tags (see src/data/taxonomy.ts); unknown tags fail the build.
+  tags: z.array(z.enum(tagIds)).max(6).optional(),
+  // Membership of an ordered multi-part series.
+  series: z
+    .object({ id: z.enum(seriesIds), part: z.number().int().positive() })
+    .optional(),
 };
 
 const articles = defineCollection({
@@ -44,10 +59,13 @@ const articles = defineCollection({
 });
 
 const articleDrafts = defineCollection({
-  loader: glob({
-    pattern: "*.{md,mdx}",
-    base: "./src/content/drafts/articles",
-  }),
+  // Avoid compiling private draft content or emitting its styles in production.
+  loader: import.meta.env.PROD
+    ? async () => []
+    : glob({
+        pattern: "*.{md,mdx}",
+        base: "./src/content/drafts/articles",
+      }),
   schema: z.object({
     ...editorialFields,
     audio: articleAudio.optional(),
@@ -71,6 +89,7 @@ const projects = defineCollection({
   schema: z.object({
     layout: z.string().optional(),
     title: z.string().min(1),
+    seoTitle: seoTitle.optional(),
     description: z.string().min(40),
     tags: z.array(z.string().min(1)).min(1),
     featured: z.boolean().optional(),

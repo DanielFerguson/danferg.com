@@ -112,10 +112,12 @@ const existingAudio = frontmatter.audio;
 const voiceId = process.env.ELEVENLABS_VOICE_ID || existingAudio?.voiceId;
 const modelId =
   process.env.ELEVENLABS_MODEL_ID || existingAudio?.modelId || "eleven_v3";
+// 64 kbps is ample for a single narrated voice and halves the download
+// compared with 128 kbps. Existing narrations keep the format they were made in.
 const outputFormat =
   process.env.ELEVENLABS_OUTPUT_FORMAT ||
   existingAudio?.outputFormat ||
-  "mp3_44100_128";
+  "mp3_44100_64";
 const narration = createNarrationText(originalSource, { modelId });
 const chunks = splitNarration(narration, maxCharactersForModel(modelId));
 const pacingCueCount =

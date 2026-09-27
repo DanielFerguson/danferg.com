@@ -1,0 +1,425 @@
+---
+/**
+ * Road condition explorer built from VAGO's Maintaining State Roads (September 2026).
+ * Three views: statewide condition bands 2021 vs 2024, very-poor share by region in 2024,
+ * and pavement maintenance spending. All three render without script; script adds the view switch.
+ */
+import roads from "../data/victoria-2026/roads.json";
+import { sourceRecords } from "../data/victoria-2026/guide-store";
+
+const source = sourceRecords[roads.source];
+type BandId = "veryGood" | "good" | "fair" | "poor" | "veryPoor";
+const bandIds: BandId[] = ["veryGood", "good", "fair", "poor", "veryPoor"];
+const bandLabel: Record<BandId, string> = {
+  veryGood: "Very good",
+  good: "Good",
+  fair: "Fair",
+  poor: "Poor (5–15 years left)",
+  veryPoor: "Very poor (under 5 years left)",
+};
+const statewide = roads.statewide.map((row) => ({
+  ...row,
+  poorOrVeryPoor: Math.round((row.poor + row.veryPoor) * 10) / 10,
+}));
+const regionMax = Math.max(...roads.regions2024.map((r) => r.veryPoor));
+const groups = ["Regional", "Metropolitan"] as const;
+const spendMax = Math.max(...roads.pavementSpend.map((s) => s.millions));
+const fmtPct = (value: number) => `${value.toLocaleString("en-AU", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+const dtpMap = sourceRecords["dtp-road-map"];
+---
+
+<figure class="roads" data-roads aria-labelledby="roads-label">
+  <figcaption id="roads-label">
+    <span>State roads by remaining useful life</span>
+    <span class="roads__hint">A structural measure: how many years a road surface has left before it needs rebuilding. It is not a count of roads that are unsafe today.</span>
+  </figcaption>
+
+  <div class="roads__tabs" role="tablist" aria-label="Choose a view" data-roads-tabs hidden>
+    <button type="button" role="tab" id="roads-tab-statewide" aria-controls="roads-view-statewide" aria-selected="true" data-view="statewide">Statewide, 2021 vs 2024</button>
+    <button type="button" role="tab" id="roads-tab-regions" aria-controls="roads-view-regions" aria-selected="false" data-view="regions" tabindex="-1">By region, 2024</button>
+    <button type="button" role="tab" id="roads-tab-spending" aria-controls="roads-view-spending" aria-selected="false" data-view="spending" tabindex="-1">Spending</button>
+  </div>
+
+  <section class="roads__view" id="roads-view-statewide" role="tabpanel" aria-labelledby="roads-tab-statewide" data-view="statewide">
+    <h3 class="roads__view-title">Statewide, 2021 vs 2024</h3>
+    <div class="roads__stacks">
+      {statewide.map((row) => (
+        <div class="roads__stack">
+          <div class="roads__stack-head">
+            <span class="roads__year">{row.year}</span>
+            <span class="roads__stack-summary">Poor or very poor: <strong>{fmtPct(row.poorOrVeryPoor)}</strong></span>
+          </div>
+          <div class="roads__bar" role="img" aria-label={`${row.year}: ${bandIds.map((id) => `${bandLabel[id]} ${fmtPct(row[id])}`).join(", ")}`}>
+            {bandIds.map((id) => (
+              <span data-band={id} style={`width:${row[id]}%`} title={`${bandLabel[id]}: ${fmtPct(row[id])}`}></span>
+            ))}
+          </div>
+          <ul class="roads__values" aria-hidden="true">
+            {bandIds.map((id) => (
+              <li><span class="roads__key" data-band={id}></span>{fmtPct(row[id])}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <ul class="roads__legend">
+      {bandIds.map((id) => (
+        <li><span class="roads__key" data-band={id} aria-hidden="true"></span>{bandLabel[id]}</li>
+      ))}
+    </ul>
+    <p class="roads__note">Regional roads make up {roads.network.regionalShare}% of the {roads.network.lengthKm.toLocaleString("en-AU")} km network. In 2024, <strong>{roads.regional2024PoorOrVeryPoor}%</strong> of regional state roads were poor or very poor, against about {fmtPct(statewide[1]!.poorOrVeryPoor)} statewide.</p>
+  </section>
+
+  <section class="roads__view" id="roads-view-regions" role="tabpanel" aria-labelledby="roads-tab-regions" data-view="regions">
+    <h3 class="roads__view-title">Share of roads rated very poor, by DTP region, 2024</h3>
+    {groups.map((group) => (
+      <div class="roads__group">
+        <p class="roads__group-label">{group}</p>
+        <ol class="roads__regions" role="list">
+          {roads.regions2024.filter((r) => r.group === group).map((region) => (
+            <li>
+              <span class="roads__region-name">{region.name}</span>
+              <span class="roads__track" aria-hidden="true"><span style={`width:${(region.veryPoor / regionMax) * 100}%`}></span></span>
+              <span class="roads__region-value">{fmtPct(region.veryPoor)}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+    <p class="roads__note">The audit publishes each region’s very-poor and very-good shares; it does not publish a poor-or-very-poor total by region, so this view shows the very-poor share only. To check who manages a particular road before blaming anyone for it, use the <a href={dtpMap.url} rel="noopener">DTP road-manager map</a>.</p>
+  </section>
+
+  <section class="roads__view" id="roads-view-spending" role="tabpanel" aria-labelledby="roads-tab-spending" data-view="spending">
+    <h3 class="roads__view-title">Road pavement maintenance spending</h3>
+    <ol class="roads__spend" role="list">
+      {roads.pavementSpend.map((item) => (
+        <li>
+          <span class="roads__region-name">{item.year}</span>
+          <span class="roads__track" aria-hidden="true"><span style={`width:${(item.millions / spendMax) * 100}%`}></span></span>
+          <span class="roads__region-value">${item.millions.toLocaleString("en-AU", { minimumFractionDigits: 1 })}m</span>
+        </li>
+      ))}
+    </ol>
+    <dl class="roads__facts">
+      <div><dt>2026–27 road asset management</dt><dd>${(roads.funding2026_27.budgeted / 1000).toFixed(2)}bn budgeted + ${roads.funding2026_27.added}m added in August ≈ <strong>${(roads.funding2026_27.total / 1000).toFixed(2)}bn</strong> (VAGO’s arithmetic)</dd></div>
+      <div><dt>DTP’s estimate to hold pavement condition</dt><dd>more than <strong>${roads.funding2026_27.dtpEstimateToHoldCondition / 1000}bn a year</strong>, from the department’s own business case, not an independent costing</dd></div>
+    </dl>
+    <p class="roads__note">Spending rose, then rose sharply; the audit’s criticism is about adequacy and results, not a story of ever-falling budgets. Nominal dollars, not adjusted for construction cost inflation.</p>
+  </section>
+
+  <p class="roads__source"><a href={source.url} rel="noopener">{source.publisher}, {source.title}</a>, tabled 9 September 2026. Survey years are 2021 and 2024; a 2026 survey was unvalidated at the time of the audit.</p>
+</figure>
+
+<style>
+  .roads {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .roads figcaption {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .roads__hint {
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+    font-weight: 400;
+  }
+  .roads__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 1rem 0 0.25rem;
+  }
+  .roads__tabs button {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: var(--paper);
+    font: inherit;
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+  }
+  .roads__tabs button:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--ink);
+  }
+  .roads__tabs button[aria-selected="true"] {
+    border-color: var(--signal-fill);
+    color: var(--paper);
+    background: var(--signal-fill);
+  }
+  .roads__view {
+    padding-top: 1rem;
+  }
+  .roads__view + .roads__view {
+    margin-top: 1rem;
+    border-top: 1px dashed var(--line-strong);
+  }
+  .roads[data-enhanced] .roads__view:not([data-active]) {
+    display: none;
+  }
+  .roads[data-enhanced] .roads__view + .roads__view {
+    margin-top: 0;
+    border-top: 0;
+  }
+  .roads[data-enhanced] .roads__view-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .roads__view-title {
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
+  .roads__view-title::before {
+    content: none;
+  }
+  .roads__stacks {
+    display: grid;
+    gap: 1rem;
+  }
+  .roads__stack-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+  }
+  .roads__year {
+    color: var(--ink);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .roads__stack-summary {
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+  }
+  .roads__stack-summary strong {
+    color: var(--ink);
+  }
+  .roads__bar {
+    display: flex;
+    height: 1.4rem;
+    overflow: hidden;
+    border: 1px solid var(--signal-line);
+    background: var(--paper);
+  }
+  .roads__bar span {
+    display: block;
+    height: 100%;
+  }
+  [data-band="veryGood"] { background: var(--signal-soft); }
+  [data-band="good"] { background: var(--signal-line); }
+  [data-band="fair"] { background: var(--signal-bright); }
+  [data-band="poor"] { background: var(--signal); }
+  [data-band="veryPoor"] { background: var(--signal-emphasis); }
+  .roads__values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.9rem;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+    font-variant-numeric: tabular-nums;
+  }
+  .roads__values li,
+  .roads__values li + li,
+  .roads__legend li,
+  .roads__legend li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .roads__key {
+    display: inline-block;
+    width: 0.65rem;
+    height: 0.65rem;
+    margin-right: 0.35rem;
+    border: 1px solid var(--line-strong);
+    vertical-align: -0.05em;
+  }
+  .roads__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-label);
+  }
+  .roads__group + .roads__group {
+    margin-top: 0.9rem;
+  }
+  .roads__group-label {
+    margin: 0 0 0.35rem;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .roads__regions,
+  .roads__spend {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .roads__regions li,
+  .roads__spend li,
+  .roads__regions li + li,
+  .roads__spend li + li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr) 3.6rem;
+    gap: 0.6rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .roads__region-name {
+    color: var(--ink);
+    font-size: 0.76rem;
+  }
+  .roads__track {
+    display: block;
+    height: 0.8rem;
+    border: 1px solid var(--signal-line);
+    background: var(--paper);
+  }
+  .roads__track > span {
+    display: block;
+    height: 100%;
+    background: var(--signal-emphasis);
+  }
+  .roads__spend .roads__track > span {
+    background: var(--signal);
+  }
+  .roads__region-value {
+    text-align: right;
+    color: var(--ink);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .roads__facts {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+  }
+  .roads__facts div {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 0.6rem;
+  }
+  .roads__facts dt {
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+  }
+  .roads__facts dd {
+    margin: 0;
+  }
+  .roads__facts strong {
+    color: var(--ink);
+  }
+  .roads__note {
+    margin: 0.9rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+  }
+  .roads__note strong {
+    color: var(--ink);
+  }
+  .roads__source {
+    margin: 1rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+  }
+  @media (max-width: 540px) {
+    .roads {
+      padding: 1rem;
+    }
+    .roads__regions li,
+    .roads__spend li {
+      grid-template-columns: minmax(0, 1fr) 3.2rem;
+    }
+    .roads__region-name {
+      grid-column: 1 / -1;
+    }
+    .roads__facts div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
+  }
+  @media print {
+    .roads {
+      break-inside: avoid;
+    }
+    .roads__tabs {
+      display: none;
+    }
+    .roads[data-enhanced] .roads__view:not([data-active]) {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-roads]").forEach((root) => {
+    const tablist = root.querySelector<HTMLElement>("[data-roads-tabs]");
+    if (!tablist) return;
+    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>("[role=tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>(".roads__view"));
+    tablist.hidden = false;
+    root.dataset.enhanced = "true";
+
+    const select = (view: string, focus = false) => {
+      for (const tab of tabs) {
+        const active = tab.dataset.view === view;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        if (active && focus) tab.focus();
+      }
+      for (const panel of panels) {
+        if (panel.dataset.view === view) panel.dataset.active = "true";
+        else delete panel.dataset.active;
+      }
+    };
+    select("statewide");
+
+    tablist.addEventListener("click", (event) => {
+      const tab = (event.target as HTMLElement).closest<HTMLButtonElement>("[role=tab]");
+      if (tab?.dataset.view) select(tab.dataset.view);
+    });
+    tablist.addEventListener("keydown", (event) => {
+      const index = tabs.findIndex((tab) => tab === document.activeElement);
+      if (index < 0) return;
+      let next = index;
+      if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+      else if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      select(tabs[next]!.dataset.view!, true);
+    });
+  });
+</script>

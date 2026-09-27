@@ -1,18 +1,18 @@
 ---
 import type SEO from "types/SEO";
-import { getCollection } from "astro:content";
-import getReadingTime from "reading-time";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
-import { editorialUpdates } from "../../data/editorial-updates";
+import ArchiveFilters from "@components/ArchiveFilters.astro";
+import { loadArchive, tagCounts } from "../../data/article-index";
+import { tags as tagCatalogue, tagHref } from "../../data/taxonomy";
 
 const SEO: SEO = {
   title: "Articles on startups, software and social impact | Dan Ferg",
   description:
-    "Read Dan Ferg's articles on entrepreneurship, software, startup experiments, burnout, and building useful things.",
+    "Read Dan Ferg's articles on entrepreneurship, software, startup experiments, burnout, and building useful things. Filter by tag or search every article.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/articles",
@@ -23,57 +23,23 @@ const SEO: SEO = {
   ],
 };
 
-const articles = (await getCollection("articles")).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-const articleDrafts = import.meta.env.DEV
-  ? await getCollection("articleDrafts")
-  : [];
-
-const formatDate = (date: string) =>
-  new Intl.DateTimeFormat("en-AU", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-
-const items = [
-  ...articleDrafts.map((article) => ({
-    title: article.data.title,
-    description: article.data.description,
-    href: article.data.canonicalUrl,
-    date: article.data.date,
-    meta: `DRAFT // ${formatDate(article.data.date)}`,
-    detail: `${getReadingTime(article.body || "").text} · LOCAL ONLY`,
-  })),
-  ...articles.map((article) => ({
-    title: article.data.title,
-    description: article.data.description,
-    href: article.data.canonicalUrl,
-    date: article.data.date,
-    meta: formatDate(article.data.date),
-    detail: getReadingTime(article.body || "").text,
-  })),
-  ...editorialUpdates.map((update) => ({
-    title: update.title,
-    description: update.description,
-    href: update.canonicalUrl,
-    date: update.date,
-    meta: formatDate(update.date),
-    detail: update.category,
-  })),
-]
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .map(({ date: _date, ...item }) => item);
+const archive = await loadArchive();
+const drafts = archive.filter((item) => item.draft);
+const items = archive.map(({ date: _date, tags, series, draft: _draft, ...item }) => ({
+  ...item,
+  tags: tags.map((id) => ({ id, label: tagCatalogue[id].label, href: tagHref(id) })),
+  series: series?.id,
+}));
+const chips = tagCounts(archive);
 const itemListId = "https://danferg.com/articles#itemlist";
-const publishedItemCount = items.length - articleDrafts.length;
+const publishedItemCount = archive.length - drafts.length;
 const itemListJsonLd = {
   "@type": "ItemList",
   "@id": itemListId,
   name: "Dan Ferg articles and research notes",
-  numberOfItems: items.length,
+  numberOfItems: archive.length,
   itemListOrder: "https://schema.org/ItemListOrderDescending",
-  itemListElement: items.map((item, index) => ({
+  itemListElement: archive.map((item, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: item.title,
@@ -90,8 +56,9 @@ const itemListJsonLd = {
       as="h1"
       eyebrow="ARCHIVE_02 // ARTICLES"
       title="Notes from making things."
-      description={`${publishedItemCount} essays and research notes on building, learning, burning out, and beginning again.${articleDrafts.length ? ` ${articleDrafts.length} local draft${articleDrafts.length === 1 ? "" : "s"} shown in development only.` : ""}`}
+      description={`${publishedItemCount} essays and research notes on building, learning, burning out, and beginning again.${drafts.length ? ` ${drafts.length} local draft${drafts.length === 1 ? "" : "s"} shown in development only.` : ""}`}
     />
+    <ArchiveFilters tags={chips} total={archive.length} live />
     <ContentList items={items} orderedLabel="All articles" />
   </main>
 </BaseLayout>
@@ -104,7 +71,7 @@ const itemListJsonLd = {
   .breadcrumb {
     margin: 0 0 clamp(2.5rem, 4vw, 4rem);
     color: var(--ink-muted);
-    font-size: 0.64rem;
+    font-size: var(--text-label);
   }
 
   .breadcrumb a {

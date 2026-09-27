@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Helping Group
+seoTitle: "Helping Group: community tech born in Black Summer"
 description: A social-impact organisation born during Australia's Black Summer, creating practical digital services that help communities respond, connect, and recover together.
 tags:
   - Social impact
@@ -13,7 +14,10 @@ role: Founder / president / engineering
 externalUrl: https://helping.group
 externalLabel: Visit Helping Group
 imageKey: helping-group
+imageAlt: "Helping Group homepage stating its mission to help Australians connect and thrive together, above logos of organisations that supported it."
 canonicalUrl: /projects/helping-group
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## It started with somewhere safe to sleep
@@ -40,7 +44,7 @@ The initiatives were different, but the method was consistent: identify a moment
 
 ## My role
 
-I founded Helping Group and led the early product, engineering, media, partnership, and organisational work. That meant moving constantly between code and coordination: shipping features, speaking with people affected by the fires, supporting volunteers, responding to media, and building enough structure for other people to contribute safely.
+I founded Helping Group and led the early product, engineering, media, partnership, and organisational work. That meant moving constantly between code and coordination: shipping features, speaking with people affected by the fires, supporting volunteers, responding to media, and building enough structure for other people to contribute safely. I later wrote about what that pace cost me in [Burnout; let's talk about it](/articles/burnout-lets-talk-about-it).
 
 As Helping Homes grew, the original emergency build was rewritten in Laravel over a long weekend. The migration added proper testing, caching, security controls, and a foundation that could be maintained and reactivated as conditions changed. The current platform has expanded beyond rooms to include livestock accommodation because, for rural communities, protecting animals can also mean protecting a livelihood.
 

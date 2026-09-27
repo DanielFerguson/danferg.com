@@ -25,6 +25,28 @@ const talkItems = selectedTalks.map((talk) => ({
   external: true,
 }));
 
+const topics = [
+  {
+    title: "Closing the loop in community engagement",
+    description: "Why participation needs visible follow-through, not just better surveys.",
+    href: "/articles/democracy-doesnt-need-another-survey",
+  },
+  {
+    title: "Responsible AI in local government and education",
+    description: "Using AI to strengthen human judgement and learning rather than replace it.",
+    href: "/articles/ai-belongs-in-the-learning-loop",
+  },
+  {
+    title: "From rough idea to working product",
+    description: "Testing a concept quickly, including with no-code tools, before building more.",
+    href: "/newsletters/2022-05-09-concept-to-production",
+  },
+  {
+    title: "What founders learn when things don’t go to plan",
+    description: "Winding down a company, burnout, and deciding what to build next.",
+    href: "/projects/communitilabs",
+  },
+];
 const speakingMailto = createContactMailto({
   subject: "Speaking or podcast enquiry",
   body: "G'day Dan,\n\nI'd like to invite you to speak or join a podcast.\n\nThe audience, topic, format, and useful timing:\n",
@@ -41,7 +63,7 @@ const SEO: SEO = {
   openGraph: { type: "website" },
   canonicalUrl: canonicalPath,
   schemaType: "CollectionPage",
-  modifiedDate: "2026-08-13",
+  modifiedDate: "2026-09-27",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Speaking", url: canonicalPath },
@@ -99,10 +121,29 @@ const SEO: SEO = {
       </div>
     </section>
 
+    <section class="site-container page-section" aria-labelledby="topics-title">
+      <SectionHeading
+        headingId="topics-title"
+        eyebrow="02 // TOPICS"
+        title="What I can speak about."
+        description="Talks, panels, workshops and podcast conversations. Each topic links to writing or work that goes deeper."
+      />
+      <ul class="topics" role="list" data-motion-group>
+        {topics.map((topic) => (
+          <li data-motion-item>
+            <a href={topic.href}>
+              <strong>{topic.title}</strong>
+              <span>{topic.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <section class="site-container page-section" aria-labelledby="talks-archive-title">
       <SectionHeading
         headingId="talks-archive-title"
-        eyebrow="02 // SELECTED TALKS"
+        eyebrow="03 // SELECTED TALKS"
         title="Earlier ideas worth revisiting."
         description="Workshops and talks about moving from a rough idea to something people can use, and the people required to make that happen."
       />
@@ -136,13 +177,59 @@ const SEO: SEO = {
   .eyebrow {
     margin: 0;
     color: var(--ink-muted);
-    font-size: 0.62rem;
+    font-size: var(--text-label);
     font-weight: 700;
     letter-spacing: 0.07em;
   }
 
   .speaking-hero {
     padding-block: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .topics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .topics li {
+    border-right: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .topics a {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    height: 100%;
+    padding: clamp(1rem, 3vw, 1.4rem);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .topics a:is(:hover, :focus-visible) {
+    background: var(--signal-soft);
+  }
+
+  .topics strong {
+    color: var(--ink);
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+  }
+
+  .topics span {
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 720px) {
+    .topics {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   h1 {
@@ -182,7 +269,7 @@ const SEO: SEO = {
     padding: 0.68rem 0.8rem;
     border: 1px solid var(--ink);
     color: var(--ink);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     font-weight: 750;
     text-decoration: none;
   }

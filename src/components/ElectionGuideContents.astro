@@ -1,0 +1,68 @@
+---
+import { guideSections } from "../data/victoria-2026/sections";
+
+interface Props {
+  sections?: Array<[id: string, label: string]>;
+  label?: string;
+}
+
+const { sections = guideSections, label = "In this guide" } = Astro.props;
+---
+
+<nav class="election-contents" id="contents" tabindex="-1" aria-labelledby="contents-label">
+  <p id="contents-label" class="election-contents__label">{label}</p>
+  <ol role="list">
+    {sections.map(([id, label], index) => (
+      <li>
+        <a href={`#${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{label}</a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .election-contents {
+    margin: 2.5rem 0;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--signal);
+    background: var(--paper-raised);
+  }
+  .election-contents .election-contents__label {
+    margin: 0 0 1rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .election-contents ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .election-contents li,
+  .election-contents li + li { margin: 0; }
+  .election-contents a {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .election-contents a span {
+    flex-shrink: 0;
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+    font-variant-numeric: tabular-nums;
+  }
+  :global(.article-prose [id]) { scroll-margin-top: 6rem; }
+  @media (max-width: 540px) {
+    .election-contents ol { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media print {
+    .election-contents { break-inside: avoid; }
+  }
+</style>

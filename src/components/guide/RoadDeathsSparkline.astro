@@ -1,0 +1,103 @@
+---
+/** Annual Victorian road deaths as a small line chart, with the year-to-date comparison as text. */
+import deaths from "../../data/victoria-2026/road-deaths.json";
+import { sourceRecords } from "../../data/victoria-2026/guide-store";
+
+const annual = deaths.annual;
+const width = 360;
+const height = 120;
+const pad = { top: 18, right: 22, bottom: 24, left: 22 };
+const min = 0;
+const max = Math.ceil(Math.max(...annual.map((d) => d.total)) / 50) * 50;
+const x = (index: number) => pad.left + (index / (annual.length - 1)) * (width - pad.left - pad.right);
+const y = (value: number) => pad.top + (1 - (value - min) / (max - min)) * (height - pad.top - pad.bottom);
+const points = annual.map((d, i) => `${x(i).toFixed(1)},${y(d.total).toFixed(1)}`).join(" ");
+const ytd = deaths.yearToDate;
+const ytdDate = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "long", year: "numeric" }).format(new Date(`${ytd.asAt}T00:00:00`));
+const source = sourceRecords[deaths.source];
+const ytdSource = sourceRecords[ytd.source];
+const last = annual.at(-1)!;
+---
+
+<figure class="deaths" aria-labelledby="deaths-label">
+  <figcaption id="deaths-label">Road deaths in Victoria by calendar year</figcaption>
+  <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Annual road deaths: ${annual.map((d) => `${d.year} ${d.total}`).join(", ")}`}>
+    <line x1={pad.left} x2={width - pad.right} y1={y(0)} y2={y(0)} class="deaths__axis" />
+    <polyline points={points} class="deaths__line" />
+    {annual.map((d, i) => (
+      <g>
+        <circle cx={x(i)} cy={y(d.total)} r="3" class="deaths__dot" />
+        <text x={x(i)} y={y(d.total) - 7} text-anchor="middle" class="deaths__value">{d.total}</text>
+        <text x={x(i)} y={height - 6} text-anchor="middle" class="deaths__year">{d.year}</text>
+      </g>
+    ))}
+  </svg>
+  <p class="deaths__note">
+    2020 and 2021 include long lockdown periods with far less traffic. In {last.year}, {last.rural} of the {last.total} deaths were on rural roads.
+    To {ytdDate}, the provisional count was {ytd.total}, against {ytd.priorYearSamePeriod} at the same point in 2025 ({ytd.rural} rural, against {ytd.ruralPrior}).
+  </p>
+  <p class="deaths__source"><a href={source.url} rel="noopener">{source.publisher}: {source.title}</a> · <a href={ytdSource.url} rel="noopener">{ytdSource.title}</a></p>
+</figure>
+
+<style>
+  .deaths {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .deaths figcaption {
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .deaths svg {
+    display: block;
+    width: 100%;
+    max-width: 30rem;
+    height: auto;
+    margin: 0.5rem 0 0;
+    font-family: inherit;
+  }
+  .deaths__axis {
+    stroke: var(--signal-line);
+    stroke-width: 1;
+  }
+  .deaths__line {
+    fill: none;
+    stroke: var(--signal);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .deaths__dot {
+    fill: var(--paper);
+    stroke: var(--signal);
+    stroke-width: 2;
+  }
+  .deaths__value {
+    fill: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .deaths__year {
+    fill: var(--ink-muted);
+    font-size: 9px;
+  }
+  .deaths__note {
+    margin: 0.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+  }
+  .deaths__source {
+    margin: 0.6rem 0 0;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+  }
+  @media print {
+    .deaths {
+      break-inside: avoid;
+    }
+  }
+</style>

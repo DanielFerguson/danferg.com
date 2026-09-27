@@ -222,6 +222,7 @@ for (const file of htmlFiles) {
   const descriptionLength = attr(description, "content")?.length || 0;
   const titleLength = normalizeText(textContent(titleNodes[0])).length;
   if (titleLength > 65) warn(`${route}: title is ${titleLength} characters`);
+  if (titleLength < 30 && indexable) warn(`${route}: title is only ${titleLength} characters`);
   if (descriptionLength > 165) warn(`${route}: description is ${descriptionLength} characters`);
 
   const anchors = byTag("a").map((node) => ({ href: attr(node, "href"), text: normalizeText(textContent(node)) }));
@@ -291,6 +292,11 @@ if (sitemapUrls.has("https://danferg.com/404")) fail("404 is present in sitemap"
 
 const datedSitemap = await Promise.all(sitemapFiles.map((file) => readFile(file, "utf8")));
 if (!datedSitemap.join("").includes("<lastmod>")) fail("Sitemap has no lastmod entries");
+
+const homepageHtml = await readFile(join(distRoot, "index.html"), "utf8");
+if (/const projectToken = (undefined|"")/.test(homepageHtml)) {
+  warn("PUBLIC_POSTHOG_PROJECT_TOKEN was not set for this build, so analytics are disabled");
+}
 
 const robotsText = await readFile(join(distRoot, "robots.txt"), "utf8");
 if (!/Sitemap:\s*https:\/\/danferg\.com\/sitemap-index\.xml/.test(robotsText)) fail("robots.txt does not advertise sitemap");

@@ -12,6 +12,15 @@ interface Role {
 
 const roles: Role[] = [
   {
+    title: "Head of Product and Innovation",
+    organisation: "Spatial Media",
+    period: "OCT 2026 — NOW",
+    datetime: "2026-10",
+    description:
+      "Leading product and innovation at an interactive 3D visualisation and digital engagement company.",
+    tags: ["PRODUCT", "INNOVATION", "3D + ENGAGEMENT"],
+  },
+  {
     title: "Chief Executive Officer",
     organisation: "Communiti Labs",
     period: "AUG 2023 — JUL 2026",
@@ -48,12 +57,12 @@ const roles: Role[] = [
     tags: ["ANALYTICS", "PERFORMANCE", "OPERATIONS"],
   },
   {
-    title: "Head of Technology",
+    title: "Chief Technology Officer",
     organisation: "Imperial Wealth",
     period: "MAR 2021 — AUG 2022",
     datetime: "2021-03",
     description:
-      "Led designers and developers, united four business units behind one client entry point, and built software for international crypto-mining operations.",
+      "Led designers and developers, united five business units behind one client entry point, and built software for international crypto-mining operations.",
     tags: ["TECHNOLOGY", "TEAM LEAD", "PLATFORMS"],
   },
   {
@@ -146,7 +155,7 @@ const roles: Role[] = [
     display: block;
     margin-top: 0.75rem;
     color: var(--ink-muted);
-    font-size: 0.62rem;
+    font-size: var(--text-label);
     font-weight: 700;
     letter-spacing: 0.055em;
   }
@@ -197,7 +206,7 @@ const roles: Role[] = [
     border: 1px solid var(--line);
     color: var(--ink-muted);
     background: var(--paper-raised);
-    font-size: 0.56rem;
+    font-size: var(--text-label);
     font-weight: 700;
     letter-spacing: 0.05em;
   }

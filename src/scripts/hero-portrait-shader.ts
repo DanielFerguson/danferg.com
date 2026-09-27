@@ -147,7 +147,11 @@ void main() {
 `;
 
 const INTRO_DURATION_MS = 880;
-const MAX_PIXEL_COUNT = 1_500_000;
+// Touch devices never see the hover effect and tend to have dense screens and
+// weaker GPUs, so they render fewer pixels; the dithered cells hide the
+// difference.
+const maxPixelCount = () =>
+  window.matchMedia("(pointer: coarse)").matches ? 600_000 : 1_500_000;
 
 const currentThemeValue = () =>
   document.documentElement.dataset.theme === "dark" ? 1 : 0;
@@ -234,7 +238,7 @@ export const enhanceHeroPortrait = async (portrait: HTMLElement) => {
       0,
       0,
       1,
-      MAX_PIXEL_COUNT,
+      maxPixelCount(),
     );
   } catch {
     portrait.querySelectorAll("canvas").forEach((canvas) => {

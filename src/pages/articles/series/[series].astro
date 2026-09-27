@@ -1,0 +1,148 @@
+---
+import type SEO from "types/SEO";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import ContentList from "@components/ContentList.astro";
+import ArchiveFilters from "@components/ArchiveFilters.astro";
+import { loadArchive, seriesGroups, tagCounts } from "../../../data/article-index";
+import { series as seriesCatalogue, seriesHref, tags as tagCatalogue, tagHref, type SeriesId } from "../../../data/taxonomy";
+
+export async function getStaticPaths() {
+  const archive = await loadArchive();
+  // Only series with at least one article get a page.
+  return seriesGroups(archive).map((group) => ({ params: { series: group.id }, props: { archive } }));
+}
+
+interface Props {
+  archive: Awaited<ReturnType<typeof loadArchive>>;
+}
+
+const { archive } = Astro.props;
+const id = Astro.params.series as SeriesId;
+const definition = seriesCatalogue[id];
+const written = new Map(archive.filter((item) => item.series?.id === id).map((item) => [item.href, item]));
+const items = definition.parts.map((part) => {
+  const item = part.path ? written.get(part.path) : undefined;
+  if (item) {
+    const { date: _date, tags, series, draft: _draft, ...rest } = item;
+    return {
+      ...rest,
+      meta: `PART ${part.part} // ${item.meta}`,
+      tags: tags.map((tagId) => ({ id: tagId, label: tagCatalogue[tagId].label, href: tagHref(tagId) })),
+      series: series?.id,
+    };
+  }
+  return null;
+});
+const listed = items.filter((item): item is NonNullable<typeof item> => item !== null);
+const planned = definition.parts.filter((part) => !(part.path && written.has(part.path)));
+const chips = tagCounts(archive);
+const canonicalUrl = seriesHref(id);
+const SEO: SEO = {
+  title: `${definition.label}: the series | Dan Ferg`,
+  description: `${definition.description} ${listed.length} of ${definition.parts.length} parts so far.`,
+  imageUrl: "/images/og-default.png",
+  openGraph: { type: "website" },
+  canonicalUrl,
+  schemaType: "CollectionPage",
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Articles", url: "/articles" },
+    { name: definition.label, url: canonicalUrl },
+  ],
+};
+const itemListId = `https://danferg.com${canonicalUrl}#itemlist`;
+const itemListJsonLd = {
+  "@type": "ItemList",
+  "@id": itemListId,
+  name: `${definition.label} by Dan Ferg`,
+  numberOfItems: listed.length,
+  itemListOrder: "https://schema.org/ItemListOrderAscending",
+  itemListElement: listed.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.title,
+    url: new URL(item.href, "https://danferg.com").toString(),
+  })),
+};
+---
+
+<BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
+  <NavBar />
+  <main id="main-content" class="site-container archive">
+    <p class="breadcrumb"><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / SERIES</p>
+    <SectionHeading
+      as="h1"
+      eyebrow="ARCHIVE_02 // SERIES"
+      title={definition.label}
+      description={`${definition.description} ${listed.length} of ${definition.parts.length} parts so far, in reading order.`}
+    />
+    <ContentList items={listed} orderedLabel={`${definition.label}, in order`} />
+    {planned.length > 0 && (
+      <section class="planned" aria-labelledby="planned-label">
+        <p id="planned-label" class="planned__label">Still to come</p>
+        <ol>
+          {planned.map((part) => (
+            <li><span aria-hidden="true">{String(part.part).padStart(2, "0")}</span>{part.title}</li>
+          ))}
+        </ol>
+      </section>
+    )}
+    <ArchiveFilters tags={chips} total={archive.length} activeSeries={id} />
+  </main>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .breadcrumb {
+    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+  }
+
+  .breadcrumb a {
+    color: var(--ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .planned {
+    margin: 1.5rem 0 2.5rem;
+    padding: 1rem 1.15rem;
+    border: 1px dashed var(--line-strong);
+  }
+
+  .planned__label {
+    margin: 0 0 0.5rem;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .planned ol {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .planned li {
+    display: grid;
+    grid-template-columns: 1.6rem minmax(0, 1fr);
+    gap: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+
+  .planned li span {
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

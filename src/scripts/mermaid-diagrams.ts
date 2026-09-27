@@ -1,4 +1,11 @@
 const diagramSelector = "[data-mermaid-diagram]";
+
+// Mermaid measures label text itself, so it needs the resolved family list
+// (Geist Mono plus its metric-matched fallback) rather than a CSS variable.
+const siteMonoFontFamily = () =>
+  getComputedStyle(document.documentElement)
+    .getPropertyValue("--font-mono")
+    .trim() || "ui-monospace, SFMono-Regular, Consolas, monospace";
 const devImportRetryKey = "danferg-mermaid-import-retried";
 
 const themes = {
@@ -110,8 +117,7 @@ export async function initializeMermaidDiagrams() {
       startOnLoad: false,
       securityLevel: "strict",
       theme: "base",
-      fontFamily:
-        '"Geist Mono Variable", "SFMono-Regular", Consolas, monospace',
+      fontFamily: siteMonoFontFamily(),
       themeVariables,
       flowchart: { htmlLabels: true, useMaxWidth: true },
     });

@@ -1,17 +1,28 @@
 ---
 import { getCollection } from "astro:content";
 import { editorialUpdates } from "../data/editorial-updates";
+import { tags as tagCatalogue, type TagId } from "../data/taxonomy";
 
 interface Props {
   currentPath: string;
   kind: "articles" | "newsletters";
+  tags?: TagId[];
 }
 
-const { currentPath, kind } = Astro.props;
+interface RelatedItem {
+  title: string;
+  description: string;
+  href: string;
+  date: string;
+  meta: string;
+  tags: string[];
+}
+
+const { currentPath, kind, tags = [] } = Astro.props;
 const entries = kind === "articles"
   ? await getCollection("articles")
   : await getCollection("newsletters");
-const sameKind = entries
+const sameKind: RelatedItem[] = entries
   .filter((entry) => entry.data.canonicalUrl !== currentPath)
   .map((entry) => ({
     title: entry.data.title,
@@ -19,8 +30,9 @@ const sameKind = entries
     href: entry.data.canonicalUrl,
     date: entry.data.date,
     meta: kind === "articles" ? "ARTICLE" : "DISPATCH",
+    tags: (entry.data.tags ?? []) as string[],
   }));
-const updates = kind === "articles"
+const updates: RelatedItem[] = kind === "articles"
   ? editorialUpdates
       .filter((entry) => entry.canonicalUrl !== currentPath)
       .map((entry) => ({
@@ -29,11 +41,37 @@ const updates = kind === "articles"
         href: entry.canonicalUrl,
         date: entry.date,
         meta: "PRODUCT RESEARCH",
+        tags: [],
       }))
   : [];
-const related = [...sameKind, ...updates]
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0, 2);
+
+// Most shared tags first, newest first among equals.
+const sharedTags = (item: RelatedItem) =>
+  item.tags.filter((tag) => (tags as string[]).includes(tag)).length;
+const ranked = [...sameKind, ...updates].sort(
+  (a, b) =>
+    sharedTags(b) - sharedTags(a) ||
+    new Date(b.date).getTime() - new Date(a.date).getTime(),
+);
+
+// One case study that illustrates the piece's first tag that has any.
+const projects = kind === "articles" ? await getCollection("projects") : [];
+const projectPath = tags
+  .flatMap((tag) => tagCatalogue[tag]?.projects ?? [])
+  .find((path) => path !== currentPath);
+const project = projects.find((entry) => entry.data.canonicalUrl === projectPath);
+const projectItem = project
+  ? {
+      title: project.data.title,
+      description: project.data.description,
+      href: project.data.canonicalUrl,
+      meta: "CASE STUDY",
+    }
+  : null;
+
+const related = projectItem
+  ? [...ranked.slice(0, 1), projectItem]
+  : ranked.slice(0, 2);
 const archive = {
   title: kind === "articles" ? "Browse every article" : "Browse every dispatch",
   description:
@@ -74,7 +112,7 @@ const archive = {
   .related > p {
     margin: 0;
     color: var(--signal);
-    font-size: 0.61rem;
+    font-size: var(--text-label);
     font-weight: 750;
     letter-spacing: 0.07em;
   }
@@ -110,7 +148,7 @@ const archive = {
 
   small {
     color: var(--signal);
-    font-size: 0.56rem;
+    font-size: var(--text-label);
     font-weight: 750;
     letter-spacing: 0.07em;
   }
@@ -125,7 +163,7 @@ const archive = {
   a > span {
     margin-top: 0.55rem;
     color: var(--ink-soft);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     line-height: 1.55;
   }
 

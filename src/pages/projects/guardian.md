@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/ProjectLayout.astro
 title: Guardian
+seoTitle: "Guardian: a privacy-first COVID exposure-warning app"
 description: A privacy-first COVID exposure-warning prototype that kept location history on-device while checking it against rapidly changing public exposure-site data.
 tags:
   - Civic technology
@@ -13,7 +14,10 @@ role: Creator / product / full-stack engineering
 externalUrl: https://github.com/DanielFerguson/useguardian.app
 externalLabel: View source
 imageKey: guardian
+imageAlt: "Guardian's coming-soon page pitching privacy-first instant contact tracing, with an email sign-up and the shield logo on a phone."
 canonicalUrl: /projects/guardian
+publishedDate: "2022-08-31"
+updatedDate: "2026-07-10"
 ---
 
 ## The problem

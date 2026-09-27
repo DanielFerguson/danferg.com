@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import headshot from "../assets/images/dan-ferg-headshot.webp";
+---
+
+<aside class="site-container author-note" aria-labelledby="author-note-title" data-motion-reveal>
+  <Image
+    class="author-note__photo"
+    src={headshot}
+    alt="Dan Ferg"
+    width={96}
+    height={96}
+    densities={[1, 2]}
+    loading="lazy"
+  />
+  <div>
+    <p class="author-note__label">// WRITTEN BY</p>
+    <h2 id="author-note-title"><a href="/about" rel="author">Dan Ferg</a></h2>
+    <p>
+      I’m a Melbourne-based product consultant, advisor and software builder. I
+      founded Helping Group after the 2020 bushfires and led Communiti Labs, a
+      civic technology company, from 2023 to 2026.
+    </p>
+    <p class="author-note__links">
+      <a href="/about">More about me <span aria-hidden="true">→</span></a>
+      <a href="/consulting">Work with me <span aria-hidden="true">→</span></a>
+    </p>
+  </div>
+</aside>
+
+<style>
+  .author-note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 1.75rem);
+    align-items: start;
+    max-width: 45rem;
+    margin-block: 0 clamp(3rem, 6vw, 4.5rem);
+    padding: clamp(1.1rem, 3vw, 1.5rem);
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+  }
+
+  .author-note__photo {
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 1px solid var(--line-strong);
+    object-fit: cover;
+  }
+
+  .author-note__label {
+    margin: 0 0 0.35rem;
+    color: var(--signal);
+    font-size: var(--text-label);
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  h2 a {
+    color: var(--ink);
+    text-decoration-color: var(--signal);
+    text-underline-offset: 0.2em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .author-note__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.75rem;
+  }
+
+  .author-note__links a {
+    color: var(--signal);
+    font-weight: 700;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 520px) {
+    .author-note {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

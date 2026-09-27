@@ -1,0 +1,103 @@
+---
+/**
+ * Material-update record with anchors per entry, plus a "since your last visit" notice
+ * (progressive enhancement; remembers the last visit in this browser only).
+ */
+import changelog from "../../data/victoria-2026/changelog.json";
+
+interface Props {
+  lastChecked: string;
+  /** Canonical path of the article; only that article's entries are shown. */
+  article: string;
+}
+
+const { lastChecked, article } = Astro.props;
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "long", year: "numeric" }).format(
+    new Date(`${date}T00:00:00`),
+  );
+const entries = changelog
+  .filter((entry) => entry.article === article)
+  .map((entry, index) => ({ ...entry, anchor: `update-${entry.date}-${index + 1}` }));
+---
+
+<section class="changelog" id="material-updates" aria-labelledby="material-updates-label">
+  <h2 id="material-updates-label" tabindex="-1">Material updates</h2>
+  <p class="changelog__intro">
+    Only changes that affect a claim, a comparison or a conclusion are listed. Last checked: {formatDate(lastChecked)}. Follow the linked agencies for rule changes after that date.
+  </p>
+  <ol class="changelog__list" data-changelog>
+    {entries.map((entry) => (
+      <li id={entry.anchor} data-date={entry.date}>
+        <a class="changelog__date" href={`#${entry.anchor}`}><time datetime={entry.date}>{formatDate(entry.date)}</time></a>
+        <div>
+          <strong>{entry.title}</strong>
+          <ul>
+            {entry.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .changelog {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-strong);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .changelog h2 {
+    margin-top: 0;
+  }
+  .changelog__intro {
+    color: var(--ink-soft);
+  }
+  .changelog__list {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .changelog__list > li {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 6rem;
+  }
+  .changelog__list > li + li {
+    margin-top: 0;
+  }
+  .changelog__list > li:target {
+    background: var(--signal-soft);
+    box-shadow: 0 0 0 0.5rem var(--signal-soft);
+  }
+  .changelog__date {
+    color: var(--signal);
+    font-size: var(--text-label);
+    font-weight: 700;
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .changelog__list ul {
+    margin: 0.35rem 0 0;
+    padding-left: 1.1rem;
+  }
+  .changelog__list ul li {
+    margin: 0;
+    padding-left: 0.1rem;
+  }
+  .changelog__list ul li + li {
+    margin-top: 0.25rem;
+  }
+  @media (max-width: 540px) {
+    .changelog__list > li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.3rem;
+    }
+  }
+</style>

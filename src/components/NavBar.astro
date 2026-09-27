@@ -1,13 +1,19 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Skills", href: "/skills" },
-  { name: "Consulting", href: "/consulting" },
-  { name: "Articles", href: "/articles" },
-  { name: "Work", href: "/#work" },
-  { name: "Speaking", href: "/speaking" },
+  { name: "Projects", href: "/projects", section: ["/projects", "/skills"] },
+  { name: "Consulting", href: "/consulting", section: ["/consulting"] },
+  { name: "Articles", href: "/articles", section: ["/articles", "/newsletters"] },
+  { name: "Speaking", href: "/speaking", section: ["/speaking"] },
+  { name: "About", href: "/about", section: ["/about"] },
 ];
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const currentState = (item: (typeof navigation)[number]) => {
+  if (currentPath === item.href) return "page";
+  return item.section.some((path) => currentPath.startsWith(`${path}/`))
+    ? "true"
+    : undefined;
+};
 
 ---
 
@@ -20,15 +26,16 @@ const navigation = [
   </div>
 
   <div class="site-container nav-shell">
-    <a class="wordmark" href="/" aria-label="Dan Ferg, home">
+    <a class="wordmark" href="/">
       <span aria-hidden="true">D/F</span>
+      <span class="visually-hidden">Dan Ferg — home</span>
     </a>
 
     <nav aria-label="Main navigation">
       <ul>
         {
           navigation.map((item) => (
-            <li><a href={item.href} data-astro-prefetch="hover">{item.name}</a></li>
+            <li><a href={item.href} aria-current={currentState(item)} data-astro-prefetch="hover">{item.name}</a></li>
           ))
         }
       </ul>
@@ -44,12 +51,23 @@ const navigation = [
 <style>
   .site-header {
     border-bottom: 1px solid var(--line);
+    /* Keeps the header still while page content cross-fades. */
+    view-transition-name: site-header;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .signal-bar {
     color: var(--inverse-ink);
     background: var(--signal-deep);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     letter-spacing: 0.04em;
   }
 
@@ -101,15 +119,22 @@ const navigation = [
     color: var(--inverse-ink);
     background: var(--signal-deep);
     font-weight: 800;
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     letter-spacing: -0.08em;
     text-decoration: none;
     transform: rotate(-3deg);
   }
 
+  /* The nav fills the header's height so the current-page bar can sit on
+     the header's bottom border, like a tab. */
+  .nav-shell nav {
+    display: flex;
+    align-self: stretch;
+  }
+
   nav ul {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -129,7 +154,7 @@ const navigation = [
   nav a,
   .nav-contact {
     color: var(--ink-soft);
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     font-weight: 650;
     text-decoration: none;
   }
@@ -137,6 +162,27 @@ const navigation = [
   nav a:is(:hover, :focus-visible),
   .nav-contact:is(:hover, :focus-visible) {
     color: var(--signal);
+  }
+
+  nav a {
+    position: relative;
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+  }
+
+  nav a[aria-current] {
+    color: var(--ink);
+  }
+
+  nav a[aria-current]::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--signal);
+    content: "";
   }
 
   .nav-contact {
@@ -151,19 +197,15 @@ const navigation = [
   }
 
   @media (max-width: 760px) {
-    .signal-bar__inner {
-      align-items: flex-start;
-      padding-block: 0.5rem;
-    }
-
-    .signal-bar__inner p {
+    /* The consulting link is repeated by "Work together", so the bar goes. */
+    .signal-bar {
       display: none;
     }
 
     .nav-shell {
       min-height: auto;
       flex-wrap: wrap;
-      padding-block: 0.75rem;
+      padding-block: 0.75rem 0;
     }
 
     .nav-shell nav {
@@ -172,24 +214,43 @@ const navigation = [
       overflow-x: auto;
       padding-top: 0.7rem;
       border-top: 1px dotted var(--line-strong);
+      scrollbar-width: none;
+      /* Extend over the header's border so the current-page bar covers it. */
+      margin-bottom: -1px;
+    }
+
+    .nav-shell nav::-webkit-scrollbar {
+      display: none;
     }
 
     nav ul {
       width: max-content;
+      gap: 0.75rem;
     }
 
     nav li + li::before {
-      margin-inline: 0.52rem;
+      content: none;
     }
 
     nav a {
-      display: inline-flex;
-      min-height: 2rem;
-      align-items: center;
+      min-height: 2.75rem;
+    }
+
+    /* The scrolling nav clips anything outside its box, so the bar is
+       placed at its bottom edge, which now overlaps the header border. */
+    nav a[aria-current]::after {
+      bottom: 0;
     }
 
     .nav-contact {
       padding: 0.55rem 0.65rem;
+    }
+  }
+
+  /* Below 360px the links scroll; fade the edge so that reads as scrollable. */
+  @media (max-width: 359px) {
+    .nav-shell nav {
+      mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
     }
   }
 </style>

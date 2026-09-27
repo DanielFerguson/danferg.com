@@ -1,0 +1,36 @@
+---
+interface Props {
+  sections: Array<[string, string]>;
+}
+
+const { sections } = Astro.props;
+---
+
+<nav class="article-contents" id="contents" tabindex="-1" aria-labelledby="contents-label">
+  <p id="contents-label">In this article</p>
+  <ol role="list">
+    {sections.map(([id, label], index) => (
+      <li>
+        <a href={`#${id}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{label}</a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .article-contents {
+    margin: 2.5rem 0;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--line-strong);
+    border-top: 3px solid var(--signal);
+    background: var(--paper-raised);
+  }
+  .article-contents p { margin: 0 0 1rem; color: var(--ink); font-size: 0.85rem; font-weight: 700; }
+  .article-contents ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .article-contents li, .article-contents li + li { margin: 0; }
+  .article-contents a { display: flex; gap: 0.7rem; align-items: baseline; padding: 0.4rem 0; font-size: 0.82rem; line-height: 1.5; }
+  .article-contents a span { flex-shrink: 0; color: var(--ink-soft); font-size: var(--text-label); font-variant-numeric: tabular-nums; }
+  :global(.article-prose [id]) { scroll-margin-top: 6rem; }
+  @media (max-width: 540px) { .article-contents ol { grid-template-columns: minmax(0, 1fr); } }
+  @media print { .article-contents { break-inside: avoid; } }
+</style>

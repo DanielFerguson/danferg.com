@@ -4,6 +4,8 @@ import BaseLayout from "./BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
 import EditorialEndcap from "@components/EditorialEndcap.astro";
 import RelatedContent from "@components/RelatedContent.astro";
+import { pageTitle } from "../utils/seo";
+import { FEED_CONTENT_END, FEED_CONTENT_START } from "../utils/feed-markers";
 
 const { frontmatter } = Astro.props;
 const formatDate = (date: string) =>
@@ -22,7 +24,7 @@ const SEO: SEO & {
   imageHeight?: number;
   imageType?: string;
 } = {
-  title: `${frontmatter.title} | Dan Ferg`,
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
   headline: frontmatter.title,
   description: frontmatter.description,
   imageUrl: frontmatter.imageUrl,
@@ -63,8 +65,16 @@ const SEO: SEO & {
       </div>
     </header>
     <hr class="site-container ascii-rule" />
-    <article class="prose-shell" data-motion-reveal>
+    <article class="prose-shell" data-motion-reveal data-pagefind-body>
+      <p class="archive-note" data-pagefind-ignore>
+        <strong>From the 2022 archive.</strong> This newsletter has finished, so
+        some plans here never happened. For current writing, see the
+        <a href="/articles">articles</a> or the <a href="/rss.xml">RSS feed</a>.
+      </p>
+      {/* Marks the body for feeds (see src/utils/feed-items.ts). */}
+      <Fragment set:html={FEED_CONTENT_START} />
       <slot />
+      <Fragment set:html={FEED_CONTENT_END} />
     </article>
     <RelatedContent currentPath={frontmatter.canonicalUrl} kind="newsletters" />
     <EditorialEndcap sourceTitle={frontmatter.title} />
@@ -72,6 +82,17 @@ const SEO: SEO & {
 </BaseLayout>
 
 <style>
+  .archive-note {
+    margin: 0 0 2rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--signal);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
   .story-header {
     padding-block: clamp(2.5rem, 5vw, 4.75rem) clamp(2.25rem, 4vw, 3.75rem);
   }
@@ -80,7 +101,7 @@ const SEO: SEO & {
   .story-header__type {
     margin: 0;
     color: var(--ink-muted);
-    font-size: 0.62rem;
+    font-size: var(--text-label);
     letter-spacing: 0.06em;
   }
 

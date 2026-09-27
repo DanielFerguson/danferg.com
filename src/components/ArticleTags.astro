@@ -1,0 +1,61 @@
+---
+/** Tag chips for an article header or list item. Each links to the static tag page. */
+import { tags as tagCatalogue, tagHref, type TagId } from "../data/taxonomy";
+
+interface Props {
+  tags?: readonly string[];
+  size?: "sm" | "md";
+  /** Emit Pagefind filter metadata (only wanted once per page, in the article header). */
+  pagefind?: boolean;
+}
+
+const { tags = [], size = "md", pagefind = false } = Astro.props;
+const items = tags.filter((id): id is TagId => id in tagCatalogue);
+---
+
+{items.length > 0 && (
+  <ul class:list={["article-tags", `article-tags--${size}`]} aria-label="Tags">
+    {items.map((id) => (
+      <li>
+        <a href={tagHref(id)} data-pagefind-filter={pagefind ? "tag" : undefined}>{tagCatalogue[id].label}</a>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .article-tags li,
+  .article-tags li + li {
+    margin: 0;
+    padding: 0;
+  }
+  .article-tags a {
+    display: inline-block;
+    padding: 0.18em 0.6em;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .article-tags--sm a {
+    padding: 0.1em 0.5em;
+    font-size: var(--text-label);
+  }
+  .article-tags a:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--signal);
+  }
+</style>

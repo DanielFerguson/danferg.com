@@ -1,0 +1,14 @@
+{
+  "baselineCommit": "951358bbab0ad0bdfa929e6f0666d3870745f4e9",
+  "baselineDate": "2026-09-13",
+  "purpose": "Preserve article one and its dependencies before article two. Compare these hashes before delivery; do not rewrite baseline files.",
+  "files": {
+    "src/components/ElectionGuideContents.astro": "7364576133ee2de915d0da8b3b3cbc5e93a5e48056ad98872e719b11524cec0e",
+    "src/components/VictoriaElectionTimeline.astro": "2225d7114c17ff13d57a7aa50d5fdcda2a22e513bbf6226bf78c7f9ff8359043",
+    "src/components/VictoriaLevyExample.astro": "b50728aaa4d916e9a62f4d781e70cbf6aad26281d1a7514caaf6e57fa61f2105",
+    "src/components/VictoriaRoadsComparison.astro": "ac718dcf64e8aee75621a77e73546452dd7449fbff34579db1122ef2a9dc83c6",
+    "src/content/drafts/articles/victoria-election-2026.mdx": "b2c87ea6c9f0e7d33a750f8b3e2562275034bd1b9013ac887d5dc31ad0443b70",
+    "src/drafts/research/politics/federal/README.md": "e3f02d27d4816e0dafe2b867992d83a4fe289f119d2c0b9d42e1020ef6d98936",
+    "src/drafts/research/politics/victoria/README.md": "92d86308eca8dfed88907ee4fa7f6f45f9cc3e33397c74b079ee1c1d4bd13b59"
+  }
+}

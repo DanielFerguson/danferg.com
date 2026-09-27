@@ -2,6 +2,7 @@
 import type SEO from "types/SEO";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NavBar from "../components/NavBar.astro";
+import SiteSearch from "../components/SiteSearch.astro";
 
 const SEO: SEO = {
   title: "Page not found | Dan Ferg",
@@ -30,7 +31,11 @@ const SEO: SEO = {
         <a class="not-found__primary" href="/" data-motion-interactive>Return home <span aria-hidden="true" data-motion-arrow>→</span></a>
         <a href="/projects" data-motion-interactive>Explore projects <span aria-hidden="true" data-motion-arrow>→</span></a>
         <a href="/articles" data-motion-interactive>Read articles <span aria-hidden="true" data-motion-arrow>→</span></a>
+        <a href="/consulting" data-motion-interactive>Work with me <span aria-hidden="true" data-motion-arrow>→</span></a>
       </nav>
+      <div class="not-found__search" data-motion-intro-item>
+        <SiteSearch label="Or search the site" placeholder="Search articles, case studies and newsletters…" />
+      </div>
     </section>
   </main>
 </BaseLayout>
@@ -47,10 +52,15 @@ const SEO: SEO = {
     max-width: 58rem;
   }
 
+  .not-found__search {
+    max-width: 40rem;
+    margin-top: 2.5rem;
+  }
+
   .not-found__eyebrow {
     margin: 0 0 1rem;
     color: var(--signal);
-    font-size: 0.65rem;
+    font-size: var(--text-label);
     font-weight: 750;
     letter-spacing: 0.08em;
   }
@@ -97,7 +107,7 @@ const SEO: SEO = {
     padding: 0.7rem 0.85rem;
     border: 1px solid var(--line-strong);
     color: var(--ink);
-    font-size: 0.68rem;
+    font-size: var(--text-label);
     font-weight: 750;
     text-decoration: none;
   }
