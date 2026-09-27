@@ -8,19 +8,15 @@
     "module": "ESNext",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "src/components/*"
-      ],
-      "@images/*": [
-        "src/images/*"
+        "./src/components/*"
       ],
       "@layouts/*": [
-        "src/layouts/*"
+        "./src/layouts/*"
       ],
       "types/*": [
-        "src/types/*"
+        "./src/types/*"
       ]
     }
   }

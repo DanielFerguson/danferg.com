@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
-import { remarkReadingTime } from "./remark-reading-time.mjs";
 import { rehypeMermaidBlocks } from "./rehype-mermaid-blocks.mjs";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
@@ -51,6 +50,22 @@ export default defineConfig({
   site: "https://danferg.com",
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rolldownOptions: {
+        onwarn(warning, defaultHandler) {
+          // Astro marks MDX modules with this directive for its own head
+          // injection. Rolldown (Vite 8.3+) warns about every one of them even
+          // though the built HTML is unchanged, which buries real warnings.
+          if (
+            warning.code === "MODULE_LEVEL_DIRECTIVE" &&
+            warning.message.includes("use astro:head-inject")
+          ) {
+            return;
+          }
+          defaultHandler(warning);
+        },
+      },
+    },
   },
   integrations: [
     sitemap({
@@ -67,7 +82,6 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: { type: "shiki", excludeLangs: ["mermaid"] },
     processor: unified({
-      remarkPlugins: [remarkReadingTime],
       rehypePlugins: [rehypeMermaidBlocks],
     }),
   },

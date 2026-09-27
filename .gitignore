@@ -21,3 +21,7 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 .vercel
+
+# alternate package manager lockfiles (this project uses npm)
+bun.lock
+bun.lockb
