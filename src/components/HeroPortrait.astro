@@ -178,8 +178,24 @@ const {
 <style>
   .hero-portrait {
     position: relative;
+    /*
+     * Beside a headline the portrait is a tall panel. Its height follows the
+     * homepage headline block as the viewport widens: 30rem up to about 1024px
+     * wide, rising to about 555px from 1440px. Pages share this so every hero
+     * portrait has the same shape; stacked layouts switch to 4:3 below.
+     */
+    height: clamp(30rem, calc(30rem + 18vw - 184px), 34.7rem);
     margin: 0;
     overflow: hidden;
+    border-block: 1px solid var(--line-strong);
+    background: var(--signal-soft);
+  }
+
+  @media (max-width: 900px) {
+    .hero-portrait {
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
   }
 
   .hero-portrait__filters {

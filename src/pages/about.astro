@@ -171,10 +171,12 @@ const SEO: SEO = {
     letter-spacing: 0.07em;
   }
 
+  /* Same columns, gap and breakpoint as the homepage hero, so the two
+     portraits match in size. */
   .about-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(0, 1.28fr) minmax(19rem, 0.72fr);
+    gap: clamp(2rem, 5vw, 5rem);
     align-items: center;
     padding-block: clamp(3.5rem, 8vw, 6.5rem);
   }
@@ -199,11 +201,6 @@ const SEO: SEO = {
     line-height: 1.7;
   }
 
-  .about-hero__portrait :global(.hero-portrait) {
-    aspect-ratio: 4 / 3;
-    border: 1px solid var(--line-strong);
-    background: var(--signal-soft);
-  }
 
   .now-grid {
     display: grid;
@@ -269,8 +266,17 @@ const SEO: SEO = {
     white-space: nowrap;
   }
 
+  @media (max-width: 900px) {
+    .about-hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about-hero__portrait {
+      max-width: 32rem;
+    }
+  }
+
   @media (max-width: 820px) {
-    .about-hero,
     .now-grid {
       grid-template-columns: minmax(0, 1fr);
     }
