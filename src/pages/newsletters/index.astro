@@ -9,9 +9,9 @@ import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 
 const SEO: SEO = {
-  title: "Newsletters on building projects and solving problems | Dan Ferg",
+  title: "2022 newsletter archive: building in public | Dan Ferg",
   description:
-    "Read Dan Ferg's newsletters about startup progress, ideas, project updates, and lessons learned while building in public.",
+    "Dan Ferg's 2022 newsletters on building Observer, yFocus and Mates Motivate in public: startup progress, ideas, burnout and lessons learned.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/newsletters",
@@ -64,7 +64,7 @@ const itemListJsonLd = {
       as="h1"
       eyebrow="ARCHIVE_03 // NEWSLETTERS"
       title="Dispatches from the workbench."
-      description={`${newsletters.length} longer updates from the projects, ideas, and experiments I was building in public.`}
+      description={`${newsletters.length} dispatches from 2022, written while I built Observer, yFocus and Mates Motivate in public. The newsletter has finished; new writing lives in the articles archive and RSS feed.`}
     />
     <ContentList items={items} orderedLabel="All newsletters" />
   </main>

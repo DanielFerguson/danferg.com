@@ -4,35 +4,73 @@ import { createContactMailto } from "../utils/contact-links";
 
 interface Props {
   sourceTitle: string;
+  /**
+   * "consulting" suits product and software writing. "follow" suits personal
+   * essays and election writing, where a sales pitch would read as tone-deaf.
+   */
+  variant?: "consulting" | "follow";
 }
 
-const { sourceTitle } = Astro.props;
+const { sourceTitle, variant = "consulting" } = Astro.props;
 const speakingMailto = createContactMailto({
   subject: "Speaking enquiry",
   body: `G'day Dan,\n\nI found you through “${sourceTitle}” and would like to discuss a speaking opportunity.\n\nEvent, audience, and timing:\n`,
 });
+const replyMailto = createContactMailto({
+  subject: `Re: ${sourceTitle}`,
+  body: `G'day Dan,\n\nI just read “${sourceTitle}”.\n\n`,
+});
 ---
 
-<ConversionEndcap
-  headingId="editorial-next-step"
-  eyebrow="// PUT THE IDEAS TO WORK"
-  title="Need a clearer next move for your product?"
-  description="I work with founders and teams across product strategy, traction, and go-to-market—and speak about building useful technology, ventures, and communities."
-  actions={[
-    {
-      meta: "CONSULTING / ADVISORY",
-      label: "Discuss a product challenge",
-      href: "/consulting",
-    },
-    {
-      meta: "SELECTED WORK",
-      label: "Explore the project archive",
-      href: "/projects",
-    },
-    {
-      meta: "SPEAKING",
-      label: "Invite Dan to speak",
-      href: speakingMailto,
-    },
-  ]}
-/>
+{
+  variant === "follow" ? (
+    <ConversionEndcap
+      headingId="editorial-next-step"
+      eyebrow="// KEEP IN TOUCH"
+      title="Thanks for reading."
+      description="I write about building things, what it costs, and what I’m learning along the way. Follow along, or reply if this one landed."
+      actions={[
+        {
+          meta: "RSS",
+          label: "Subscribe to new writing",
+          href: "/rss.xml",
+        },
+        {
+          meta: "LINKEDIN",
+          label: "Follow Dan on LinkedIn",
+          href: "https://www.linkedin.com/in/danferg",
+          external: true,
+        },
+        {
+          meta: "EMAIL",
+          label: "Reply to this piece",
+          href: replyMailto,
+        },
+      ]}
+    />
+  ) : (
+    <ConversionEndcap
+      headingId="editorial-next-step"
+      eyebrow="// PUT THE IDEAS TO WORK"
+      title="Need a clearer next move for your product?"
+      description="I work with founders and teams across product strategy, traction, and go-to-market—and speak about building useful technology, ventures, and communities."
+      actions={[
+        {
+          meta: "CONSULTING / ADVISORY",
+          label: "Discuss a product challenge",
+          href: "/consulting",
+        },
+        {
+          meta: "SELECTED WORK",
+          label: "Explore the project archive",
+          href: "/projects",
+        },
+        {
+          meta: "SPEAKING",
+          label: "Invite Dan to speak",
+          href: speakingMailto,
+        },
+      ]}
+    />
+  )
+}

@@ -7,8 +7,15 @@ import RelatedContent from "@components/RelatedContent.astro";
 import ArticleAudioPlayer from "@components/ArticleAudioPlayer.astro";
 import ArticleTags from "@components/ArticleTags.astro";
 import SeriesNav from "@components/SeriesNav.astro";
+import ArticleSummary from "@components/ArticleSummary.astro";
+import ArticleContents from "@components/ArticleContents.astro";
+import AuthorNote from "@components/AuthorNote.astro";
+import { getCollection, render } from "astro:content";
+import getReadingTime from "reading-time";
 import { latinFontFileUrl } from "../utils/fonts";
 import { pageTitle } from "../utils/seo";
+import { extractCitationUrls } from "../utils/citations";
+import { tags as tagCatalogue, type TagId } from "../data/taxonomy";
 
 const { frontmatter } = Astro.props;
 const isDraft = frontmatter.draft === true;
@@ -20,10 +27,43 @@ const formatDate = (date: string) =>
   }).format(new Date(`${date}T00:00:00`));
 const modifiedDate = frontmatter.modifiedDate || frontmatter.updatedDate;
 const series = frontmatter.series as { id: "working-out-my-vote"; part: number } | undefined;
+const tags = (frontmatter.tags ?? []) as TagId[];
+
+// The collection entry supplies the raw body (for word count and cited
+// sources) and the heading outline, for both .md and .mdx articles.
+const entries = [
+  ...(await getCollection("articles")),
+  ...(import.meta.env.DEV ? await getCollection("articleDrafts") : []),
+];
+const entry = entries.find(
+  (candidate) => candidate.data.canonicalUrl === frontmatter.canonicalUrl,
+);
+const body = entry?.body ?? "";
+const wordCount = getReadingTime(body).words;
+const citationUrls = extractCitationUrls(body);
+const headings = entry ? (await render(entry)).headings : [];
+const sections = headings
+  .filter((heading) => heading.depth === 2)
+  .map((heading) => [heading.slug, heading.text] as [string, string]);
+// Long reads get a contents list, unless the article places its own.
+const showContents =
+  wordCount >= 1800 &&
+  sections.length >= 5 &&
+  !/<(ArticleContents|ElectionGuideContents)\b/.test(body);
+// Personal essays and election writing end with ways to follow along rather
+// than a consulting pitch.
+const endcapVariant = tags.some((tag) =>
+  ["reflections", "politics", "victorian-election-2026"].includes(tag),
+)
+  ? "follow"
+  : "consulting";
 
 const SEO: SEO & {
   headline: string;
   articleSection: string;
+  keywords?: string[];
+  abstract?: string;
+  wordCount?: number;
   modifiedDate?: string;
   imageWidth?: number;
   imageHeight?: number;
@@ -45,6 +85,10 @@ const SEO: SEO & {
   publishedDate: frontmatter.date,
   modifiedDate,
   articleSection: "Articles",
+  citationUrls,
+  keywords: tags.map((tag) => tagCatalogue[tag].label),
+  abstract: frontmatter.summary,
+  wordCount,
   robots: isDraft ? "noindex,nofollow,noarchive" : undefined,
   breadcrumbs: [
     { name: "Home", url: "/" },
@@ -71,7 +115,7 @@ const SEO: SEO & {
       <div class="story-header__grid" data-motion-intro-item>
         <div>
           <p class="story-header__type">
-            ARTICLE // {isDraft ? "LOCAL DRAFT" : "PUBLISHED"} <time datetime={frontmatter.date}>{formatDate(frontmatter.date).toUpperCase()}</time>
+            ARTICLE // BY <a href="/about" rel="author">DAN FERG</a> // {isDraft ? "LOCAL DRAFT" : "PUBLISHED"} <time datetime={frontmatter.date}>{formatDate(frontmatter.date).toUpperCase()}</time>
             {modifiedDate && modifiedDate !== frontmatter.date && <> // UPDATED <time datetime={modifiedDate}>{formatDate(modifiedDate).toUpperCase()}</time></>}
           </p>
           <h1>{frontmatter.title}</h1>
@@ -88,11 +132,14 @@ const SEO: SEO & {
     <hr class="site-container ascii-rule" />
     <article class="prose-shell article-prose" data-motion-reveal data-pagefind-body>
       {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} variant="compact" />}
+      {frontmatter.summary && <ArticleSummary summary={frontmatter.summary} />}
+      {showContents && <ArticleContents sections={sections} />}
       <slot />
       {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} />}
     </article>
-    <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" />
-    <EditorialEndcap sourceTitle={frontmatter.title} />
+    <AuthorNote />
+    <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" tags={tags} />
+    <EditorialEndcap sourceTitle={frontmatter.title} variant={endcapVariant} />
   </main>
 </BaseLayout>
 
@@ -129,6 +176,12 @@ const SEO: SEO & {
     margin-bottom: 0.85rem;
     color: var(--signal);
     font-weight: 750;
+  }
+
+  .story-header__type a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
   h1 {

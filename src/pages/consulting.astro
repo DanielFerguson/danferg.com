@@ -11,6 +11,38 @@ const contactMailto = createContactMailto({
   body: "G'day Dan,\n\nI'm working through a product, traction, GTM, or software problem and would like to discuss it with you.\n\nThe useful context:\n",
 });
 
+const faqs = [
+  {
+    question: "Who do you work with?",
+    answer:
+      "Founders, product leaders and mission-led teams with a difficult product, traction, go-to-market or software decision in front of them. That is often a promising product with weak evidence about what should happen next.",
+  },
+  {
+    question: "Where are you based, and do you work remotely?",
+    answer:
+      "I’m based in Melbourne and work with teams across Australia and remotely.",
+  },
+  {
+    question: "What is the smallest way to start?",
+    answer:
+      "A product and evidence diagnostic: a focused review of the problem, product, market signals, technical shape and assumptions. You leave with a short decision brief and a sequenced next move.",
+  },
+  {
+    question: "Can you build the software as well as advise?",
+    answer:
+      "Yes. A build or validation sprint can cover prototyping and software delivery, as with the herd-book platform I built for the Murray Grey Association Australia.",
+  },
+  {
+    question: "What if the problem needs a specialist you’re not?",
+    answer:
+      "I’ll say so early and help you work out what kind of help you need.",
+  },
+  {
+    question: "How do we get started?",
+    answer:
+      "Send a short note about the problem, what you’ve tried and any timing. If I can help, we’ll agree the smallest engagement that can create clarity.",
+  },
+];
 const SEO: SEO = {
   title: "Product, traction and software consulting | Dan Ferg",
   headline: "Turn tangled product decisions into useful progress.",
@@ -22,12 +54,12 @@ const SEO: SEO = {
   canonicalUrl: canonicalPath,
   schemaType: "WebPage",
   mainEntityId: "https://danferg.com/consulting#service",
-  modifiedDate: "2026-07-12",
+  modifiedDate: "2026-09-27",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Consulting", url: canonicalPath },
   ],
-  jsonLd: {
+  jsonLd: [{
     "@type": "Service",
     "@id": "https://danferg.com/consulting#service",
     name: "Product, traction and software consulting",
@@ -50,6 +82,15 @@ const SEO: SEO = {
       audienceType: "Founders, product leaders and mission-led teams",
     },
   },
+  {
+    "@type": "FAQPage",
+    "@id": "https://danferg.com/consulting#faq",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  }],
 };
 
 const engagements = [
@@ -178,6 +219,19 @@ const proof = [
       </div>
     </section>
 
+    <section class="site-container page-section faq" aria-labelledby="faq-title">
+      <p class="eyebrow">05 // QUESTIONS</p>
+      <h2 id="faq-title">Common questions.</h2>
+      <div class="faq__list" data-motion-reveal>
+        {faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
     <ConversionEndcap
       headingId="consulting-contact"
       eyebrow="start --with-context"
@@ -221,6 +275,71 @@ const proof = [
   }
 
   .fit,
+  .faq__list {
+    max-width: 52rem;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .faq details {
+    border-bottom: 1px solid var(--line-strong);
+    /* Lets the open/close height animate where supported. */
+    interpolate-size: allow-keywords;
+  }
+
+  .faq summary {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1.05rem 0;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq summary::after {
+    flex-shrink: 0;
+    color: var(--signal);
+    content: "+";
+  }
+
+  .faq details[open] summary::after {
+    content: "−";
+  }
+
+  .faq summary:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 4px;
+  }
+
+  .faq details p {
+    max-width: 44rem;
+    margin: 0 0 1.15rem;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .faq details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size 220ms ease,
+        content-visibility 220ms allow-discrete;
+    }
+
+    .faq details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
   .principles__grid {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);

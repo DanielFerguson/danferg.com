@@ -5,6 +5,7 @@
  * script; on the archive page a script upgrades them to filter the list in place and keeps
  * the choice in the URL so a filtered view can be shared.
  */
+import SiteSearch from "./SiteSearch.astro";
 import { tagHref, type SeriesId, type TagId } from "../data/taxonomy";
 
 interface TagChip {
@@ -25,10 +26,7 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
 ---
 
 <section class="archive-filters" data-archive-filters={live ? "live" : undefined} aria-label="Find an article">
-  <div class="archive-filters__search" data-site-search hidden>
-    <p class="archive-filters__label" id="site-search-label">Search articles</p>
-    <div data-site-search-mount></div>
-  </div>
+  <SiteSearch label="Search articles" placeholder="Search every article…" />
 
   <div class="archive-filters__group">
     <p class="archive-filters__label">Filter by tag</p>
@@ -115,33 +113,6 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
     color: var(--ink-muted);
     font-size: var(--text-label);
   }
-  /* Pagefind UI, themed to the site tokens. */
-  .archive-filters__search {
-    --pagefind-ui-scale: 0.8;
-    --pagefind-ui-primary: var(--signal);
-    --pagefind-ui-text: var(--ink);
-    --pagefind-ui-background: var(--paper-raised);
-    --pagefind-ui-border: var(--line-strong);
-    --pagefind-ui-tag: var(--signal-soft);
-    --pagefind-ui-border-width: 1px;
-    --pagefind-ui-border-radius: 2px;
-    --pagefind-ui-font: inherit;
-  }
-  .archive-filters__search :global(.pagefind-ui__search-input) {
-    font-family: inherit;
-    font-weight: 400;
-  }
-  .archive-filters__search :global(.pagefind-ui__result-title) {
-    font-size: 0.95rem;
-  }
-  .archive-filters__search :global(.pagefind-ui__result-excerpt) {
-    font-size: 0.78rem;
-    line-height: 1.55;
-  }
-  .archive-filters__search :global(mark) {
-    background: var(--signal-soft);
-    color: var(--ink);
-  }
   @media print {
     .archive-filters {
       display: none;
@@ -150,40 +121,6 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
 </style>
 
 <script>
-  // Site search: Pagefind indexes the built site, so its assets exist only after `npm run build`.
-  // Load it if it is there; otherwise leave the search box hidden (development, or a failed load).
-  const search = document.querySelector<HTMLElement>("[data-site-search]");
-  const mount = search?.querySelector<HTMLElement>("[data-site-search-mount]");
-  if (search && mount && !import.meta.env.DEV) {
-    const base = "/pagefind/";
-    (async () => {
-      try {
-        const head = await fetch(`${base}pagefind-ui.js`, { method: "HEAD" });
-        if (!head.ok) return;
-        const css = document.createElement("link");
-        css.rel = "stylesheet";
-        css.href = `${base}pagefind-ui.css`;
-        document.head.append(css);
-        const module = await import(/* @vite-ignore */ `${base}pagefind-ui.js`);
-        const PagefindUI = module.PagefindUI ?? (window as unknown as { PagefindUI?: unknown }).PagefindUI;
-        if (!PagefindUI) return;
-        search.hidden = false;
-        // eslint-disable-next-line new-cap
-        new (PagefindUI as new (options: Record<string, unknown>) => unknown)({
-          element: mount,
-          showImages: false,
-          showSubResults: true,
-          excerptLength: 30,
-          translations: { placeholder: "Search every article…", zero_results: "Nothing matched [SEARCH_TERM]." },
-        });
-        const input = mount.querySelector<HTMLInputElement>("input");
-        if (input) input.setAttribute("aria-labelledby", "site-search-label");
-      } catch {
-        /* no index available here */
-      }
-    })();
-  }
-
   // In-place filtering on the archive page. Tag pages and series pages are the no-script path.
   const filters = document.querySelector<HTMLElement>('[data-archive-filters="live"]');
   const list = document.querySelector<HTMLElement>(".content-list");

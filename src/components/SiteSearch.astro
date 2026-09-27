@@ -1,0 +1,104 @@
+---
+/**
+ * Pagefind search box. Pagefind indexes the built site, so its assets exist
+ * only after `npm run build`; until they load (development, or a failed load)
+ * the box stays hidden and the page works without it.
+ */
+interface Props {
+  label: string;
+  placeholder: string;
+}
+
+const { label, placeholder } = Astro.props;
+---
+
+<div class="site-search" data-site-search data-placeholder={placeholder} hidden>
+  <p class="site-search__label" id="site-search-label">{label}</p>
+  <div data-site-search-mount></div>
+</div>
+
+<style>
+  .site-search__label {
+    margin: 0 0 0.55rem;
+    color: var(--ink-muted);
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Pagefind UI, themed to the site tokens. */
+  .site-search {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--signal);
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-background: var(--paper-raised);
+    --pagefind-ui-border: var(--line-strong);
+    --pagefind-ui-tag: var(--signal-soft);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 2px;
+    --pagefind-ui-font: inherit;
+  }
+
+  .site-search :global(.pagefind-ui__search-input) {
+    font-family: inherit;
+    font-weight: 400;
+  }
+
+  .site-search :global(.pagefind-ui__result-title) {
+    font-size: 0.95rem;
+  }
+
+  .site-search :global(.pagefind-ui__result-excerpt) {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .site-search :global(mark) {
+    background: var(--signal-soft);
+    color: var(--ink);
+  }
+
+  @media print {
+    .site-search {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const search = document.querySelector<HTMLElement>("[data-site-search]");
+  const mount = search?.querySelector<HTMLElement>("[data-site-search-mount]");
+  if (search && mount && !import.meta.env.DEV) {
+    const base = "/pagefind/";
+    (async () => {
+      try {
+        const head = await fetch(`${base}pagefind-ui.js`, { method: "HEAD" });
+        if (!head.ok) return;
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = `${base}pagefind-ui.css`;
+        document.head.append(css);
+        const module = await import(/* @vite-ignore */ `${base}pagefind-ui.js`);
+        const PagefindUI = module.PagefindUI ?? (window as unknown as { PagefindUI?: unknown }).PagefindUI;
+        if (!PagefindUI) return;
+        search.hidden = false;
+        // eslint-disable-next-line new-cap
+        new (PagefindUI as new (options: Record<string, unknown>) => unknown)({
+          element: mount,
+          showImages: false,
+          showSubResults: true,
+          excerptLength: 30,
+          translations: {
+            placeholder: search.dataset.placeholder,
+            zero_results: "Nothing matched [SEARCH_TERM].",
+          },
+        });
+        const input = mount.querySelector<HTMLInputElement>("input");
+        if (input) input.setAttribute("aria-labelledby", "site-search-label");
+      } catch {
+        /* no index available here */
+      }
+    })();
+  }
+</script>

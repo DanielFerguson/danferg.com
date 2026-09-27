@@ -1,0 +1,40 @@
+---
+interface Props {
+  summary: string;
+}
+
+const { summary } = Astro.props;
+---
+
+<aside class="article-summary" aria-labelledby="article-summary-label">
+  <p class="article-summary__label" id="article-summary-label">In short</p>
+  <p class="article-summary__body">{summary}</p>
+</aside>
+
+<style>
+  .article-summary {
+    margin: 0 0 2.5rem;
+    padding: clamp(1rem, 3vw, 1.35rem) clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--signal);
+    background: var(--paper-raised);
+  }
+
+  .article-summary__label {
+    margin: 0 0 0.5rem;
+    color: var(--signal);
+    font-size: var(--text-label);
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-summary__body {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.4vw, 1.08rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+</style>
