@@ -25,3 +25,4 @@ pnpm-debug.log*
 # alternate package manager lockfiles (this project uses npm)
 bun.lock
 bun.lockb
+Claude outputs/
