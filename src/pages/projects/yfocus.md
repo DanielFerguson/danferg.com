@@ -8,6 +8,7 @@ tags:
   - Idea validation
   - Prototyping
 featured: false
+visible: false
 period: "2022"
 status: Concept prototype
 role: Product concept / prototyping

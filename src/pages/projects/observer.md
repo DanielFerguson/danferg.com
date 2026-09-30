@@ -8,6 +8,7 @@ tags:
   - Service monitoring
   - SaaS
 featured: false
+visible: false
 period: "2022"
 status: Private-beta prototype
 role: Founder / product / engineering

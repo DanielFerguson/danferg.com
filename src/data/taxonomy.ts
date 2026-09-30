@@ -10,16 +10,16 @@
  */
 
 export const tags = {
-  startups: { title: "Startup lessons: launches, experiments and endings", label: "Startups", description: "Building companies, experiments in public, launches and endings.", projects: ["/projects/airproxy", "/projects/observer", "/projects/wp-flame"] },
-  product: { title: "Product thinking and what makes software useful", label: "Product", description: "Product thinking, design decisions and what makes something useful.", projects: ["/projects/communitilabs", "/projects/wp-flame"] },
-  software: { title: "Software engineering notes and trade-offs", label: "Software", description: "Code, languages, architecture and the trade-offs between them.", projects: ["/projects/simplexl", "/projects/wp-flame", "/projects/airproxy"] },
-  ai: { title: "AI, learning systems and how to evaluate them", label: "AI", description: "Models, learning systems and how to tell whether they are working.", projects: ["/projects/chef", "/projects/communitilabs"] },
+  startups: { title: "Startup lessons: launches, experiments and endings", label: "Startups", description: "Building companies, experiments in public, launches and endings.", projects: ["/projects/airproxy"] },
+  product: { title: "Product thinking and what makes software useful", label: "Product", description: "Product thinking, design decisions and what makes something useful.", projects: ["/projects/communitilabs"] },
+  software: { title: "Software engineering notes and trade-offs", label: "Software", description: "Code, languages, architecture and the trade-offs between them.", projects: ["/projects/airproxy"] },
+  ai: { title: "AI, learning systems and how to evaluate them", label: "AI", description: "Models, learning systems and how to tell whether they are working.", projects: ["/projects/communitilabs"] },
   hardware: { title: "Hardware, sensors and connected devices", label: "Hardware", description: "Connected devices, sensors and the physical side of software.", projects: ["/projects/balance-board"] },
   "civic-tech": { title: "Civic tech and community engagement", label: "Civic tech", description: "Community engagement, institutions and the feedback loops between them.", projects: ["/projects/communitilabs", "/projects/helping-group", "/projects/land-index", "/projects/guardian"] },
   politics: { title: "Politics, policy and how to check a claim", label: "Politics", description: "Elections, policy, public accountability and how to check a claim.", projects: [] },
   "victorian-election-2026": { title: "Victorian election 2026: a regional voter's guide", label: "Victorian election 2026", description: "Working through the November 2026 state election as a regional voter.", projects: [] },
   "regional-victoria": { title: "Regional Victoria: roads, farms and levies", label: "Regional Victoria", description: "Country roads, farms, levies and living outside Melbourne.", projects: ["/projects/ferguson-livestock", "/projects/murray-grey-association-australia"] },
-  education: { title: "Education, learning and teaching", label: "Education", description: "Learning, teaching and the systems around them.", projects: ["/projects/swin-lead"] },
+  education: { title: "Education, learning and teaching", label: "Education", description: "Learning, teaching and the systems around them.", projects: [] },
   privacy: { title: "Privacy, personal data and security", label: "Privacy", description: "Personal data, security and what free software costs.", projects: ["/projects/guardian"] },
   money: { title: "Money and everyday financial choices", label: "Money", description: "Everyday financial choices and what they say about values.", projects: [] },
   music: { title: "Music, guitars and effects pedals", label: "Music", description: "Guitars, pedals and the odd side project.", projects: [] },

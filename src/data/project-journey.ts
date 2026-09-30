@@ -54,72 +54,30 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how manual work and earned automation shape a Rust farming game.",
   },
   "/projects/autofarm": {
-    title: "SimpleXL",
-    href: "/projects/simplexl",
-    description:
-      "See how a local-first desktop workbench makes spreadsheet data queryable with SQL.",
-  },
-  "/projects/simplexl": {
     title: "WaitAMinute",
     href: "/projects/waitaminute",
     description:
       "See how a browser extension creates a deliberate pause before distraction.",
   },
   "/projects/waitaminute": {
-    title: "Mates Motivate",
-    href: "/projects/mates-motivate",
-    description:
-      "See how social accountability became a focused behaviour-change MVP.",
-  },
-  "/projects/mates-motivate": {
-    title: "yFocus",
-    href: "/projects/yfocus",
-    description:
-      "See how an idea-validation concept earned the decision not to overbuild.",
-  },
-  "/projects/yfocus": {
     title: "TellTail",
     href: "/projects/telltail",
     description:
       "See how evidence and safety gates shape an early pet well-being product.",
   },
   "/projects/telltail": {
-    title: "WP Flame",
-    href: "/projects/wp-flame",
-    description:
-      "See how bounded traces turn WordPress performance into explainable evidence.",
-  },
-  "/projects/wp-flame": {
     title: "Airproxy",
     href: "/projects/airproxy",
     description:
       "See how edge infrastructure made Airtable safer to use in production.",
   },
   "/projects/airproxy": {
-    title: "Observer",
-    href: "/projects/observer",
-    description:
-      "See how monitoring closed the loop from service outage to recovery.",
-  },
-  "/projects/observer": {
     title: "Balance Board",
     href: "/projects/balance-board",
     description:
       "See how a Year 12 prototype joined physical design, analogue electronics, and software.",
   },
   "/projects/balance-board": {
-    title: "Swin Lead",
-    href: "/projects/swin-lead",
-    description:
-      "See how a student platform made leadership and collaboration visible.",
-  },
-  "/projects/swin-lead": {
-    title: "Chef",
-    href: "/projects/chef",
-    description:
-      "See how a household conversation becomes a durable meal plan, shopping list, and cooking experience.",
-  },
-  "/projects/chef": {
     title: "Communiti Labs",
     href: "/projects/communitilabs",
     description:

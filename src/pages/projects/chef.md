@@ -9,11 +9,12 @@ tags:
   - Local-first AI
   - Household planning
 featured: false
+visible: false
 period: "2026"
 status: Application prototype archived / Agent Skills 0.2.0
 role: Creator / product / full-stack & AI engineering
-externalUrl: https://danferg.com/skills/chef
-externalLabel: Explore Chef Skills
+externalUrl: https://github.com/DanielFerguson/chef-skills
+externalLabel: View source
 caseStudyLabel: CASE STUDY // FROM APPLICATION TO CONVERSATIONAL SKILLS
 visualLabel: PRODUCT THESIS / CONVERSATION_TO_MEMORY
 imageKey: chef
@@ -54,7 +55,7 @@ The database was solving problems the public skill did not yet have.
 
 ## Markdown is enough for this version
 
-Chef 0.2 reduces the public product to [two skills](/skills/chef). The main `chef` skill handles household setup, planning, recipes, cooking guidance, nutrition estimates and feedback. `chef-prepare-shop` handles grocery lists and explicitly requested basket filling.
+Chef 0.2 reduces the public product to two skills. The main `chef` skill handles household setup, planning, recipes, cooking guidance, nutrition estimates and feedback. `chef-prepare-shop` handles grocery lists and explicitly requested basket filling.
 
 On local Codex, the durable record is now ordinary Markdown under `~/Documents/Chef`:
 
@@ -88,6 +89,6 @@ Checkout, payment, fulfilment, address changes, restricted products and order pl
 
 The public `0.2.0` release includes the two instruction-only skills, three Markdown templates, an installable OpenAI plugin, portable Agent Skills packaging, synthetic acceptance cases and deterministic release checks.
 
-The [plugin ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.2.0/chef-plugin-0.2.0.zip), [portable Agent Skills ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.2.0/chef-agent-skills-0.2.0.zip), checksums, source and [installation guide](/skills/chef/install) are publicly available. The [0.1.0 release](https://github.com/DanielFerguson/chef-skills/releases/tag/v0.1.0) remains archived for anyone who wants the records-oriented version. OpenAI directory submission is still a separate step.
+The [plugin ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.2.0/chef-plugin-0.2.0.zip), [portable Agent Skills ZIP](https://github.com/DanielFerguson/chef-skills/releases/download/v0.2.0/chef-agent-skills-0.2.0.zip), checksums and source are publicly available. The [0.1.0 release](https://github.com/DanielFerguson/chef-skills/releases/tag/v0.1.0) remains archived for anyone who wants the records-oriented version. OpenAI directory submission is still a separate step.
 
 I think this is closer to the product I was trying to build in the first place: enough memory to make the next conversation better, in a form a person can inspect, without making the household learn the machinery behind it.

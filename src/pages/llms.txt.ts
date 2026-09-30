@@ -35,7 +35,6 @@ export async function GET() {
     `- [About Dan Ferg](${absolute("/about")}): background, current work and career history.`,
     `- [Consulting](${absolute("/consulting")}): product strategy, traction and go-to-market advisory, and software delivery for founders and mission-led teams, in Australia and remotely.`,
     `- [Speaking](${absolute("/speaking")}): podcast appearances on community engagement and responsible AI, and earlier talks on entrepreneurship and leadership.`,
-    `- [Agent Skills](${absolute("/skills")}): installable skills Dan publishes, including Chef for meal planning.`,
     "",
     "## Articles",
     "",

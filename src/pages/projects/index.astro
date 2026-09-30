@@ -56,10 +56,6 @@ const itemListJsonLd = {
       description={`${projects.length} experiments, products, and ventures. Some shipped, some taught me what to build next; all started with a real problem.`}
     />
     <ProjectGrid projects={projects} />
-    <p class="skills-note">
-      Looking for something you can install? <a href="/skills">Browse my Agent Skills</a>,
-      including Chef for meal planning.
-    </p>
   </main>
 </BaseLayout>
 
@@ -79,15 +75,5 @@ const itemListJsonLd = {
     text-underline-offset: 0.2em;
   }
 
-  .skills-note {
-    margin: clamp(2rem, 4vw, 3rem) 0 0;
-    color: var(--ink-soft);
-    font-size: 0.82rem;
-  }
 
-  .skills-note a {
-    color: var(--signal);
-    font-weight: 700;
-    text-underline-offset: 0.2em;
-  }
 </style>

@@ -8,6 +8,7 @@ tags:
   - Leadership
   - Education
 featured: false
+visible: false
 period: 2020–2022
 status: Community platform
 role: Early co-creator / community & product

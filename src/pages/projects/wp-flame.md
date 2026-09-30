@@ -7,7 +7,8 @@ tags:
   - Developer tools
   - Performance engineering
   - Commercial software
-featured: true
+featured: false
+visible: false
 period: 2026–present
 status: Pre-release / design partners
 role: Founder / product / engineering
