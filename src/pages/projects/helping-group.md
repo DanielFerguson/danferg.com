@@ -14,7 +14,7 @@ role: Founder / president / engineering
 externalUrl: https://helping.group
 externalLabel: Visit Helping Group
 imageKey: helping-group
-imageAlt: "Helping Group homepage stating its mission to help Australians connect and thrive together, above logos of organisations that supported it."
+imageAlt: "Helping Group homepage headed “Practical support in difficult moments.”, with links to explore Helping Homes, a notice that Helping Homes is on standby between emergencies, and a green band confirming ACNC registration since 2020 and that Helping Group never asks for money."
 canonicalUrl: /projects/helping-group
 publishedDate: "2022-08-31"
 updatedDate: "2026-07-10"
