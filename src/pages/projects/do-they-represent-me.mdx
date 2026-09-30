@@ -1,0 +1,141 @@
+---
+layout: ../../layouts/ProjectLayout.astro
+title: Do They Represent Me?
+seoTitle: "Do They Represent Me: a Victorian voting-record quiz"
+description: A quiz for the 2026 Victorian election that compares your views with how every party and your local MPs actually voted in the Parliament of Victoria.
+tags:
+  - Civic technology
+  - Open data
+  - Laravel
+featured: true
+period: 2025–present
+status: Live preview / launching for the 2026 election
+role: Creator / product / data pipeline / engineering
+externalUrl: https://dotheyrepresentme.com/
+externalLabel: Try the preview
+imageKey: do-they-represent-me
+imageAlt: "Do They Represent Me? home page asking “How do Victoria's parties and MPs actually vote?”, with a Start the quiz button, a prototype notice, and a suburb or postcode finder for your MPs."
+caseStudyLabel: CASE STUDY // FROM ONE MP TO THE WHOLE PARLIAMENT
+visualLabel: PREVIEW / HOME_AND_SUBURB_FINDER
+canonicalUrl: /projects/do-they-represent-me
+publishedDate: "2026-09-30"
+---
+
+import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
+
+export const divisionRecord = [
+  {
+    value: "154",
+    title: "Proceedings documents",
+    detail: "Every Votes and Proceedings and Minutes of the 60th Parliament, one per sitting week.",
+  },
+  {
+    value: "1,045",
+    title: "Divisions",
+    detail: "366 in the Legislative Assembly and 679 in the Legislative Council, from December 2022.",
+  },
+  {
+    value: "53,447",
+    title: "Recorded votes",
+    detail: "Each matched to the member, and the party they belonged to, on the day.",
+  },
+  {
+    value: "Daily",
+    title: "Sync and audit",
+    detail: "New sitting weeks are imported each morning and checked against the printed totals.",
+  },
+];
+
+export const questionResearch = [
+  {
+    value: "315",
+    title: "Bills and motions screened",
+    detail: "Built into a candidate pool by recorded rules, not by picking issues.",
+  },
+  {
+    value: "24",
+    title: "Draft questions",
+    detail: "Each linked to the divisions it rests on, and still awaiting human review.",
+  },
+  {
+    value: "591",
+    title: "Sources",
+    detail: "Bill pages, explanatory memoranda and debate speeches, with every quote checked word for word.",
+  },
+  {
+    value: "54 → 0",
+    title: "Reviewer objections",
+    detail: "Across four rounds of adversarial review from five points of view.",
+  },
+];
+
+## Why I built the first version
+
+Before the 2025 federal election I wanted a quicker way to answer a simple question: does the person who represents me vote the way I would? [They Vote For You](https://theyvoteforyou.org.au/), run by the OpenAustralia Foundation, already had the hard part: years of federal divisions grouped into policies. What it didn't have was an experience built around a voter's own views.
+
+So the first Do They Represent Me was a new interface over the They Vote For You API. You searched for your MP by name, then worked through up to 50 of the policies they had voted on, marking each one approve, reject or unsure. Procedural and provisional policies were filtered out, and a policy counted as the MP's position once their agreement with it reached 60%. At the end you got a single alignment score and a breakdown of where you and your MP agreed and differed.
+
+It was a small React app, built over a few days, and it did its job.
+
+## What it couldn't tell you
+
+The flaw was structural. You could only see the voting record of your current representative. The questions were whichever policies that one MP happened to have voted on, so people in different electorates answered different quizzes, and nobody could compare their MP with the other parties or candidates on the same ballot.
+
+That's the comparison a voter actually needs. Knowing your MP agrees with you 62% of the time says little without knowing whether anyone else would do better.
+
+## Victoria doesn't have a They Vote For You
+
+For the 2026 Victorian election I wanted to fix that, and ran straight into a bigger gap: there's no They Vote For You, or anything like it, for Victoria.
+
+With permission from the Parliament of Victoria to reuse its records, I set out to build that dataset myself, then put a better version of the original experience on top of it.
+
+## Rebuilding the record from the proceedings
+
+The votes come from the Legislative Assembly's *Votes and Proceedings* and the Legislative Council's *Minutes of the Proceedings*. I considered Hansard as the vote source and set it aside: it splits each sitting day into around a hundred pages, while one proceedings document covers a whole sitting week. Hansard is still where the research goes for what members said in debate.
+
+A Laravel pipeline finds each document through the Parliament's own search, downloads the Word version where there is one and falls back to the PDF, and keeps the original with a checksum so everything can be re-parsed offline. The parser reads the printed wording rather than trusting formatting. It finds where "the House divided", takes the question from the nearest "That…" paragraph, and reads the ayes, noes and tellers.
+
+Names are the hard part. Each printed name is matched to the member who held a seat in that house on that date, and each vote records the party that member belonged to on the day, so a later defection doesn't rewrite an earlier vote. Before anything is published, an audit checks that every division's names add up to its printed totals and that no name is left unresolved.
+
+<CaseStudyDataBand label="60TH_PARLIAMENT / DIVISION_RECORD" items={divisionRecord} />
+
+## Taking my own politics out of the questions
+
+A tool like this is only useful if people of any persuasion can trust it, and I have a political leaning. So I deliberately stepped back from choosing and wording the questions.
+
+Instead, I used AI (Anthropic's Claude) to do the research and drafting against a written brief designed to keep it neutral:
+
+- **Rules before issues.** The candidate pool was built mechanically from the bills and motions Parliament actually divided on, with the exclusion rules recorded, rather than from topics I thought mattered.
+- **Balance targets.** Labor, the Coalition and the Greens each had to land on the "agree" side of between 35% and 65% of questions, with a mix of questions about changing things and keeping them as they are.
+- **Primary sources only.** Bill pages, explanatory memoranda and debate speeches, saved locally, with every quote checked word for word against the saved copy.
+- **Adversarial review.** Separate AI reviewers read every question as a Labor, Coalition, Greens or crossbench supporter, and as a plain-language voter with no political knowledge. Their claims were checked against the sources too. Objections fell from 54 in the first round to none in the fourth.
+
+None of that makes a question publishable. The final step belongs to people: human reviewers of different political leanings check every question, and only the ones they approve appear in the quiz. That review happens before launch, which is why the live site still carries a prototype notice.
+
+<CaseStudyDataBand label="QUESTION_RESEARCH / NEUTRALITY_CHECKS" items={questionResearch} />
+
+## Scoring that says when it doesn't know
+
+The scoring adapts They Vote For You's method rather than inventing a new one. Each question links to the divisions it rests on. Second and third readings count as strong votes, and everything else as normal.
+
+Victoria needed a few changes. The Parliament doesn't record pairs, so an absence could be a pair, an illness or a choice, and absences therefore never move a score. A party's position is the majority of its members who voted, using their party on the day. Independents are always scored one by one, never as a bloc, and a free vote gives no party a position at all.
+
+Results are described in plain bands, from "Consistently for" through "Mixed" to "Consistently against". Where there isn't enough of a record, the tool says so instead of guessing.
+
+## Everyone on the ballot, not just your MP
+
+The biggest change fixes the original flaw. Everyone answers the same questions, so every party with a voting record can be compared on the same ground, and your results rank each one with enough shared votes to compare.
+
+The build now in review goes further. A suburb and postcode finder, built from ABS geography, shows your district's MLA and your region's five MLCs, and links to the Victorian Electoral Commission to check an exact address. Every question has its own evidence page: the background, what each side said, how the parties voted, and links to the divisions and sources behind it.
+
+## No cookies, no tracking
+
+The first version used product analytics. This one doesn't. Public pages set no cookies and load no third-party scripts, and your answers stay in your browser. If you share your results, the answers travel after the `#` in the link, a part of the URL browsers don't send to the server.
+
+## Where it stands
+
+[Do They Represent Me](https://dotheyrepresentme.com/) is live as a public preview with draft questions. Human review comes next, ahead of early voting from 18 November and election day on 28 November 2026.
+
+It has limits worth stating plainly. MPs mostly vote with their party, so individual records often look like their party's. Free votes aren't detected automatically. Some committee-stage votes appear only in Hansard, not in the proceedings, so they can't be linked to questions yet.
+
+It sits alongside an argument I made in [Democracy doesn't need another survey](/articles/democracy-doesnt-need-another-survey): participation needs visible follow-through. A voting record is the most concrete follow-through a voter can check.

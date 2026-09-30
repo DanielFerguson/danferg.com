@@ -6,6 +6,12 @@ export interface ProjectJourneyDestination {
 
 const projectJourney: Record<string, ProjectJourneyDestination> = {
   "/projects/communitilabs": {
+    title: "Do They Represent Me?",
+    href: "/projects/do-they-represent-me",
+    description:
+      "See how Victoria's parliamentary record became a voting-record quiz built to stay neutral.",
+  },
+  "/projects/do-they-represent-me": {
     title: "Slipspire",
     href: "/projects/slipspire",
     description:

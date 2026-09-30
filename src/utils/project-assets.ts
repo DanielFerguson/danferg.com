@@ -3,6 +3,7 @@ import autofarmScreenshot from "../assets/projects/autofarm/screenshot.webp";
 import balanceBoardScreenshot from "../assets/projects/balance-board/screenshot.webp";
 import chefScreenshot from "../assets/projects/chef/screenshot.png";
 import communitiLabsScreenshot from "../assets/projects/communitilabs/screenshot.png";
+import doTheyRepresentMeScreenshot from "../assets/projects/do-they-represent-me/screenshot.webp";
 import fergusonLivestockScreenshot from "../assets/projects/ferguson-livestock/screenshot.webp";
 import guardianScreenshot from "../assets/projects/guardian/screenshot.webp";
 import helpingGroupScreenshot from "../assets/projects/helping-group/screenshot.webp";
@@ -25,6 +26,7 @@ export const projectScreenshots = {
   "balance-board": balanceBoardScreenshot,
   chef: chefScreenshot,
   communitilabs: communitiLabsScreenshot,
+  "do-they-represent-me": doTheyRepresentMeScreenshot,
   "ferguson-livestock": fergusonLivestockScreenshot,
   guardian: guardianScreenshot,
   "helping-group": helpingGroupScreenshot,
