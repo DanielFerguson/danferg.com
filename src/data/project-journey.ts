@@ -6,6 +6,12 @@ export interface ProjectJourneyDestination {
 
 const projectJourney: Record<string, ProjectJourneyDestination> = {
   "/projects/communitilabs": {
+    title: "Judgement Required",
+    href: "/projects/judgement-required",
+    description:
+      "See how building AI tools at scale became practical courses in judging what to rely on.",
+  },
+  "/projects/judgement-required": {
     title: "Do They Represent Me?",
     href: "/projects/do-they-represent-me",
     description:

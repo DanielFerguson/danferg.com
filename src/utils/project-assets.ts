@@ -7,6 +7,7 @@ import doTheyRepresentMeScreenshot from "../assets/projects/do-they-represent-me
 import fergusonLivestockScreenshot from "../assets/projects/ferguson-livestock/screenshot.webp";
 import guardianScreenshot from "../assets/projects/guardian/screenshot.webp";
 import helpingGroupScreenshot from "../assets/projects/helping-group/screenshot.webp";
+import judgementRequiredScreenshot from "../assets/projects/judgement-required/screenshot.webp";
 import landIndexScreenshot from "../assets/projects/land-index/screenshot.webp";
 import matesMotivateScreenshot from "../assets/projects/mates-motivate/screenshot.webp";
 import murrayGreyAssociationAustraliaScreenshot from "../assets/projects/murray-grey-association-australia/screenshot.webp";
@@ -30,6 +31,7 @@ export const projectScreenshots = {
   "ferguson-livestock": fergusonLivestockScreenshot,
   guardian: guardianScreenshot,
   "helping-group": helpingGroupScreenshot,
+  "judgement-required": judgementRequiredScreenshot,
   "land-index": landIndexScreenshot,
   "mates-motivate": matesMotivateScreenshot,
   "murray-grey-association-australia": murrayGreyAssociationAustraliaScreenshot,
