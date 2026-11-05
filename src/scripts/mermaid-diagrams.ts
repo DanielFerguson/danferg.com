@@ -109,6 +109,15 @@ export async function initializeMermaidDiagrams() {
     Partial<Record<keyof typeof themes, string>>
   >();
 
+  // Mermaid lays diagrams out in a scratch element, measuring sizes and
+  // positions as soon as it sets them. Its own scratch element lets
+  // global.css exempt it from the reduced-motion transition rule, which would
+  // otherwise delay those changes and give Mermaid stale measurements.
+  const renderArea = document.createElement("div");
+  renderArea.className = "mermaid-render-area";
+  renderArea.setAttribute("aria-hidden", "true");
+  document.body.append(renderArea);
+
   for (const [theme, themeVariables] of Object.entries(themes) as [
     keyof typeof themes,
     (typeof themes)[keyof typeof themes],
@@ -132,6 +141,7 @@ export async function initializeMermaidDiagrams() {
         const { svg } = await mermaid.render(
           `article-mermaid-${theme}-${index}`,
           entry.source,
+          renderArea,
         );
         const variants = rendered.get(entry.figure) || {};
         variants[theme] = svg;
@@ -142,6 +152,8 @@ export async function initializeMermaidDiagrams() {
       }
     }
   }
+
+  renderArea.remove();
 
   for (const { figure, canvas } of sources) {
     const variants = rendered.get(figure);

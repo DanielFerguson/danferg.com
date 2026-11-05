@@ -458,4 +458,16 @@ a:focus-visible {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  /*
+   * transition-property defaults to "all", so the rule above makes every
+   * style change land a frame late. Mermaid measures its layout straight
+   * after setting it, so its scratch area must not transition at all.
+   */
+  .mermaid-render-area,
+  .mermaid-render-area *,
+  .mermaid-render-area *::before,
+  .mermaid-render-area *::after {
+    transition: none !important;
+  }
 }
