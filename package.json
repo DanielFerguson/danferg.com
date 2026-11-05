@@ -29,7 +29,6 @@
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.5",
-    "astro-robots-txt": "^1.0.0",
     "pagefind": "^1.5.2",
     "parse5": "^8.0.1",
     "prettier": "^3.9.9",

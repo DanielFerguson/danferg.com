@@ -2,7 +2,6 @@ import { defineConfig, fontProviders } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
 import { rehypeMermaidBlocks } from "./rehype-mermaid-blocks.mjs";
 import sitemap from "@astrojs/sitemap";
-import robotsTxt from "astro-robots-txt";
 import mdx from "@astrojs/mdx";
 import { readdirSync, readFileSync } from "node:fs";
 import { MIN_INDEXABLE_TAG_ARTICLES } from "./src/data/taxonomy.ts";
@@ -159,7 +158,6 @@ export default defineConfig({
       },
     }),
     mdx(),
-    robotsTxt(),
   ],
   markdown: {
     syntaxHighlight: { type: "shiki", excludeLangs: ["mermaid"] },
