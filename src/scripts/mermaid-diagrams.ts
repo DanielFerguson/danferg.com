@@ -116,10 +116,15 @@ export async function initializeMermaidDiagrams() {
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: "strict",
+      // Mermaid 12 defaults to ELK layout, the "neo" look and 120px label
+      // wrapping. Pin the Mermaid 11 values so existing diagrams keep their
+      // shape.
+      layout: "dagre",
+      look: "classic",
       theme: "base",
       fontFamily: siteMonoFontFamily(),
       themeVariables,
-      flowchart: { htmlLabels: true, useMaxWidth: true },
+      flowchart: { htmlLabels: true, useMaxWidth: true, wrappingWidth: 200 },
     });
 
     for (const [index, entry] of sources.entries()) {
