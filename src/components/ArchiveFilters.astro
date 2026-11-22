@@ -1,11 +1,10 @@
 ---
 /**
- * Search box and tag chips for the articles archive.
- * Chips are plain links to the static tag and series pages, so filtering works without
- * script; on the archive page a script upgrades them to filter the list in place and keeps
- * the choice in the URL so a filtered view can be shared.
+ * Tag filter chips for the articles archive.
+ * Chips are plain links to the static tag pages, so filtering works without
+ * script; on the archive page a script upgrades them to filter the list in
+ * place and keeps the choice in the URL so a filtered view can be shared.
  */
-import SiteSearch from "./SiteSearch.astro";
 import { tagHref, type SeriesId, type TagId } from "../data/taxonomy";
 
 interface TagChip {
@@ -25,93 +24,116 @@ interface Props {
 const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
 ---
 
-<section class="archive-filters" data-archive-filters={live ? "live" : undefined} aria-label="Find an article">
-  <SiteSearch label="Search articles" placeholder="Search every article…" />
-
-  <div class="archive-filters__group">
-    <p class="archive-filters__label">Filter by tag</p>
-    <ul class="archive-filters__chips" role="list">
-      <li>
-        <a href="/articles" data-filter-tag="" aria-current={!activeTag && !activeSeries ? "true" : undefined}>All <small>{total}</small></a>
-      </li>
-      {tags.map((tag) => (
+<div
+  class="archive-filters"
+  data-archive-filters={live ? "live" : undefined}
+  aria-label="Filter articles by topic"
+>
+  <ul class="archive-filters__chips" role="list">
+    <li>
+      <a
+        href="/articles"
+        data-filter-tag=""
+        aria-current={!activeTag && !activeSeries ? "true" : undefined}
+      >
+        All <small>{total}</small>
+      </a>
+    </li>
+    {
+      tags.map((tag) => (
         <li>
-          <a href={tagHref(tag.id)} data-filter-tag={tag.id} aria-current={activeTag === tag.id ? "true" : undefined}>
+          <a
+            href={tagHref(tag.id)}
+            data-filter-tag={tag.id}
+            aria-current={activeTag === tag.id ? "true" : undefined}
+          >
             {tag.label} <small>{tag.count}</small>
           </a>
         </li>
-      ))}
-    </ul>
-    <p class="archive-filters__status" role="status" aria-live="polite" data-filter-status></p>
-  </div>
-
-</section>
+      ))
+    }
+  </ul>
+  <p
+    class="archive-filters__status"
+    role="status"
+    aria-live="polite"
+    data-filter-status
+  ></p>
+</div>
 
 <style>
   .archive-filters {
-    display: grid;
-    gap: 1.5rem;
-    margin: 0 0 2.25rem;
+    margin: 0 0 1.75rem;
   }
-  .archive-filters__label {
-    margin: 0 0 0.55rem;
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
+
   .archive-filters__chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.45rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
+
   .archive-filters__chips li,
   .archive-filters__chips li + li {
     margin: 0;
     padding: 0;
   }
+
   .archive-filters__chips a {
     display: inline-flex;
     gap: 0.4rem;
     align-items: baseline;
-    padding: 0.35rem 0.8rem;
+    padding: 0.4rem 0.85rem;
     border: 1px solid var(--line-strong);
     border-radius: 999px;
     color: var(--ink-soft);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    background: var(--paper);
+    font-size: 0.84rem;
+    font-weight: 500;
     text-decoration: none;
-    text-transform: uppercase;
+    transition:
+      border-color 140ms ease,
+      color 140ms ease,
+      background-color 140ms ease;
   }
+
   .archive-filters__chips a small {
     color: var(--ink-muted);
-    font-size: var(--text-label);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
     font-weight: 400;
     font-variant-numeric: tabular-nums;
   }
+
   .archive-filters__chips a:is(:hover, :focus-visible) {
     border-color: var(--signal);
-    color: var(--ink);
+    color: var(--signal);
+    background: var(--signal-soft);
   }
+
   .archive-filters__chips a[aria-current="true"] {
     border-color: var(--signal-fill);
-    color: var(--paper);
+    color: var(--inverse-ink);
     background: var(--signal-fill);
   }
+
   .archive-filters__chips a[aria-current="true"] small {
-    color: var(--paper);
+    color: rgb(255 255 255 / 80%);
   }
+
   .archive-filters__status {
-    min-height: 1.2em;
-    margin: 0.6rem 0 0;
+    min-height: 0;
+    margin: 0.65rem 0 0;
     color: var(--ink-muted);
-    font-size: var(--text-label);
+    font-size: 0.84rem;
   }
+
+  .archive-filters__status:empty {
+    display: none;
+  }
+
   @media print {
     .archive-filters {
       display: none;
@@ -121,11 +143,17 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
 
 <script>
   // In-place filtering on the archive page. Tag pages and series pages are the no-script path.
-  const filters = document.querySelector<HTMLElement>('[data-archive-filters="live"]');
+  const filters = document.querySelector<HTMLElement>(
+    '[data-archive-filters="live"]',
+  );
   const list = document.querySelector<HTMLElement>(".content-list");
   if (filters && list) {
     const items = Array.from(list.querySelectorAll<HTMLLIElement>(":scope > li"));
-    const chips = Array.from(filters.querySelectorAll<HTMLAnchorElement>("[data-filter-tag], [data-filter-series]"));
+    const chips = Array.from(
+      filters.querySelectorAll<HTMLAnchorElement>(
+        "[data-filter-tag], [data-filter-series]",
+      ),
+    );
     const status = filters.querySelector<HTMLElement>("[data-filter-status]");
     const heading = document.querySelector<HTMLElement>("[data-archive-title]");
 
@@ -134,27 +162,33 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
       for (const item of items) {
         const tags = (item.dataset.tags || "").split(" ").filter(Boolean);
         const inSeries = item.dataset.series || "";
-        const visible = (!tag || tags.includes(tag)) && (!seriesId || inSeries === seriesId);
+        const visible =
+          (!tag || tags.includes(tag)) && (!seriesId || inSeries === seriesId);
         item.hidden = !visible;
         if (visible) {
           shown += 1;
-          // The scroll-reveal animation parks off-screen items at opacity 0 until the first of
-          // them scrolls into view; filtering can hide that first item, so make sure the
-          // survivors are visible regardless.
           item.style.removeProperty("opacity");
           item.style.removeProperty("transform");
         }
       }
       for (const chip of chips) {
-        const active = chip.dataset.filterTag !== undefined
-          ? (chip.dataset.filterTag || "") === tag && !seriesId
-          : chip.dataset.filterSeries === seriesId;
+        const active =
+          chip.dataset.filterTag !== undefined
+            ? (chip.dataset.filterTag || "") === tag && !seriesId
+            : chip.dataset.filterSeries === seriesId;
         if (active) chip.setAttribute("aria-current", "true");
         else chip.removeAttribute("aria-current");
       }
-      const activeChip = chips.find((chip) => chip.getAttribute("aria-current") === "true");
+      const activeChip = chips.find(
+        (chip) => chip.getAttribute("aria-current") === "true",
+      );
       const label = activeChip?.childNodes[0]?.textContent?.trim() || "All";
-      if (status) status.textContent = tag || seriesId ? `${shown} ${shown === 1 ? "article" : "articles"} tagged ${label}. Press Escape or choose All to clear.` : "";
+      if (status) {
+        status.textContent =
+          tag || seriesId
+            ? `${shown} ${shown === 1 ? "article" : "articles"} in ${label}.`
+            : "";
+      }
       if (heading) heading.dataset.filtered = tag || seriesId ? "true" : "false";
       if (push) {
         const url = new URL(window.location.href);
@@ -167,21 +201,41 @@ const { tags, activeTag, activeSeries, total, live = false } = Astro.props;
     };
 
     filters.addEventListener("click", (event) => {
-      const chip = (event.target as HTMLElement).closest<HTMLAnchorElement>("[data-filter-tag], [data-filter-series]");
-      if (!chip || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      const chip = (event.target as HTMLElement).closest<HTMLAnchorElement>(
+        "[data-filter-tag], [data-filter-series]",
+      );
+      if (
+        !chip ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.button !== 0
+      ) {
+        return;
+      }
       event.preventDefault();
-      if (chip.dataset.filterTag !== undefined) apply(chip.dataset.filterTag || "", "", true);
-      else apply("", chip.dataset.filterSeries || "", true);
-      list.scrollIntoView({ block: "start", behavior: "smooth" });
+      if (chip.dataset.filterTag !== undefined) {
+        apply(chip.dataset.filterTag || "", "", true);
+      } else {
+        apply("", chip.dataset.filterSeries || "", true);
+      }
     });
     window.addEventListener("popstate", () => {
       const params = new URLSearchParams(window.location.search);
       apply(params.get("tag") || "", params.get("series") || "", false);
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && (new URLSearchParams(window.location.search).get("tag") || new URLSearchParams(window.location.search).get("series"))) apply("", "", true);
+      if (
+        event.key === "Escape" &&
+        (new URLSearchParams(window.location.search).get("tag") ||
+          new URLSearchParams(window.location.search).get("series"))
+      ) {
+        apply("", "", true);
+      }
     });
     const initial = new URLSearchParams(window.location.search);
-    if (initial.get("tag") || initial.get("series")) apply(initial.get("tag") || "", initial.get("series") || "", false);
+    if (initial.get("tag") || initial.get("series")) {
+      apply(initial.get("tag") || "", initial.get("series") || "", false);
+    }
   }
 </script>

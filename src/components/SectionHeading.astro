@@ -19,68 +19,102 @@ const {
   headingId,
 } = Astro.props as Props;
 const Heading = as;
+const isExternal = Boolean(actionHref && /^https?:\/\//.test(actionHref));
 ---
 
 <header class="section-heading" data-motion-reveal>
-  <div>
+  <div class="section-heading__main">
     <p class="section-heading__eyebrow">{eyebrow}</p>
     <Heading id={headingId} class="section-heading__title">{title}</Heading>
   </div>
   <div class="section-heading__aside">
     {description && <p>{description}</p>}
-    {actionHref && actionLabel && <a href={actionHref} data-motion-interactive>{actionLabel} <span aria-hidden="true" data-motion-arrow>→</span></a>}
+    {
+      actionHref && actionLabel && (
+        <a
+          href={actionHref}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          data-astro-prefetch={isExternal ? undefined : "hover"}
+          data-motion-interactive
+        >
+          {actionLabel}
+          <span aria-hidden="true" data-motion-arrow>
+            {isExternal ? "↗" : "→"}
+          </span>
+        </a>
+      )
+    }
   </div>
 </header>
 
 <style>
   .section-heading {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
-    gap: clamp(1.5rem, 4vw, 4rem);
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+    gap: clamp(1.25rem, 4vw, 3.5rem);
     align-items: end;
-    padding-bottom: 1.4rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
   .section-heading__eyebrow {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
     margin: 0 0 0.65rem;
     color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .section-heading__eyebrow::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--signal), var(--signal-pink));
+    content: "";
   }
 
   .section-heading__title {
-    max-width: 15ch;
+    max-width: 18ch;
     margin: 0;
-    font-size: clamp(1.75rem, 4vw, 3.25rem);
-    line-height: 1;
-    letter-spacing: -0.055em;
+    color: var(--ink);
+    font-size: clamp(1.85rem, 3.6vw, 2.85rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
   }
 
   .section-heading__aside p {
-    max-width: 43rem;
+    max-width: 34rem;
     margin: 0;
     color: var(--ink-soft);
-    font-size: 0.8rem;
+    font-size: 0.975rem;
     line-height: 1.65;
   }
 
   .section-heading__aside a {
-    display: inline-block;
-    margin-top: 0.75rem;
-    color: var(--ink);
-    font-weight: 700;
-    text-underline-offset: 0.24em;
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    margin-top: 0.85rem;
+    color: var(--signal);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
   }
 
   .section-heading__aside a:is(:hover, :focus-visible) {
-    color: var(--signal);
+    color: var(--signal-emphasis);
+    text-decoration: underline;
+    text-underline-offset: 0.24em;
   }
 
-  @media (max-width: 740px) {
+  @media (max-width: 780px) {
     .section-heading {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1rem;
     }
   }
 </style>

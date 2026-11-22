@@ -1,6 +1,4 @@
 ---
-import WorkbenchTerminal from "./WorkbenchTerminal.astro";
-
 interface ImpactStat {
   displayValue: string;
   accessibleValue: string;
@@ -20,9 +18,9 @@ const impactStats: ImpactStat[] = [
     target: 2.5,
     decimals: 1,
     suffix: "M+",
-    label: "community contributions analysed",
+    label: "Community submissions analysed at Communiti Labs",
     href: "/projects/communitilabs",
-    sourceLabel: "Read the Communiti Labs case study",
+    sourceLabel: "Read the Communiti Labs retrospective",
   },
   {
     displayValue: "$10M+",
@@ -30,16 +28,16 @@ const impactStats: ImpactStat[] = [
     target: 10,
     prefix: "$",
     suffix: "M+",
-    label: "in new business supported by a bespoke CRM",
+    label: "New business run through a custom CRM",
     href: "/#work",
-    sourceLabel: "See the CRM work-history evidence",
+    sourceLabel: "See consulting experience",
   },
   {
     displayValue: "1,500+",
     accessibleValue: "More than 1,500",
     target: 1500,
     suffix: "+",
-    label: "searchable cattle records",
+    label: "Cattle records searchable on Murray Grey Aus",
     href: "/projects/murray-grey-association-australia",
     sourceLabel: "Read the Murray Grey Aus case study",
   },
@@ -48,7 +46,7 @@ const impactStats: ImpactStat[] = [
     accessibleValue: "Four minutes",
     target: 4,
     suffix: " min",
-    label: "for the first beef release to sell out",
+    label: "First farm-direct beef drop to sell out",
     href: "/projects/ferguson-livestock",
     sourceLabel: "Read the Ferguson Livestock case study",
   },
@@ -57,94 +55,71 @@ const impactStats: ImpactStat[] = [
 
 <section
   id="proof"
-  class="impact-stats site-container"
-  aria-labelledby="impact-stats-title"
+  class="impact-band band"
+  aria-label="Selected outcomes"
   data-impact-stats
   data-motion-impact
 >
-  <header class="impact-stats__header">
-    <div>
-      <p class="impact-stats__eyebrow">// PROOF OF WORK</p>
-      <h2 id="impact-stats-title">Selected outcomes.</h2>
-    </div>
-    <p>A selection of measurable outcomes. Each links to the work behind it.</p>
-  </header>
-
-  <ol class="impact-stats__grid" aria-label="Selected outcomes">
-    {
-      impactStats.map((stat) => (
-        <li data-impact-card>
-          <a
-            href={stat.href}
-            aria-label={`${stat.accessibleValue} ${stat.label}. ${stat.sourceLabel}.`}
-            data-motion-interactive
-          >
-            <strong aria-hidden="true">
-              <span
-                data-impact-value
-                data-target={stat.target}
-                data-decimals={stat.decimals || 0}
-                data-prefix={stat.prefix || ""}
-                data-suffix={stat.suffix || ""}
-              >
-                {stat.displayValue}
+  <div class="impact-band__frame">
+    <ol class="impact-stats__grid" aria-label="Selected outcomes">
+      {
+        impactStats.map((stat) => (
+          <li data-impact-card>
+            <a
+              href={stat.href}
+              aria-label={`${stat.accessibleValue} ${stat.label}. ${stat.sourceLabel}.`}
+              data-motion-interactive
+            >
+              <strong aria-hidden="true">
+                <span
+                  data-impact-value
+                  data-target={stat.target}
+                  data-decimals={stat.decimals || 0}
+                  data-prefix={stat.prefix || ""}
+                  data-suffix={stat.suffix || ""}
+                >
+                  {stat.displayValue}
+                </span>
+              </strong>
+              <span class="impact-stat__label">{stat.label}</span>
+              <span class="impact-stat__arrow" aria-hidden="true" data-motion-arrow>
+                →
               </span>
-            </strong>
-            <span class="impact-stat__label">{stat.label}</span>
-            <span class="impact-stat__source" aria-hidden="true">
-              View evidence <span data-motion-arrow>↗</span>
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ol>
-
-  <WorkbenchTerminal
-    command="evidence --selected --with-sources"
-    meta={`${String(impactStats.length).padStart(2, "0")} SELECTED OUTCOMES / ${String(impactStats.length).padStart(2, "0")} SOURCE LINKS`}
-    border="top"
-  />
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
 </section>
 
 <style>
-  .impact-stats {
-    margin-block: clamp(1rem, 2.5vw, 2.25rem);
-    overflow: hidden;
-    border: 1px solid var(--line-strong);
-    background: var(--paper-raised);
+  .impact-band__frame {
+    position: relative;
+    width: min(calc(100% - 2.5rem), var(--content-width));
+    margin-inline: auto;
+    border-inline: 1px solid var(--line);
   }
 
-  .impact-stats__header {
-    display: flex;
-    gap: 2rem;
-    align-items: end;
-    justify-content: space-between;
-    padding: clamp(0.9rem, 2vw, 1.25rem);
-    border-bottom: 1px solid var(--line-strong);
+  .impact-band__frame::before,
+  .impact-band__frame::after {
+    position: absolute;
+    bottom: -4px;
+    width: 7px;
+    height: 7px;
+    pointer-events: none;
+    content: "";
+    background:
+      linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat,
+      linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
   }
 
-  .impact-stats__eyebrow {
-    margin: 0;
-    color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.09em;
+  .impact-band__frame::before {
+    left: -4px;
   }
 
-  h2 {
-    margin: 0.3rem 0 0;
-    font-size: clamp(1.25rem, 2.4vw, 1.8rem);
-    line-height: 1;
-    letter-spacing: -0.045em;
-  }
-
-  .impact-stats__header > p {
-    max-width: 38ch;
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: var(--text-label);
-    line-height: 1.55;
+  .impact-band__frame::after {
+    right: -4px;
   }
 
   .impact-stats__grid {
@@ -157,8 +132,7 @@ const impactStats: ImpactStat[] = [
 
   .impact-stats__grid li {
     min-width: 0;
-    min-height: 10.75rem;
-    border-right: 1px dotted var(--line-strong);
+    border-right: 1px solid var(--line);
   }
 
   .impact-stats__grid li:last-child {
@@ -169,66 +143,50 @@ const impactStats: ImpactStat[] = [
     display: flex;
     height: 100%;
     flex-direction: column;
-    padding: clamp(0.9rem, 2vw, 1.2rem);
+    gap: 0.55rem;
+    padding: clamp(1.35rem, 2.8vw, 2rem);
     color: var(--ink);
     text-decoration: none;
-    transition:
-      color 160ms ease,
-      background-color 160ms ease;
+    transition: background-color 140ms ease;
   }
 
-  .impact-stats__grid a:hover,
-  .impact-stats__grid a:focus-visible {
-    color: var(--inverse-ink);
-    background: var(--signal-deep);
+  .impact-stats__grid a:is(:hover, :focus-visible) {
+    background: var(--paper-subtle);
   }
 
-  .impact-stats__grid a:hover .impact-stat__source,
-  .impact-stats__grid a:focus-visible .impact-stat__source {
-    color: var(--signal-bright);
+  .impact-stats__grid a:is(:hover, :focus-visible) strong,
+  .impact-stats__grid a:is(:hover, :focus-visible) .impact-stat__arrow {
+    color: var(--signal);
   }
 
   strong {
     display: block;
-    margin: 0;
-    color: var(--signal-emphasis);
-    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
-    font-weight: 700;
-    line-height: 0.86;
-    letter-spacing: -0.085em;
+    color: var(--ink);
+    font-size: clamp(1.9rem, 3.2vw, 2.65rem);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
     white-space: nowrap;
-  }
-
-  .impact-stats__grid a:hover strong,
-  .impact-stats__grid a:focus-visible strong {
-    color: var(--inverse-ink);
+    transition: color 140ms ease;
   }
 
   .impact-stat__label {
     max-width: 24ch;
-    margin-top: 0.7rem;
     color: var(--ink-soft);
-    font-size: var(--text-label);
-    font-weight: 700;
+    font-size: 0.875rem;
     line-height: 1.5;
   }
 
-  .impact-stats__grid a:hover .impact-stat__label,
-  .impact-stats__grid a:focus-visible .impact-stat__label {
-    color: var(--inverse-muted);
-  }
-
-  .impact-stat__source {
+  .impact-stat__arrow {
     margin-top: auto;
-    padding-top: 0.9rem;
-    color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.025em;
-    line-height: 1.4;
+    padding-top: 0.45rem;
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    transition: color 140ms ease;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .impact-stats__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -238,48 +196,17 @@ const impactStats: ImpactStat[] = [
     }
 
     .impact-stats__grid li:nth-child(n + 3) {
-      border-top: 1px dotted var(--line-strong);
+      border-top: 1px solid var(--line);
     }
   }
 
-  @media (max-width: 620px) {
-    .impact-stats__header {
-      align-items: start;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-
-    .impact-stats__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .impact-stats__grid li,
-    .impact-stats__grid li:nth-child(2) {
-      min-height: 10.5rem;
+  @media (max-width: 640px) {
+    .impact-band__frame {
+      width: min(calc(100% - 1.5rem), var(--content-width));
     }
 
     .impact-stats__grid a {
-      padding: 0.85rem;
-    }
-
-    strong {
-      font-size: clamp(1.8rem, 10vw, 2.5rem);
-    }
-
-    .impact-stat__label {
-      font-size: var(--text-label);
-    }
-
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .impact-stats *,
-    .impact-stats *::before,
-    .impact-stats *::after {
-      scroll-behavior: auto !important;
-      transition-duration: 0.01ms !important;
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
+      padding: 1.15rem 1rem;
     }
   }
 </style>

@@ -3,16 +3,16 @@ import type SEO from "types/SEO";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 import ArchiveFilters from "@components/ArchiveFilters.astro";
 import { loadArchive, tagCounts } from "../../data/article-index";
 import { tags as tagCatalogue, tagHref } from "../../data/taxonomy";
 
 const SEO: SEO = {
-  title: "Articles on startups, software and social impact | Dan Ferg",
+  title: "Articles on software and startups | Dan Ferg",
+  headline: "Notes from making things.",
   description:
-    "Read Dan Ferg's articles on entrepreneurship, software, startup experiments, burnout, and building useful things. Filter by tag or search every article.",
+    "Dan Ferg's articles on software, startups, AI, burnout, and lessons from building useful things.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/articles",
@@ -25,11 +25,17 @@ const SEO: SEO = {
 
 const archive = await loadArchive();
 const drafts = archive.filter((item) => item.draft);
-const items = archive.map(({ date: _date, tags, series, draft: _draft, ...item }) => ({
-  ...item,
-  tags: tags.map((id) => ({ id, label: tagCatalogue[id].label, href: tagHref(id) })),
-  series: series?.id,
-}));
+const items = archive.map(
+  ({ date: _date, tags, series, draft: _draft, ...item }) => ({
+    ...item,
+    tags: tags.map((id) => ({
+      id,
+      label: tagCatalogue[id].label,
+      href: tagHref(id),
+    })),
+    series: series?.id,
+  }),
+);
 const chips = tagCounts(archive);
 const itemListId = "https://danferg.com/articles#itemlist";
 const publishedItemCount = archive.length - drafts.length;
@@ -50,32 +56,30 @@ const itemListJsonLd = {
 
 <BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
-  <main id="main-content" class="site-container archive">
-    <p class="breadcrumb"><a href="/">HOME</a> / ARTICLES</p>
-    <SectionHeading
-      as="h1"
-      eyebrow="ARCHIVE_02 // ARTICLES"
-      title="Notes from making things."
-      description={`${publishedItemCount} essays and research notes on building, learning, burning out, and beginning again.${drafts.length ? ` ${drafts.length} local draft${drafts.length === 1 ? "" : "s"} shown in development only.` : ""}`}
-    />
-    <ArchiveFilters tags={chips} total={archive.length} live />
-    <ContentList items={items} orderedLabel="All articles" />
+
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>Writing</p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          Notes from <em>making things.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          {publishedItemCount} essays and notes on software, startups, AI, and
+          the lessons that show up after launch.{
+            drafts.length
+              ? ` ${drafts.length} local ${drafts.length === 1 ? "draft" : "drafts"} visible in development.`
+              : ""
+          }
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label="All articles">
+      <div class="band__frame">
+        <ArchiveFilters tags={chips} total={archive.length} live />
+        <ContentList items={items} orderedLabel="All articles" />
+      </div>
+    </section>
   </main>
 </BaseLayout>
-
-<style>
-  .archive {
-    padding-block: clamp(2.75rem, 5vw, 4.75rem);
-  }
-
-  .breadcrumb {
-    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-  }
-
-  .breadcrumb a {
-    color: var(--ink);
-    text-underline-offset: 0.2em;
-  }
-</style>

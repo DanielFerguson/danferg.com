@@ -8,19 +8,18 @@ import NavBar from "../components/NavBar.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 import ContentList from "../components/ContentList.astro";
-import HeroPortrait from "../components/HeroPortrait.astro";
+import HeroSignalField from "../components/HeroSignalField.astro";
 import WorkHistory from "../components/WorkHistory.astro";
-// import FavouriteStack from "../components/FavouriteStack.astro";
 import ImpactStats from "../components/ImpactStats.astro";
 import { compareProjectsByPeriod } from "../utils/project-sort";
 import { editorialUpdates } from "../data/editorial-updates";
 import { podcastAppearances, selectedTalks } from "../data/speaking";
 
 const SEO: SEO = {
-  title: "Product consultant, advisor and software builder | Dan Ferg",
-  headline: "Technology for problems that actually matter.",
+  title: "Dan Ferg — Software builder in Melbourne",
+  headline: "I build practical software for real-world problems.",
   description:
-    "Dan Ferg builds and advises on practical products, traction, go-to-market strategy, and community-centred technology from Melbourne, Australia.",
+    "Dan Ferg is a Melbourne-based software builder and Head of Innovation at Spatial Media, building tools across civic tech, AI, and agriculture.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/",
@@ -39,7 +38,7 @@ const projects = (await getCollection("projects"))
   .sort(compareProjectsByPeriod);
 
 const articles = (await getCollection("articles")).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
 const formatDate = (date: string) =>
@@ -92,6 +91,7 @@ const speakingItems = [
   })),
 ]
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 5)
   .map(({ date: _date, ...item }) => item);
 ---
 
@@ -99,292 +99,372 @@ const speakingItems = [
   <NavBar />
 
   <main id="main-content">
-    <section class="site-container hero-shell" aria-labelledby="hero-title">
-      <div class="hero">
+    <section
+      class="hero-band band"
+      aria-labelledby="hero-title"
+      data-hero-signal-host
+    >
+      <div class="band__frame hero">
+        <HeroSignalField />
+
         <div class="hero__copy" data-motion-intro-group>
-          <p class="hero__eyebrow" data-motion-intro-item>// DAN FERG — BUILDER / STRATEGIST / OPTIMIST</p>
-          <h1 id="hero-title" data-motion-intro-item>Technology for <em>problems that actually matter.</em></h1>
-          <p class="hero__lede" data-motion-intro-item>
-            I help founders and mission-led teams turn hard product, operational,
-            and community problems into useful software, traction, and a clearer
-            route to market.
+          <p class="hero__eyebrow" data-motion-intro-item>
+            <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+            Melbourne, Australia
           </p>
-          <p class="hero__offer" data-motion-intro-item>
-            <span>OPEN TO</span>
-            Consulting · Product, traction &amp; GTM advisory · Speaking
+          <h1 id="hero-title" data-motion-intro-item>
+            I build <em>practical software</em> for <span class="nowrap">real-world</span> problems.
+          </h1>
+          <p class="hero__lede" data-motion-intro-item>
+            I’m Dan Ferg, a software builder in Melbourne. I’m full-time as Head
+            of Innovation at Spatial Media, and build side projects across civic
+            tech, AI, and agriculture.
           </p>
           <div class="hero__actions" data-motion-intro-item>
-            <a class="button button--primary" href="#projects" data-motion-interactive>Explore my work <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
-            <a class="button" href="/consulting" data-motion-interactive>Discuss a project <span aria-hidden="true" data-motion-arrow>→</span></a>
+            <a class="btn btn--primary" href="#projects" data-motion-interactive>
+              See my work
+              <span aria-hidden="true" data-motion-arrow data-motion-axis="y">
+                ↓
+              </span>
+            </a>
+            <a
+              class="btn btn--secondary"
+              href="/consulting"
+              data-motion-interactive
+            >
+              Get in touch
+              <span aria-hidden="true" data-motion-arrow>→</span>
+            </a>
           </div>
+          <p class="hero__note" data-motion-intro-item>
+            Now full-time at Spatial Media with very limited consulting
+            availability — always glad to refer you to trusted people in my
+            network.
+          </p>
         </div>
-
-        <aside class="hero__signal" aria-label="Portrait of Dan Ferg" data-motion-intro data-motion-scale data-motion-delay="0.16">
-          <HeroPortrait />
-        </aside>
       </div>
     </section>
 
     <ImpactStats />
 
-    <section id="projects" class="site-container page-section" aria-labelledby="projects-title">
-      <SectionHeading
-        headingId="projects-title"
-        eyebrow="01 // SELECTED PROJECTS"
-        title="Selected work with a job to do."
-        description="Current ventures, live client platforms, and formative builds that show how I turn difficult problems into useful systems."
-        actionHref="/projects"
-        actionLabel="Open project archive"
-      />
-      <ProjectGrid projects={projects} />
-    </section>
-
-    <hr class="site-container ascii-rule" />
-
-    <section id="articles" class="site-container page-section" aria-labelledby="articles-title">
-      <SectionHeading
-        headingId="articles-title"
-        eyebrow="02 // ARTICLES"
-        title="Notes from making things."
-        description="Writing about entrepreneurship, burnout, software decisions, and the lessons that only turn up once you start."
-        actionHref="/articles"
-        actionLabel="Read every article"
-      />
-      <ContentList items={articleItems} orderedLabel="Latest articles" />
-    </section>
-
-    <hr class="site-container ascii-rule" />
-
-    <section id="work" class="site-container page-section" aria-labelledby="work-title">
-      <SectionHeading
-        headingId="work-title"
-        eyebrow="03 // WORK HISTORY"
-        title="A career spent making useful things."
-        description="From public-interest data platforms to startups and disaster-response services, the through-line is simple: use technology to make hard, human problems easier to act on."
-        actionHref="https://www.linkedin.com/in/danferg"
-        actionLabel="View the full LinkedIn profile"
-      />
-      <WorkHistory />
-      {/* <FavouriteStack /> */}
-    </section>
-
-    <section id="talks" class="talks" aria-labelledby="talks-title">
-      <div class="site-container page-section">
+    <section
+      id="projects"
+      class="band band--subtle"
+      aria-labelledby="projects-title"
+    >
+      <div class="band__frame">
         <SectionHeading
-          headingId="talks-title"
-          eyebrow="04 // SPEAKING & PODCASTS"
-          title="Ideas, spoken aloud."
-          description="Recent conversations and selected talks about community engagement, responsible AI, entrepreneurship, product building, and leadership."
-          actionHref="/speaking"
-          actionLabel="Watch and listen"
+          headingId="projects-title"
+          eyebrow="Selected work"
+          title="Things I’ve built."
+          description="Products, client platforms, and side projects — what worked, and what didn’t."
+          actionHref="/projects"
+          actionLabel="All projects"
         />
-        <ContentList items={speakingItems} orderedLabel="Podcast appearances, talks and workshops" />
+        <ProjectGrid projects={projects} />
       </div>
     </section>
 
-    <section class="site-container contact-panel" aria-labelledby="contact-title" data-motion-reveal>
-      <p>// CONSULTING / ADVISORY / SPEAKING</p>
-      <h2 id="contact-title">Bring me the useful problem that refuses to fit in a neat box.</h2>
-      <p class="contact-panel__lede">
-        Consulting when something needs building, advisory across product, traction
-        and GTM, and practical speaking for teams working through change.
-      </p>
-      <a href="mailto:gday@danferg.com?subject=Consulting%2C%20advisory%20or%20speaking%20enquiry" data-motion-interactive>gday@danferg.com <span aria-hidden="true" data-motion-arrow>↗</span></a>
+    <section id="articles" class="band" aria-labelledby="articles-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="articles-title"
+          eyebrow="Writing"
+          title="Recent articles."
+          description="Honest notes on software, startups, AI, and the lessons that show up after launch."
+          actionHref="/articles"
+          actionLabel="All articles"
+        />
+        <ContentList items={articleItems} orderedLabel="Latest articles" />
+      </div>
+    </section>
+
+    <section id="work" class="band band--subtle" aria-labelledby="work-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="work-title"
+          eyebrow="Experience"
+          title="Where I’ve worked."
+          description="Startups, public-interest software, consulting, and a family cattle stud."
+          actionHref="https://www.linkedin.com/in/danferg"
+          actionLabel="LinkedIn profile"
+        />
+        <WorkHistory />
+      </div>
+    </section>
+
+    <section
+      id="talks"
+      class="band band--dark talks"
+      aria-labelledby="talks-title"
+    >
+      <div class="band__frame">
+        <SectionHeading
+          headingId="talks-title"
+          eyebrow="Speaking & podcasts"
+          title="Talks and conversations."
+          description="Podcast episodes and workshops on AI at work, community engagement, and building products."
+          actionHref="/speaking"
+          actionLabel="All talks & podcasts"
+        />
+        <ContentList
+          items={speakingItems}
+          orderedLabel="Recent podcast appearances and talks"
+        />
+      </div>
+    </section>
+
+    <section
+      class="cta-section band"
+      aria-labelledby="contact-title"
+      data-motion-reveal
+    >
+      <div class="band__frame cta-section__frame">
+        <div class="cta-card">
+          <div class="cta-card__copy">
+            <p class="cta-card__eyebrow">Get in touch</p>
+            <h2 id="contact-title">Looking for a hand on something tricky?</h2>
+            <p class="cta-card__lede">
+              I’m full-time at Spatial Media now, so my consulting availability
+              is very limited. Still, send a note — if I can’t help directly,
+              I’m glad to refer you to fellow professionals in my network.
+            </p>
+          </div>
+          <div class="cta-card__actions">
+            <a
+              class="btn btn--white"
+              href="mailto:gday@danferg.com?subject=Quick%20note%20from%20danferg.com"
+              data-motion-interactive
+            >
+              Email gday@danferg.com
+              <span aria-hidden="true" data-motion-arrow>→</span>
+            </a>
+            <a class="cta-card__link" href="/consulting">
+              Availability &amp; referrals →
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </BaseLayout>
 
 <style>
-  .hero-shell {
-    margin-top: clamp(2rem, 4vw, 3.5rem);
+  .hero-band {
+    background: var(--paper);
   }
 
   .hero {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.28fr) minmax(19rem, 0.72fr);
-    gap: clamp(2rem, 5vw, 5rem);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
     align-items: center;
-    padding-block: clamp(2rem, 5vw, 4.5rem);
+    min-height: clamp(28rem, 42vw, 35rem);
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 1;
   }
 
   .hero__eyebrow {
-    margin: 0 0 1.15rem;
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0 0 1.25rem;
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .hero__eyebrow-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--signal), var(--signal-pink));
   }
 
   h1 {
-    max-width: 14ch;
+    max-width: 17ch;
     margin: 0;
-    font-size: clamp(2.7rem, 6vw, 5.25rem);
-    line-height: 0.92;
-    letter-spacing: -0.07em;
+    color: var(--ink);
+    font-size: clamp(2.45rem, 5vw, 4.1rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
   }
 
   h1 em {
     color: var(--signal);
+    background: linear-gradient(
+      95deg,
+      var(--signal) 0%,
+      #7c4dff 55%,
+      var(--signal-pink) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-style: normal;
   }
 
+  .nowrap {
+    white-space: nowrap;
+  }
+
   .hero__lede {
-    max-width: 47rem;
-    margin: 1.5rem 0 0;
+    max-width: 34rem;
+    margin: 1.35rem 0 0;
     color: var(--ink-soft);
-    font-size: clamp(0.88rem, 1.6vw, 1rem);
+    font-size: clamp(1rem, 1.35vw, 1.08rem);
     line-height: 1.65;
-  }
-
-  .hero__offer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem 0.75rem;
-    align-items: center;
-    max-width: 47rem;
-    margin: 1rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.025em;
-    line-height: 1.5;
-  }
-
-  .hero__offer span {
-    padding: 0.22rem 0.4rem;
-    color: var(--inverse-ink);
-    background: var(--signal-fill);
-    font-size: var(--text-label);
-    letter-spacing: 0.08em;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: 1.85rem;
   }
 
-  .button {
-    display: inline-flex;
-    gap: 1.5rem;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 11.5rem;
-    padding: 0.68rem 0.8rem;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: var(--text-label);
-    font-weight: 750;
-    text-decoration: none;
+  .hero__note {
+    margin: 1.15rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.84rem;
   }
 
-  .button:is(:hover, :focus-visible),
-  .button--primary {
-    color: var(--inverse-ink);
-    background: var(--signal-deep);
-  }
-
-  .button--primary:is(:hover, :focus-visible) {
-    border-color: var(--signal);
-    background: var(--signal-fill);
-  }
-
-  .hero__signal {
-    min-height: 0;
-  }
-
-  .talks {
-    color: var(--inverse-ink);
-    background: var(--signal-deep);
-  }
-
+  /* Deep aubergine-charcoal speaking band with Communiti pink accents. */
   .talks :global(.section-heading__eyebrow) {
     color: var(--signal-bright);
   }
 
+  .talks :global(.section-heading__title) {
+    color: var(--inverse-ink);
+  }
+
   .talks :global(.section-heading__aside p),
-  .talks :global(.content-list__copy > span),
-  .talks :global(.content-list__index),
-  .talks :global(.content-list__meta) {
+  .talks :global(.content-list__desc),
+  .talks :global(.content-list__meta),
+  .talks :global(.content-list__detail),
+  .talks :global(.content-list__arrow) {
     color: var(--inverse-muted);
+  }
+
+  .talks :global(.section-heading__aside a) {
+    color: var(--signal-bright);
   }
 
   .talks :global(.content-list),
   .talks :global(.content-list li) {
-    border-color: rgb(237 233 255 / 32%);
+    border-color: rgb(228 154 255 / 14%);
   }
 
-  .talks :global(.content-list a),
-  .talks :global(.section-heading__aside a) {
+  .talks :global(.content-list a) {
     color: var(--inverse-ink);
   }
 
-  .contact-panel {
-    margin-block: clamp(3.5rem, 7vw, 6rem);
-    padding: clamp(1.75rem, 4vw, 3.5rem);
+  .talks :global(.content-list a:is(:hover, :focus-visible) strong),
+  .talks :global(.content-list a:is(:hover, :focus-visible) .content-list__arrow) {
+    color: var(--signal-bright);
+  }
+
+  /* Contained Communiti purple & pink closing panel. */
+  .cta-section__frame {
+    padding-block: clamp(2.75rem, 5vw, 4.25rem);
+  }
+
+  .cta-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) auto;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
+    align-items: center;
+    padding: clamp(2rem, 4.5vw, 3.5rem);
+    border: 1px solid rgb(204 102 255 / 28%);
+    border-radius: var(--radius-md);
     color: var(--inverse-ink);
-    background: var(--signal-fill);
+    background:
+      radial-gradient(
+        circle at 92% 14%,
+        rgb(204 102 255 / 34%) 0%,
+        transparent 46%
+      ),
+      radial-gradient(
+        circle at 10% 95%,
+        rgb(79 57 246 / 52%) 0%,
+        transparent 52%
+      ),
+      var(--signal-indigo);
   }
 
-  .contact-panel p {
-    margin: 0 0 1.25rem;
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.08em;
-  }
-
-  .contact-panel h2 {
-    max-width: 18ch;
-    margin: 0;
-    font-size: clamp(1.75rem, 4.5vw, 3.75rem);
-    line-height: 1;
-    letter-spacing: -0.06em;
-  }
-
-  .contact-panel .contact-panel__lede {
-    max-width: 62ch;
-    margin: 1.2rem 0 0;
-    color: var(--inverse-ink);
-    font-size: 0.76rem;
+  .cta-card__eyebrow {
+    margin: 0 0 0.65rem;
+    color: var(--signal-bright);
+    font-size: 0.875rem;
     font-weight: 500;
-    letter-spacing: 0;
+  }
+
+  .cta-card h2 {
+    max-width: 16ch;
+    margin: 0;
+    color: var(--inverse-ink);
+    font-size: clamp(1.85rem, 3.6vw, 2.85rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+
+  .cta-card__lede {
+    max-width: 36rem;
+    margin: 0.9rem 0 0;
+    color: rgb(250 249 255 / 84%);
+    font-size: 0.975rem;
     line-height: 1.65;
   }
 
-  .contact-panel a {
-    display: inline-block;
-    margin-top: 1.5rem;
-    color: inherit;
-    font-weight: 750;
+  .cta-card__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: flex-end;
+  }
+
+  .cta-card__link {
+    color: var(--signal-bright);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .cta-card__link:is(:hover, :focus-visible) {
+    color: #ffffff;
+    text-decoration: underline;
     text-underline-offset: 0.25em;
   }
 
   @media (max-width: 900px) {
     .hero {
       grid-template-columns: 1fr;
+      min-height: auto;
+      padding-bottom: clamp(10rem, 32vw, 14rem);
     }
 
-    .hero__signal {
-      max-width: 32rem;
-      margin-top: 0;
+    .cta-card {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card__actions {
+      align-items: flex-start;
     }
   }
 
   @media (max-width: 620px) {
-    .hero {
-      padding-block: 1.25rem;
+    .hero__actions {
+      flex-direction: column;
     }
 
-    h1 {
-      font-size: clamp(2.65rem, 14vw, 4.4rem);
-    }
-
-    .button {
-      width: 100%;
-    }
-
-    .contact-panel {
+    .btn {
       width: 100%;
     }
   }

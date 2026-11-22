@@ -3,7 +3,6 @@ import type SEO from "types/SEO";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 import ArchiveFilters from "@components/ArchiveFilters.astro";
 import { loadArchive, seriesGroups, tagCounts } from "../../../data/article-index";
@@ -71,26 +70,33 @@ const itemListJsonLd = {
 
 <BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
-  <main id="main-content" class="site-container archive">
-    <p class="breadcrumb"><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / SERIES</p>
-    <SectionHeading
-      as="h1"
-      eyebrow="ARCHIVE_02 // SERIES"
-      title={definition.label}
-      description={`${definition.description} ${listed.length} of ${definition.parts.length} parts so far, in reading order.`}
-    />
-    <ContentList items={listed} orderedLabel={`${definition.label}, in order`} />
-    {planned.length > 0 && (
-      <section class="planned" aria-labelledby="planned-label">
-        <p id="planned-label" class="planned__label">Still to come</p>
-        <ol>
-          {planned.map((part) => (
-            <li><span aria-hidden="true">{String(part.part).padStart(2, "0")}</span>{part.title}</li>
-          ))}
-        </ol>
-      </section>
-    )}
-    <ArchiveFilters tags={chips} total={archive.length} activeSeries={id} />
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>Series</p>
+        <h1 class="page-hero__title" data-motion-intro-item>{definition.label}</h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          {definition.description} ({listed.length} of {definition.parts.length} parts so far)
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label={definition.label}>
+      <div class="band__frame">
+        <ContentList items={listed} orderedLabel={`${definition.label}, in order`} />
+        {planned.length > 0 && (
+          <div class="planned">
+            <p id="planned-label" class="planned__label">Still to come</p>
+            <ol>
+              {planned.map((part) => (
+                <li><span aria-hidden="true">{String(part.part).padStart(2, "0")}</span>{part.title}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+        <ArchiveFilters tags={chips} total={archive.length} activeSeries={id} />
+      </div>
+    </section>
   </main>
 </BaseLayout>
 

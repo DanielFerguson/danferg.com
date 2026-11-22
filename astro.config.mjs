@@ -13,7 +13,7 @@ const editorialDirectories = {
 };
 
 const lastModifiedByPath = new Map();
-const excludedFromSitemap = new Set();
+const excludedFromSitemap = new Set(["/test"]);
 const articleTagCounts = new Map();
 const toDate = (isoDate) => new Date(`${isoDate}T00:00:00.000Z`);
 const noteLatest = (path, date) => {

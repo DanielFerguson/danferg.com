@@ -3,88 +3,146 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="site-container footer-grid" data-motion-group>
-    <div class="footer-links" data-motion-item>
-      <div>
-        <p class="footer-label">// FIND ME ONLINE</p>
-        <nav aria-label="Social links">
-          <a href="https://github.com/danielferguson" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          <a href="https://www.linkedin.com/in/danferg" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-          <a href="/rss.xml">RSS →</a>
+  <div class="site-container footer-frame">
+    <div class="footer-grid" data-motion-group>
+      <div class="footer-about" data-motion-item>
+        <a class="footer-wordmark" href="/">
+          <img
+            class="footer-wordmark__wave"
+            src="/images/wave.png"
+            alt=""
+            width="20"
+            height="20"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>Dan Ferg</span>
+        </a>
+        <p class="footer-note">
+          Software builder in Melbourne, Australia. Full-time Head of Innovation
+          at Spatial Media, with side projects in civic tech, AI, and cattle
+          farming.
+        </p>
+      </div>
+
+      <div class="footer-col" data-motion-item>
+        <p class="footer-label">Pages</p>
+        <nav aria-label="Site pages">
+          <a href="/projects" data-astro-prefetch="hover">Projects</a>
+          <a href="/articles" data-astro-prefetch="hover">Articles</a>
+          <a href="/speaking" data-astro-prefetch="hover">Speaking</a>
+          <a href="/consulting" data-astro-prefetch="hover">Consulting</a>
+          <a href="/about" data-astro-prefetch="hover">About</a>
+          <a href="/newsletters" data-astro-prefetch="hover">Newsletters</a>
         </nav>
       </div>
-      <div>
-        <p class="footer-label">// ALSO ON THIS SITE</p>
-        <nav aria-label="More pages">
-          <a href="/about" data-astro-prefetch="hover">About →</a>
-          <a href="/consulting" data-astro-prefetch="hover">Consulting →</a>
-          <a href="/newsletters" data-astro-prefetch="hover">Newsletter archive →</a>
+
+      <div class="footer-col" data-motion-item>
+        <p class="footer-label">Elsewhere</p>
+        <nav aria-label="Social links">
+          <a href="mailto:gday@danferg.com">gday@danferg.com</a>
+          <a
+            href="https://github.com/danielferguson"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/danferg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
+          <a href="/rss.xml">RSS feed</a>
         </nav>
       </div>
     </div>
-    <p class="footer-note" data-motion-item>Technology is my weapon of choice for effecting change in the world around us.</p>
-  </div>
-  <div class="site-container footer-base">
-    <p>© {year} Dan Ferg</p>
-    <p>EOF<span aria-hidden="true">_</span></p>
+
+    <div class="footer-base">
+      <p>© {year} Dan Ferg</p>
+      <p>Melbourne, Australia</p>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    color: var(--inverse-ink);
-    background: var(--signal-deep);
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .footer-frame {
+    border-inline: 1px solid var(--line);
   }
 
   .footer-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.7fr);
-    gap: 3rem;
-    padding-block: clamp(2.75rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(0, 1.5fr) minmax(9rem, 0.7fr) minmax(9rem, 0.7fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    padding: clamp(2.75rem, 5vw, 4rem) clamp(1.25rem, 4.5vw, 4rem);
   }
 
-  .footer-label {
-    margin: 0 0 1rem;
-    color: var(--signal-bright);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.08em;
+  .footer-wordmark {
+    display: inline-flex;
+    gap: 0.55rem;
+    align-items: center;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-decoration: none;
   }
 
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.5rem;
-  }
-
-  nav a {
-    color: inherit;
-    text-underline-offset: 0.22em;
-  }
-
-  nav a:hover {
-    color: var(--signal-bright);
-  }
-
-  .footer-links {
-    display: grid;
-    gap: 1.75rem;
+  .footer-wordmark__wave {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    object-fit: contain;
   }
 
   .footer-note {
-    max-width: 34rem;
-    margin: 0;
-    color: var(--inverse-ink);
-    font-size: 0.82rem;
+    max-width: 26rem;
+    margin: 0.85rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
     line-height: 1.65;
+  }
+
+  .footer-label {
+    margin: 0 0 0.85rem;
+    color: var(--ink);
+    font-size: 0.875rem;
+    font-weight: 550;
+  }
+
+  nav {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: start;
+  }
+
+  nav a {
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  nav a:is(:hover, :focus-visible) {
+    color: var(--signal);
   }
 
   .footer-base {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
     justify-content: space-between;
-    padding-block: 1rem;
-    border-top: 1px dotted rgb(247 246 241 / 35%);
-    color: var(--inverse-muted);
+    padding: 1.15rem clamp(1.25rem, 4.5vw, 4rem);
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
     font-size: var(--text-label);
   }
 
@@ -92,14 +150,18 @@ const year = new Date().getFullYear();
     margin: 0;
   }
 
-  .footer-base span {
-    color: var(--signal-bright);
-  }
-
-  @media (max-width: 700px) {
+  @media (max-width: 760px) {
     .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
+      grid-template-columns: 1fr 1fr;
+      padding-inline: 1rem;
+    }
+
+    .footer-about {
+      grid-column: 1 / -1;
+    }
+
+    .footer-base {
+      padding-inline: 1rem;
     }
   }
 </style>

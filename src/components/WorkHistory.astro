@@ -1,127 +1,130 @@
 ---
-import WorkbenchTerminal from "./WorkbenchTerminal.astro";
-
 interface Role {
   title: string;
   organisation: string;
   period: string;
   datetime: string;
   description: string;
-  tags: string[];
+  icon: string;
+  fullBleed?: boolean;
+  invertDark?: boolean;
 }
 
 const roles: Role[] = [
   {
     title: "Head of Innovation",
     organisation: "Spatial Media",
-    period: "OCT 2026 — NOW",
+    period: "Oct 2026 – Present",
     datetime: "2026-10",
     description:
-      "Running experiments across AI, product and growth at an interactive 3D visualisation and digital engagement company, from rail driver training to community engagement portals.",
-    tags: ["AI", "INNOVATION", "3D + ENGAGEMENT"],
+      "Running AI, product, and growth experiments at an interactive 3D visualisation and digital engagement company, from rail driver training to community portals.",
+    icon: "/images/workplaces/spatial-media.png",
+    invertDark: true,
   },
   {
     title: "Chief Executive Officer",
     organisation: "Communiti Labs",
-    period: "AUG 2023 — JUL 2026",
+    period: "Aug 2023 – Jul 2026",
     datetime: "2023-08",
     description:
-      "Built analysis and engagement tools that helped practitioners turn community contributions into evidence, insight, and better decisions.",
-    tags: ["PRODUCT", "COMMUNITY", "AI + ANALYSIS"],
+      "Co-founded and led a civic-tech startup helping councils and practitioners turn community feedback into clear, usable evidence.",
+    icon: "/images/workplaces/communiti-labs.png",
   },
   {
     title: "President",
     organisation: "Helping Group",
-    period: "FEB 2020 — NOW",
+    period: "Feb 2020 – Present",
     datetime: "2020-02",
     description:
-      "Founded a digital-first charity after the 2020 bushfires, creating practical services that connect people with support before, during, and after disasters.",
-    tags: ["SOCIAL IMPACT", "LEADERSHIP", "DISASTER RESPONSE"],
+      "Founded a charity after the 2020 bushfires to build practical digital services connecting people with support before, during, and after disasters.",
+    icon: "/images/workplaces/helping-group.png",
   },
   {
     title: "Owner",
     organisation: "Ferguson Livestock",
-    period: "OCT 2022 — NOW",
+    period: "Oct 2022 – Present",
     datetime: "2022-10",
     description:
-      "Family-run Murray Grey stud and beef producer in Snake Valley, Victoria. Breeds show-winning cattle, including Reserve Champion Senior Female at the Royal Melbourne Show 2024, and built the Laravel store whose March 2026 beef drop sold out in four minutes.",
-    tags: ["AGRIBUSINESS", "BREEDING", "ECOMMERCE"],
+      "Family-run Murray Grey stud and farm-direct beef business in Snake Valley, Victoria. Built the online store whose first beef drop sold out in four minutes.",
+    icon: "/images/workplaces/ferguson-livestock.png",
+    fullBleed: true,
   },
   {
     title: "Consultant",
     organisation: "Chepstowe Consulting",
-    period: "AUG 2022 — SEP 2023",
+    period: "Aug 2022 – Sep 2023",
     datetime: "2022-08",
     description:
-      "Designed bespoke systems for insurance and wealth-management clients, including a CRM supporting more than $10M in new business.",
-    tags: ["CONSULTING", "SYSTEMS", "DELIVERY"],
+      "Designed custom software for insurance and wealth-management teams, including a CRM supporting more than $10M in new business.",
+    icon: "/images/workplaces/chepstowe-consulting.svg",
+    fullBleed: true,
   },
   {
-    title: "Digital Performance Manager / Analyst",
+    title: "Digital Performance Manager",
     organisation: "Aon",
-    period: "JAN 2023 — JUL 2023",
+    period: "Jan 2023 – Jul 2023",
     datetime: "2023-01",
     description:
-      "Progressed from digital analysis into performance management, using data and systems to improve digital operations and decision-making.",
-    tags: ["ANALYTICS", "PERFORMANCE", "OPERATIONS"],
+      "Moved from digital analysis into performance management, using data and cleaner systems to improve operations and decision-making.",
+    icon: "/images/workplaces/aon.png",
+    fullBleed: true,
   },
   {
     title: "Chief Technology Officer",
     organisation: "Imperial Wealth",
-    period: "MAR 2021 — AUG 2022",
+    period: "Mar 2021 – Aug 2022",
     datetime: "2021-03",
     description:
-      "Led designers and developers, united five business units behind one client entry point, and built software for international crypto-mining operations.",
-    tags: ["TECHNOLOGY", "TEAM LEAD", "PLATFORMS"],
+      "Led the design and engineering team, brought five business units into one client entry point, and built operational software for international sites.",
+    icon: "/images/workplaces/imperial-wealth.svg",
+    invertDark: true,
   },
   {
     title: "Full Stack Developer",
     organisation: "CeRDI",
-    period: "FEB 2019 — JAN 2021",
+    period: "Feb 2019 – Jan 2021",
     datetime: "2019-02",
     description:
-      "Built data pipelines, knowledge portals, and spatial tools for environmental monitoring, regional collaboration, and family-violence response.",
-    tags: ["DATA", "FULL STACK", "PUBLIC INTEREST"],
+      "Built data pipelines, spatial tools, and knowledge portals for environmental monitoring, regional collaboration, and family-violence response.",
+    icon: "/images/workplaces/cerdi.png",
   },
 ];
 ---
 
-<WorkbenchTerminal
-  user="dan@work"
-  command="history --reverse --impact"
-  meta="STATUS: STILL_BUILDING"
-  border="all"
-/>
-
 <ol class="work-history" aria-label="Career history" data-motion-group>
   {
-    roles.map((role, index) => {
-      const branch = index === 0 ? "┌─" : index === roles.length - 1 ? "└─" : "├─";
-
-      return (
-        <li class="work-role" data-motion-item>
-          <div class="work-role__meta">
-            <span class="work-role__branch" aria-hidden="true">
-              {branch}[{String(index + 1).padStart(2, "0")}]
+    roles.map((role) => (
+      <li class="work-role" data-motion-item>
+        <div class="work-role__meta">
+          <time datetime={role.datetime}>{role.period}</time>
+          <span class="work-role__org">
+            <span
+              class:list={[
+                "work-role__icon",
+                { "work-role__icon--bleed": role.fullBleed },
+              ]}
+              aria-hidden="true"
+            >
+              <img
+                src={role.icon}
+                alt=""
+                width="20"
+                height="20"
+                loading="lazy"
+                decoding="async"
+                class:list={[{ "work-role__img--invert-dark": role.invertDark }]}
+              />
             </span>
-            <time datetime={role.datetime}>{role.period}</time>
-          </div>
+            <span>{role.organisation}</span>
+          </span>
+        </div>
 
-          <div class="work-role__body">
-            <p class="work-role__command" aria-hidden="true">
-              $ open role/{role.organisation.toLowerCase().replaceAll(" ", "-")}
-            </p>
-            <h3>
-              {role.title} <span>@ {role.organisation}</span>
-            </h3>
-            <p class="work-role__description">{role.description}</p>
-            <ul aria-label={`${role.title} areas`}>
-              {role.tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-          </div>
-        </li>
-      );
-    })
+        <div class="work-role__body">
+          <h3>{role.title}</h3>
+          <p class="work-role__description">{role.description}</p>
+        </div>
+      </li>
+    ))
   }
 </ol>
 
@@ -129,118 +132,111 @@ const roles: Role[] = [
   .work-history {
     margin: 0;
     padding: 0;
-    border-right: 1px solid var(--line-strong);
-    border-left: 1px solid var(--line-strong);
+    border-top: 1px solid var(--line);
     list-style: none;
   }
 
   .work-role {
     display: grid;
-    grid-template-columns: minmax(10rem, 0.34fr) minmax(0, 1fr);
-    border-bottom: 1px solid var(--line-strong);
-    background: var(--paper);
-    transition: background-color 140ms ease;
-  }
-
-  .work-role:hover {
-    background: color-mix(in srgb, var(--signal) 3%, var(--paper-raised));
+    grid-template-columns: minmax(12rem, 0.36fr) minmax(0, 1fr);
+    gap: 1rem clamp(1.5rem, 4vw, 3.5rem);
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
   }
 
   .work-role__meta {
-    position: relative;
-    padding: 1.35rem 1rem;
-    border-right: 1px dotted var(--line-strong);
-  }
-
-  .work-role__branch {
-    display: block;
-    color: var(--signal);
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
   time {
-    display: block;
-    margin-top: 0.75rem;
     color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.055em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .work-role__org {
+    display: inline-flex;
+    gap: 0.55rem;
+    align-items: center;
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .work-role__icon {
+    display: inline-grid;
+    width: 1.375rem;
+    height: 1.375rem;
+    place-items: center;
+    flex: 0 0 auto;
+    overflow: hidden;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper);
+  }
+
+  .work-role__icon--bleed {
+    padding: 0;
+  }
+
+  .work-role__icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .work-role__icon--bleed img {
+    object-fit: cover;
+  }
+
+  :global(:root[data-theme="dark"]) .work-role__img--invert-dark {
+    filter: invert(1) brightness(1.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme])) .work-role__img--invert-dark {
+      filter: invert(1) brightness(1.08);
+    }
   }
 
   .work-role__body {
-    padding: 1.3rem clamp(1rem, 3vw, 2rem) 1.45rem;
-  }
-
-  .work-role__command {
-    margin: 0 0 0.65rem;
-    color: var(--ink-muted);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.045em;
+    min-width: 0;
   }
 
   h3 {
     margin: 0;
-    font-size: clamp(1rem, 2.3vw, 1.45rem);
-    line-height: 1.2;
-    letter-spacing: -0.035em;
-  }
-
-  h3 span {
-    color: var(--ink-soft);
-    font-weight: 550;
+    color: var(--ink);
+    font-size: 1.075rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
   }
 
   .work-role__description {
-    max-width: 75ch;
-    margin: 0.65rem 0 0;
+    max-width: 62ch;
+    margin: 0.45rem 0 0;
     color: var(--ink-soft);
-    font-size: 0.75rem;
-    line-height: 1.65;
+    font-size: 0.925rem;
+    line-height: 1.6;
   }
 
-  .work-role__body ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0.9rem 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .work-role__body li {
-    padding: 0.22rem 0.42rem;
-    border: 1px solid var(--line);
-    color: var(--ink-muted);
-    background: var(--paper-raised);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
-
-  @media (max-width: 680px) {
+  @media (max-width: 700px) {
     .work-role {
       grid-template-columns: 1fr;
+      gap: 0.45rem;
+      padding-block: 1.25rem;
     }
 
     .work-role__meta {
-      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
       align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-bottom: 0.8rem;
-      border-right: 0;
-    }
-
-    time {
-      margin-top: 0;
-      text-align: right;
-    }
-
-    .work-role__body {
-      padding-top: 0.3rem;
     }
   }
 </style>

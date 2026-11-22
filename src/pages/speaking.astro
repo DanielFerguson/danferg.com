@@ -28,42 +28,47 @@ const talkItems = selectedTalks.map((talk) => ({
 const topics = [
   {
     title: "Closing the loop in community engagement",
-    description: "Why participation needs visible follow-through, not just better surveys.",
+    description:
+      "Why participation needs visible follow-through, not just better surveys.",
     href: "/articles/democracy-doesnt-need-another-survey",
   },
   {
-    title: "Responsible AI in local government and education",
-    description: "Using AI to strengthen human judgement and learning rather than replace it.",
+    title: "Practical AI in local government and education",
+    description:
+      "Using AI to back up human judgement and learning instead of replacing it.",
     href: "/articles/ai-belongs-in-the-learning-loop",
   },
   {
     title: "From rough idea to working product",
-    description: "Testing a concept quickly, including with no-code tools, before building more.",
+    description:
+      "Testing a concept quickly before committing to a long build.",
     href: "/newsletters/2022-05-09-concept-to-production",
   },
   {
-    title: "What founders learn when things don’t go to plan",
-    description: "Winding down a company, burnout, and deciding what to build next.",
+    title: "When startups don’t go to plan",
+    description:
+      "Winding down a company, recovering from burnout, and deciding what comes next.",
     href: "/projects/communitilabs",
   },
 ];
+
 const speakingMailto = createContactMailto({
   subject: "Speaking or podcast enquiry",
-  body: "G'day Dan,\n\nI'd like to invite you to speak or join a podcast.\n\nThe audience, topic, format, and useful timing:\n",
+  body: "G'day Dan,\n\nI'd like to invite you to speak or join a podcast.\n\nAudience, topic, format, and timing:\n",
 });
 
 const canonicalPath = "/speaking";
 const SEO: SEO = {
-  title: "Speaking, podcasts and workshops | Dan Ferg",
-  headline: "Useful ideas, spoken aloud.",
+  title: "Speaking, podcasts and talks | Dan Ferg",
+  headline: "Talks and conversations.",
   description:
-    "Watch and listen to Dan Ferg on community engagement, responsible AI, entrepreneurship, product building, leadership, and technology.",
+    "Watch and listen to Dan Ferg on community engagement, practical AI, building products, and startup lessons.",
   imageUrl: "/images/og-default.png",
-  imageAlt: "Dan Ferg — speaking, podcasts and workshops",
+  imageAlt: "Dan Ferg — speaking, podcasts and talks",
   openGraph: { type: "website" },
   canonicalUrl: canonicalPath,
   schemaType: "CollectionPage",
-  modifiedDate: "2026-09-27",
+  modifiedDate: "2026-11-22",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Speaking", url: canonicalPath },
@@ -95,78 +100,115 @@ const SEO: SEO = {
   <NavBar />
 
   <main id="main-content">
-    <header class="site-container speaking-hero" data-motion-intro-group>
-      <p class="eyebrow" data-motion-intro-item>// PODCASTS / TALKS / WORKSHOPS</p>
-      <h1 data-motion-intro-item>Useful ideas, <em>spoken aloud.</em></h1>
-      <p class="speaking-hero__lede" data-motion-intro-item>
-        Conversations about community engagement, responsible AI, building
-        products, entrepreneurship, leadership, and what happens when the tidy
-        plan meets the real world.
-      </p>
-      <div class="speaking-hero__actions" data-motion-intro-item>
-        <a class="button button--primary" href="#podcasts" data-motion-interactive>Watch the latest <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
-        <a class="button" href={speakingMailto} data-motion-interactive>Invite me to speak <span aria-hidden="true" data-motion-arrow>↗</span></a>
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>
+          Speaking &amp; podcasts
+        </p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          Talks and <em>conversations.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          Podcast episodes, workshops, and talks on community engagement,
+          practical AI, building products, and what happens when tidy plans meet
+          real life.
+        </p>
+        <div class="page-hero__actions" data-motion-intro-item>
+          <a class="btn btn--primary" href="#podcasts" data-motion-interactive>
+            Watch the latest
+            <span aria-hidden="true" data-motion-arrow data-motion-axis="y">
+              ↓
+            </span>
+          </a>
+          <a
+            class="btn btn--secondary"
+            href={speakingMailto}
+            data-motion-interactive
+          >
+            Invite me to speak
+            <span aria-hidden="true" data-motion-arrow>↗</span>
+          </a>
+        </div>
       </div>
     </header>
 
-    <section id="podcasts" class="podcasts" aria-labelledby="podcasts-title">
-      <div class="site-container page-section">
+    <section
+      id="podcasts"
+      class="band band--subtle"
+      aria-labelledby="podcasts-title"
+    >
+      <div class="band__frame">
         <SectionHeading
           headingId="podcasts-title"
-          eyebrow="01 // FOR THE LOVE OF COMMUNITY ENGAGEMENT"
-          title="The future of engagement, without the theatre."
-          description="I joined host Becky Hirst as co-host for season six: a series of candid conversations with practitioners about the next decade of community engagement. Choose an episode below to watch or listen without leaving the page."
+          eyebrow="For the Love of Community Engagement"
+          title="Season six conversations."
+          description="I joined Becky Hirst as co-host for season six — candid conversations with practitioners about the next decade of community engagement."
         />
         <SpotifyEpisodePlayer episodes={podcastAppearances} />
       </div>
     </section>
 
-    <section class="site-container page-section" aria-labelledby="topics-title">
-      <SectionHeading
-        headingId="topics-title"
-        eyebrow="02 // TOPICS"
-        title="What I can speak about."
-        description="Talks, panels, workshops and podcast conversations. Each topic links to writing or work that goes deeper."
-      />
-      <ul class="topics" role="list" data-motion-group>
-        {topics.map((topic) => (
-          <li data-motion-item>
-            <a href={topic.href}>
-              <strong>{topic.title}</strong>
-              <span>{topic.description}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+    <section class="band" aria-labelledby="topics-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="topics-title"
+          eyebrow="Topics"
+          title="What I talk about."
+          description="Panels, workshops, and podcast episodes around my day job. Each topic links to deeper writing or work."
+        />
+        <ul class="topics" role="list" data-motion-group>
+          {
+            topics.map((topic) => (
+              <li data-motion-item>
+                <a href={topic.href} data-motion-interactive>
+                  <strong>{topic.title}</strong>
+                  <span>{topic.description}</span>
+                  <span class="topics__cta" aria-hidden="true">
+                    Read more <span data-motion-arrow>→</span>
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </section>
 
-    <section class="site-container page-section" aria-labelledby="talks-archive-title">
-      <SectionHeading
-        headingId="talks-archive-title"
-        eyebrow="03 // SELECTED TALKS"
-        title="Earlier ideas worth revisiting."
-        description="Workshops and talks about moving from a rough idea to something people can use, and the people required to make that happen."
-      />
-      <ContentList items={talkItems} orderedLabel="Selected talks and workshops" />
+    <section
+      class="band band--subtle"
+      aria-labelledby="talks-archive-title"
+    >
+      <div class="band__frame">
+        <SectionHeading
+          headingId="talks-archive-title"
+          eyebrow="Earlier talks"
+          title="Past workshops and sessions."
+          description="Earlier talks on going from a rough concept to a working product and leading teams."
+        />
+        <ContentList
+          items={talkItems}
+          orderedLabel="Selected talks and workshops"
+        />
+      </div>
     </section>
 
     <ConversionEndcap
       headingId="speaking-contact"
-      eyebrow="invite --with-context"
-      title="Looking for a practical voice, not a polished keynote machine?"
-      description="Tell me about the audience, the question you want to explore, and whether you have a stage, workshop, or microphone in mind. I’ll tell you honestly whether I can add something useful."
+      eyebrow="Speaking & podcasts"
+      title="Have a podcast, panel, or workshop in mind?"
+      description="I’m full-time at Spatial Media so my time is tight, though I still fit in the occasional podcast or talk. Send the audience, topic, and timing — if I can’t make it, I’ll happily suggest someone great."
       actions={[
         {
-          meta: "SPEAKING / PODCASTS",
-          label: "Invite me",
+          meta: "Email",
+          label: "Invite me to speak",
           href: speakingMailto,
-          description: "Include the audience, format, topic, location, and timing.",
+          description: "Share the audience, format, topic, and timing.",
         },
         {
-          meta: "CONSULTING / ADVISORY",
-          label: "Work through a problem",
+          meta: "Availability",
+          label: "Consulting & referrals",
           href: "/consulting",
-          description: "For product, traction, GTM, or software work beyond the session.",
+          description: "Current availability and referrals to my network.",
         },
       ]}
     />
@@ -174,130 +216,68 @@ const SEO: SEO = {
 </BaseLayout>
 
 <style>
-  .eyebrow {
-    margin: 0;
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.07em;
-  }
-
-  .speaking-hero {
-    padding-block: clamp(3.5rem, 8vw, 7rem);
-  }
-
   .topics {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--line-strong);
-    border-left: 1px solid var(--line-strong);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
   }
 
   .topics li {
-    border-right: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line-strong);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
   .topics a {
-    display: grid;
-    gap: 0.5rem;
-    align-content: start;
+    display: flex;
     height: 100%;
-    padding: clamp(1rem, 3vw, 1.4rem);
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: clamp(1.35rem, 3vw, 2rem);
     color: inherit;
+    background: var(--paper);
     text-decoration: none;
+    transition: background-color 140ms ease;
   }
 
   .topics a:is(:hover, :focus-visible) {
-    background: var(--signal-soft);
+    background: var(--paper-subtle);
+  }
+
+  .topics a:is(:hover, :focus-visible) strong,
+  .topics a:is(:hover, :focus-visible) .topics__cta {
+    color: var(--signal);
   }
 
   .topics strong {
     color: var(--ink);
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.3;
     letter-spacing: -0.02em;
+    transition: color 140ms ease;
   }
 
-  .topics span {
+  .topics a > span {
     color: var(--ink-soft);
-    font-size: 0.82rem;
+    font-size: 0.925rem;
     line-height: 1.6;
+  }
+
+  .topics__cta {
+    margin-top: auto;
+    padding-top: 0.45rem;
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 140ms ease;
   }
 
   @media (max-width: 720px) {
     .topics {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-
-  h1 {
-    max-width: 12ch;
-    margin: 1rem 0 0;
-    font-size: clamp(2.7rem, 7vw, 6rem);
-    line-height: 0.92;
-    letter-spacing: -0.075em;
-  }
-
-  h1 em {
-    color: var(--signal);
-    font-style: normal;
-  }
-
-  .speaking-hero__lede {
-    max-width: 50rem;
-    margin: 1.5rem 0 0;
-    color: var(--ink-soft);
-    font-size: clamp(0.88rem, 1.6vw, 1rem);
-    line-height: 1.7;
-  }
-
-  .speaking-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .button {
-    display: inline-flex;
-    min-width: 12rem;
-    gap: 1.5rem;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.68rem 0.8rem;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: var(--text-label);
-    font-weight: 750;
-    text-decoration: none;
-  }
-
-  .button:is(:hover, :focus-visible) {
-    color: var(--inverse-ink);
-    background: var(--inverse-surface);
-  }
-
-  .button--primary {
-    border-color: var(--signal-fill);
-    color: var(--inverse-ink);
-    background: var(--signal-fill);
-  }
-
-  .button--primary:is(:hover, :focus-visible) {
-    background: var(--signal-fill-hover);
-  }
-
-  .podcasts {
-    background:
-      linear-gradient(90deg, transparent 49.95%, rgb(79 57 246 / 6%) 50%, transparent 50.05%),
-      var(--signal-soft);
-  }
-
-  @media (max-width: 520px) {
-    .button {
-      width: 100%;
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -4,14 +4,14 @@ import { getCollection } from "astro:content";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import SectionHeading from "@components/SectionHeading.astro";
 import ProjectGrid from "@components/ProjectGrid.astro";
 import { compareProjectsByPeriod } from "../../utils/project-sort";
 
 const SEO: SEO = {
-  title: "Projects in software and social impact | Dan Ferg",
+  title: "Projects and case studies | Dan Ferg",
+  headline: "Things I’ve built.",
   description:
-    "Case studies of products Dan Ferg has built and led, from civic tech and cattle marketplaces to developer tools and games: what worked, what didn't and why.",
+    "Products, client platforms, and side projects Dan Ferg has built — from civic tech and cattle marketplaces to developer tools and games.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/projects",
@@ -29,6 +29,7 @@ const projects = (await getCollection("projects"))
   }))
   .filter((project) => project.frontmatter.visible !== false)
   .sort(compareProjectsByPeriod);
+
 const itemListId = "https://danferg.com/projects#itemlist";
 const itemListJsonLd = {
   "@type": "ItemList",
@@ -47,33 +48,25 @@ const itemListJsonLd = {
 
 <BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
-  <main id="main-content" class="site-container archive">
-    <p class="breadcrumb"><a href="/">HOME</a> / PROJECTS</p>
-    <SectionHeading
-      as="h1"
-      eyebrow="ARCHIVE_01 // PROJECTS"
-      title="Useful things I’ve built."
-      description={`${projects.length} experiments, products, and ventures. Some shipped, some taught me what to build next; all started with a real problem.`}
-    />
-    <ProjectGrid projects={projects} />
+
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>Projects</p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          Things I’ve <em>built.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          {projects.length} products, client builds, and side experiments — what
+          worked, what didn’t, and what stuck.
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label="All projects">
+      <div class="band__frame">
+        <ProjectGrid projects={projects} />
+      </div>
+    </section>
   </main>
 </BaseLayout>
-
-<style>
-  .archive {
-    padding-block: clamp(2.75rem, 5vw, 4.75rem);
-  }
-
-  .breadcrumb {
-    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-  }
-
-  .breadcrumb a {
-    color: var(--ink);
-    text-underline-offset: 0.2em;
-  }
-
-
-</style>

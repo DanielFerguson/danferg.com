@@ -2,144 +2,106 @@
 import type SEO from "types/SEO";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
+import SectionHeading from "@components/SectionHeading.astro";
 import ConversionEndcap from "@components/ConversionEndcap.astro";
 import { createContactMailto } from "../utils/contact-links";
 
 const canonicalPath = "/consulting";
 const contactMailto = createContactMailto({
-  subject: "Product consulting or advisory enquiry",
-  body: "G'day Dan,\n\nI'm working through a product, traction, GTM, or software problem and would like to discuss it with you.\n\nThe useful context:\n",
+  subject: "Referral or quick question via danferg.com",
+  body: "G'day Dan,\n\nI know you're full-time at Spatial Media at the moment, so I'm reaching out for a referral or quick steer.\n\nHere's what we're working on:\n",
 });
 
 const faqs = [
   {
-    question: "Who do you work with?",
+    question: "Are you currently available for consulting?",
     answer:
-      "Founders, product leaders and mission-led teams with a difficult product, traction, go-to-market or software decision in front of them. That is often a promising product with weak evidence about what should happen next.",
+      "No — I’m full-time as Head of Innovation at Spatial Media, so my availability for outside work is very limited right now.",
   },
   {
-    question: "Where are you based, and do you work remotely?",
+    question: "Can you still help point us in the right direction?",
     answer:
-      "I’m based in Melbourne and work with teams across Australia and remotely.",
+      "Gladly. Send a short note about what you’re trying to solve and I’ll do my best to connect you with trusted product leaders, engineers, or strategists in my network.",
   },
   {
-    question: "What is the smallest way to start?",
+    question: "Do you still take on speaking or podcast invitations?",
     answer:
-      "A product and evidence diagnostic: a focused review of the problem, product, market signals, technical shape and assumptions. You leave with a short decision brief and a sequenced next move.",
+      "Occasionally, when timing works around my day job. Feel free to send the topic, audience, and dates.",
   },
   {
-    question: "Can you build the software as well as advise?",
+    question: "What should I include in a note?",
     answer:
-      "Yes. A build or validation sprint can cover prototyping and software delivery, as with the herd-book platform I built for the Murray Grey Association Australia.",
-  },
-  {
-    question: "What if the problem needs a specialist you’re not?",
-    answer:
-      "I’ll say so early and help you work out what kind of help you need.",
-  },
-  {
-    question: "How do we get started?",
-    answer:
-      "Send a short note about the problem, what you’ve tried and any timing. If I can help, we’ll agree the smallest engagement that can create clarity.",
+      "A couple of paragraphs on the problem, the kind of help you’re looking for, and your rough timeline. I’ll reply honestly with whether I know the right person to introduce you to.",
   },
 ];
+
 const SEO: SEO = {
-  title: "Product, traction and software consulting | Dan Ferg",
-  headline: "Turn tangled product decisions into useful progress.",
+  title: "Consulting availability and referrals | Dan Ferg",
+  headline: "Not currently taking on consulting.",
   description:
-    "Focused consulting for founders and mission-led teams navigating difficult product, traction, go-to-market, and software decisions.",
+    "Dan Ferg is full-time at Spatial Media with very limited consulting availability, and is happy to refer teams to trusted professionals in his network.",
   imageUrl: "/images/og-default.png",
-  imageAlt: "Dan Ferg — product consulting, advisory and software delivery",
+  imageAlt: "Dan Ferg — consulting availability and referrals",
   openGraph: { type: "website" },
   canonicalUrl: canonicalPath,
   schemaType: "WebPage",
-  mainEntityId: "https://danferg.com/consulting#service",
-  modifiedDate: "2026-09-27",
+  mainEntityId: "https://danferg.com/consulting#faq",
+  modifiedDate: "2026-11-22",
   breadcrumbs: [
     { name: "Home", url: "/" },
     { name: "Consulting", url: canonicalPath },
   ],
-  jsonLd: [{
-    "@type": "Service",
-    "@id": "https://danferg.com/consulting#service",
-    name: "Product, traction and software consulting",
-    description:
-      "Focused consulting and advisory for founders and mission-led teams navigating difficult product, traction, go-to-market, and software decisions.",
-    url: "https://danferg.com/consulting",
-    provider: { "@id": "https://danferg.com/#person" },
-    areaServed: [
-      { "@type": "Country", name: "Australia" },
-      { "@type": "Place", name: "Remote" },
-    ],
-    serviceType: [
-      "Product strategy",
-      "Traction and go-to-market advisory",
-      "Software product delivery",
-      "Technical product due diligence",
-    ],
-    audience: {
-      "@type": "Audience",
-      audienceType: "Founders, product leaders and mission-led teams",
+  jsonLd: [
+    {
+      "@type": "FAQPage",
+      "@id": "https://danferg.com/consulting#faq",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
     },
-  },
-  {
-    "@type": "FAQPage",
-    "@id": "https://danferg.com/consulting#faq",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
-  }],
+  ],
 };
 
-const engagements = [
+const waysToHelp = [
   {
-    code: "01",
-    title: "Product and evidence diagnostic",
+    title: "Referrals to trusted peers",
     description:
-      "A focused review of the problem, product, market signals, technical shape, and assumptions. You leave with a short decision brief and a sequenced next move.",
+      "I know good product thinkers, engineers, designers, and engagement specialists across Australia. Tell me what you need and I’ll introduce you if someone fits.",
   },
   {
-    code: "02",
-    title: "Build or validation sprint",
+    title: "Occasional speaking & podcasts",
     description:
-      "A bounded piece of product strategy, prototyping, software delivery, or customer learning designed to answer a useful question—not create an endless roadmap.",
+      "I still fit in the odd panel, podcast, or practical workshop on AI at work, community engagement, and building products.",
   },
   {
-    code: "03",
-    title: "Ongoing founder or product advisory",
+    title: "Rare, small advisory chats",
     description:
-      "A regular working cadence for decisions across product, traction, GTM, delivery, and technical trade-offs, with direct challenge and practical follow-through.",
-  },
-  {
-    code: "04",
-    title: "Speaking and practical workshops",
-    description:
-      "Straightforward sessions on useful product work, entrepreneurship, responsible technology, leadership, and turning difficult ideas into something testable.",
+      "My day job comes first, so I’m not taking on retainers or builds — though I’m always happy to trade notes with founders working on worthwhile problems.",
   },
 ];
 
 const proof = [
   {
-    meta: "CIVIC TECHNOLOGY / PRODUCT",
+    meta: "Civic technology",
     title: "Communiti Labs",
     description:
-      "From practitioner co-design to an engagement platform built around traceable evidence and responsible AI—and the lessons from winding it down.",
+      "Three years building community-feedback analysis tools for councils — and the honest story of winding it down.",
     href: "/projects/communitilabs",
   },
   {
-    meta: "CLIENT PLATFORM / DELIVERY",
+    meta: "Client platform",
     title: "Murray Grey Association Australia",
     description:
-      "A purpose-built public website and herd-book platform replacing fragile legacy infrastructure.",
+      "A custom website and searchable herd book replacing fragile legacy infrastructure.",
     href: "/projects/murray-grey-association-australia",
   },
   {
-    meta: "CRISIS RESPONSE / SOFTWARE",
+    meta: "Crisis response",
     title: "Helping Group",
     description:
-      "A small emergency-accommodation service that grew into durable community-response infrastructure.",
+      "Started during the 2020 bushfires and grew into practical digital infrastructure for communities in emergencies.",
     href: "/projects/helping-group",
   },
 ];
@@ -147,137 +109,226 @@ const proof = [
 
 <BaseLayout {...SEO}>
   <NavBar />
+
   <main id="main-content">
-    <header class="site-container consulting-hero" data-motion-intro-group>
-      <p class="eyebrow" data-motion-intro-item>// PRODUCT / TRACTION / GTM / SOFTWARE</p>
-      <h1 data-motion-intro-item>Turn tangled product decisions into <em>useful progress.</em></h1>
-      <p class="consulting-hero__lede" data-motion-intro-item>
-        I help founders and mission-led teams connect product, technology, and
-        go-to-market—then make the next move with confidence.
-      </p>
-      <div class="consulting-hero__actions" data-motion-intro-item>
-        <a class="button button--primary" href={contactMailto} data-motion-interactive>Describe the problem <span aria-hidden="true" data-motion-arrow>↗</span></a>
-        <a class="button" href="#engagements" data-motion-interactive>Ways to work together <span aria-hidden="true" data-motion-arrow data-motion-axis="y">↓</span></a>
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>
+          Availability &amp; referrals
+        </p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          Not currently taking on <em>consulting.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          I’m full-time as Head of Innovation at Spatial Media, so my
+          availability for outside work is very limited. If you need help with
+          product, software, or AI, send a note anyway — I’m happy to connect
+          you with trusted people in my network.
+        </p>
+        <div class="page-hero__actions" data-motion-intro-item>
+          <a
+            class="btn btn--primary"
+            href={contactMailto}
+            data-motion-interactive
+          >
+            Ask for a referral
+            <span aria-hidden="true" data-motion-arrow>↗</span>
+          </a>
+          <a class="btn btn--secondary" href="#proof" data-motion-interactive>
+            See past work
+            <span aria-hidden="true" data-motion-arrow data-motion-axis="y">
+              ↓
+            </span>
+          </a>
+        </div>
       </div>
     </header>
 
-    <section class="site-container fit" aria-labelledby="fit-title" data-motion-reveal>
-      <div>
-        <p class="eyebrow">01 // A GOOD TIME TO CALL</p>
-        <h2 id="fit-title">When another generic framework will not help.</h2>
-      </div>
-      <ul>
-        <li>You have a promising product but weak evidence about what should happen next.</li>
-        <li>The software, operating model, and go-to-market decision need to be made together.</li>
-        <li>You need a senior builder who can move between strategy, customers, and implementation.</li>
-        <li>A difficult initiative needs a smaller, testable first move rather than a larger plan.</li>
-      </ul>
-    </section>
-
-    <section id="engagements" class="engagements" aria-labelledby="engagements-title">
-      <div class="site-container page-section">
-        <p class="eyebrow">02 // WAYS TO WORK TOGETHER</p>
-        <h2 id="engagements-title">Start with the smallest engagement that can create clarity.</h2>
-        <div class="engagement-grid" data-motion-group>
-          {engagements.map((engagement) => (
-            <article data-motion-item>
-              <span>{engagement.code}</span>
-              <h3>{engagement.title}</h3>
-              <p>{engagement.description}</p>
-            </article>
-          ))}
+    <section class="band band--subtle" aria-labelledby="help-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="help-title"
+          eyebrow="How I can still help"
+          title="Happy to point you to good people."
+          description="Even when my calendar is full, a warm introduction to the right specialist usually saves weeks."
+        />
+        <div class="help-grid" data-motion-group>
+          {
+            waysToHelp.map((item) => (
+              <article class="help-card" data-motion-item>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <section class="site-container proof page-section" aria-labelledby="proof-title">
-      <p class="eyebrow">03 // EVIDENCE FROM THE WORK</p>
-      <h2 id="proof-title">The work is the credential.</h2>
-      <div class="proof-grid" data-motion-group>
-        {proof.map((item) => (
-          <a href={item.href} data-motion-item data-motion-interactive>
-            <small>{item.meta}</small>
-            <strong>{item.title}</strong>
-            <span>{item.description}</span>
-            <i aria-hidden="true" data-motion-arrow>→</i>
-          </a>
-        ))}
+    <section id="proof" class="band" aria-labelledby="proof-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="proof-title"
+          eyebrow="Past work"
+          title="A few things I’ve shipped."
+          description="Context on the kinds of problems and teams I know well."
+          actionHref="/projects"
+          actionLabel="All projects"
+        />
+        <div class="proof-grid" data-motion-group>
+          {
+            proof.map((item) => (
+              <a
+                href={item.href}
+                data-motion-item
+                data-motion-interactive
+                data-astro-prefetch="hover"
+              >
+                <small>{item.meta}</small>
+                <strong>{item.title}</strong>
+                <span>{item.description}</span>
+                <span class="proof-grid__cta" aria-hidden="true">
+                  Read story <span data-motion-arrow>→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
       </div>
     </section>
 
-    <section class="principles" aria-labelledby="principles-title">
-      <div class="site-container principles__grid" data-motion-reveal>
-        <div>
-          <p class="eyebrow">04 // HOW I WORK</p>
-          <h2 id="principles-title">Direct, evidence-led, and close to delivery.</h2>
+    <section class="band band--subtle faq" aria-labelledby="faq-title">
+      <div class="band__frame">
+        <SectionHeading
+          headingId="faq-title"
+          eyebrow="Questions"
+          title="Quick answers."
+        />
+        <div class="faq__list" data-motion-reveal>
+          {
+            faqs.map((faq) => (
+              <details>
+                <summary>{faq.question}</summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))
+          }
         </div>
-        <div>
-          <p>I will tell you when the useful answer is research, a prototype, a difficult product decision, or less software.</p>
-          <p>Recommendations stay connected to owners, constraints, and the next observable result. The aim is not more strategy theatre; it is a clearer decision and credible movement.</p>
-          <p>Based in Melbourne, I work across Australia and remotely. If specialist capability is needed outside my lane, I will say so early.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="site-container page-section faq" aria-labelledby="faq-title">
-      <p class="eyebrow">05 // QUESTIONS</p>
-      <h2 id="faq-title">Common questions.</h2>
-      <div class="faq__list" data-motion-reveal>
-        {faqs.map((faq) => (
-          <details>
-            <summary>{faq.question}</summary>
-            <p>{faq.answer}</p>
-          </details>
-        ))}
       </div>
     </section>
 
     <ConversionEndcap
       headingId="consulting-contact"
-      eyebrow="start --with-context"
-      title="Bring the useful problem. We’ll find the honest next move."
-      description="Send a short note with the decision you are facing, what you have already tried, and any deadline that matters. I’ll reply with whether I can help and the smallest sensible way to begin."
+      eyebrow="Referrals"
+      title="Looking for someone you can trust?"
+      description="Send a short note with what you’re working on and the kind of help you need. If someone in my network is a great fit, I’ll happily make the introduction."
       actions={[
         {
-          meta: "CONSULTING / ADVISORY",
+          meta: "Email",
           label: "gday@danferg.com",
           href: contactMailto,
-          description: "Include the problem, current evidence, and useful timing.",
+          description: "A couple of sentences on the problem and timing is plenty.",
         },
         {
-          meta: "CASE STUDIES",
-          label: "Review selected work",
+          meta: "Projects",
+          label: "Browse past work",
           href: "/projects",
-          description: "See the product, delivery, and evidence behind the offer.",
+          description: "See the products and platforms I’ve built.",
         },
       ]}
     />
   </main>
 </BaseLayout>
 
-
 <style>
-  .eyebrow {
-    margin: 0;
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.07em;
+  .help-grid,
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
   }
 
-  .consulting-hero {
-    padding-block: clamp(3.5rem, 8vw, 7rem);
+  .help-card {
+    padding: clamp(1.35rem, 3vw, 2rem);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .help-card h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  .help-card p {
+    margin: 0.65rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.925rem;
+    line-height: 1.6;
+  }
+
+  .proof-grid a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: clamp(1.35rem, 3vw, 2rem);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--paper);
+    text-decoration: none;
+    transition: background-color 140ms ease;
+  }
+
+  .proof-grid a:is(:hover, :focus-visible) {
+    background: var(--paper-subtle);
+  }
+
+  .proof-grid a:is(:hover, :focus-visible) strong,
+  .proof-grid a:is(:hover, :focus-visible) .proof-grid__cta {
+    color: var(--signal);
+  }
+
+  .proof-grid small {
+    color: var(--ink-muted);
+    font-size: 0.8125rem;
+  }
+
+  .proof-grid strong {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    transition: color 140ms ease;
+  }
+
+  .proof-grid a > span {
+    color: var(--ink-soft);
+    font-size: 0.925rem;
+    line-height: 1.6;
+  }
+
+  .proof-grid__cta {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 140ms ease;
   }
 
   .faq__list {
     max-width: 52rem;
-    margin-top: clamp(1.5rem, 3vw, 2.25rem);
-    border-top: 1px solid var(--line-strong);
+    border-top: 1px solid var(--line);
   }
 
   .faq details {
-    border-bottom: 1px solid var(--line-strong);
-    /* Lets the open/close height animate where supported. */
+    border-bottom: 1px solid var(--line);
     interpolate-size: allow-keywords;
   }
 
@@ -285,10 +336,10 @@ const proof = [
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    padding: 1.05rem 0;
+    padding: 1.15rem 0;
     color: var(--ink);
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1.02rem;
+    font-weight: 500;
     cursor: pointer;
     list-style: none;
   }
@@ -314,10 +365,10 @@ const proof = [
 
   .faq details p {
     max-width: 44rem;
-    margin: 0 0 1.15rem;
+    margin: 0 0 1.25rem;
     color: var(--ink-soft);
-    font-size: 0.88rem;
-    line-height: 1.7;
+    font-size: 0.94rem;
+    line-height: 1.65;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -334,227 +385,10 @@ const proof = [
     }
   }
 
-  .fit,
-  .principles__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);
-    gap: clamp(2rem, 5vw, 5rem);
-  }
-
-  h1 {
-    max-width: 13.5ch;
-    margin: 1rem 0 0;
-    font-size: clamp(2.5rem, 6vw, 5.35rem);
-    line-height: 0.94;
-    letter-spacing: -0.072em;
-  }
-
-  h1 em {
-    color: var(--signal);
-    font-style: normal;
-  }
-
-  .consulting-hero__lede {
-    max-width: 44rem;
-    margin: 1.5rem 0 0;
-    color: var(--ink-soft);
-    font-size: clamp(0.88rem, 1.6vw, 1rem);
-    line-height: 1.65;
-  }
-
-  .consulting-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .button {
-    display: inline-flex;
-    gap: 1.5rem;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 12rem;
-    padding: 0.68rem 0.8rem;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    font-size: var(--text-label);
-    font-weight: 750;
-    text-decoration: none;
-  }
-
-  .button:is(:hover, :focus-visible),
-  .button--primary {
-    color: var(--inverse-ink);
-    background: var(--signal-deep);
-  }
-
-  .button--primary:is(:hover, :focus-visible) {
-    border-color: var(--signal);
-    background: var(--signal-fill);
-  }
-
-  .principles p {
-    margin: 0;
-    color: var(--ink-soft);
-    line-height: 1.75;
-  }
-
-  .fit {
-    padding-block: clamp(3rem, 6vw, 5rem);
-    border-block: 1px solid var(--line-strong);
-  }
-
-  h2 {
-    max-width: 19ch;
-    margin: 0.85rem 0 0;
-    font-size: clamp(1.8rem, 4vw, 3.45rem);
-    line-height: 1;
-    letter-spacing: -0.065em;
-  }
-
-  .fit ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .fit li {
-    padding: 0.9rem 0;
-    border-bottom: 1px dotted var(--line-strong);
-    color: var(--ink-soft);
-    line-height: 1.65;
-  }
-
-  .fit li:first-child { padding-top: 0; }
-
-  .fit li::before {
-    margin-right: 0.65rem;
-    color: var(--signal);
-    content: "■";
-    font-size: 0.55rem;
-  }
-
-  .engagements,
-  .principles {
-    background: var(--paper-raised);
-  }
-
-  .engagements h2,
-  .proof h2 {
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .engagement-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--line-strong);
-    border-left: 1px solid var(--line-strong);
-  }
-
-  .engagement-grid article {
-    min-height: 15rem;
-    padding: clamp(1.25rem, 3vw, 2rem);
-    border-right: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line-strong);
-  }
-
-  .engagement-grid article > span,
-  .proof-grid small {
-    color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.07em;
-  }
-
-  .engagement-grid h3 {
-    max-width: 18ch;
-    margin: 2.5rem 0 0;
-    font-size: clamp(1.15rem, 2.5vw, 1.75rem);
-    line-height: 1.05;
-    letter-spacing: -0.05em;
-  }
-
-  .engagement-grid p {
-    max-width: 55ch;
-    margin: 0.8rem 0 0;
-    color: var(--ink-soft);
-    font-size: 0.75rem;
-    line-height: 1.7;
-  }
-
-  .proof-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line-strong);
-    border-left: 1px solid var(--line-strong);
-  }
-
-  .proof-grid a {
-    display: grid;
-    min-height: 17rem;
-    padding: 1.4rem;
-    border-right: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line-strong);
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  .proof-grid a:is(:hover, :focus-visible) {
-    color: var(--inverse-ink);
-    background: var(--inverse-surface);
-  }
-
-  .proof-grid strong {
-    align-self: end;
-    margin-top: 2rem;
-    font-size: 1.15rem;
-  }
-
-  .proof-grid span {
-    margin-top: 0.75rem;
-    color: var(--ink-soft);
-    font-size: var(--text-label);
-    line-height: 1.65;
-  }
-
-  .proof-grid a:is(:hover, :focus-visible) span { color: var(--inverse-muted); }
-
-  .proof-grid i {
-    align-self: end;
-    justify-self: end;
-    margin-top: 1.25rem;
-    font-style: normal;
-  }
-
-  .principles__grid {
-    padding-block: clamp(3.5rem, 7vw, 6rem);
-  }
-
-  .principles p + p { margin-top: 1.15rem; }
-
-  @media (max-width: 780px) {
-    .fit,
-    .principles__grid,
+  @media (max-width: 820px) {
+    .help-grid,
     .proof-grid {
       grid-template-columns: 1fr;
-    }
-
-    .engagement-grid { grid-template-columns: 1fr; }
-    .proof-grid a { min-height: 13rem; }
-  }
-
-  @media (max-width: 620px) {
-    .consulting-hero {
-      padding-block: 2.75rem 3.5rem;
-    }
-
-    h1 {
-      font-size: clamp(2.65rem, 14vw, 4.4rem);
-    }
-
-    .button {
-      width: 100%;
     }
   }
 </style>

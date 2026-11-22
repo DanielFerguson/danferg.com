@@ -1,0 +1,73 @@
+---
+/**
+ * Seamless WebGL2 "Signal from Noise" GPU particle field that flows directly
+ * into the hero canvas with zero borders or hard edges.
+ */
+---
+
+<canvas
+  class="hero-signal-field"
+  data-hero-signal-field
+  aria-hidden="true"
+></canvas>
+
+<script>
+  const saveData =
+    (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection?.saveData === true;
+
+  const disposers = new Set<() => void>();
+
+  const mountAll = async () => {
+    if (saveData) return;
+    const canvases = Array.from(
+      document.querySelectorAll<HTMLCanvasElement>("[data-hero-signal-field]"),
+    );
+    if (canvases.length === 0) return;
+
+    try {
+      const { mountSignalFlow } = await import(
+        "../scripts/hero-experiments/signal-flow"
+      );
+      for (const canvas of canvases) {
+        const host =
+          canvas.closest<HTMLElement>("[data-hero-signal-host]") ?? canvas;
+        disposers.add(
+          mountSignalFlow(canvas, {
+            interactionTarget: host,
+            seamless: true,
+          }),
+        );
+      }
+    } catch {
+      // If WebGL2 is unavailable, the clean hero background remains intact.
+    }
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(() => void mountAll(), { timeout: 350 });
+  } else {
+    setTimeout(() => void mountAll(), 60);
+  }
+
+  window.addEventListener(
+    "pagehide",
+    () => {
+      disposers.forEach((dispose) => dispose());
+      disposers.clear();
+    },
+    { once: true },
+  );
+</script>
+
+<style>
+  .hero-signal-field {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>

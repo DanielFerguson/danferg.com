@@ -30,32 +30,6 @@ const {
   data-hero-portrait
   data-hero-shader-state="fallback"
 >
-  <svg
-    class="hero-portrait__filters"
-    width="0"
-    height="0"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <defs>
-      <!-- The source artwork has four flat colours. This matrix maps its dark
-           palette exactly to the corresponding light palette for fallbacks. -->
-      <filter
-        id="hero-portrait-light-palette"
-        color-interpolation-filters="sRGB"
-      >
-        <feColorMatrix
-          type="matrix"
-          values="
-            -1.10921766 0 1.52904725 0 -0.33579077
-            -0.41914106 0 0.64575265 0 -0.09475352
-            -0.51828901 1 1.03382391 0 -0.05448682
-            0 0 0 1 0
-          "
-        />
-      </filter>
-    </defs>
-  </svg>
   <script is:inline>
     (() => {
       const portrait = document.currentScript?.parentElement;
@@ -178,17 +152,12 @@ const {
 <style>
   .hero-portrait {
     position: relative;
-    /*
-     * Beside a headline the portrait is a tall panel. Its height follows the
-     * homepage headline block as the viewport widens: 30rem up to about 1024px
-     * wide, rising to about 555px from 1440px. Pages share this so every hero
-     * portrait has the same shape; stacked layouts switch to 4:3 below.
-     */
-    height: clamp(30rem, calc(30rem + 18vw - 184px), 34.7rem);
+    height: clamp(23rem, 33vw, 29rem);
     margin: 0;
     overflow: hidden;
-    border-block: 1px solid var(--line-strong);
-    background: var(--signal-soft);
+    border: 1px solid var(--signal-line);
+    border-radius: var(--radius-md);
+    background: rgb(58 38 178);
   }
 
   @media (max-width: 900px) {
@@ -198,11 +167,6 @@ const {
     }
   }
 
-  .hero-portrait__filters {
-    position: absolute;
-    pointer-events: none;
-  }
-
   .hero-portrait__image {
     position: absolute;
     inset: 0;
@@ -210,22 +174,18 @@ const {
     height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
-    filter: url("#hero-portrait-light-palette");
-  }
-
-  :global(:root[data-theme="dark"]) .hero-portrait__image {
-    filter: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme])) .hero-portrait__image {
-      filter: none;
-    }
+    filter: brightness(1.32) saturate(1.06);
   }
 
   .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],
   .hero-portrait[data-hero-portrait][data-hero-shader-state="ready"] {
-    background: rgb(0 12 56);
+    background: rgb(58 38 178);
+  }
+
+  :global(:root[data-theme="dark"]) .hero-portrait,
+  :global(:root[data-theme="dark"]) .hero-portrait[data-hero-portrait][data-hero-shader-state="loading"],
+  :global(:root[data-theme="dark"]) .hero-portrait[data-hero-portrait][data-hero-shader-state="ready"] {
+    background: rgb(34 22 114);
   }
 
   .hero-portrait[data-hero-shader-state="loading"]

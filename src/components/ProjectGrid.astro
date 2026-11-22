@@ -21,9 +21,8 @@ const { projects } = Astro.props as Props;
 
 <div class="project-grid" data-motion-group>
   {
-    projects.map((project, index) => {
+    projects.map((project) => {
       const isHighlight = Boolean(project.frontmatter.highlight);
-      const highlightDiagram = project.frontmatter.highlightDiagram;
 
       return (
         <a
@@ -36,30 +35,33 @@ const { projects } = Astro.props as Props;
           data-motion-interactive
           data-astro-prefetch="hover"
         >
-          <span class="project-cell__copy">
-            <span class="project-cell__top">
-              <span>
-                {isHighlight ? "FEATURED" : "PROJECT"}_
-                {String(index + 1).padStart(2, "0")}
+          <span class="project-cell__top">
+            <span class="project-cell__meta">
+              {isHighlight && <span class="project-cell__badge">Featured</span>}
+              {project.frontmatter.status && (
+                <span class="project-cell__status">
+                  {project.frontmatter.status}
+                </span>
+              )}
+            </span>
+            {project.frontmatter.period && (
+              <span class="project-cell__period">
+                {project.frontmatter.period}
               </span>
-              <span>{project.frontmatter.period || <span aria-hidden="true">↗</span>}</span>
-            </span>
-            <strong data-motion-target>{project.frontmatter.title}</strong>
-            <span class="project-cell__description">
-              {project.frontmatter.description}
-            </span>
-            {project.frontmatter.role && (
-              <span class="project-cell__role">{project.frontmatter.role}</span>
             )}
-            <span class="project-cell__status">
-              <i aria-hidden="true" />
-              {project.frontmatter.status || (isHighlight ? "Active / flagship" : "Case study")}
-            </span>
           </span>
 
-          {isHighlight && highlightDiagram && (
-            <pre class="project-cell__diagram" aria-hidden="true">{highlightDiagram.trim()}</pre>
-          )}
+          <strong class="project-cell__title" data-motion-target>
+            {project.frontmatter.title}
+          </strong>
+
+          <span class="project-cell__description">
+            {project.frontmatter.description}
+          </span>
+
+          <span class="project-cell__cta" aria-hidden="true">
+            Read story <span data-motion-arrow>→</span>
+          </span>
         </a>
       );
     })
@@ -70,131 +72,128 @@ const { projects } = Astro.props as Props;
   .project-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--line-strong);
-    border-left: 1px solid var(--line-strong);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
   }
 
   .project-cell {
-    min-height: 14rem;
-    padding: clamp(1.15rem, 2.5vw, 1.65rem);
-    border-right: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line-strong);
-    color: var(--ink);
-    background: transparent;
-    text-decoration: none;
-    transition:
-      background-color 140ms ease,
-      color 140ms ease;
-  }
-
-  .project-cell__copy {
     display: flex;
-    min-height: 100%;
     flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.4rem, 3vw, 2.25rem);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--paper);
+    text-decoration: none;
+    transition: background-color 140ms ease;
   }
 
   .project-cell:is(:hover, :focus-visible) {
-    color: var(--inverse-ink);
-    background: var(--inverse-surface);
+    background: var(--paper-subtle);
   }
 
-  .project-cell:is(:hover, :focus-visible) .project-cell__description,
-  .project-cell:is(:hover, :focus-visible) .project-cell__top {
-    color: var(--inverse-muted);
+  .project-cell:is(:hover, :focus-visible) .project-cell__title,
+  .project-cell:is(:hover, :focus-visible) .project-cell__cta {
+    color: var(--signal);
   }
 
   .project-cell--highlight {
-    display: grid;
+    position: relative;
     grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.7fr);
-    gap: clamp(2rem, 6vw, 6rem);
-    min-height: 15rem;
-    background: linear-gradient(115deg, var(--signal-soft), var(--paper-raised));
+    background: linear-gradient(
+      125deg,
+      color-mix(in srgb, var(--signal-soft) 72%, var(--paper)) 0%,
+      color-mix(in srgb, var(--signal-pink-soft) 45%, var(--paper)) 100%
+    );
+  }
+
+  .project-cell--highlight::before {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    left: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--signal) 0%, var(--signal-pink) 100%);
+    content: "";
   }
 
   .project-cell--highlight:is(:hover, :focus-visible) {
-    background: var(--signal-fill-hover);
+    background: linear-gradient(
+      125deg,
+      color-mix(in srgb, var(--signal-soft) 92%, var(--paper)) 0%,
+      color-mix(in srgb, var(--signal-pink-soft) 68%, var(--paper)) 100%
+    );
   }
 
   .project-cell__top {
     display: flex;
+    gap: 0.75rem;
+    align-items: center;
     justify-content: space-between;
-    margin-bottom: auto;
-    color: var(--ink-muted);
+    margin-bottom: 0.35rem;
     font-size: var(--text-label);
-    letter-spacing: 0.06em;
   }
 
-  strong {
-    margin-top: 2rem;
-    font-size: clamp(1.4rem, 3vw, 2.45rem);
-    line-height: 1;
-    letter-spacing: -0.055em;
+  .project-cell__meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
   }
 
-  .project-cell--highlight strong {
-    color: var(--signal-emphasis);
-    font-size: clamp(1.8rem, 4vw, 3.2rem);
-  }
-
-  .project-cell--highlight:is(:hover, :focus-visible) strong {
-    color: var(--inverse-ink);
-  }
-
-  .project-cell__description {
-    display: -webkit-box;
-    max-width: 62ch;
-    margin-top: 0.75rem;
-    overflow: hidden;
-    color: var(--ink-soft);
+  .project-cell__badge {
+    padding: 0.12rem 0.55rem;
+    border: 1px solid var(--signal-line);
+    border-radius: 999px;
+    color: var(--signal);
+    background: var(--paper);
     font-size: 0.75rem;
-    line-height: 1.55;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    font-weight: 500;
   }
 
   .project-cell__status {
-    margin-top: 0.55rem;
-    font-size: var(--text-label);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .project-cell__status i {
-    display: inline-block;
-    width: 0.42rem;
-    height: 0.42rem;
-    margin-right: 0.45rem;
-    background: var(--signal);
-  }
-
-  .project-cell__role {
-    margin-top: 1.15rem;
     color: var(--ink-muted);
-    font-size: var(--text-label);
-    font-weight: 700;
-    letter-spacing: 0.035em;
-    line-height: 1.5;
-    text-transform: uppercase;
+    font-size: 0.8125rem;
   }
 
-  .project-cell:is(:hover, :focus-visible) .project-cell__role {
-    color: var(--inverse-muted);
+  .project-cell__period {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
-  .project-cell__diagram {
-    align-self: center;
-    justify-self: end;
-    margin: 0;
-    color: var(--signal);
-    font: inherit;
-    font-size: clamp(0.65rem, 1.2vw, 0.82rem);
-    font-weight: 550;
-    line-height: 1.65;
+  .project-cell__title {
+    color: var(--ink);
+    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    transition: color 140ms ease;
   }
 
-  .project-cell--highlight:is(:hover, :focus-visible) .project-cell__diagram {
-    color: var(--signal-bright);
+  .project-cell--highlight .project-cell__title {
+    font-size: clamp(1.55rem, 2.8vw, 2rem);
+  }
+
+  .project-cell__description {
+    max-width: 56ch;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .project-cell__cta {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.65rem;
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 140ms ease;
   }
 
   @media (max-width: 760px) {
@@ -202,19 +201,8 @@ const { projects } = Astro.props as Props;
       grid-template-columns: 1fr;
     }
 
-    .project-cell,
-    .project-cell--highlight {
-      min-height: 12.5rem;
-    }
-
-    .project-cell--highlight {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .project-cell__diagram {
-      justify-self: start;
-      font-size: clamp(0.58rem, 2.7vw, 0.76rem);
+    .project-cell {
+      padding: 1.35rem 1.15rem;
     }
   }
 </style>

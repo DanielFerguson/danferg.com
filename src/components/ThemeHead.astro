@@ -4,7 +4,7 @@ interface Props {
   darkColor?: string;
 }
 
-const { lightColor = "#f8f7fc", darkColor = "#11101a" } = Astro.props;
+const { lightColor = "#ffffff", darkColor = "#111018" } = Astro.props;
 ---
 
 <meta
@@ -43,8 +43,8 @@ const { lightColor = "#f8f7fc", darkColor = "#11101a" } = Astro.props;
       themeColor.setAttribute(
         "content",
         theme === "dark"
-          ? themeColor.dataset.darkColor || "#11101a"
-          : themeColor.dataset.lightColor || "#f8f7fc",
+          ? themeColor.dataset.darkColor || "#111018"
+          : themeColor.dataset.lightColor || "#ffffff",
       );
     }
   })();

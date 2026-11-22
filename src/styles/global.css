@@ -7,34 +7,42 @@
    * theme toggle (see ThemeHead.astro), which sets data-theme on <html>.
    */
   color-scheme: light dark;
-  --paper: light-dark(#f8f7fc, #11101a);
-  --paper-raised: light-dark(#fdfcff, #191725);
-  --paper-muted: light-dark(#aaa7bb, #aaa4bd);
-  --ink: light-dark(#181d27, #f5f2ff);
-  --ink-soft: light-dark(#414651, #d1ccdf);
-  /* #666a74 keeps small text at 4.5:1 or better on every light surface. */
-  --ink-muted: light-dark(#666a74, #aaa4b9);
-  --line: light-dark(rgb(79 57 246 / 18%), rgb(158 140 255 / 28%));
-  --line-strong: light-dark(rgb(27 16 112 / 48%), rgb(203 192 255 / 48%));
+  --paper: light-dark(#ffffff, #111018);
+  --paper-subtle: light-dark(#faf9fc, #171522);
+  --paper-raised: light-dark(#f3f1f8, #1f1c2e);
+  --paper-muted: light-dark(#a39db3, #8f88a6);
+  --ink: light-dark(#1a1726, #f6f4ff);
+  --ink-soft: light-dark(#524c63, #c4bdd9);
+  /* Keeps small text at 4.5:1 or better on light and dark surfaces. */
+  --ink-muted: light-dark(#6c6580, #9890b2);
+  --line: light-dark(#e9e6f0, rgb(208 194 255 / 12%));
+  --line-strong: light-dark(#d8d2e6, rgb(208 194 255 / 20%));
+  /* Communiti Labs purple & orchid pink palette. */
   --signal: light-dark(#4f39f6, #a997ff);
-  --signal-emphasis: light-dark(#1b1070, #b6a8ff);
-  --signal-fill: light-dark(#4f39f6, #6049d2);
-  --signal-fill-hover: light-dark(#1b1070, #4935ad);
-  --signal-bright: light-dark(#cc66ff, #e49aff);
-  --signal-deep: light-dark(#1b1070, #251a63);
-  --signal-soft: light-dark(#ede9ff, #25203d);
-  --signal-line: light-dark(#dbd5ff, #554a7e);
-  --inverse-ink: #f8f7fc;
-  --inverse-muted: #aaa7bb;
-  --inverse-surface: light-dark(#181d27, #29213f);
-  --code-surface: light-dark(#181d27, #09080e);
-  --code-ink: light-dark(#f8f7fc, #f5f2ff);
-  /* Smallest text size on the site: kickers, metadata, tags and captions. */
-  --text-label: 0.75rem;
-  --content-width: 72rem;
+  --signal-emphasis: light-dark(#1b1070, #c4b8ff);
+  --signal-fill: light-dark(#4f39f6, #5c46ff);
+  --signal-fill-hover: light-dark(#3b26d9, #6e5aff);
+  --signal-border: light-dark(#3b26d9, #7d6bff);
+  --signal-pink: light-dark(#cc66ff, #e49aff);
+  --signal-pink-soft: light-dark(#faeeff, rgb(204 102 255 / 16%));
+  --signal-bright: #e6a3ff;
+  --signal-deep: #151128;
+  --signal-indigo: #1b1070;
+  --signal-soft: light-dark(#f1eeff, rgb(79 57 246 / 18%));
+  --signal-line: light-dark(#ddd6ff, rgb(169 151 255 / 30%));
+  --inverse-ink: #faf9ff;
+  --inverse-muted: #b1a9ca;
+  --inverse-surface: #151128;
+  --code-surface: #151128;
+  --code-ink: #f6f4ff;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  /* Small metadata, eyebrows and captions. */
+  --text-label: 0.8125rem;
+  --content-width: 75rem;
   color: var(--ink);
   background: var(--paper);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-synthesis: none;
 }
 
@@ -44,25 +52,30 @@
  */
 @supports not (color: light-dark(#000, #fff)) {
   :root {
-    --paper: #f8f7fc;
-    --paper-raised: #fdfcff;
-    --paper-muted: #aaa7bb;
-    --ink: #181d27;
-    --ink-soft: #414651;
-    --ink-muted: #666a74;
-    --line: rgb(79 57 246 / 18%);
-    --line-strong: rgb(27 16 112 / 48%);
+    --paper: #ffffff;
+    --paper-subtle: #faf9fc;
+    --paper-raised: #f3f1f8;
+    --paper-muted: #a39db3;
+    --ink: #1a1726;
+    --ink-soft: #524c63;
+    --ink-muted: #6c6580;
+    --line: #e9e6f0;
+    --line-strong: #d8d2e6;
     --signal: #4f39f6;
     --signal-emphasis: #1b1070;
     --signal-fill: #4f39f6;
-    --signal-fill-hover: #1b1070;
-    --signal-bright: #cc66ff;
-    --signal-deep: #1b1070;
-    --signal-soft: #ede9ff;
-    --signal-line: #dbd5ff;
-    --inverse-surface: #181d27;
-    --code-surface: #181d27;
-    --code-ink: #f8f7fc;
+    --signal-fill-hover: #3b26d9;
+    --signal-border: #3b26d9;
+    --signal-pink: #cc66ff;
+    --signal-pink-soft: #faeeff;
+    --signal-bright: #e6a3ff;
+    --signal-deep: #151128;
+    --signal-indigo: #1b1070;
+    --signal-soft: #f1eeff;
+    --signal-line: #ddd6ff;
+    --inverse-surface: #151128;
+    --code-surface: #151128;
+    --code-ink: #f6f4ff;
   }
 }
 
@@ -87,15 +100,9 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
-  background:
-    linear-gradient(
-      to right,
-      transparent calc(50% - 0.5px),
-      rgb(79 57 246 / 4%) 50%,
-      transparent calc(50% + 0.5px)
-    ),
-    var(--paper);
-  font-size: 0.875rem;
+  background: var(--paper);
+  font-size: 1rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -159,22 +166,193 @@ a:focus-visible {
 }
 
 .page-section {
-  padding-block: clamp(3.5rem, 7vw, 6rem);
+  padding-block: clamp(3.5rem, 6.5vw, 5.5rem);
+}
+
+/* Architectural band framing with quiet vertical rails and corner ticks. */
+.band {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.band--subtle {
+  background: var(--paper-subtle);
+}
+
+.band--dark {
+  border-bottom-color: rgb(204 102 255 / 16%);
+  color: var(--inverse-ink);
+  background: var(--signal-deep);
+}
+
+.band__frame {
+  position: relative;
+  width: min(calc(100% - 2.5rem), var(--content-width));
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4.5vw, 3.75rem);
+  padding-block: clamp(3.5rem, 6.5vw, 5.5rem);
+  border-inline: 1px solid var(--line);
+}
+
+/* Delicate registration ticks at bottom corners of framed bands. */
+.band__frame::before,
+.band__frame::after {
+  position: absolute;
+  bottom: -4px;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
+}
+
+.band__frame::before {
+  left: -4px;
+}
+
+.band__frame::after {
+  right: -4px;
+}
+
+.band--dark .band__frame {
+  border-inline-color: rgb(228 154 255 / 14%);
+}
+
+.band--dark .band__frame::before,
+.band--dark .band__frame::after {
+  background:
+    linear-gradient(rgb(228 154 255 / 40%), rgb(228 154 255 / 40%)) center / 1px 100% no-repeat,
+    linear-gradient(rgb(228 154 255 / 40%), rgb(228 154 255 / 40%)) center / 100% 1px no-repeat;
 }
 
 .ascii-rule {
-  height: 1rem;
-  overflow: hidden;
+  height: 1px;
   border: 0;
-  color: var(--ink-muted);
-  font-size: 0.65rem;
-  line-height: 1rem;
-  letter-spacing: 0.14em;
-  white-space: nowrap;
+  background: var(--line);
 }
 
-.ascii-rule::before {
-  content: "................................................................................................................................................................................................................................";
+/* Shared page hero and button primitives across top-level pages. */
+.page-hero-band {
+  background:
+    radial-gradient(
+      circle at 82% 24%,
+      rgb(204 102 255 / 9%) 0%,
+      rgb(79 57 246 / 5%) 34%,
+      transparent 64%
+    ),
+    var(--paper);
+}
+
+.page-hero {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.page-hero__eyebrow {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.page-hero__eyebrow::before {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--signal), var(--signal-pink));
+  content: "";
+}
+
+.page-hero__title {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.35rem, 5vw, 3.85rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+.page-hero__title em {
+  color: var(--signal);
+  background: linear-gradient(
+    95deg,
+    var(--signal) 0%,
+    #7c4dff 55%,
+    var(--signal-pink) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: normal;
+}
+
+.page-hero__lede {
+  max-width: 38rem;
+  margin: 1.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.35vw, 1.08rem);
+  line-height: 1.65;
+}
+
+.page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  height: 2.75rem;
+  gap: 0.55rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+.btn--primary {
+  border: 1px solid transparent;
+  color: var(--inverse-ink);
+  background: var(--signal-fill);
+}
+
+.btn--primary:is(:hover, :focus-visible) {
+  background: var(--signal-fill-hover);
+}
+
+.btn--secondary {
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.btn--secondary:is(:hover, :focus-visible) {
+  border-color: var(--signal);
+  color: var(--signal);
+  background: var(--signal-soft);
+}
+
+.btn--white {
+  border: 1px solid rgb(255 255 255 / 20%);
+  color: var(--signal-indigo);
+  background: #ffffff;
+}
+
+.btn--white:is(:hover, :focus-visible) {
+  background: #f2eeff;
 }
 
 .prose-shell {
@@ -425,8 +603,13 @@ a:focus-visible {
 
 @media (max-width: 640px) {
   .site-container,
-  .prose-shell {
+  .prose-shell,
+  .band__frame {
     width: min(calc(100% - 1.5rem), var(--content-width));
+  }
+
+  .band__frame {
+    padding-inline: 1rem;
   }
 
   body {

@@ -1,0 +1,321 @@
+---
+import type SEO from "types/SEO";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NavBar from "../components/NavBar.astro";
+
+const SEO: SEO = {
+  title: "Hero interaction experiments | Dan Ferg",
+  headline: "Hero interaction lab.",
+  description:
+    "Four interactive WebGL2 and canvas hero experiments to compare side by side.",
+  imageUrl: "/images/og-default.png",
+  robots: "noindex,nofollow",
+  openGraph: { type: "website" },
+  canonicalUrl: "/test",
+};
+
+const experiments = [
+  {
+    id: "topo",
+    number: "01",
+    title: "3D Topographical Contour Field",
+    subtitle: "Spatial Media + Snake Valley",
+    description:
+      "Real-time GLSL elevation ridges with anti-aliased contour lines and hillshading. Moving your cursor sculpts the terrain like a magnetic elevation lens; clicking sends a seismic contour pulse.",
+    hint: "Move cursor to sculpt terrain · Click to pulse",
+  },
+  {
+    id: "signal",
+    number: "02",
+    title: "Signal from Noise (GPU Flow Field)",
+    subtitle: "Communiti Labs + systems thinking",
+    description:
+      "2,600 GPU particles drifting through curl noise with framebuffer trail persistence. Near your cursor, scattered noise snaps into crisp, coherent orbital streamlines; clicking fires a harmonic shockwave.",
+    hint: "Hover to pull noise into signal · Click to re-seed",
+  },
+  {
+    id: "dither",
+    number: "03",
+    title: "Raymarched Dithered Sculpture",
+    subtitle: "Evolved signature of the dithered hero",
+    description:
+      "3D raymarched twisted torus and orbiting metaballs passed through a crisp 4×4 Bayer ordered dither shader in five bright Communiti purple & pink tones. Your cursor spawns a 3D metaball that merges smoothly into the sculpture.",
+    hint: "Move cursor to merge & bend · Click to split",
+  },
+  {
+    id: "waypoints",
+    number: "04",
+    title: "Living Vector & Waypoint Field",
+    subtitle: "ATC state machine + spatial routing",
+    description:
+      "Autonomous vector craft steering between glowing beacons over an architectural radar grid. Hovering bends nearby flight paths cleanly; clicking drops new pink waypoints that craft immediately route through.",
+    hint: "Hover to bend trajectories · Click to drop a waypoint",
+  },
+];
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>
+          Interactive sandbox
+        </p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          Hero interaction <em>lab.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          All four concepts rendered live at hero scale in the Communiti purple
+          and pink palette. Move your cursor, click inside each frame, and toggle
+          dark mode in the header to compare how they feel.
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label="Interactive hero experiments">
+      <div class="band__frame experiments">
+        {
+          experiments.map((exp) => (
+            <article class="exp-card">
+              <div class="exp-card__header">
+                <div>
+                  <p class="exp-card__meta">
+                    <span>{exp.number}</span> · {exp.subtitle}
+                  </p>
+                  <h2>{exp.title}</h2>
+                </div>
+                <p class="exp-card__desc">{exp.description}</p>
+              </div>
+
+              <div class="exp-card__stage">
+                <div class="exp-card__hero-mock">
+                  <div class="exp-card__mock-copy" aria-hidden="true">
+                    <span class="exp-card__mock-eyebrow">
+                      Melbourne, Australia
+                    </span>
+                    <p class="exp-card__mock-h1">
+                      I build <em>practical software</em> for real-world
+                      problems.
+                    </p>
+                    <p class="exp-card__mock-lede">
+                      I’m Dan Ferg, a software builder in Melbourne. I’m
+                      full-time as Head of Innovation at Spatial Media.
+                    </p>
+                  </div>
+
+                  <div class="exp-card__canvas-wrap">
+                    <canvas
+                      class="exp-card__canvas"
+                      data-experiment={exp.id}
+                      aria-label={exp.title}
+                    />
+                    <span class="exp-card__hint">{exp.hint}</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import { mountTopoContour } from "../scripts/hero-experiments/topo-contour";
+  import { mountSignalFlow } from "../scripts/hero-experiments/signal-flow";
+  import { mountDitherSculpture } from "../scripts/hero-experiments/dither-sculpture";
+  import { mountVectorWaypoints } from "../scripts/hero-experiments/vector-waypoints";
+
+  const mounts: Record<string, (canvas: HTMLCanvasElement) => () => void> = {
+    topo: mountTopoContour,
+    signal: mountSignalFlow,
+    dither: mountDitherSculpture,
+    waypoints: mountVectorWaypoints,
+  };
+
+  const disposers: Array<() => void> = [];
+
+  document
+    .querySelectorAll<HTMLCanvasElement>("canvas[data-experiment]")
+    .forEach((canvas) => {
+      const id = canvas.dataset.experiment;
+      if (!id || !(id in mounts)) return;
+      try {
+        disposers.push(mounts[id](canvas));
+      } catch (err) {
+        console.error(`Failed to mount experiment ${id}:`, err);
+      }
+    });
+
+  window.addEventListener(
+    "pagehide",
+    () => {
+      disposers.forEach((dispose) => dispose());
+      disposers.length = 0;
+    },
+    { once: true },
+  );
+</script>
+
+<style>
+  .experiments {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .exp-card {
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .exp-card__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 1fr);
+    gap: 1.25rem 3rem;
+    align-items: end;
+    padding: clamp(1.35rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .exp-card__meta {
+    margin: 0 0 0.45rem;
+    color: var(--ink-muted);
+    font-size: 0.84rem;
+  }
+
+  .exp-card__meta span {
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  .exp-card__desc {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.925rem;
+    line-height: 1.6;
+  }
+
+  .exp-card__stage {
+    padding: clamp(1.35rem, 3vw, 2.25rem);
+    background:
+      radial-gradient(
+        circle at 80% 30%,
+        rgb(204 102 255 / 9%) 0%,
+        rgb(79 57 246 / 5%) 34%,
+        transparent 62%
+      ),
+      var(--paper);
+  }
+
+  .exp-card__hero-mock {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+    gap: clamp(1.5rem, 4vw, 3.25rem);
+    align-items: center;
+  }
+
+  .exp-card__mock-eyebrow {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .exp-card__mock-eyebrow::before {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--signal), var(--signal-pink));
+    content: "";
+  }
+
+  .exp-card__mock-h1 {
+    max-width: 16ch;
+    margin: 0.9rem 0 0;
+    color: var(--ink);
+    font-size: clamp(1.85rem, 3.4vw, 2.85rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .exp-card__mock-h1 em {
+    color: var(--signal);
+    background: linear-gradient(
+      95deg,
+      var(--signal) 0%,
+      #7c4dff 55%,
+      var(--signal-pink) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+  }
+
+  .exp-card__mock-lede {
+    max-width: 30rem;
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .exp-card__canvas-wrap {
+    position: relative;
+    height: clamp(21rem, 31vw, 26.5rem);
+    overflow: hidden;
+    border: 1px solid var(--signal-line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
+  }
+
+  .exp-card__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .exp-card__hint {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: blur(8px);
+    font-size: 0.74rem;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .exp-card__header,
+    .exp-card__hero-mock {
+      grid-template-columns: 1fr;
+    }
+
+    .exp-card__canvas-wrap {
+      height: 22rem;
+    }
+  }
+</style>

@@ -3,7 +3,6 @@ import type SEO from "types/SEO";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 import ArchiveFilters from "@components/ArchiveFilters.astro";
 import { loadArchive, tagCounts } from "../../../data/article-index";
@@ -80,23 +79,30 @@ const itemListJsonLd = {
 
 <BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
-  <main id="main-content" class="site-container archive">
-    <p class="breadcrumb"><a href="/">HOME</a> / <a href="/articles">ARTICLES</a> / {definition.label.toUpperCase()}</p>
-    <SectionHeading
-      as="h1"
-      eyebrow={`ARCHIVE_02 // TAG`}
-      title={definition.label}
-      description={`${definition.description} ${matching.length} ${matching.length === 1 ? "article" : "articles"}.`}
-    />
-    <ArchiveFilters tags={chips} total={archive.length} activeTag={tag} />
-    <ContentList items={items} orderedLabel={`Articles tagged ${definition.label}`} />
-    {relatedProjects.length > 0 && (
-      <section class="tag-projects" aria-labelledby="tag-projects-title">
-        <h2 id="tag-projects-title">Related work</h2>
-        <p>Case studies where these ideas were put into practice.</p>
-        <ContentList items={relatedProjects} orderedLabel={`Case studies related to ${definition.label}`} />
-      </section>
-    )}
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>Topic</p>
+        <h1 class="page-hero__title" data-motion-intro-item>{definition.label}</h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          {definition.description} ({matching.length} {matching.length === 1 ? "article" : "articles"})
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label={`Articles tagged ${definition.label}`}>
+      <div class="band__frame">
+        <ArchiveFilters tags={chips} total={archive.length} activeTag={tag} />
+        <ContentList items={items} orderedLabel={`Articles tagged ${definition.label}`} />
+        {relatedProjects.length > 0 && (
+          <div class="tag-projects">
+            <h2 id="tag-projects-title">Related work</h2>
+            <p>Case studies where these ideas were put into practice.</p>
+            <ContentList items={relatedProjects} orderedLabel={`Case studies related to ${definition.label}`} />
+          </div>
+        )}
+      </div>
+    </section>
   </main>
 </BaseLayout>
 

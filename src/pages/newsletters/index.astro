@@ -5,13 +5,13 @@ import getReadingTime from "reading-time";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NavBar from "@components/NavBar.astro";
-import SectionHeading from "@components/SectionHeading.astro";
 import ContentList from "@components/ContentList.astro";
 
 const SEO: SEO = {
-  title: "2022 newsletter archive: building in public | Dan Ferg",
+  title: "2022 newsletter archive | Dan Ferg",
+  headline: "2022 newsletters.",
   description:
-    "Dan Ferg's 2022 newsletters on building Observer, yFocus and Mates Motivate in public: startup progress, ideas, burnout and lessons learned.",
+    "Dan Ferg's 2022 newsletters on building Observer, yFocus, and Mates Motivate in public.",
   imageUrl: "/images/og-default.png",
   openGraph: { type: "website" },
   canonicalUrl: "/newsletters",
@@ -23,7 +23,7 @@ const SEO: SEO = {
 };
 
 const newsletters = (await getCollection("newsletters")).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
 const formatDate = (date: string) =>
@@ -40,6 +40,7 @@ const items = newsletters.map((newsletter) => ({
   meta: formatDate(newsletter.data.date),
   detail: getReadingTime(newsletter.body || "").text,
 }));
+
 const itemListId = "https://danferg.com/newsletters#itemlist";
 const itemListJsonLd = {
   "@type": "ItemList",
@@ -58,31 +59,34 @@ const itemListJsonLd = {
 
 <BaseLayout {...SEO} mainEntityId={itemListId} jsonLd={itemListJsonLd}>
   <NavBar />
-  <main id="main-content" class="site-container archive">
-    <p class="breadcrumb"><a href="/">HOME</a> / NEWSLETTERS</p>
-    <SectionHeading
-      as="h1"
-      eyebrow="ARCHIVE_03 // NEWSLETTERS"
-      title="Dispatches from the workbench."
-      description={`${newsletters.length} dispatches from 2022, written while I built Observer, yFocus and Mates Motivate in public. The newsletter has finished; new writing lives in the articles archive and RSS feed.`}
-    />
-    <ContentList items={items} orderedLabel="All newsletters" />
+
+  <main id="main-content">
+    <header class="band page-hero-band">
+      <div class="band__frame page-hero" data-motion-intro-group>
+        <p class="page-hero__eyebrow" data-motion-intro-item>Archive</p>
+        <h1 class="page-hero__title" data-motion-intro-item>
+          2022 <em>newsletters.</em>
+        </h1>
+        <p class="page-hero__lede" data-motion-intro-item>
+          {newsletters.length} issues written in 2022 while building Observer,
+          yFocus, and Mates Motivate in public. The newsletter is wrapped up —
+          newer writing lives in <a href="/articles">articles</a>.
+        </p>
+      </div>
+    </header>
+
+    <section class="band band--subtle" aria-label="Newsletter archive">
+      <div class="band__frame">
+        <ContentList items={items} orderedLabel="All newsletters" />
+      </div>
+    </section>
   </main>
 </BaseLayout>
 
 <style>
-  .archive {
-    padding-block: clamp(2.75rem, 5vw, 4.75rem);
-  }
-
-  .breadcrumb {
-    margin: 0 0 clamp(2.5rem, 4vw, 4rem);
-    color: var(--ink-muted);
-    font-size: var(--text-label);
-  }
-
-  .breadcrumb a {
-    color: var(--ink);
+  .page-hero__lede a {
+    color: var(--signal);
+    text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 </style>

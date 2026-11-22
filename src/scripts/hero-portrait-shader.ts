@@ -51,18 +51,20 @@ int nearestDarkPaletteIndex(vec3 color) {
 }
 
 vec3 themedPaletteColor(int index) {
-  vec3 sharedBack = vec3(0.0, 12.0, 56.0) / 255.0;
-  vec3 light1 = vec3(102.0, 57.0, 156.0) / 255.0;
-  vec3 light2 = vec3(204.0, 102.0, 255.0) / 255.0;
-  vec3 light3 = vec3(78.0, 55.0, 246.0) / 255.0;
-  vec3 dark1 = vec3(39.0, 34.0, 151.0) / 255.0;
-  vec3 dark2 = vec3(78.0, 55.0, 246.0) / 255.0;
-  vec3 dark3 = vec3(204.0, 102.0, 255.0) / 255.0;
+  vec3 light0 = vec3(58.0, 38.0, 178.0) / 255.0;
+  vec3 light1 = vec3(106.0, 84.0, 255.0) / 255.0;
+  vec3 light2 = vec3(186.0, 120.0, 255.0) / 255.0;
+  vec3 light3 = vec3(250.0, 224.0, 255.0) / 255.0;
+
+  vec3 dark0 = vec3(34.0, 22.0, 114.0) / 255.0;
+  vec3 dark1 = vec3(92.0, 70.0, 255.0) / 255.0;
+  vec3 dark2 = vec3(176.0, 110.0, 255.0) / 255.0;
+  vec3 dark3 = vec3(244.0, 210.0, 255.0) / 255.0;
 
   if (index == 1) return mix(light1, dark1, u_theme);
   if (index == 2) return mix(light2, dark2, u_theme);
   if (index == 3) return mix(light3, dark3, u_theme);
-  return sharedBack;
+  return mix(light0, dark0, u_theme);
 }
 
 vec2 cellDisplacement(vec2 id, vec2 center, vec2 pointer, float cellSize) {
