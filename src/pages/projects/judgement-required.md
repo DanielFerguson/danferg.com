@@ -15,7 +15,7 @@ externalUrl: https://judgementrequired.com/
 externalLabel: Visit Judgement Required
 imageKey: judgement-required
 imageAlt: "Judgement Required home page with the headline “AI is on your desk now. Judgement is still required.”, beside a black-and-white photo of Dan Ferguson speaking at a lectern."
-caseStudyLabel: CASE STUDY // AI COURSES FOR PEOPLE WHO ANSWER FOR THE WORK
+caseStudyLabel: Case study
 visualLabel: LIVE_SITE / HOME
 canonicalUrl: /projects/judgement-required
 publishedDate: "2026-11-02"

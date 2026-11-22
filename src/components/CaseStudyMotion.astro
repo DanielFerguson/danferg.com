@@ -24,7 +24,6 @@ const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim()
 >
   <figcaption class="case-study-motion__bar">
     <span>{label}</span>
-    <span>FIG. {figureNumber}</span>
   </figcaption>
 
   <div class="case-study-motion__media">
@@ -57,53 +56,47 @@ const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim()
   .case-study-motion {
     --case-study-breakout-width: min(
       calc(100vw - 2.5rem),
-      var(--content-width)
+      64rem
     );
     position: relative;
     left: 50%;
     width: var(--case-study-breakout-width);
     max-width: none;
-    margin: clamp(2.75rem, 6vw, 4.75rem) 0;
+    margin: clamp(2.25rem, 5vw, 3.5rem) 0;
     overflow: hidden;
-    border: 1px solid var(--line-strong);
-    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
     transform: translateX(-50%);
   }
 
   .case-study-motion__bar {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
     margin: 0;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--line-strong);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--line);
     color: var(--ink-muted);
-    font-size: var(--text-label);
+    font-size: 0.82rem;
+    font-weight: 500;
     line-height: 1.4;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .case-study-motion__bar span:last-child {
-    flex: 0 0 auto;
   }
 
   .case-study-motion__media {
     display: grid;
-    min-height: min(72vh, 46rem);
+    min-height: min(70vh, 44rem);
     place-items: center;
     padding: clamp(1rem, 4vw, 2.5rem);
     background:
-      radial-gradient(circle at 50% 30%, rgb(39 175 213 / 16%), transparent 45%),
-      color-mix(in srgb, var(--signal) 3%, var(--paper));
+      radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--signal) 12%, transparent), transparent 52%),
+      var(--paper-subtle);
   }
 
   .case-study-motion__animation {
     display: block;
     width: min(100%, 20.25rem);
     height: auto;
-    border: 1px solid rgb(107 213 239 / 28%);
-    box-shadow: 0 1.25rem 3.5rem rgb(0 12 20 / 28%);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    box-shadow: 0 1.25rem 3.5rem rgb(15 17 26 / 20%);
   }
 
   .case-study-motion__poster {
@@ -120,10 +113,10 @@ const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim()
 
   .case-study-motion__caption {
     margin: 0;
-    padding: 0.85rem 1rem 0.95rem;
-    border-top: 1px solid var(--line-strong);
-    color: var(--ink-soft);
-    font-size: var(--text-label);
+    padding: 0.85rem 1.15rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: 0.84rem;
     line-height: 1.55;
   }
 

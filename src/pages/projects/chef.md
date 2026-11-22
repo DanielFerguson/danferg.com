@@ -15,7 +15,7 @@ status: Application prototype archived / Agent Skills 0.2.0
 role: Creator / product / full-stack & AI engineering
 externalUrl: https://github.com/DanielFerguson/chef-skills
 externalLabel: View source
-caseStudyLabel: CASE STUDY // FROM APPLICATION TO CONVERSATIONAL SKILLS
+caseStudyLabel: Case study
 visualLabel: PRODUCT THESIS / CONVERSATION_TO_MEMORY
 imageKey: chef
 imageAlt: Chef meal-planning concept showing a natural-language request becoming a structured week of dinners

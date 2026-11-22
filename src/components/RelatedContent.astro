@@ -86,7 +86,7 @@ const archive = {
 <section class="band band--subtle" aria-labelledby="related-title" data-motion-reveal>
   <div class="band__frame related">
     <div class="related__header">
-      <p class="eyebrow">Keep reading</p>
+      <p class="page-hero__eyebrow">Keep reading</p>
       <h2 id="related-title">Related reading.</h2>
     </div>
     <nav class="related__grid" aria-label="Related content" data-motion-group>
@@ -114,12 +114,11 @@ const archive = {
   }
 
   .related__header {
-    padding-inline: var(--frame-pad);
     margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
   }
 
   h2 {
-    margin: 0.75rem 0 0;
+    margin: 0;
     font-size: clamp(1.5rem, 3vw, 2.15rem);
     font-weight: 550;
     line-height: 1.1;
@@ -129,8 +128,9 @@ const archive = {
   .related__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
     background: var(--paper);
   }
 

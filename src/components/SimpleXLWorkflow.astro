@@ -6,7 +6,7 @@ export interface Props {
 
 const {
   number,
-  label = "PRODUCT_FLOW / FROM_FILE_TO_ANSWER",
+  label = "Product flow — from file to answer",
 } = Astro.props;
 
 const figureNumber = String(number).padStart(2, "0");
@@ -14,27 +14,27 @@ const accessibleLabel = label.replace(/[_/]+/g, " ").replace(/\s+/g, " ").trim()
 
 const steps = [
   {
-    type: "SOURCE",
+    type: "Source",
     title: "CSV / TSV / XLSX",
     detail: "Choose local files or selected workbook sheets.",
   },
   {
-    type: "IMPORT",
+    type: "Import",
     title: "Validate and copy",
     detail: "Stream, inspect, infer types, and preserve source values.",
   },
   {
-    type: "WORKSPACE",
+    type: "Workspace",
     title: "Private SQLite",
     detail: "Review queryable tables, schemas, and paginated raw rows.",
   },
   {
-    type: "QUERY",
+    type: "Query",
     title: "Read-only SQL",
     detail: "Filter, join, group, aggregate, and cancel safely.",
   },
   {
-    type: "OUTPUT",
+    type: "Output",
     title: "Results and charts",
     detail: "Copy, export bounded CSV, or create a session visual.",
   },
@@ -47,7 +47,6 @@ const steps = [
 >
   <figcaption class="simplexl-flow__bar">
     <span>{label}</span>
-    <span>FIG. {figureNumber}</span>
   </figcaption>
 
   <div class="simplexl-flow__canvas">
@@ -83,35 +82,28 @@ const steps = [
   .simplexl-flow {
     --case-study-breakout-width: min(
       calc(100vw - 2.5rem),
-      var(--content-width)
+      64rem
     );
     position: relative;
     left: 50%;
     width: var(--case-study-breakout-width);
     max-width: none;
-    margin: clamp(2.75rem, 6vw, 4.75rem) 0;
+    margin: clamp(2.25rem, 5vw, 3.5rem) 0;
     overflow: hidden;
-    border: 1px solid var(--line-strong);
-    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
     transform: translateX(-50%);
   }
 
   .simplexl-flow__bar {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
     margin: 0;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--line-strong);
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--line);
     color: var(--ink-muted);
-    font-size: var(--text-label);
+    font-size: 0.82rem;
+    font-weight: 500;
     line-height: 1.4;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .simplexl-flow__bar span:last-child {
-    flex: 0 0 auto;
   }
 
   .simplexl-flow__canvas {
