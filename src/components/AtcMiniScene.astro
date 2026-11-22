@@ -1,0 +1,200 @@
+---
+/**
+ * Focused interactive 3D mini-scene embedded inside the ATC article.
+ * Each instance spawns its own live Rust WASM ECS world.
+ */
+import "../styles/atc-sim.css";
+
+interface Props {
+  preset: "happy-path" | "radio-lag" | "weather-cascade";
+  title: string;
+  hint: string;
+}
+
+const { preset, title, hint } = Astro.props;
+---
+
+<figure class="atc-widget" data-atc-mini data-preset={preset}>
+  <figcaption class="atc-widget__header">
+    <span class="atc-widget__title">{title}</span>
+    <span class="atc-widget__hint">{hint}</span>
+  </figcaption>
+
+  <div class="atc-viewport">
+    <div class="atc-loading" data-atc-loading>Loading Rust WASM simulation…</div>
+    <div class="atc-canvas" data-atc-canvas></div>
+    <div class="atc-labels" data-atc-labels></div>
+
+    <div class="atc-cam-bar">
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="toggle-play">Pause</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="reset-cam">View</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="reset">Reset</button>
+    </div>
+
+    <div class="atc-legend" aria-hidden="true">
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--free"></i> Free</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--land"></i> Landing Lock</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--takeoff"></i> Takeoff Lock</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--wake"></i> Wake Buffer</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--conflict"></i> Go-Around</span>
+    </div>
+  </div>
+
+  <div class="atc-telemetry">
+    {preset === "happy-path" && (
+      <>
+        <div class="atc-stat">
+          <span class="atc-stat__label">RWY 27 Mutex</span>
+          <span class="atc-stat__value" data-metric="rwy-lock">FREE</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Landed</span>
+          <span class="atc-stat__value" data-metric="landings">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Departed</span>
+          <span class="atc-stat__value" data-metric="takeoffs">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Runway Util</span>
+          <span class="atc-stat__value" data-metric="rwy-util">0%</span>
+        </div>
+      </>
+    )}
+
+    {preset === "radio-lag" && (
+      <>
+        <div class="atc-stat">
+          <span class="atc-stat__label">VHF Queue</span>
+          <span class="atc-stat__value" data-metric="comms-q">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Readback Errs</span>
+          <span class="atc-stat__value" data-metric="readback-errs">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Holding Stack</span>
+          <span class="atc-stat__value" data-metric="holding">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Go-Arounds</span>
+          <span class="atc-stat__value" data-metric="go-arounds">0</span>
+        </div>
+      </>
+    )}
+
+    {preset === "weather-cascade" && (
+      <>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Holding Stack</span>
+          <span class="atc-stat__value" data-metric="holding">0</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Avg Hold Delay</span>
+          <span class="atc-stat__value" data-metric="avg-hold">0.0s</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Runway Util</span>
+          <span class="atc-stat__value" data-metric="rwy-util">0%</span>
+        </div>
+        <div class="atc-stat">
+          <span class="atc-stat__label">Go-Arounds</span>
+          <span class="atc-stat__value" data-metric="go-arounds">0</span>
+        </div>
+      </>
+    )}
+  </div>
+
+  <div class="atc-controls">
+    {preset === "happy-path" && (
+      <label class="atc-check">
+        <input type="checkbox" data-overlay="labels" checked />
+        <span>Show Callsign &amp; State Pills</span>
+      </label>
+    )}
+
+    {preset === "radio-lag" && (
+      <>
+        <div class="atc-group" style="min-width: 210px; flex: 1;">
+          <label class="atc-group__label">
+            <span>Radio Latency</span>
+            <output data-output="radio-delay">2.2s</output>
+          </label>
+          <input
+            class="atc-range"
+            type="range"
+            min="0"
+            max="4"
+            step="0.1"
+            value="2.2"
+            data-control="radio-delay"
+          />
+        </div>
+        <label class="atc-check">
+          <input type="checkbox" data-control="readback-errors" checked />
+          <span>Readback Garbles (&ldquo;Say again&rdquo;)</span>
+        </label>
+      </>
+    )}
+
+    {preset === "weather-cascade" && (
+      <>
+        <div class="atc-group">
+          <span class="atc-group__label">Weather Condition</span>
+          <div class="atc-btn-row">
+            <button type="button" class="atc-btn" data-weather="0">Clear</button>
+            <button type="button" class="atc-btn is-active" data-weather="1">Rain</button>
+            <button type="button" class="atc-btn" data-weather="2">Storm</button>
+          </div>
+        </div>
+        <div class="atc-group" style="min-width: 190px; flex: 1;">
+          <label class="atc-group__label">
+            <span>Traffic Rate</span>
+            <output data-output="traffic-rate">1.45×</output>
+          </label>
+          <input
+            class="atc-range"
+            type="range"
+            min="0.4"
+            max="2.2"
+            step="0.05"
+            value="1.45"
+            data-control="traffic-rate"
+          />
+        </div>
+      </>
+    )}
+  </div>
+
+  {preset === "radio-lag" ? (
+    <div class="atc-drawer">
+      <div class="atc-panel">
+        <div class="atc-panel__bar">
+          <p class="atc-panel__heading">Live VHF Radio Transcript (Half-Duplex)</p>
+          <span class="atc-vhf-pill" data-vhf-status>120.5 MHz · IDLE</span>
+        </div>
+        <div class="atc-log" data-atc-log></div>
+      </div>
+      <div class="atc-panel">
+        <p class="atc-panel__heading">ECS Entity Inspector</p>
+        <div data-atc-inspector>
+          <p class="atc-inspector__empty">Click any plane or callsign pill to inspect its live Rust ECS components.</p>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div class="atc-panel" style="border-top: 1px solid var(--line);">
+      <p class="atc-panel__heading">ECS Entity Inspector</p>
+      <div data-atc-inspector>
+        <p class="atc-inspector__empty">Click any plane or callsign pill to inspect its live Rust ECS components.</p>
+      </div>
+    </div>
+  )}
+</figure>
+
+<script>
+  import { initAllAtcWidgets } from "../scripts/atc/mount-widgets";
+  initAllAtcWidgets();
+</script>

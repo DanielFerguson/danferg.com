@@ -1,0 +1,202 @@
+---
+/**
+ * Flagship Airport God-Mode Sandbox at the climax of the article.
+ * Lets readers dial airfield geometry, gates, weather, traffic, radio lag,
+ * separation minima, and chaos triggers live against the compiled Rust ECS.
+ */
+import "../styles/atc-sim.css";
+---
+
+<figure class="atc-widget atc-widget--flagship" id="atc-flagship-sandbox" data-atc-sandbox>
+  <figcaption class="atc-widget__header">
+    <span class="atc-widget__title">Tower Control Sandbox (Live Rust ECS + Three.js)</span>
+    <span class="atc-widget__hint">Drag to orbit · Click any aircraft to inspect components</span>
+  </figcaption>
+
+  <div class="atc-viewport">
+    <div class="atc-loading" data-atc-loading>Booting Rust WebAssembly ECS…</div>
+    <div class="atc-canvas" data-atc-canvas></div>
+    <div class="atc-labels" data-atc-labels></div>
+
+    <div class="atc-cam-bar">
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="toggle-play">Pause</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-speed="0.5">0.5×</button>
+      <button type="button" class="atc-btn atc-btn--overlay is-active" data-speed="1">1×</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-speed="2">2×</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="reset-cam">View</button>
+      <button type="button" class="atc-btn atc-btn--overlay" data-action="toggle-expand" aria-pressed="false">Expand</button>
+    </div>
+
+    <div class="atc-legend" aria-hidden="true">
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--free"></i> Free</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--land"></i> Landing Lock</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--takeoff"></i> Takeoff Lock</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--wake"></i> Wake Buffer</span>
+      <span class="atc-legend__item"><i class="atc-dot atc-dot--conflict"></i> Go-Around</span>
+    </div>
+  </div>
+
+  <div class="atc-telemetry">
+    <div class="atc-stat">
+      <span class="atc-stat__label">Landed</span>
+      <span class="atc-stat__value" data-metric="landings">0</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Departed</span>
+      <span class="atc-stat__value" data-metric="takeoffs">0</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Go-Arounds</span>
+      <span class="atc-stat__value" data-metric="go-arounds">0</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Holding Stack</span>
+      <span class="atc-stat__value" data-metric="holding">0</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Avg Hold</span>
+      <span class="atc-stat__value" data-metric="avg-hold">0.0s</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Runway Util</span>
+      <span class="atc-stat__value" data-metric="rwy-util">0%</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">VHF Queue</span>
+      <span class="atc-stat__value" data-metric="comms-q">0</span>
+    </div>
+    <div class="atc-stat">
+      <span class="atc-stat__label">Sep Alerts</span>
+      <span class="atc-stat__value" data-metric="sep-warns">0</span>
+    </div>
+  </div>
+
+  <div class="atc-scenarios">
+    <span class="atc-scenarios__title">Presets &amp; Events</span>
+    <button type="button" class="atc-btn" data-scenario="calm">Calm Morning</button>
+    <button type="button" class="atc-btn" data-scenario="radio-chaos">Delayed Radio</button>
+    <button type="button" class="atc-btn" data-scenario="storm-hub">Stormy Crossing</button>
+    <button type="button" class="atc-btn atc-btn--danger" data-action="go-around">Force Go-Around</button>
+    <button type="button" class="atc-btn" data-action="rush-hour">Inject 3 Arrivals</button>
+    <button type="button" class="atc-btn" data-action="priority">Low-Fuel Priority</button>
+    <button type="button" class="atc-btn" data-action="reset">Reset</button>
+  </div>
+
+  <div class="atc-god-panel">
+    <div class="atc-group">
+      <span class="atc-group__label">Airfield Layout</span>
+      <div class="atc-btn-row">
+        <button type="button" class="atc-btn is-active" data-layout="0">Single (27)</button>
+        <button type="button" class="atc-btn" data-layout="1">Parallel (27 / 27R)</button>
+        <button type="button" class="atc-btn" data-layout="2">Intersecting (27 + 18)</button>
+      </div>
+    </div>
+
+    <div class="atc-group">
+      <span class="atc-group__label">Weather</span>
+      <div class="atc-btn-row">
+        <button type="button" class="atc-btn is-active" data-weather="0">Clear</button>
+        <button type="button" class="atc-btn" data-weather="1">Rain</button>
+        <button type="button" class="atc-btn" data-weather="2">Storm</button>
+      </div>
+    </div>
+
+    <div class="atc-group">
+      <span class="atc-group__label">Separation Minima</span>
+      <div class="atc-btn-row">
+        <button type="button" class="atc-btn" data-sep="0.75">Tight</button>
+        <button type="button" class="atc-btn is-active" data-sep="1.0">Standard</button>
+        <button type="button" class="atc-btn" data-sep="1.35">Strict</button>
+      </div>
+    </div>
+
+    <div class="atc-group">
+      <label class="atc-group__label">
+        <span>Traffic Density</span>
+        <output data-output="traffic-rate">1.05×</output>
+      </label>
+      <input
+        class="atc-range"
+        type="range"
+        min="0.2"
+        max="2.2"
+        step="0.05"
+        value="1.05"
+        data-control="traffic-rate"
+      />
+    </div>
+
+    <div class="atc-group">
+      <label class="atc-group__label">
+        <span>Radio Delay (Half-Duplex)</span>
+        <output data-output="radio-delay">0.8s</output>
+      </label>
+      <input
+        class="atc-range"
+        type="range"
+        min="0"
+        max="4.5"
+        step="0.1"
+        value="0.8"
+        data-control="radio-delay"
+      />
+      <label class="atc-check">
+        <input type="checkbox" data-control="readback-errors" />
+        <span>Enable Readback Garbles</span>
+      </label>
+    </div>
+
+    <div class="atc-group">
+      <label class="atc-group__label">
+        <span>Active Terminal Gates</span>
+        <output data-output="active-gates">4</output>
+      </label>
+      <input
+        class="atc-range"
+        type="range"
+        min="2"
+        max="6"
+        step="1"
+        value="4"
+        data-control="active-gates"
+      />
+      <div class="atc-btn-row" style="margin-top: 0.2rem;">
+        <label class="atc-check">
+          <input type="checkbox" data-overlay="labels" checked />
+          <span>Labels</span>
+        </label>
+        <label class="atc-check">
+          <input type="checkbox" data-overlay="halos" checked />
+          <span>Halos</span>
+        </label>
+        <label class="atc-check">
+          <input type="checkbox" data-overlay="radio-waves" checked />
+          <span>Radio Waves</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="atc-drawer">
+    <div class="atc-panel">
+      <div class="atc-panel__bar">
+        <p class="atc-panel__heading">Live VHF Radio Transcript</p>
+        <span class="atc-vhf-pill" data-vhf-status>120.5 MHz · IDLE</span>
+      </div>
+      <div class="atc-log" data-atc-log></div>
+    </div>
+    <div class="atc-panel">
+      <p class="atc-panel__heading">ECS Entity Inspector</p>
+      <div data-atc-inspector>
+        <p class="atc-inspector__empty">Click any plane or callsign pill to inspect its live Rust ECS components.</p>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<script>
+  import { initAllAtcWidgets } from "../scripts/atc/mount-widgets";
+  initAllAtcWidgets();
+</script>

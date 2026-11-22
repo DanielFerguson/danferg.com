@@ -46,11 +46,13 @@ const headings = entry ? (await render(entry)).headings : [];
 const sections = headings
   .filter((heading) => heading.depth === 2)
   .map((heading) => [heading.slug, heading.text] as [string, string]);
-// Long reads get a contents list, unless the article places its own.
+// Long reads get a contents list, unless the article opts out or places its own.
 const showContents =
+  frontmatter.showContents !== false &&
   wordCount >= 1800 &&
   sections.length >= 5 &&
   !/<(ArticleContents|ElectionGuideContents)\b/.test(body);
+const showAuthorNote = frontmatter.showAuthorNote !== false;
 // Personal essays and election writing end with ways to follow along rather
 // than a consulting pitch.
 const endcapVariant = tags.some((tag) =>
@@ -141,7 +143,7 @@ const SEO: SEO & {
       <Fragment set:html={FEED_CONTENT_END} />
       {series && <SeriesNav id={series.id} part={series.part} currentPath={frontmatter.canonicalUrl} />}
     </article>
-    <AuthorNote />
+    {showAuthorNote && <AuthorNote />}
     <RelatedContent currentPath={frontmatter.canonicalUrl} kind="articles" tags={tags} />
     <EditorialEndcap sourceTitle={frontmatter.title} variant={endcapVariant} />
   </main>

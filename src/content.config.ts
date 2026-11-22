@@ -51,6 +51,8 @@ const editorialFields = {
   series: z
     .object({ id: z.enum(seriesIds), part: z.number().int().positive() })
     .optional(),
+  showContents: z.boolean().optional(),
+  showAuthorNote: z.boolean().optional(),
 };
 
 const articles = defineCollection({

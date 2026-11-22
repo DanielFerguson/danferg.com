@@ -16,6 +16,7 @@
     "generate:og": "node scripts/generate-og.mjs",
     "prebuild": "npm run generate:og",
     "build": "astro build",
+    "build:atc-sim": "node scripts/build-atc-sim.mjs",
     "postbuild": "npx pagefind --site dist && npm run audit:build",
     "preview": "astro preview",
     "test": "node --test tests/rehype-mermaid-blocks.test.mjs tests/article-publishing.test.mjs",
@@ -28,6 +29,7 @@
     "@astrojs/markdown-remark": "^7.3.1",
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/sitemap": "^3.7.4",
+    "@types/three": "^0.187.0",
     "astro": "^7.3.5",
     "pagefind": "^1.5.2",
     "parse5": "^8.0.1",
@@ -42,6 +44,7 @@
     "mermaid": "^12.3.0",
     "motion": "^13.4.4",
     "reading-time": "^1.5.0",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.4",
+    "three": "^0.187.0"
   }
 }
