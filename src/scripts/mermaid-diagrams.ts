@@ -1,45 +1,57 @@
 const diagramSelector = "[data-mermaid-diagram]";
 
 // Mermaid measures label text itself, so it needs the resolved family list
-// (Geist Mono plus its metric-matched fallback) rather than a CSS variable.
-const siteMonoFontFamily = () =>
+// rather than a CSS variable.
+const siteSansFontFamily = () =>
   getComputedStyle(document.documentElement)
-    .getPropertyValue("--font-mono")
-    .trim() || "ui-monospace, SFMono-Regular, Consolas, monospace";
+    .getPropertyValue("--font-sans")
+    .trim() || "system-ui, -apple-system, Segoe UI, sans-serif";
 const devImportRetryKey = "danferg-mermaid-import-retried";
 
 const themes = {
   light: {
-    background: "#f8f7fc",
-    primaryColor: "#ede9ff",
-    primaryTextColor: "#181d27",
+    background: "#ffffff",
+    primaryColor: "#f1eeff",
+    primaryTextColor: "#1a1726",
     primaryBorderColor: "#4f39f6",
-    lineColor: "#717680",
-    secondaryColor: "#fdfcff",
-    secondaryTextColor: "#181d27",
-    secondaryBorderColor: "#dbd5ff",
-    tertiaryColor: "#f8f7fc",
-    tertiaryTextColor: "#414651",
-    tertiaryBorderColor: "#aaa7bb",
-    noteBkgColor: "#fdfcff",
-    noteTextColor: "#181d27",
-    noteBorderColor: "#4f39f6",
+    lineColor: "#6c6580",
+    secondaryColor: "#faf9fc",
+    secondaryTextColor: "#1a1726",
+    secondaryBorderColor: "#ddd6ff",
+    tertiaryColor: "#faf9fc",
+    tertiaryTextColor: "#524c63",
+    tertiaryBorderColor: "#d8d2e6",
+    noteBkgColor: "#faeeff",
+    noteTextColor: "#1a1726",
+    noteBorderColor: "#cc66ff",
+    actorBkg: "#f1eeff",
+    actorBorder: "#4f39f6",
+    actorTextColor: "#1a1726",
+    actorLineColor: "#a39db3",
+    signalColor: "#1a1726",
+    signalTextColor: "#1a1726",
   },
   dark: {
-    background: "#11101a",
-    primaryColor: "#25203d",
-    primaryTextColor: "#f5f2ff",
+    background: "#171522",
+    primaryColor: "#241f3d",
+    primaryTextColor: "#f6f4ff",
     primaryBorderColor: "#a997ff",
-    lineColor: "#aaa4b9",
-    secondaryColor: "#191725",
-    secondaryTextColor: "#f5f2ff",
-    secondaryBorderColor: "#554a7e",
-    tertiaryColor: "#11101a",
-    tertiaryTextColor: "#d1ccdf",
-    tertiaryBorderColor: "#aaa4bd",
-    noteBkgColor: "#191725",
-    noteTextColor: "#f5f2ff",
-    noteBorderColor: "#a997ff",
+    lineColor: "#9890b2",
+    secondaryColor: "#1f1c2e",
+    secondaryTextColor: "#f6f4ff",
+    secondaryBorderColor: "#4f4382",
+    tertiaryColor: "#171522",
+    tertiaryTextColor: "#c4bdd9",
+    tertiaryBorderColor: "#4f4382",
+    noteBkgColor: "#291c3d",
+    noteTextColor: "#f6f4ff",
+    noteBorderColor: "#e49aff",
+    actorBkg: "#241f3d",
+    actorBorder: "#a997ff",
+    actorTextColor: "#f6f4ff",
+    actorLineColor: "#6c6580",
+    signalColor: "#f6f4ff",
+    signalTextColor: "#f6f4ff",
   },
 } as const;
 
@@ -66,10 +78,18 @@ const createOutput = (svg: string, theme: keyof typeof themes) => {
   return output;
 };
 
+const isDevChunkImportError = (error: unknown) => {
+  if (!import.meta.env.DEV) return false;
+  const message = error instanceof Error ? error.message : String(error);
+  return /dynamically imported module|Outdated Optimize Dep|Failed to fetch/i.test(
+    message,
+  );
+};
+
 export async function initializeMermaidDiagrams() {
   const figures = Array.from(
     document.querySelectorAll<HTMLElement>(diagramSelector),
-  );
+  ).filter((figure) => !("mermaidReady" in figure.dataset));
 
   if (!figures.length) return;
 
@@ -77,9 +97,6 @@ export async function initializeMermaidDiagrams() {
 
   try {
     ({ default: mermaid } = await import("mermaid"));
-    if (import.meta.env.DEV) {
-      window.sessionStorage.removeItem(devImportRetryKey);
-    }
   } catch (error) {
     if (
       import.meta.env.DEV &&
@@ -118,6 +135,8 @@ export async function initializeMermaidDiagrams() {
   renderArea.setAttribute("aria-hidden", "true");
   document.body.append(renderArea);
 
+  let needsDevReload = false;
+
   for (const [theme, themeVariables] of Object.entries(themes) as [
     keyof typeof themes,
     (typeof themes)[keyof typeof themes],
@@ -125,15 +144,12 @@ export async function initializeMermaidDiagrams() {
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: "strict",
-      // Mermaid 12 defaults to ELK layout, the "neo" look and 120px label
-      // wrapping. Pin the Mermaid 11 values so existing diagrams keep their
-      // shape.
       layout: "dagre",
       look: "classic",
       theme: "base",
-      fontFamily: siteMonoFontFamily(),
+      fontFamily: siteSansFontFamily(),
       themeVariables,
-      flowchart: { htmlLabels: true, useMaxWidth: true, wrappingWidth: 200 },
+      flowchart: { htmlLabels: true, useMaxWidth: true, wrappingWidth: 220 },
     });
 
     for (const [index, entry] of sources.entries()) {
@@ -147,13 +163,32 @@ export async function initializeMermaidDiagrams() {
         variants[theme] = svg;
         rendered.set(entry.figure, variants);
       } catch (error) {
+        if (
+          isDevChunkImportError(error) &&
+          !window.sessionStorage.getItem(devImportRetryKey)
+        ) {
+          needsDevReload = true;
+          break;
+        }
         entry.figure.dataset.mermaidError = "";
         console.error("Could not render Mermaid diagram", error);
       }
     }
+
+    if (needsDevReload) break;
   }
 
   renderArea.remove();
+
+  if (needsDevReload) {
+    window.sessionStorage.setItem(devImportRetryKey, "true");
+    window.location.reload();
+    return;
+  }
+
+  if (import.meta.env.DEV) {
+    window.sessionStorage.removeItem(devImportRetryKey);
+  }
 
   for (const { figure, canvas } of sources) {
     const variants = rendered.get(figure);
@@ -164,6 +199,7 @@ export async function initializeMermaidDiagrams() {
       createOutput(variants.light, "light"),
       createOutput(variants.dark, "dark"),
     );
+    delete figure.dataset.mermaidError;
     figure.dataset.mermaidReady = "";
   }
 }

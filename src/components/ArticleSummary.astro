@@ -13,28 +13,28 @@ const { summary } = Astro.props;
 
 <style>
   .article-summary {
-    margin: 0 0 2.5rem;
-    padding: clamp(1rem, 3vw, 1.35rem) clamp(1rem, 3vw, 1.5rem);
-    border: 1px solid var(--line-strong);
+    margin: 0 0 2rem;
+    padding: 1.15rem 1.35rem;
+    border: 1px solid var(--line);
     border-left: 3px solid var(--signal);
-    background: var(--paper-raised);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
   }
 
   .article-summary__label {
-    margin: 0 0 0.5rem;
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+    margin: 0 0 0.45rem;
     color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.84rem;
+    font-weight: 500;
   }
 
   .article-summary__body {
     margin: 0;
     color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 1.4vw, 1.08rem);
+    font-size: 0.98rem;
     line-height: 1.65;
-    text-wrap: pretty;
   }
 </style>

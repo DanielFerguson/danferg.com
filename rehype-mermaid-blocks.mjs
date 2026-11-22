@@ -81,15 +81,7 @@ const createDiagram = (source, title) => ({
       type: "element",
       tagName: "figcaption",
       properties: { className: ["mermaid-diagram__caption"] },
-      children: [
-        {
-          type: "element",
-          tagName: "span",
-          properties: {},
-          children: [{ type: "text", value: "DIAGRAM //" }],
-        },
-        { type: "text", value: title },
-      ],
+      children: [{ type: "text", value: title }],
     },
   ],
 });

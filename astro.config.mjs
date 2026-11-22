@@ -129,6 +129,9 @@ export default defineConfig({
     },
   ],
   vite: {
+    optimizeDeps: {
+      include: ["mermaid"],
+    },
     build: {
       rolldownOptions: {
         onwarn(warning, defaultHandler) {

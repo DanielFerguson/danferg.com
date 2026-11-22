@@ -356,12 +356,13 @@ a:focus-visible {
 }
 
 .prose-shell {
-  width: min(calc(100% - 2.5rem), 45rem);
+  width: min(calc(100% - 2.5rem), 44rem);
   margin-inline: auto;
-  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  padding-block: clamp(2.5rem, 5vw, 4.25rem);
   color: var(--ink-soft);
-  font-size: clamp(0.96rem, 1.35vw, 1.03rem);
-  line-height: 1.9;
+  font-family: var(--font-sans);
+  font-size: clamp(1.02rem, 1.35vw, 1.08rem);
+  line-height: 1.75;
 }
 
 .prose-shell > :first-child {
@@ -371,20 +372,27 @@ a:focus-visible {
 .prose-shell h2,
 .prose-shell h3,
 .prose-shell h4 {
-  margin-top: 3em;
-  margin-bottom: 0.85em;
+  margin-top: 2.6em;
+  margin-bottom: 0.7em;
   color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 550;
   line-height: 1.2;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 .prose-shell h2 {
-  font-size: 1.3em;
+  font-size: clamp(1.4rem, 2.4vw, 1.7rem);
 }
 
 .prose-shell h3 {
-  margin-top: 2.5em;
-  font-size: 1.08em;
+  margin-top: 2.1em;
+  font-size: clamp(1.15rem, 1.8vw, 1.3rem);
+}
+
+.prose-shell h4 {
+  margin-top: 1.8em;
+  font-size: 1.05rem;
 }
 
 .prose-shell p {
@@ -393,16 +401,17 @@ a:focus-visible {
 
 .prose-shell strong {
   color: var(--ink);
+  font-weight: 600;
 }
 
 .prose-shell ul,
 .prose-shell ol {
-  margin-block: 1.25em 1.6em;
-  padding-left: 1.55em;
+  margin-block: 1.2em 1.5em;
+  padding-left: 1.45em;
 }
 
 .prose-shell ul {
-  list-style: square;
+  list-style: disc;
 }
 
 .prose-shell ol {
@@ -413,79 +422,46 @@ a:focus-visible {
   padding-left: 0.25em;
 }
 
+.prose-shell li::marker {
+  color: var(--signal);
+}
+
 .prose-shell li + li {
-  margin-top: 0.65em;
-}
-
-.prose-shell h2::before {
-  color: var(--signal);
-  content: "## ";
-}
-
-.prose-shell h3::before {
-  color: var(--signal);
-  content: "### ";
+  margin-top: 0.55em;
 }
 
 .prose-shell a {
-  color: var(--ink);
-  text-decoration-color: var(--signal);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.18em;
-}
-
-.article-prose a {
   color: var(--signal);
-  font-weight: 650;
-  text-decoration-line: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 0.11em;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--signal) 45%, transparent);
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 0.2em;
   text-decoration-skip-ink: auto;
 }
 
-.article-prose a:is(:hover, :focus-visible) {
+.prose-shell a:is(:hover, :focus-visible) {
   color: var(--signal-emphasis);
-  background: var(--signal-soft);
   text-decoration-color: currentColor;
 }
 
-/* Long-form reading: article body copy uses the proportional Geist face at a
-   comfortable measure. Headings, kickers, figures, tables, tags, citation marks
-   and code keep Geist Mono so the page still reads as one family. */
-.article-prose > p,
-.article-prose > ul,
-.article-prose > ol,
-.article-prose > blockquote,
-.article-prose .guide-method__body > p {
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.4vw, 1.08rem);
-  line-height: 1.7;
-  letter-spacing: 0;
+.article-prose a.cite {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  vertical-align: 0.3em;
 }
-.article-prose > p strong,
-.article-prose > ul strong,
-.article-prose > ol strong {
-  font-weight: 650;
-}
-.article-prose > p code,
-.article-prose > ul code,
-.article-prose > ol code,
-.article-prose a.cite,
+
 .article-prose .claim-tag,
 .article-prose .sidenote {
   font-family: var(--font-mono);
 }
-.article-prose a.cite {
-  vertical-align: 0.35em;
-}
 
 .prose-shell blockquote {
-  margin: 1.75em 0;
-  padding: 1rem 1.25rem;
+  margin: 1.85em 0;
+  padding: 1.1rem 1.35rem;
   border-left: 3px solid var(--signal);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   color: var(--ink);
-  background: var(--paper-raised);
+  background: var(--paper-subtle);
 }
 
 .prose-shell blockquote > :first-child {
@@ -499,40 +475,52 @@ a:focus-visible {
 .prose-shell img {
   max-width: 100%;
   height: auto;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
 }
 
 .prose-shell code {
-  padding: 0.15em 0.3em;
+  padding: 0.14em 0.38em;
+  border-radius: var(--radius-sm);
   color: var(--ink);
-  background: var(--signal-soft);
-  font-size: 0.9em;
+  background: var(--paper-raised);
+  font-family: var(--font-mono);
+  font-size: 0.87em;
 }
 
 .prose-shell pre {
   overflow-x: auto;
-  padding: 1.25rem;
+  margin-block: 1.6em;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   color: var(--code-ink);
   background: var(--code-surface);
+  font-size: 0.88rem;
+  line-height: 1.65;
 }
 
 .prose-shell pre code {
   padding: 0;
+  border-radius: 0;
   color: inherit;
   background: transparent;
+  font-size: inherit;
 }
 
 .mermaid-diagram {
-  --mermaid-breakout-width: min(calc(100vw - 2.5rem), 56rem);
+  --mermaid-breakout-width: min(calc(100vw - 2.5rem), 54rem);
   width: var(--mermaid-breakout-width);
   margin: 2.25rem calc((100% - var(--mermaid-breakout-width)) / 2);
-  border: 1px solid var(--line-strong);
-  background: var(--paper-raised);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
 }
 
 .mermaid-diagram__canvas {
   overflow-x: auto;
-  padding: clamp(1rem, 2.5vw, 1.75rem);
+  padding: clamp(1.15rem, 2.5vw, 1.85rem);
   overscroll-behavior-inline: contain;
 }
 
@@ -569,26 +557,19 @@ a:focus-visible {
 }
 
 .mermaid-diagram__caption {
-  display: flex;
-  gap: 0.65rem;
   margin: 0;
-  padding: 0.8rem 1rem;
+  padding: 0.75rem 1.1rem;
   border-top: 1px solid var(--line);
   color: var(--ink-muted);
-  font-size: var(--text-label);
+  background: var(--paper-subtle);
+  font-size: 0.84rem;
   line-height: 1.5;
-  letter-spacing: 0.04em;
-}
-
-.mermaid-diagram__caption span {
-  flex: 0 0 auto;
-  color: var(--signal);
-  font-weight: 750;
+  text-align: center;
 }
 
 .mermaid-diagram[data-mermaid-error] .mermaid-diagram__caption::after {
-  content: " // SOURCE SHOWN — DIAGRAM COULD NOT RENDER";
-  color: var(--signal);
+  content: " — diagram preview unavailable";
+  color: var(--ink-muted);
 }
 
 @media (prefers-color-scheme: dark) {

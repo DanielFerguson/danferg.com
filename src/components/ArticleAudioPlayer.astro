@@ -18,15 +18,19 @@ const headingId = `listen-${title
 ---
 
 <section
-  class="site-container article-audio"
+  class="article-audio"
   aria-labelledby={headingId}
   data-article-audio
   data-audio-title={title}
 >
-  <div class="article-audio__copy">
-    <p class="article-audio__eyebrow">LISTEN // AUDIO ARTICLE</p>
-    <h2 id={headingId}>Listen to this article</h2>
-    <p>AI-generated narration, produced with ElevenLabs.</p>
+  <div class="article-audio__header">
+    <div>
+      <h2 id={headingId} class="article-audio__title">Listen to this article</h2>
+      <p class="article-audio__note">AI narration produced with ElevenLabs.</p>
+    </div>
+    <a class="article-audio__download" href={audio.url} download>
+      Download MP3 <span aria-hidden="true">↓</span>
+    </a>
   </div>
   <div class="article-audio__player">
     <audio
@@ -39,81 +43,67 @@ const headingId = `listen-${title
       <source src={audio.url} type={audio.mimeType} />
       Your browser does not support embedded audio. <a href={audio.url}>Download the MP3</a> instead.
     </audio>
-    <a class="article-audio__download" href={audio.url} download>
-      Download MP3 <span aria-hidden="true">↓</span>
-    </a>
   </div>
 </section>
 
 <style>
   .article-audio {
     display: grid;
-    grid-template-columns: minmax(0, 0.75fr) minmax(18rem, 1.25fr);
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
-    margin-block: 0 clamp(2rem, 4vw, 3.25rem);
-    padding-block: clamp(1.25rem, 2vw, 1.75rem);
+    gap: 0.9rem;
+    margin: 0 0 2.25rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
   }
 
-  .article-audio__copy,
+  .article-audio__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .article-audio__title {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.96rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  .article-audio__note {
+    margin: 0.2rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
   .article-audio__player {
     min-width: 0;
   }
 
-  .article-audio__eyebrow {
-    margin: 0 0 0.55rem;
-    color: var(--signal);
-    font-size: var(--text-label);
-    font-weight: 750;
-    letter-spacing: 0.06em;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: clamp(1.15rem, 2vw, 1.45rem);
-    letter-spacing: -0.035em;
-  }
-
-  .article-audio__copy > p:last-child {
-    max-width: 46ch;
-    margin: 0.65rem 0 0;
-    color: var(--ink-soft);
-    font-size: var(--text-label);
-    line-height: 1.55;
-  }
-
-  .article-audio__player {
-    display: grid;
-    gap: 0.6rem;
-  }
-
   audio {
+    display: block;
     width: 100%;
-    min-height: 3.25rem;
+    height: 2.75rem;
     accent-color: var(--signal);
   }
 
   .article-audio__download {
-    justify-self: end;
     color: var(--ink-soft);
-    font-size: var(--text-label);
-    letter-spacing: 0.04em;
-    text-underline-offset: 0.2em;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
   }
 
   .article-audio__download:hover {
-    color: var(--ink);
-  }
-
-  @media (max-width: 720px) {
-    .article-audio {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-
-    .article-audio__download {
-      justify-self: start;
-    }
+    color: var(--signal);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 </style>
 

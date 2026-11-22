@@ -28,7 +28,7 @@ const items = definition.parts.map((part) => {
     const { date: _date, tags, series, draft: _draft, ...rest } = item;
     return {
       ...rest,
-      meta: `PART ${part.part} // ${item.meta}`,
+      meta: `Part ${part.part} · ${item.meta}`,
       tags: tags.map((tagId) => ({ id: tagId, label: tagCatalogue[tagId].label, href: tagHref(tagId) })),
       series: series?.id,
     };

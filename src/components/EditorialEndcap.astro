@@ -26,9 +26,9 @@ const replyMailto = createContactMailto({
   variant === "follow" ? (
     <ConversionEndcap
       headingId="editorial-next-step"
-      eyebrow="// KEEP IN TOUCH"
+      eyebrow="Keep in touch"
       title="Thanks for reading."
-      description="I write about building things, what it costs, and what I’m learning along the way. Follow along, or reply if this one landed."
+      description="I write about building software, what it costs, and what I’m learning along the way. Follow along, or reply if this one landed."
       actions={[
         {
           meta: "RSS",
@@ -36,13 +36,13 @@ const replyMailto = createContactMailto({
           href: "/rss.xml",
         },
         {
-          meta: "LINKEDIN",
+          meta: "LinkedIn",
           label: "Follow Dan on LinkedIn",
           href: "https://www.linkedin.com/in/danferg",
           external: true,
         },
         {
-          meta: "EMAIL",
+          meta: "Email",
           label: "Reply to this piece",
           href: replyMailto,
         },
@@ -51,22 +51,22 @@ const replyMailto = createContactMailto({
   ) : (
     <ConversionEndcap
       headingId="editorial-next-step"
-      eyebrow="// PUT THE IDEAS TO WORK"
-      title="Need a clearer next move for your product?"
-      description="I work with founders and teams across product strategy, traction, and go-to-market—and speak about building useful technology, ventures, and communities."
+      eyebrow="Get in touch"
+      title="Want to compare notes?"
+      description="I’m full-time as Head of Innovation at Spatial Media with very limited consulting availability—always glad to chat, speak, or refer you to trusted people in my network."
       actions={[
         {
-          meta: "CONSULTING / ADVISORY",
-          label: "Discuss a product challenge",
+          meta: "Availability & referrals",
+          label: "Check availability or ask for a referral",
           href: "/consulting",
         },
         {
-          meta: "SELECTED WORK",
+          meta: "Projects",
           label: "Explore the project archive",
           href: "/projects",
         },
         {
-          meta: "SPEAKING",
+          meta: "Speaking",
           label: "Invite Dan to speak",
           href: speakingMailto,
         },
