@@ -1,0 +1,283 @@
+---
+import {
+  mcpCapabilities,
+  mcpClientGroups,
+  mcpTransports,
+} from "../../data/cadence-release";
+---
+
+<section id="mcp" class="cadence-mcp" aria-labelledby="cadence-mcp-heading">
+  <header class="cadence-mcp__bar">
+    <h3 id="cadence-mcp-heading">Local MCP server (CadenceMCP)</h3>
+    <span>100% local · stdio + loopback HTTP · zero cloud relay</span>
+  </header>
+
+  <div class="cadence-mcp__transports">
+    {mcpTransports.map((transport) => (
+      <div class="cadence-mcp__transport">
+        <div class="cadence-mcp__transport-head">
+          <strong>{transport.name}</strong>
+          <span class="cadence-mcp__scope">{transport.scope}</span>
+        </div>
+        <code class="cadence-mcp__endpoint">{transport.endpoint}</code>
+        <p>{transport.detail}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="cadence-mcp__grid">
+    {mcpCapabilities.map((item) => (
+      <div class="cadence-mcp__cell">
+        <span class="cadence-mcp__label">{item.label}</span>
+        <h4>{item.title}</h4>
+        <p>{item.detail}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="cadence-mcp__clients">
+    <div class="cadence-mcp__clients-head">
+      <h4>One-click client setup</h4>
+      <span>Connect from Settings (⌘,) → AI &amp; MCP or the workspace toolbar</span>
+    </div>
+
+    <dl class="cadence-mcp__client-rows">
+      {mcpClientGroups.map((group) => (
+        <div class="cadence-mcp__client-row">
+          <dt>{group.method}</dt>
+          <dd>
+            <span class="cadence-mcp__client-list">
+              {group.clients.map((client) => (
+                <span class="cadence-mcp__chip">{client}</span>
+              ))}
+            </span>
+            <span class="cadence-mcp__client-note">{group.note}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .cadence-mcp {
+    --cadence-breakout-width: min(calc(100vw - 2.5rem), 64rem);
+    position: relative;
+    left: 50%;
+    width: var(--cadence-breakout-width);
+    max-width: none;
+    margin: clamp(2.25rem, 5vw, 3.5rem) 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
+    transform: translateX(-50%);
+    scroll-margin-top: 5.5rem;
+  }
+
+  .cadence-mcp__bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+  }
+
+  .cadence-mcp__bar h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .cadence-mcp__transports {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border-bottom: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .cadence-mcp__transport {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1.05rem 1.25rem;
+    background: color-mix(in srgb, var(--signal-soft) 32%, var(--paper));
+  }
+
+  .cadence-mcp__transport-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .cadence-mcp__transport-head strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .cadence-mcp__scope {
+    color: var(--ink-muted);
+    font-size: 0.76rem;
+  }
+
+  .cadence-mcp__endpoint {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 0.22rem 0.5rem !important;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    color: var(--ink) !important;
+    background: var(--paper) !important;
+    font-family: var(--font-mono);
+    font-size: 0.78rem !important;
+    overflow-wrap: anywhere;
+  }
+
+  .cadence-mcp__transport p {
+    margin: 0.1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .cadence-mcp__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border-bottom: 1px solid var(--line);
+    background: var(--line);
+  }
+
+  .cadence-mcp__cell {
+    padding: 1.1rem 1.25rem;
+    background: var(--paper);
+  }
+
+  .cadence-mcp__label {
+    display: inline-block;
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+  }
+
+  .cadence-mcp__cell h4 {
+    margin: 0.3rem 0 0;
+    color: var(--ink);
+    font-size: 0.94rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .cadence-mcp__cell p {
+    margin: 0.45rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .cadence-mcp__clients {
+    background: var(--paper);
+  }
+
+  .cadence-mcp__clients-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.8rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-subtle);
+  }
+
+  .cadence-mcp__clients-head h4 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .cadence-mcp__clients-head span {
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+  }
+
+  .cadence-mcp__client-rows {
+    margin: 0;
+  }
+
+  .cadence-mcp__client-row {
+    display: grid;
+    grid-template-columns: 11.5rem minmax(0, 1fr);
+    gap: 0.85rem 1.25rem;
+    align-items: baseline;
+    padding: 0.85rem 1.25rem;
+  }
+
+  .cadence-mcp__client-row + .cadence-mcp__client-row {
+    border-top: 1px solid var(--line);
+  }
+
+  .cadence-mcp__client-row dt {
+    color: var(--ink);
+    font-size: 0.84rem;
+    font-weight: 600;
+  }
+
+  .cadence-mcp__client-row dd {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+  }
+
+  .cadence-mcp__client-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .cadence-mcp__chip {
+    padding: 0.16rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--paper-subtle);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .cadence-mcp__client-note {
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 820px) {
+    .cadence-mcp {
+      --cadence-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .cadence-mcp__transports,
+    .cadence-mcp__grid,
+    .cadence-mcp__client-row {
+      grid-template-columns: 1fr;
+    }
+
+    .cadence-mcp__client-row {
+      gap: 0.45rem;
+    }
+  }
+</style>

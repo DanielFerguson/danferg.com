@@ -7,6 +7,7 @@ tags:
   - macOS app
   - Swift
   - Local speech
+  - MCP
 featured: true
 period: "2026"
 status: Free macOS release (v1.0.0)
@@ -35,6 +36,7 @@ release:
 
 import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
 import CadenceGalleryFigure from "../../components/cadence/CadenceGalleryFigure.astro";
+import CadenceMCPPanel from "../../components/cadence/CadenceMCPPanel.astro";
 import CadenceInstallGuide from "../../components/cadence/CadenceInstallGuide.astro";
 import CadenceSpeechEngines from "../../components/cadence/CadenceSpeechEngines.astro";
 import CadenceShortcutsAndSyntax from "../../components/cadence/CadenceShortcutsAndSyntax.astro";
@@ -129,11 +131,29 @@ Every script stays in plain UTF-8 Markdown mirrors on disk alongside the local l
   caption="Folders, pinned scripts, live reading-time estimates, section jump menu, and amber stage-cue pills in native macOS light and dark appearances. Toggle this site's theme to preview both."
 />
 
+## Drafting and revising scripts from your AI tools via local MCP
+
+A lot of the scripts I want to read on camera start inside another tool: a product walkthrough drafted while looking at a codebase in Cursor, Claude Code, Google Antigravity, or Gemini CLI, or a tight two-minute update shaped in Claude Desktop or ChatGPT. Copying drafts back and forth every time you shorten an intro or add a `[pause]` cue gets old quickly.
+
+Cadence exposes your local script library through the Model Context Protocol (`CadenceMCP`) using two strictly local transports: a bundled native Swift `cadence-mcp` stdio helper (symlinked to `~/.local/bin/cadence-mcp` so paths stay stable and edits still work when Cadence is closed) plus an in-app localhost Streamable HTTP server at `http://127.0.0.1:48621/mcp` bound strictly to loopback with Origin validation. Nothing leaves your machine unless you send it to whatever AI client you are already using.
+
+The server exposes 17 tools covering folder and script management, surgical updates through `edit_script` (find-and-replace, append, or single-section rewrites), `analyze_script` for word-count, pacing, and cue metrics, and `open_script` to highlight a script in the workspace. It also exposes your library as MCP Resources and includes Cadence-native authoring Prompts that already understand `# Section` headings and amber `[stage cue]` pills.
+
+Because letting an external tool edit your speaking notes needs real guardrails, Cadence builds safety into the storage boundary itself:
+
+- **Atomic file locking and live reload:** `Cadence.app` and `cadence-mcp` coordinate reads and writes through POSIX `flock` locks (`ScriptLibraryRepository`) and cross-process notifications, reloading edits straight into the open editor while freezing any active teleprompter session mid-read so your text never jumps while you are speaking.
+- **No sudden overlays or permanent deletes:** `open_script` only selects a script in the workspace and never triggers the notch overlay, and delete calls only move scripts to Recently Deleted.
+- **20-revision undo safety:** Every AI mutation saves a pre-edit snapshot (keeping the last 20 revisions locally) alongside a recent AI activity strip with one-click Revert.
+
+Setup lives inside a dedicated **AI & MCP** tab in Settings (`⌘,`), a **Connect AI** sheet in the workspace toolbar with a subtle live connection indicator, and a quiet dismissible prompt in the sidebar footer until you connect your first client. Rather than making you hand-edit JSON files by default, Cadence uses native deeplinks for Cursor and VS Code, safe backed-up one-click installs for Claude Desktop (plus `.mcpb` export), Claude Code, Gemini CLI, Google Antigravity, and OpenAI Codex, and copyable JSON/URL cards for ChatGPT Desktop and custom clients, backed by a three-layer check (config status, local server self-test, and real client handshake tracking with a Copy Test Prompt button).
+
+<CadenceMCPPanel />
+
 ## On-device voice following without the cloud or audio drama
 
 Voice-followed teleprompting fails in two very specific ways in practice. First, speech recognition lags behind or trips over proper nouns, causing the text to stutter or freeze mid-sentence. Second, poorly behaved audio capture grabs exclusive control of the microphone or flips Bluetooth headphones into low-bandwidth hands-free mode right in the middle of a call.
 
-Cadence separates those responsibilities cleanly across three Swift 6 modules: `CadenceCore` handles script storage, parsing, phonetic alignment, and scroll physics; `CadenceSpeech` handles passive audio capture and pluggable speech engines; and `CadenceApp` owns the SwiftUI and AppKit UI.
+Cadence separates those responsibilities cleanly across Swift 6 modules: `CadenceCore` handles script storage, parsing, phonetic alignment, and scroll physics; `CadenceSpeech` handles passive audio capture and pluggable speech engines; `CadenceMCP` handles local stdio and loopback HTTP tool calls; and `CadenceApp` owns the SwiftUI and AppKit UI.
 
 On the audio side, `AudioCaptureService` attaches a passive, read-only `AVAudioEngine` input tap (also feeding the 5-band Goertzel volume beam in the notch). It does not hijack AirPods routing or interrupt Zoom, Loom, OBS, or Screen Studio.
 

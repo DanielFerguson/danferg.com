@@ -42,6 +42,25 @@ export interface ChangelogRelease {
   }>;
 }
 
+export interface MCPTransportSpec {
+  name: string;
+  endpoint: string;
+  scope: string;
+  detail: string;
+}
+
+export interface MCPCapabilitySpec {
+  label: string;
+  title: string;
+  detail: string;
+}
+
+export interface MCPClientGroup {
+  method: string;
+  clients: string[];
+  note: string;
+}
+
 export const cadenceRelease = {
   name: "Cadence",
   version: "1.0.0",
@@ -209,6 +228,74 @@ export const storageLocations: StorageLocation[] = [
     label: "Optional speech models",
     path: "~/Library/Application Support/Cadence/Models/",
     detail: "Downloaded Moonshine v2 and Parakeet weights, kept offline.",
+  },
+];
+
+export const mcpTransports: MCPTransportSpec[] = [
+  {
+    name: "Bundled stdio helper",
+    endpoint: "~/.local/bin/cadence-mcp",
+    scope: "Works even when Cadence is closed",
+    detail:
+      "Native Swift executable bundled inside Cadence.app and symlinked to a stable path, sharing the library through POSIX file locks.",
+  },
+  {
+    name: "Localhost Streamable HTTP",
+    endpoint: "http://127.0.0.1:48621/mcp",
+    scope: "In-app loopback server (on by default)",
+    detail:
+      "Strict 127.0.0.1 loopback binding with Origin validation for desktop and HTTP-native MCP clients.",
+  },
+];
+
+export const mcpCapabilities: MCPCapabilitySpec[] = [
+  {
+    label: "17 tools + resources + prompts",
+    title: "Full script & folder control",
+    detail:
+      "Create, read, search, organise, and make surgical edits (edit_script replace, append, or section updates), run analyze_script for pacing and cue metrics, or call open_script to select a script in the workspace without ever triggering the notch overlay.",
+  },
+  {
+    label: "Soft-delete & live sync",
+    title: "Built not to wreck an active take",
+    detail:
+      "Atomic flock-coordinated writes reload live into the open editor, while any active teleprompter session freezes safely mid-read. Deletions move scripts to Recently Deleted only.",
+  },
+  {
+    label: "20-revision safety net",
+    title: "Pre-AI snapshots with 1-click Revert",
+    detail:
+      "Every AI mutation captures the prior document first (keeping the last 20 snapshots locally) alongside a recent AI activity strip so you can undo any edit in one click.",
+  },
+  {
+    label: "Verification & native UI",
+    title: "Three-layer connection checks",
+    detail:
+      "Configure and verify from Settings (⌘,) → AI & MCP, the workspace toolbar Connect AI sheet, or a dismissible sidebar prompt, tracking config status, live server self-tests, and real client handshakes.",
+  },
+];
+
+export const mcpClientGroups: MCPClientGroup[] = [
+  {
+    method: "Native deeplink",
+    clients: ["Cursor", "VS Code"],
+    note: "Opens the client's built-in MCP install prompt directly via cursor:// and vscode:mcp/install.",
+  },
+  {
+    method: "1-click backed-up config",
+    clients: [
+      "Claude Desktop (.mcpb)",
+      "Claude Code",
+      "Gemini CLI",
+      "Google Antigravity",
+      "OpenAI Codex",
+    ],
+    note: "Safely installs or removes Cadence with an automatic config backup first.",
+  },
+  {
+    method: "Copy JSON / URL",
+    clients: ["ChatGPT Desktop", "Custom MCP clients"],
+    note: "Guided snippet cards plus a Copy Test Prompt button to verify the live handshake.",
   },
 ];
 
