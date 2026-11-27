@@ -17,24 +17,26 @@ import {
   </header>
 
   <div class="cadence-notes__body">
-    {changelogReleases.map((release) => (
-      <div class="cadence-changelog">
-        <div class="cadence-changelog__head">
-          <span class="cadence-changelog__ver">v{release.version}</span>
-          <time datetime={release.date}>{release.dateLabel}</time>
-          <p>{release.summary}</p>
-        </div>
+    <div class="cadence-changelog-stack">
+      {changelogReleases.map((release) => (
+        <div class="cadence-changelog">
+          <div class="cadence-changelog__head">
+            <span class="cadence-changelog__ver">v{release.version}</span>
+            <time datetime={release.date}>{release.dateLabel}</time>
+            <p>{release.summary}</p>
+          </div>
 
-        <ul class="cadence-changelog__list">
-          {release.items.map((item) => (
-            <li>
-              <strong>{item.title}</strong>
-              <span>{item.detail}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+          <ul class="cadence-changelog__list">
+            {release.items.map((item) => (
+              <li>
+                <strong>{item.title}</strong>
+                <span>{item.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
 
     <div class="cadence-storage">
       <div class="cadence-storage__head">
@@ -110,6 +112,13 @@ import {
   .cadence-notes__body {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 1px;
+    background: var(--line);
+  }
+
+  .cadence-changelog-stack {
+    display: flex;
+    flex-direction: column;
     gap: 1px;
     background: var(--line);
   }

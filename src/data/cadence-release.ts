@@ -63,17 +63,17 @@ export interface MCPClientGroup {
 
 export const cadenceRelease = {
   name: "Cadence",
-  version: "1.0.0",
-  build: "1",
+  version: "1.1.1",
+  build: "3",
   releaseDate: "2026-11-27",
   releaseDateLabel: "27 November 2026",
-  downloadUrl: "/downloads/Cadence-1.0.0-arm64.dmg",
-  downloadFileName: "Cadence-1.0.0-arm64.dmg",
-  downloadSize: "18.6 MB",
-  downloadBytes: 18_646_764,
-  sha256: "30f266f2e7fd8914bb387bea7e429fb74c3cc1980eb37aeae5ea812de4057550",
+  downloadUrl: "/downloads/Cadence-1.1.1-arm64.dmg",
+  downloadFileName: "Cadence-1.1.1-arm64.dmg",
+  downloadSize: "19.5 MB",
+  downloadBytes: 19_467_036,
+  sha256: "272d3603c323a68a59612a1fb4f960dbb4cf0f5472f473e4943f6a4f9ba5da76",
   quarantineCommand: "xattr -cr /Applications/Cadence.app",
-  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.0.0-arm64.dmg",
+  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.1.1-arm64.dmg",
   architecture: "Apple Silicon (arm64)",
   macosRequirement: "macOS 26.0 (Tahoe) or later",
   price: "Free",
@@ -229,6 +229,11 @@ export const storageLocations: StorageLocation[] = [
     path: "~/Library/Application Support/Cadence/Models/",
     detail: "Downloaded Moonshine v2 and Parakeet weights, kept offline.",
   },
+  {
+    label: "MCP activity & AI undo snapshots",
+    path: "~/Library/Application Support/Cadence/mcp-activity.json · mcp-snapshots.json",
+    detail: "Local client handshake log and the last 20 pre-AI-edit script revisions.",
+  },
 ];
 
 export const mcpTransports: MCPTransportSpec[] = [
@@ -300,6 +305,54 @@ export const mcpClientGroups: MCPClientGroup[] = [
 ];
 
 export const changelogReleases: ChangelogRelease[] = [
+  {
+    version: "1.1.1",
+    date: "2026-11-27",
+    dateLabel: "27 November 2026",
+    summary:
+      "Fixes a macOS 26 workspace header and column safe-area alignment regression introduced in v1.1.0.",
+    items: [
+      {
+        title: "Workspace header & column alignment on macOS 26",
+        detail:
+          "Fixed a SwiftUI NavigationSplitView layout bug where the sidebar MCP prompt card inflated the split view and pushed all three column headers underneath the toolbar and window controls.",
+      },
+      {
+        title: "Connect AI sheet modifier ordering",
+        detail:
+          "Moved the Connect AI sheet presentation to the end of WorkspaceRootView's modifier chain so split-view styling and toolbar modifiers attach directly to NavigationSplitView.",
+      },
+    ],
+  },
+  {
+    version: "1.1.0",
+    date: "2026-11-27",
+    dateLabel: "27 November 2026",
+    summary:
+      "Adds local-first Cadence MCP server support, one-click AI client setup, live editor sync, and 20-revision pre-AI undo snapshots.",
+    items: [
+      {
+        title: "Local-first Cadence MCP server (stdio + Streamable HTTP)",
+        detail:
+          "Bundled native Swift cadence-mcp stdio helper (symlinked to ~/.local/bin/cadence-mcp so it works even when Cadence is closed) plus a loopback-only in-app HTTP server at 127.0.0.1:48621/mcp with Host and Origin validation.",
+      },
+      {
+        title: "17 script & folder tools, MCP resources, and authoring prompts",
+        detail:
+          "Full script and folder CRUD, surgical edit_script modes (replace_text, append_text, prepend_text, replace_section), analyze_script metrics, open_script workspace selection, library resources, and write_teleprompter_script / polish_for_delivery prompts.",
+      },
+      {
+        title: "One-click AI provider setup and 3-layer verification UI",
+        detail:
+          "New Settings (⌘,) → AI & MCP tab, workspace toolbar Connect AI sheet, and dismissible sidebar prompt supporting Cursor, VS Code, Claude Desktop (.mcpb), Claude Code, Gemini CLI, Google Antigravity, OpenAI Codex, and ChatGPT Desktop.",
+      },
+      {
+        title: "Live sync, soft-delete guardrail, and 20-revision AI undo",
+        detail:
+          "POSIX flock-coordinated writes reload live into the editor without disrupting an active notch prompter session, deletions move to Recently Deleted only, and pre-edit snapshots enable one-click Revert.",
+      },
+    ],
+  },
   {
     version: "1.0.0",
     date: "2026-11-27",

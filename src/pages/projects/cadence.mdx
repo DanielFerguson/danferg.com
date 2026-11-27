@@ -10,7 +10,7 @@ tags:
   - MCP
 featured: true
 period: "2026"
-status: Free macOS release (v1.0.0)
+status: Free macOS release (v1.1.1)
 role: Creator / design / Swift engineering
 caseStudyLabel: Product release
 imageKey: cadence
@@ -21,11 +21,11 @@ canonicalUrl: /projects/cadence
 publishedDate: "2026-11-27"
 updatedDate: "2026-11-27"
 release:
-  version: "1.0.0"
+  version: "1.1.1"
   releaseDateLabel: "27 November 2026"
-  downloadUrl: "/downloads/Cadence-1.0.0-arm64.dmg"
-  downloadFileName: "Cadence-1.0.0-arm64.dmg"
-  downloadSize: "18.6 MB"
+  downloadUrl: "/downloads/Cadence-1.1.1-arm64.dmg"
+  downloadFileName: "Cadence-1.1.1-arm64.dmg"
+  downloadSize: "19.5 MB"
   architecture: "Apple Silicon (arm64)"
   macosRequirement: "macOS 26.0 (Tahoe) or later"
   price: "Free"
@@ -59,7 +59,7 @@ Existing Mac teleprompters solve parts of that problem, though most ask for a re
 Cadence is the result. It is a native Swift 6 macOS app for Apple Silicon that attaches a pitch-black teleprompter directly to your MacBook camera notch, listens locally on your machine, and scrolls your script at your real speaking pace. Speed up when you have momentum, slow down to land a point, or stop to breathe and improvise; the text waits calmly until you rejoin it.
 
 <CaseStudyDataBand
-  label="Cadence 1.0.0: core release specs"
+  label="Cadence 1.1.1: core release specs"
   items={cadenceAtAGlance}
 />
 
@@ -187,9 +187,9 @@ Part of why I built Cadence was wanting to compare today's local macOS speech en
   ]}
 />
 
-## Installing Cadence 1.0.0 on your Mac
+## Installing Cadence 1.1.1 on your Mac
 
-Cadence is free and ready to run on any Apple Silicon Mac (`arm64`) running **macOS 26.0 (Tahoe) or later**. Because version 1.0.0 is ad-hoc signed rather than notarised with a paid Apple Developer ID certificate, macOS Gatekeeper will quarantine the browser-downloaded `.dmg` until you clear the quarantine attribute once. The full four-step setup and SHA-256 verification checksum are below.
+Cadence is free and ready to run on any Apple Silicon Mac (`arm64`) running **macOS 26.0 (Tahoe) or later**. Because version 1.1.1 is ad-hoc signed rather than notarised with a paid Apple Developer ID certificate, macOS Gatekeeper will quarantine the browser-downloaded `.dmg` until you clear the quarantine attribute once. The full four-step setup and SHA-256 verification checksum are below.
 
 <CadenceInstallGuide />
 
@@ -201,7 +201,7 @@ Once a script is open, you should rarely need to touch the mouse while recording
 
 ## Release notes, privacy, and what still has sharp edges
 
-Shipping version 1.0.0 today means being clear about the current boundaries alongside what already works well.
+Shipping version 1.1.1 today means being clear about the current boundaries alongside what already works well.
 
 Three trade-offs are worth knowing upfront. First, Cadence targets **Apple Silicon and macOS 26.0+** because it leans directly on Apple's modern on-device `SpeechAnalyzer` APIs and Swift 6 concurrency; Intel Macs and older macOS releases are not supported. Second, ad-hoc signing keeps this initial release free of Apple Developer Program overhead, at the cost of that one-line `xattr` step on first launch. If enough people use Cadence regularly, moving to a notarised Developer ID build is already wired into the release pipeline. Third, hiding an overlay from every screen recorder on modern macOS is less absolute than it used to be, so I have documented the `ScreenCaptureKit` caveat plainly below.
 
