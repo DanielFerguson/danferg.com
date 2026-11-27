@@ -63,17 +63,17 @@ export interface MCPClientGroup {
 
 export const cadenceRelease = {
   name: "Cadence",
-  version: "1.1.1",
-  build: "3",
+  version: "1.1.2",
+  build: "4",
   releaseDate: "2026-11-27",
   releaseDateLabel: "27 November 2026",
-  downloadUrl: "/downloads/Cadence-1.1.1-arm64.dmg",
-  downloadFileName: "Cadence-1.1.1-arm64.dmg",
-  downloadSize: "19.5 MB",
-  downloadBytes: 19_467_036,
-  sha256: "272d3603c323a68a59612a1fb4f960dbb4cf0f5472f473e4943f6a4f9ba5da76",
+  downloadUrl: "/downloads/Cadence-1.1.2-arm64.dmg",
+  downloadFileName: "Cadence-1.1.2-arm64.dmg",
+  downloadSize: "19.7 MB",
+  downloadBytes: 19_711_726,
+  sha256: "3e62387cdf3b5a88c15d80cee3e0b263a5dd8531e1691415bb6447184214fc4b",
   quarantineCommand: "xattr -cr /Applications/Cadence.app",
-  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.1.1-arm64.dmg",
+  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.1.2-arm64.dmg",
   architecture: "Apple Silicon (arm64)",
   macosRequirement: "macOS 26.0 (Tahoe) or later",
   price: "Free",
@@ -306,12 +306,31 @@ export const mcpClientGroups: MCPClientGroup[] = [
 
 export const changelogReleases: ChangelogRelease[] = [
   {
+    version: "1.1.2",
+    date: "2026-11-27",
+    dateLabel: "27 November 2026",
+    summary:
+      "Enforces a single workspace window across macOS app launches and menu bar actions.",
+    items: [
+      {
+        title: "Single-window workspace enforcement",
+        detail:
+          "Switched the workspace scene from WindowGroup to macOS's single-instance Window, updated menu bar actions (Open Workspace and Connect AI) to focus the existing window, and added a launch guard so duplicate workspace windows never spawn.",
+      },
+    ],
+  },
+  {
     version: "1.1.1",
     date: "2026-11-27",
     dateLabel: "27 November 2026",
     summary:
-      "Fixes a macOS 26 workspace header and column safe-area alignment regression introduced in v1.1.0.",
+      "Fixes a Swift 6 directory-watcher isolation crash and a macOS 26 workspace header alignment regression introduced in v1.1.0.",
     items: [
+      {
+        title: "Swift 6 directory watcher isolation fix",
+        detail:
+          "Moved MCPIntegrationController's filesystem DispatchSource onto DispatchQueue.main so live library change events never fire @MainActor-isolated handlers from a background queue.",
+      },
       {
         title: "Workspace header & column alignment on macOS 26",
         detail:
