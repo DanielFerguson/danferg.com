@@ -1,0 +1,480 @@
+---
+import type SEO from "types/SEO";
+import { getImage, Picture } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import NavBar from "@components/NavBar.astro";
+import ConversionEndcap from "@components/ConversionEndcap.astro";
+import {
+  getProjectAppIcon,
+  getProjectScreenshot,
+} from "../utils/project-assets";
+import { getNextProject } from "../data/project-journey";
+import { createContactMailto } from "../utils/contact-links";
+import { pageTitle } from "../utils/seo";
+
+const { frontmatter } = Astro.props;
+const release = frontmatter.release;
+const projectScreenshot = getProjectScreenshot(frontmatter.imageKey);
+const appIcon = frontmatter.appIconKey
+  ? getProjectAppIcon(frontmatter.appIconKey)
+  : null;
+
+const projectSocialImage = await getImage({
+  src: projectScreenshot,
+  width: 1200,
+  height: 630,
+  fit: "cover",
+  format: "webp",
+  quality: 80,
+});
+
+const screenshotAlt =
+  frontmatter.imageAlt || `${frontmatter.title} product interface screenshot`;
+const caseStudyLabel = frontmatter.caseStudyLabel || "Product release";
+const nextProject = getNextProject(frontmatter.canonicalUrl);
+const contactTitle = `Trying ${frontmatter.title} on your Mac, or curious how it was built?`;
+const contactDescription =
+  "Send a note if you run into a macOS quirk, want to compare local speech engines, or are curious about the architecture. I am full-time at Spatial Media now, though always glad to hear how the tool holds up in practice.";
+const contactMailto = createContactMailto({
+  subject: `Note on ${frontmatter.title} v${release?.version ?? "1.0.0"}`,
+  body: `G'day Dan,\n\nI tried ${frontmatter.title} and wanted to share a quick note.\n\nMac model & macOS version:\n`,
+});
+
+const endcapActions = [
+  ...(release?.downloadUrl
+    ? [
+        {
+          meta: `${release.price ?? "Free"} · v${release.version} · ${release.downloadSize}`,
+          label: `Download ${frontmatter.title} for Mac (.dmg)`,
+          href: release.downloadUrl,
+          description: `${release.architecture} · ${release.macosRequirement}`,
+          download: release.downloadFileName ?? true,
+        },
+      ]
+    : []),
+  {
+    meta: "Feedback & notes",
+    label: `Send feedback on ${frontmatter.title}`,
+    href: contactMailto,
+  },
+  {
+    meta: "Next project",
+    label: nextProject.title,
+    href: nextProject.href,
+    description: nextProject.description,
+  },
+];
+
+const siteUrl = "https://danferg.com";
+const pageUrl = new URL(frontmatter.canonicalUrl, siteUrl).toString();
+const softwareJsonLd = release
+  ? {
+      "@type": "SoftwareApplication",
+      "@id": `${pageUrl}#software`,
+      name: frontmatter.title,
+      description: frontmatter.description,
+      url: pageUrl,
+      downloadUrl: new URL(release.downloadUrl, siteUrl).toString(),
+      softwareVersion: release.version,
+      operatingSystem: release.macosRequirement,
+      processorRequirements: release.architecture,
+      applicationCategory: "UtilitiesApplication",
+      fileSize: release.downloadSize,
+      datePublished: frontmatter.publishedDate,
+      dateModified: frontmatter.updatedDate || frontmatter.publishedDate,
+      author: { "@id": `${siteUrl}/#person` },
+      publisher: { "@id": `${siteUrl}/#person` },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "AUD",
+      },
+    }
+  : undefined;
+
+const SEO: SEO & {
+  headline: string;
+  articleSection: string;
+  publishedDate?: string;
+  modifiedDate?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+} = {
+  title: pageTitle(frontmatter.title, frontmatter.seoTitle),
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  imageUrl: projectSocialImage.src,
+  imageAlt: screenshotAlt,
+  imageWidth: 1200,
+  imageHeight: 630,
+  imageType: "image/webp",
+  openGraph: { type: "article" },
+  canonicalUrl: frontmatter.canonicalUrl,
+  robots: frontmatter.visible === false ? "noindex,follow" : undefined,
+  schemaType: "CreativeWork",
+  publishedDate: frontmatter.publishedDate || frontmatter.date,
+  modifiedDate: frontmatter.modifiedDate || frontmatter.updatedDate,
+  articleSection: "Projects",
+  jsonLd: softwareJsonLd,
+  breadcrumbs: [
+    { name: "Home", url: "/" },
+    { name: "Projects", url: "/projects" },
+    { name: frontmatter.title, url: frontmatter.canonicalUrl },
+  ],
+};
+---
+
+<BaseLayout {...SEO}>
+  <NavBar />
+  <main id="main-content">
+    <section class="band page-hero-band">
+      <div class="band__frame release-hero" data-motion-intro-group>
+        <p class="release-hero__back" data-motion-intro-item>
+          <a href="/projects"><span aria-hidden="true">←</span> Projects</a>
+        </p>
+
+        <div class="release-hero__header" data-motion-intro-item>
+          <p class="page-hero__eyebrow">{caseStudyLabel}</p>
+          <div class="release-hero__identity">
+            {appIcon && (
+              <div class="release-hero__icon">
+                <Picture
+                  src={appIcon}
+                  formats={["avif", "webp"]}
+                  fallbackFormat="webp"
+                  alt={`${frontmatter.title} macOS application icon`}
+                  widths={[64, 128, 256]}
+                  sizes="60px"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            )}
+            <h1>{frontmatter.title}</h1>
+          </div>
+        </div>
+
+        <p class="release-hero__lede" data-motion-intro-item>
+          {frontmatter.description}
+        </p>
+
+        {release?.downloadUrl && (
+          <div class="release-hero__actions" data-motion-intro-item>
+            <a
+              class="btn btn--primary release-hero__download"
+              href={release.downloadUrl}
+              download={release.downloadFileName ?? true}
+              data-motion-interactive
+            >
+              <span aria-hidden="true" data-motion-arrow data-motion-axis="y">
+                ↓
+              </span>
+              <span>Download for Mac</span>
+              <span class="release-hero__download-meta">
+                .dmg · {release.downloadSize}
+              </span>
+            </a>
+
+            <a
+              class="btn btn--secondary"
+              href={release.secondaryHref || "#install"}
+              data-motion-interactive
+            >
+              {release.secondaryLabel || "Install guide"}
+              <span aria-hidden="true" data-motion-arrow data-motion-axis="y">
+                ↓
+              </span>
+            </a>
+          </div>
+        )}
+
+        <dl class="release-meta" data-motion-intro-item>
+          {frontmatter.period && (
+            <div>
+              <dt>Period</dt>
+              <dd>{frontmatter.period}</dd>
+            </div>
+          )}
+          {frontmatter.status && (
+            <div>
+              <dt>Status</dt>
+              <dd>{frontmatter.status}</dd>
+            </div>
+          )}
+          {frontmatter.role && (
+            <div>
+              <dt>Role</dt>
+              <dd>{frontmatter.role}</dd>
+            </div>
+          )}
+          {frontmatter.tags?.length > 0 && (
+            <div>
+              <dt>Disciplines</dt>
+              <dd>{frontmatter.tags.join(" · ")}</dd>
+            </div>
+          )}
+        </dl>
+      </div>
+    </section>
+
+    <section class="band band--subtle">
+      <div class="band__frame release-stage">
+        <figure
+          class="release-stage__figure"
+          data-motion-reveal
+          data-motion-scale
+        >
+          <div class="release-stage__media">
+            <Picture
+              src={projectScreenshot}
+              formats={["avif", "webp"]}
+              fallbackFormat="webp"
+              alt={screenshotAlt}
+              widths={[640, 960, 1280, 1920]}
+              sizes="(min-width: 1280px) 1080px, calc(100vw - 40px)"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+          {frontmatter.heroCaption && (
+            <figcaption class="release-stage__caption">
+              <span>Notch Live Activity</span>
+              <span>{frontmatter.heroCaption}</span>
+            </figcaption>
+          )}
+        </figure>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="band__frame release-body">
+        <article
+          class="prose-shell article-prose"
+          data-pagefind-body
+        >
+          <slot />
+        </article>
+      </div>
+    </section>
+
+    <ConversionEndcap
+      headingId="project-next-step"
+      eyebrow="Download or keep exploring"
+      title={contactTitle}
+      description={contactDescription}
+      actions={endcapActions}
+    />
+  </main>
+</BaseLayout>
+
+<style>
+  .release-hero {
+    padding-block: clamp(2.5rem, 5vw, 4rem) clamp(2.25rem, 4vw, 3.25rem);
+  }
+
+  .release-hero__back {
+    margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+    font-size: 0.88rem;
+  }
+
+  .release-hero__back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 140ms ease;
+  }
+
+  .release-hero__back a:hover {
+    color: var(--signal);
+  }
+
+  .release-hero__identity {
+    display: flex;
+    max-width: 44rem;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .release-hero__icon {
+    flex: 0 0 auto;
+    width: 3.75rem;
+    height: 3.75rem;
+    overflow: hidden;
+    border-radius: 13px;
+    box-shadow:
+      0 8px 22px rgb(21 17 40 / 16%),
+      0 1px 3px rgb(21 17 40 / 12%);
+  }
+
+  .release-hero__icon :global(picture),
+  .release-hero__icon :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.35rem, 5vw, 3.85rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .release-hero__lede {
+    max-width: 40rem;
+    margin: 1.15rem 0 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.02rem, 1.4vw, 1.12rem);
+    line-height: 1.65;
+  }
+
+  .release-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .release-hero__download-meta {
+    padding-left: 0.55rem;
+    border-left: 1px solid rgb(255 255 255 / 26%);
+    color: rgb(250 249 255 / 82%);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 450;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .release-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem 0;
+    margin: clamp(2.25rem, 4vw, 3rem) 0 0;
+    padding: 1.35rem 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .release-meta div {
+    padding-right: 1.25rem;
+  }
+
+  .release-meta div + div {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .release-meta dt {
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .release-meta dd {
+    margin: 0.35rem 0 0;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+
+  .release-stage {
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .release-stage__figure {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+  }
+
+  .release-stage__media {
+    overflow: hidden;
+    background: #0d1421;
+  }
+
+  .release-stage__media :global(picture),
+  .release-stage__media :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .release-stage__caption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    align-items: baseline;
+    margin: 0;
+    padding: 0.85rem 1.15rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-muted);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .release-stage__caption span:first-child {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .release-body {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .release-body :global(.article-prose) {
+    margin-inline: auto;
+  }
+
+  @media (max-width: 780px) {
+    .release-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .release-meta div {
+      padding: 0.85rem 0.75rem 0.85rem 0;
+    }
+
+    .release-meta div + div {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .release-meta div:nth-child(even) {
+      padding-left: 1rem;
+      padding-right: 0;
+      border-left: 1px solid var(--line);
+    }
+
+    .release-meta div:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .release-hero__icon {
+      width: 3.15rem;
+      height: 3.15rem;
+      border-radius: 11px;
+    }
+
+    .release-hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .release-hero__actions .btn {
+      width: 100%;
+    }
+  }
+</style>

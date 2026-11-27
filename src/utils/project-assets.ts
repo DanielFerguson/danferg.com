@@ -1,6 +1,8 @@
 import airproxyScreenshot from "../assets/projects/airproxy/screenshot.webp";
 import autofarmScreenshot from "../assets/projects/autofarm/screenshot.webp";
 import balanceBoardScreenshot from "../assets/projects/balance-board/screenshot.webp";
+import cadenceAppIcon from "../assets/projects/cadence/app-icon.webp";
+import cadenceScreenshot from "../assets/projects/cadence/notch-active-reading.webp";
 import chefScreenshot from "../assets/projects/chef/screenshot.png";
 import communitiLabsScreenshot from "../assets/projects/communitilabs/screenshot.png";
 import doTheyRepresentMeScreenshot from "../assets/projects/do-they-represent-me/screenshot.webp";
@@ -25,6 +27,7 @@ export const projectScreenshots = {
   airproxy: airproxyScreenshot,
   autofarm: autofarmScreenshot,
   "balance-board": balanceBoardScreenshot,
+  cadence: cadenceScreenshot,
   chef: chefScreenshot,
   communitilabs: communitiLabsScreenshot,
   "do-they-represent-me": doTheyRepresentMeScreenshot,
@@ -50,6 +53,16 @@ export function getProjectScreenshot(key: string) {
   const screenshot = projectScreenshots[key as keyof typeof projectScreenshots];
   if (!screenshot) throw new Error(`Unknown project screenshot key: ${key}`);
   return screenshot;
+}
+
+export const projectAppIcons = {
+  cadence: cadenceAppIcon,
+};
+
+export function getProjectAppIcon(key: string) {
+  const icon = projectAppIcons[key as keyof typeof projectAppIcons];
+  if (!icon) throw new Error(`Unknown project app icon key: ${key}`);
+  return icon;
 }
 
 export function getProjectExternalUrl(project: {

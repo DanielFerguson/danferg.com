@@ -6,6 +6,12 @@ export interface ProjectJourneyDestination {
 
 const projectJourney: Record<string, ProjectJourneyDestination> = {
   "/projects/communitilabs": {
+    title: "Cadence",
+    href: "/projects/cadence",
+    description:
+      "See how a local-first MacBook notch teleprompter pairs on-device voice tracking with a Notes-style workspace.",
+  },
+  "/projects/cadence": {
     title: "Judgement Required",
     href: "/projects/judgement-required",
     description:

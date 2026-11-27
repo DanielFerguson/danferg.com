@@ -1,0 +1,190 @@
+---
+layout: ../../layouts/ProductReleaseLayout.astro
+title: Cadence
+seoTitle: "Cadence: a free local-first macOS notch teleprompter"
+description: A free, local-first macOS notch teleprompter with real-time on-device voice tracking, five offline speech engines, and a Notes-style script workspace.
+tags:
+  - macOS app
+  - Swift
+  - Local speech
+featured: true
+period: "2026"
+status: Free macOS release (v1.0.0)
+role: Creator / design / Swift engineering
+caseStudyLabel: Product release
+imageKey: cadence
+appIconKey: cadence
+imageAlt: Cadence fused beneath a MacBook Pro camera notch, tracking spoken words in real time with an emerald five-band audio beam, dimmed spoken lines above, active word focus, and an amber pause stage cue.
+heroCaption: Cadence anchored directly beneath the MacBook camera notch, tracking speech with a five-band audio beam, dimmed spoken text above, an amber [pause] cue, and Cue 2/3 progress on the right ear.
+canonicalUrl: /projects/cadence
+publishedDate: "2026-11-27"
+updatedDate: "2026-11-27"
+release:
+  version: "1.0.0"
+  releaseDateLabel: "27 November 2026"
+  downloadUrl: "/downloads/Cadence-1.0.0-arm64.dmg"
+  downloadFileName: "Cadence-1.0.0-arm64.dmg"
+  downloadSize: "18.6 MB"
+  architecture: "Apple Silicon (arm64)"
+  macosRequirement: "macOS 26.0 (Tahoe) or later"
+  price: "Free"
+  signingStatus: "Ad-hoc signed"
+  secondaryHref: "#install"
+  secondaryLabel: "Install guide"
+---
+
+import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
+import CadenceGalleryFigure from "../../components/cadence/CadenceGalleryFigure.astro";
+import CadenceInstallGuide from "../../components/cadence/CadenceInstallGuide.astro";
+import CadenceSpeechEngines from "../../components/cadence/CadenceSpeechEngines.astro";
+import CadenceShortcutsAndSyntax from "../../components/cadence/CadenceShortcutsAndSyntax.astro";
+import CadenceReleaseNotes from "../../components/cadence/CadenceReleaseNotes.astro";
+import { cadenceAtAGlance } from "../../data/cadence-release";
+import notchHoverControls from "../../assets/projects/cadence/notch-hover-controls.webp";
+import notchCountdown from "../../assets/projects/cadence/notch-countdown.webp";
+import notchTuckedPill from "../../assets/projects/cadence/notch-tucked-pill.webp";
+import workspaceLight from "../../assets/projects/cadence/workspace-light.webp";
+import workspaceDark from "../../assets/projects/cadence/workspace-dark.webp";
+import settingsVoice from "../../assets/projects/cadence/settings-voice.webp";
+import settingsPrompter from "../../assets/projects/cadence/settings-prompter.webp";
+
+## Keeping your eye line near the lens
+
+Every time you record a product walkthrough, film a short update, or run an important client call, you hit the same minor dilemma. Either you try to memorise every point under pressure, or you keep notes off to the side and your eyes visibly drift away from the camera while you talk.
+
+Existing Mac teleprompters solve parts of that problem, though most ask for a recurring subscription, push your speech through a cloud API, or behave clumsily once you are also running Zoom, Loom, OBS, or a pair of AirPods. I wanted something free, native, and completely local on my Mac, and I was curious how far macOS 26's built-in on-device speech stack could go compared with open local streaming models.
+
+Cadence is the result. It is a native Swift 6 macOS app for Apple Silicon that attaches a pitch-black teleprompter directly to your MacBook camera notch, listens locally on your machine, and scrolls your script at your real speaking pace. Speed up when you have momentum, slow down to land a point, or stop to breathe and improvise; the text waits calmly until you rejoin it.
+
+<CaseStudyDataBand
+  label="Cadence 1.0.0: core release specs"
+  items={cadenceAtAGlance}
+/>
+
+## Living inside the MacBook notch
+
+The placement is the main trick. Because the camera lens sits right inside the MacBook notch, putting the active reading line immediately below that bezel keeps your gaze natural on video. The notch Live Activity interaction was directly inspired by [Moody Teleprompter](https://moodyteleprompter.com/), adapted around local speech tracking and a native script library.
+
+To make the window feel attached to the hardware rather than pasted over the menu bar, the overlay uses a non-activating floating `NSPanel` matched to pure black (`#000000`) with concave top shoulders that melt into the physical notch bezel. Your active reading anchor sits at 28% from the top of the viewport, with spoken text dimmed to 38%, the active line at full contrast, and upcoming lines at 80% so your eye does not hunt for its place.
+
+<CadenceGalleryFigure
+  number="01"
+  label="Hover controls dock: pause, re-pace, or detach without leaving your script"
+  layout="single"
+  items={[
+    {
+      src: notchHoverControls,
+      surface: "dark",
+      label: "Anti-flicker hover dock",
+      alt: "Cadence notch overlay showing the Hold status indicator and bottom hover controls dock for play/pause, restart, Voice mode toggle, word lead adjustment, section cues, typography size, detach window, and collapse.",
+      caption:
+        "Moving the cursor into the notch holds scrolling automatically and reveals the dock: switch between Voice Follow and Classic Auto-Scroll, nudge word lead (+0.6w), resize text, jump section cues, or detach into a floating window on an external display.",
+    },
+  ]}
+/>
+
+Motion matters more than I expected in a teleprompter. Bouncy springs feel playful in a launcher, yet distracting when you are reading out loud on camera. Cadence uses non-bouncy, critically damped transitions across its six notch states: a 3-second countdown ring that pre-warms the microphone, active voice tracking, hover hold, manual pause, a compact tucked pill when you want the text out of the way, and full dismissal.
+
+On an external monitor without a notch, or whenever you want to drag the script closer to an external webcam, one click detaches the prompter into a translucent floating window with symmetrical bottom-corner drag-to-resize.
+
+<CadenceGalleryFigure
+  number="02"
+  label="Notch states: mic pre-warm countdown and compact tucked pill"
+  layout="stack"
+  items={[
+    {
+      src: notchCountdown,
+      surface: "dark",
+      label: "Pre-warmed 3-second countdown",
+      alt: "Cadence notch overlay displaying a circular emerald countdown ring at 2 with a Space to start prompt over dimmed script text.",
+      caption:
+        "Launching a script starts a short countdown that warms the audio tap and speech engine before word one, with Space ready to begin immediately.",
+    },
+    {
+      src: notchTuckedPill,
+      surface: "dark",
+      label: "Compact tucked notch pill",
+      alt: "Cadence collapsed into a narrow pill around the MacBook notch showing the green tracking dot, live audio beam, and remaining duration 0:38.",
+      caption:
+        "Press M to fold the prompter into a quiet notch pill that keeps the live volume beam and remaining time visible while freeing the rest of your screen.",
+    },
+  ]}
+/>
+
+## A script library that behaves like Apple Notes
+
+Most teleprompters treat writing as an afterthought: you draft in Notion or Notes, copy-paste into a bare text box, and immediately lose your edits the next time you tweak a line during rehearsal. I wanted the editor to be somewhere you can actually keep your talks, walkthroughs, and call outlines.
+
+The main workspace borrows Apple Notes' restraint: a three-column native macOS layout with folders, pinned scripts, instant search, live word count and reading-time estimates, and a clean writing canvas. It supports lightweight Markdown cue syntax directly in the editor: `# Section` headings create jumpable cue markers in the notch header, `[pause]`, `[smile]`, and `[breathe]` render as amber stage-cue pills that the voice aligner skips automatically, and `**bold**` emphasises key phrases.
+
+Every script stays in plain UTF-8 Markdown mirrors on disk alongside the local library index, and you can import existing `.txt`, `.md`, or `.rtf` files straight into a folder.
+
+<CadenceGalleryFigure
+  number="03"
+  label="Apple Notes-inspired three-column workspace"
+  layout="theme-pair"
+  light={workspaceLight}
+  dark={workspaceDark}
+  alt="Cadence three-column macOS workspace showing library folders, pinned scripts, live word count and duration ribbon, and the script editor with section headings and amber stage-cue pills."
+  caption="Folders, pinned scripts, live reading-time estimates, section jump menu, and amber stage-cue pills in native macOS light and dark appearances. Toggle this site's theme to preview both."
+/>
+
+## On-device voice following without the cloud or audio drama
+
+Voice-followed teleprompting fails in two very specific ways in practice. First, speech recognition lags behind or trips over proper nouns, causing the text to stutter or freeze mid-sentence. Second, poorly behaved audio capture grabs exclusive control of the microphone or flips Bluetooth headphones into low-bandwidth hands-free mode right in the middle of a call.
+
+Cadence separates those responsibilities cleanly across three Swift 6 modules: `CadenceCore` handles script storage, parsing, phonetic alignment, and scroll physics; `CadenceSpeech` handles passive audio capture and pluggable speech engines; and `CadenceApp` owns the SwiftUI and AppKit UI.
+
+On the audio side, `AudioCaptureService` attaches a passive, read-only `AVAudioEngine` input tap (also feeding the 5-band Goertzel volume beam in the notch). It does not hijack AirPods routing or interrupt Zoom, Loom, OBS, or Screen Studio.
+
+On the tracking side, partial transcripts feed a three-tier bounded dynamic-programming aligner paired with Double Metaphone phonetic matching and fuzzy fallback. That lets Cadence stay locked onto your place even when a local model mishears an acronym or you drop a connecting word. The aligner outputs a target position into a critically damped 120 Hz scroll controller, while voice-activity detection holds the scroll steady the moment you stop talking. If you prefer steady pacing instead, press `V` anytime to switch to Classic Auto-Scroll between 75 and 240 WPM.
+
+Part of why I built Cadence was wanting to compare today's local macOS speech engines under identical conditions rather than guessing from model cards. Out of the box, Cadence uses Apple's built-in `SpeechAnalyzer` on the Neural Engine with zero download. Inside Settings, you can also download **Moonshine v2 Tiny**, **Moonshine v2 Small** (via [Moonshine Voice](https://github.com/moonshine-ai/moonshine-swift)), or **NVIDIA Parakeet Realtime EOU** (via [FluidAudio](https://github.com/FluidInference/FluidAudio)) with one click and A/B test latency and accuracy on your own scripts, offline.
+
+<CadenceSpeechEngines />
+
+<CadenceGalleryFigure
+  number="04"
+  label="Settings: local speech engine manager and live notch geometry preview"
+  layout="two-up"
+  items={[
+    {
+      src: settingsVoice,
+      surface: "light",
+      label: "Voice & Speech",
+      alt: "Cadence Settings Voice and Speech tab showing Apple On-Device Speech active and one-click download buttons for Moonshine v2 Tiny, Moonshine v2 Small, and Parakeet Realtime EOU.",
+      caption:
+        "Switch between Apple's built-in Neural Engine analyser, downloadable Moonshine v2 models with live script keyterm biasing, and Parakeet Realtime EOU without touching Terminal.",
+    },
+    {
+      src: settingsPrompter,
+      surface: "light",
+      label: "Prompter geometry & typography",
+      alt: "Cadence Settings Prompter tab with a live miniature notch preview, font style selector, font size slider, text colour swatches, and overlay width and height controls.",
+      caption:
+        "Adjust font family, text size, tint, notch width, viewport height, and focus anchor with a live miniature notch preview.",
+    },
+  ]}
+/>
+
+## Installing Cadence 1.0.0 on your Mac
+
+Cadence is free and ready to run on any Apple Silicon Mac (`arm64`) running **macOS 26.0 (Tahoe) or later**. Because version 1.0.0 is ad-hoc signed rather than notarised with a paid Apple Developer ID certificate, macOS Gatekeeper will quarantine the browser-downloaded `.dmg` until you clear the quarantine attribute once. The full four-step setup and SHA-256 verification checksum are below.
+
+<CadenceInstallGuide />
+
+## Formatting, shortcuts, and day-to-day control
+
+Once a script is open, you should rarely need to touch the mouse while recording. Global shortcuts let you summon the prompter, pause, or jump between `# Section` cues while another application (such as Keynote, Figma, or your browser) keeps focus.
+
+<CadenceShortcutsAndSyntax />
+
+## Release notes, privacy, and what still has sharp edges
+
+Shipping version 1.0.0 today means being clear about the current boundaries alongside what already works well.
+
+Three trade-offs are worth knowing upfront. First, Cadence targets **Apple Silicon and macOS 26.0+** because it leans directly on Apple's modern on-device `SpeechAnalyzer` APIs and Swift 6 concurrency; Intel Macs and older macOS releases are not supported. Second, ad-hoc signing keeps this initial release free of Apple Developer Program overhead, at the cost of that one-line `xattr` step on first launch. If enough people use Cadence regularly, moving to a notarised Developer ID build is already wired into the release pipeline. Third, hiding an overlay from every screen recorder on modern macOS is less absolute than it used to be, so I have documented the `ScreenCaptureKit` caveat plainly below.
+
+<CadenceReleaseNotes />
+
+Building Cadence in a day reinforced something I keep seeing with modern local models and native platform APIs: the distance between "this ought to exist as a focused, offline utility" and a working macOS binary has shrunk dramatically. The interesting work now is not wiring up a cloud API; it is sweat-the-details craft around latency, non-intrusive audio routing, eye-line geometry, and calm motion. If you try Cadence on your Mac and find a script style, microphone setup, or speech engine where it stumbles, I would genuinely like to hear about it.

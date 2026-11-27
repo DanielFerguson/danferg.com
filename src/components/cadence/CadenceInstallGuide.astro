@@ -1,0 +1,375 @@
+---
+import { cadenceRelease } from "../../data/cadence-release";
+---
+
+<section
+  id="install"
+  class="cadence-install"
+  aria-labelledby="cadence-install-heading"
+>
+  <header class="cadence-install__bar">
+    <h3 id="cadence-install-heading">Install Cadence {cadenceRelease.version} on macOS</h3>
+    <span class="cadence-install__req">
+      {cadenceRelease.architecture} · {cadenceRelease.macosRequirement}
+    </span>
+  </header>
+
+  <ol class="cadence-install__steps">
+    <li class="cadence-install__step">
+      <span class="cadence-install__num" aria-hidden="true">01</span>
+      <div class="cadence-install__content">
+        <p class="cadence-install__title">Download the disk image</p>
+        <p class="cadence-install__detail">
+          Grab{" "}
+          <a
+            href={cadenceRelease.downloadUrl}
+            download={cadenceRelease.downloadFileName}
+          >
+            {cadenceRelease.downloadFileName}
+          </a>{" "}
+          ({cadenceRelease.downloadSize}). It is a single self-contained native app bundle with
+          no installer wizard or background updater.
+        </p>
+      </div>
+    </li>
+
+    <li class="cadence-install__step">
+      <span class="cadence-install__num" aria-hidden="true">02</span>
+      <div class="cadence-install__content">
+        <p class="cadence-install__title">Drag Cadence into Applications</p>
+        <p class="cadence-install__detail">
+          Double-click the <code>.dmg</code>, drag <strong>Cadence</strong> onto
+          the <strong>Applications</strong> folder shortcut, and eject the disk image.
+        </p>
+      </div>
+    </li>
+
+    <li class="cadence-install__step cadence-install__step--command">
+      <span class="cadence-install__num" aria-hidden="true">03</span>
+      <div class="cadence-install__content">
+        <p class="cadence-install__title">
+          Clear the macOS download quarantine flag (first launch only)
+        </p>
+        <p class="cadence-install__detail">
+          Version {cadenceRelease.version} is ad-hoc signed rather than notarised with a paid
+          Apple Developer ID certificate. Because macOS attaches a{" "}
+          <code>com.apple.quarantine</code> flag to any <code>.dmg</code>{" "}
+          downloaded in a browser, Gatekeeper will otherwise say{" "}
+          <em>“Cadence is damaged and can’t be opened”</em> or{" "}
+          <em>“Apple could not verify Cadence”</em>. Run this once in{" "}
+          <strong>Terminal</strong>, then open Cadence normally:
+        </p>
+
+        <div class="cadence-command">
+          <pre class="cadence-command__pre"><code>{cadenceRelease.quarantineCommand}</code></pre>
+          <button
+            type="button"
+            class="cadence-copy-btn"
+            data-copy-text={cadenceRelease.quarantineCommand}
+            data-copy-default="Copy command"
+          >
+            Copy command
+          </button>
+        </div>
+      </div>
+    </li>
+
+    <li class="cadence-install__step">
+      <span class="cadence-install__num" aria-hidden="true">04</span>
+      <div class="cadence-install__content">
+        <p class="cadence-install__title">Allow Microphone access and pick an engine</p>
+        <p class="cadence-install__detail">
+          On first launch, allow <strong>Microphone</strong> access (plus{" "}
+          <strong>Speech Recognition</strong> if using Apple's built-in engine).
+          To compare Moonshine v2 or NVIDIA Parakeet Realtime EOU, open{" "}
+          <strong>Settings (⌘,) → Voice &amp; Speech</strong> and download any model
+          with one click.
+        </p>
+      </div>
+    </li>
+  </ol>
+
+  <footer class="cadence-install__verify">
+    <div class="cadence-verify__row">
+      <div class="cadence-verify__meta">
+        <span class="cadence-verify__label">SHA-256 checksum</span>
+        <code class="cadence-verify__hash">{cadenceRelease.sha256}</code>
+      </div>
+      <button
+        type="button"
+        class="cadence-copy-btn cadence-copy-btn--subtle"
+        data-copy-text={cadenceRelease.sha256}
+        data-copy-default="Copy SHA-256"
+      >
+        Copy SHA-256
+      </button>
+    </div>
+
+    <details class="cadence-verify__details">
+      <summary>How to verify the download locally</summary>
+      <p>
+        Run <code>{cadenceRelease.checksumCommand}</code> in Terminal and confirm
+        the output matches the digest above before opening the image.
+      </p>
+    </details>
+  </footer>
+</section>
+
+<script>
+  const setupCopyButtons = () => {
+    document
+      .querySelectorAll<HTMLButtonElement>("[data-copy-text]")
+      .forEach((button) => {
+        if (button.dataset.copyBound === "true") return;
+        button.dataset.copyBound = "true";
+
+        let resetTimer = 0;
+
+        button.addEventListener("click", async () => {
+          const text = button.dataset.copyText || "";
+          const defaultLabel = button.dataset.copyDefault || "Copy";
+          if (!text) return;
+
+          try {
+            await navigator.clipboard.writeText(text);
+            button.textContent = "Copied";
+            button.dataset.copied = "true";
+          } catch {
+            button.textContent = "Select to copy";
+          }
+
+          window.clearTimeout(resetTimer);
+          resetTimer = window.setTimeout(() => {
+            button.textContent = defaultLabel;
+            delete button.dataset.copied;
+          }, 2200);
+        });
+      });
+  };
+
+  setupCopyButtons();
+</script>
+
+<style>
+  .cadence-install {
+    --cadence-breakout-width: min(calc(100vw - 2.5rem), 64rem);
+    position: relative;
+    left: 50%;
+    width: var(--cadence-breakout-width);
+    max-width: none;
+    margin: clamp(2.25rem, 5vw, 3.5rem) 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-subtle);
+    transform: translateX(-50%);
+    scroll-margin-top: 5.5rem;
+  }
+
+  .cadence-install__bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-subtle);
+  }
+
+  .cadence-install__bar h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .cadence-install__req {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  .cadence-install__steps {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--paper);
+  }
+
+  .cadence-install__step {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: clamp(1.1rem, 2.2vw, 1.4rem) 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cadence-install__step--command {
+    background: color-mix(in srgb, var(--signal-soft) 36%, var(--paper));
+  }
+
+  .cadence-install__num {
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1.7;
+  }
+
+  .cadence-install__content {
+    min-width: 0;
+  }
+
+  .cadence-install__title {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .cadence-install__detail {
+    margin: 0.4rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.91rem;
+    line-height: 1.65;
+  }
+
+  .cadence-command {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.9rem;
+    padding: 0.75rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    background: var(--code-surface);
+  }
+
+  .cadence-command__pre {
+    max-width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: var(--code-ink);
+    font-size: clamp(0.74rem, 3.1vw, 0.88rem);
+    line-height: 1.4;
+    overflow-x: auto;
+  }
+
+  .cadence-copy-btn {
+    flex: 0 0 auto;
+    padding: 0.42rem 0.8rem;
+    border: 1px solid rgb(255 255 255 / 22%);
+    border-radius: var(--radius-sm);
+    color: var(--inverse-ink);
+    background: rgb(255 255 255 / 10%);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 550;
+    cursor: pointer;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      color 140ms ease;
+  }
+
+  .cadence-copy-btn:is(:hover, :focus-visible) {
+    border-color: rgb(255 255 255 / 45%);
+    background: rgb(255 255 255 / 18%);
+  }
+
+  .cadence-copy-btn[data-copied="true"] {
+    border-color: #34d399;
+    color: #06281c;
+    background: #34d399;
+  }
+
+  .cadence-copy-btn--subtle {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .cadence-copy-btn--subtle:is(:hover, :focus-visible) {
+    border-color: var(--signal);
+    color: var(--signal);
+    background: var(--signal-soft);
+  }
+
+  .cadence-install__verify {
+    padding: 0.95rem 1.25rem;
+    background: var(--paper-subtle);
+  }
+
+  .cadence-verify__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cadence-verify__meta {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    align-items: baseline;
+  }
+
+  .cadence-verify__label {
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cadence-verify__hash {
+    font-family: var(--font-mono);
+    font-size: 0.76rem !important;
+    color: var(--ink-soft) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .cadence-verify__details {
+    margin-top: 0.7rem;
+    font-size: 0.83rem;
+    color: var(--ink-muted);
+  }
+
+  .cadence-verify__details summary {
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .cadence-verify__details p {
+    margin: 0.5rem 0 0;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 760px) {
+    .cadence-install {
+      --cadence-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .cadence-install__step {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+
+    .cadence-install__num {
+      line-height: 1.2;
+    }
+  }
+</style>

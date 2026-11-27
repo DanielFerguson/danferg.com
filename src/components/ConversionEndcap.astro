@@ -5,6 +5,7 @@ export interface EndcapAction {
   meta: string;
   description?: string;
   external?: boolean;
+  download?: string | boolean;
 }
 
 interface Props {
@@ -41,6 +42,7 @@ const { headingId, eyebrow, title, description, actions } = Astro.props;
                   { "conversion-endcap__action--primary": index === 0 },
                 ]}
                 href={action.href}
+                download={action.download}
                 target={action.external ? "_blank" : undefined}
                 rel={action.external ? "noopener noreferrer" : undefined}
                 data-astro-prefetch={isPage ? "hover" : undefined}
