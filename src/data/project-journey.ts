@@ -12,6 +12,12 @@ const projectJourney: Record<string, ProjectJourneyDestination> = {
       "See how a local-first MacBook notch teleprompter pairs on-device voice tracking with a Notes-style workspace.",
   },
   "/projects/cadence": {
+    title: "Cadence iOS",
+    href: "/projects/cadence-ios",
+    description:
+      "See how Cadence extends to iPhone with a lens-hugging 4K camera studio, Smart Contrast, and two-way Mac sync.",
+  },
+  "/projects/cadence-ios": {
     title: "Judgement Required",
     href: "/projects/judgement-required",
     description:

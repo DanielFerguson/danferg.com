@@ -3,6 +3,8 @@ import autofarmScreenshot from "../assets/projects/autofarm/screenshot.webp";
 import balanceBoardScreenshot from "../assets/projects/balance-board/screenshot.webp";
 import cadenceAppIcon from "../assets/projects/cadence/app-icon.webp";
 import cadenceScreenshot from "../assets/projects/cadence/notch-active-reading.webp";
+import cadenceIOSAppIcon from "../assets/projects/cadence-ios/app-icon.webp";
+import cadenceIOSScreenshot from "../assets/projects/cadence-ios/screenshot.webp";
 import chefScreenshot from "../assets/projects/chef/screenshot.png";
 import communitiLabsScreenshot from "../assets/projects/communitilabs/screenshot.png";
 import doTheyRepresentMeScreenshot from "../assets/projects/do-they-represent-me/screenshot.webp";
@@ -28,6 +30,7 @@ export const projectScreenshots = {
   autofarm: autofarmScreenshot,
   "balance-board": balanceBoardScreenshot,
   cadence: cadenceScreenshot,
+  "cadence-ios": cadenceIOSScreenshot,
   chef: chefScreenshot,
   communitilabs: communitiLabsScreenshot,
   "do-they-represent-me": doTheyRepresentMeScreenshot,
@@ -57,6 +60,7 @@ export function getProjectScreenshot(key: string) {
 
 export const projectAppIcons = {
   cadence: cadenceAppIcon,
+  "cadence-ios": cadenceIOSAppIcon,
 };
 
 export function getProjectAppIcon(key: string) {

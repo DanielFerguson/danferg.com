@@ -10,7 +10,7 @@ tags:
   - MCP
 featured: true
 period: "2026"
-status: Free macOS release (v1.1.2)
+status: Free macOS release (v1.2.0)
 role: Creator / design / Swift engineering
 caseStudyLabel: Product release
 imageKey: cadence
@@ -19,13 +19,13 @@ imageAlt: Cadence fused beneath a MacBook Pro camera notch, tracking spoken word
 heroCaption: Cadence anchored directly beneath the MacBook camera notch, tracking speech with a five-band audio beam, dimmed spoken text above, an amber [pause] cue, and Cue 2/3 progress on the right ear.
 canonicalUrl: /projects/cadence
 publishedDate: "2026-11-27"
-updatedDate: "2026-11-27"
+updatedDate: "2026-11-28"
 release:
-  version: "1.1.2"
-  releaseDateLabel: "27 November 2026"
-  downloadUrl: "/downloads/Cadence-1.1.2-arm64.dmg"
-  downloadFileName: "Cadence-1.1.2-arm64.dmg"
-  downloadSize: "19.7 MB"
+  version: "1.2.0"
+  releaseDateLabel: "28 November 2026"
+  downloadUrl: "/downloads/Cadence-1.2.0-arm64.dmg"
+  downloadFileName: "Cadence-1.2.0-arm64.dmg"
+  downloadSize: "20.0 MB"
   architecture: "Apple Silicon (arm64)"
   macosRequirement: "macOS 26.0 (Tahoe) or later"
   price: "Free"
@@ -59,7 +59,7 @@ Existing Mac teleprompters solve parts of that problem, though most ask for a re
 Cadence is the result. It is a native Swift 6 macOS app for Apple Silicon that attaches a pitch-black teleprompter directly to your MacBook camera notch, listens locally on your machine, and scrolls your script at your real speaking pace. Speed up when you have momentum, slow down to land a point, or stop to breathe and improvise; the text waits calmly until you rejoin it.
 
 <CaseStudyDataBand
-  label="Cadence 1.1.2: core release specs"
+  label="Cadence 1.2.0: core release specs"
   items={cadenceAtAGlance}
 />
 
@@ -149,11 +149,17 @@ Setup lives inside a dedicated **AI & MCP** tab in Settings (`⌘,`), a **Connec
 
 <CadenceMCPPanel />
 
+## Syncing scripts to your iPhone
+
+Version 1.2.0 adds a dedicated **iPhone Sync** tab in Settings (`⌘,`) built for the companion [Cadence iOS](/projects/cadence-ios) camera teleprompter app. The goal is simple: write or revise a script at your Mac (or shape it through your AI client over MCP), then step away from your desk and film on your iPhone without emailing yourself text files.
+
+Two-way sync uses a shared `CadenceSync` module with deterministic Last-Write-Wins merging (`LibrarySyncMerger`) and 30-day permanent-delete tombstones, while keeping each device's local prompter settings separate. On the free ad-hoc `.dmg`, **Local Wi-Fi Sync** advertises your Mac over Bonjour (`_cadence-sync._tcp`) and pairs with your iPhone using a single-use two-minute 6-digit code — working completely offline with no cloud account. Private **iCloud CloudKit** sync (`CadenceLibraryZone`) is built into the same engine for Apple Developer provisioned builds, and safely stays inactive on ad-hoc builds without getting in your way.
+
 ## On-device voice following without the cloud or audio drama
 
 Voice-followed teleprompting fails in two very specific ways in practice. First, speech recognition lags behind or trips over proper nouns, causing the text to stutter or freeze mid-sentence. Second, poorly behaved audio capture grabs exclusive control of the microphone or flips Bluetooth headphones into low-bandwidth hands-free mode right in the middle of a call.
 
-Cadence separates those responsibilities cleanly across Swift 6 modules: `CadenceCore` handles script storage, parsing, phonetic alignment, and scroll physics; `CadenceSpeech` handles passive audio capture and pluggable speech engines; `CadenceMCP` handles local stdio and loopback HTTP tool calls; and `CadenceApp` owns the SwiftUI and AppKit UI.
+Cadence separates those responsibilities cleanly across Swift 6 modules: `CadenceCore` handles script storage, parsing, phonetic alignment, and scroll physics; `CadenceSpeech` handles passive audio capture and pluggable speech engines; `CadenceSync` handles local Bonjour Wi-Fi and CloudKit library sync; `CadenceMCP` handles local stdio and loopback HTTP tool calls; and `CadenceApp` owns the SwiftUI and AppKit UI.
 
 On the audio side, `AudioCaptureService` attaches a passive, read-only `AVAudioEngine` input tap (also feeding the 5-band Goertzel volume beam in the notch). It does not hijack AirPods routing or interrupt Zoom, Loom, OBS, or Screen Studio.
 
@@ -187,9 +193,9 @@ Part of why I built Cadence was wanting to compare today's local macOS speech en
   ]}
 />
 
-## Installing Cadence 1.1.2 on your Mac
+## Installing Cadence 1.2.0 on your Mac
 
-Cadence is free and ready to run on any Apple Silicon Mac (`arm64`) running **macOS 26.0 (Tahoe) or later**. Because version 1.1.2 is ad-hoc signed rather than notarised with a paid Apple Developer ID certificate, macOS Gatekeeper will quarantine the browser-downloaded `.dmg` until you clear the quarantine attribute once. The full four-step setup and SHA-256 verification checksum are below.
+Cadence is free and ready to run on any Apple Silicon Mac (`arm64`) running **macOS 26.0 (Tahoe) or later**. Because version 1.2.0 is ad-hoc signed rather than notarised with a paid Apple Developer ID certificate, macOS Gatekeeper will quarantine the browser-downloaded `.dmg` until you clear the quarantine attribute once. The full four-step setup and SHA-256 verification checksum are below.
 
 <CadenceInstallGuide />
 
@@ -201,7 +207,7 @@ Once a script is open, you should rarely need to touch the mouse while recording
 
 ## Release notes, privacy, and what still has sharp edges
 
-Shipping version 1.1.2 today means being clear about the current boundaries alongside what already works well.
+Shipping version 1.2.0 today means being clear about the current boundaries alongside what already works well.
 
 Three trade-offs are worth knowing upfront. First, Cadence targets **Apple Silicon and macOS 26.0+** because it leans directly on Apple's modern on-device `SpeechAnalyzer` APIs and Swift 6 concurrency; Intel Macs and older macOS releases are not supported. Second, ad-hoc signing keeps this initial release free of Apple Developer Program overhead, at the cost of that one-line `xattr` step on first launch. If enough people use Cadence regularly, moving to a notarised Developer ID build is already wired into the release pipeline. Third, hiding an overlay from every screen recorder on modern macOS is less absolute than it used to be, so I have documented the `ScreenCaptureKit` caveat plainly below.
 

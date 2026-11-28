@@ -1,0 +1,91 @@
+---
+layout: ../../layouts/ProjectLayout.astro
+title: Cadence iOS
+seoTitle: "Cadence iOS: voice-following iPhone teleprompter"
+description: A native iOS 26 camera teleprompter that hugs the lens, tracks speech on-device, adapts text contrast to the scene, and syncs scripts with Cadence on Mac.
+tags:
+  - iOS app
+  - Swift
+  - Local speech
+  - Camera studio
+featured: false
+period: "2026"
+status: iOS 26 build / TestFlight ready
+role: Creator / design / Swift engineering
+caseStudyLabel: Companion iOS app
+imageKey: cadence-ios
+hideScreenshot: true
+imageAlt: Interface layout schematic for Cadence iOS showing the app icon, four architectural highlights, and an iPhone viewfinder in Pure Lens recording mode with a narrow lens-hugging teleprompter card beneath the Dynamic Island, an amber pause pill, 4K 25 fps HEVC controls, and crimson bezel tally glow.
+canonicalUrl: /projects/cadence-ios
+publishedDate: "2026-11-28"
+updatedDate: "2026-11-28"
+---
+
+import CaseStudyDataBand from "../../components/CaseStudyDataBand.astro";
+import CadenceIOSStudioDemo from "../../components/cadence/CadenceIOSStudioDemo.astro";
+import CadenceIOSOverviewPanel from "../../components/cadence/CadenceIOSOverviewPanel.astro";
+import { cadenceIOSAtAGlance } from "../../data/cadence-ios";
+
+<CadenceIOSStudioDemo />
+
+## Leaving the laptop behind without losing the workflow
+
+Building [Cadence for Mac](/projects/cadence) solved the desk problem: you draft a script in a clean Notes-style library—or shape it from Cursor, Claude, or Gemini over Cadence's local MCP server—and read it right underneath the MacBook camera notch.
+
+The catch shows up the moment you want to film standing up, outdoors, or with a better camera sensor than a laptop webcam. Most iPhone teleprompter apps force you to copy scripts across manually, charge a subscription for 4K or voice tracking, treat the camera like a basic preview box, or turn bright outdoor scenes into unreadable white text over a white sky.
+
+Cadence iOS is the native iPhone companion built inside the same Swift 6 repository as Cadence for Mac. It shares the exact same script parser, phonetic aligner, scroll physics, local speech engines, and two-way library sync (`CadenceCore`, `CadenceSpeech`, and `CadenceSync`), then wraps them around a full-bleed `AVCaptureSession` camera studio designed for filming on a phone.
+
+<CaseStudyDataBand
+  label="Cadence iOS: core studio specs"
+  items={cadenceIOSAtAGlance}
+/>
+
+## Keeping your eyes on the iPhone lens
+
+Eye drift is even more obvious on an iPhone than on a laptop because the camera lens sits close to your face. Spread text across the full width of the display and your eyes visibly scan left to right on video.
+
+By default, Cadence iOS constrains the teleprompter card (`PrompterOverlayCard`) to a narrower 78% column centred directly beneath the Dynamic Island or notch in portrait, with the active reading anchor tucked near the top at 14% height. Rotate to landscape and the card automatically flips to hug whichever side holds the camera lens, while the shutter button, camera flip, and controls drawer move into a vertical Pro Rail on the opposite side so your hand never blocks your sightline.
+
+Once you hit record, the studio switches into what I've called **Pure Lens** mode. The card footer dissolves into a 3-point hairline progress bar, the utility strip hides, and a subtle crimson tally border glows around the screen edge so you can tell you're rolling without staring at UI chrome. If you stumble over a line mid-take, you don't have to stop the camera: swipe right across the script to jump cleanly back to the start of the previous sentence or `# Section` cue, and Cadence drops a `Retake` chapter marker into the recording automatically.
+
+## Solving the two hardest mobile teleprompter bugs
+
+Two engineering problems make or break an iPhone voice-following teleprompter in practice, and neither is obvious until you build one.
+
+The first is **audio session contention**. On iOS, running `AVCaptureSession` to record video and microphone audio at the same time as a separate `AVAudioEngine` tap for speech recognition tends to fight over hardware routing, drop frames, or stall transcription. Cadence iOS avoids that completely with `SharedCaptureAudioFeed`: a single `AVCaptureAudioDataOutput` feeds both `AVAssetWriter` (on its own serial writer queue) and a lock-free-friendly PCM bridge that normalises hardware samples into mono Float32 buffers for whichever on-device speech engine you pick. The same feed drives the 5-band Goertzel volume beam and clipping peak LED without blocking the main thread.
+
+On iOS, **NVIDIA Parakeet Realtime EOU** (~160 ms chunks on the Apple Neural Engine) is the featured voice-following engine, with Apple's built-in zero-download `SpeechAnalyzer` active immediately as a fallback while optional models download—and both Moonshine v2 Tiny and Small available in Studio Settings.
+
+The second problem is **frame jank and text legibility** over live video. Pushing 60–120 Hz scroll updates through SwiftUI view invalidations burns battery and competes with 4K video encoding. Instead, `PrompterScrollBridge` pushes scroll offsets and active-word indices straight into a UIKit TextKit 1 canvas driven by `CADisplayLink`—and puts the display link completely to sleep at 0 Hz the moment you pause and the scroll settles.
+
+For legibility against changing backgrounds, `SmartContrastPixelSampler` reads a 16×8 luminance grid straight from the camera `CVPixelBuffer`'s Y-plane (handling both 8-bit SDR and 10-bit HLG HDR with zero GPU or Metal allocations) inside the exact region behind the text card. That reading feeds `SmartContrastStateMachine`, which uses dual-threshold hysteresis (`0.62` to switch to dark charcoal ink, `0.44` to return to light ink) and two-sample confirmation so rapid head movement never causes text to flicker. On busy or mid-grey scenes where you've dialled background opacity low, an automatic protective scrim fades in smoothly to keep words readable.
+
+<CadenceIOSOverviewPanel />
+
+## A camera studio that respects how video gets edited
+
+Because the whole point of filming on an iPhone is getting usable footage out of it, I didn't want the camera controls to feel tacked on. `CameraStudioEngine` uses Apple's `AVCaptureDevice.RotationCoordinator` to keep video buffers in native unrotated sensor space—avoiding CPU overhead from rotating 4K pixels—and applies orientation cleanly via `AVAssetWriterInput.transform`.
+
+The four-tab **Creator Controls Drawer** (Prompter, Camera, Video, Audio) gives direct access to 1080p or 4K recording in `.mov` or `.mp4`, HEVC or H.264, 10-bit HDR where supported, Standard or Cinematic stabilisation, and 24, 25, 30, 50, or 60 fps—including **25 and 50 fps** specifically so indoor filming in Australia doesn't pick up 50 Hz LED flicker. You also get tap-to-focus, long-press AE/AF lock, manual exposure bias (`-2.0` to `+2.0 EV`), manual Kelvin (`2500–8500K`) and tint white balance with presets, multi-cam `0.5× / 1× / 2×` zoom pills, directional cardioid mic beamforming matched to the active lens, and volume-button or Bluetooth shutter support.
+
+Small post-production details make a bigger difference than I expected. Whenever your voice crosses a `# Section` heading during a `.mov` take (or you swipe right to redo a line), Cadence embeds **QuickTime timed chapter markers** directly in the file so Final Cut Pro, DaVinci Resolve, and Premiere show your script sections on the timeline. Finished takes save straight into a dedicated **Cadence** album in Apple Photos—with crash-safe `PendingTakes` recovery if the app is interrupted—followed by a compact review bar with one-tap AirDrop/Share and **Delete & Retake** from the top or the current cue.
+
+## Two-way script sync with Cadence for Mac
+
+The iOS workspace mirrors the Mac app's Apple Notes-style layout: folders, pinned scripts, search, `.md`/`.txt`/`.rtf` import, and a cursor-aware keyboard bar for inserting `# Section`, `[pause]`, `[smile]`, `[breathe]`, and `**bold**` cues.
+
+Syncing between Mac and iPhone uses the shared `CadenceSync` module introduced in [Cadence 1.2.0](/projects/cadence). Both transports run the same deterministic Last-Write-Wins merger (`LibrarySyncMerger`) with 30-day permanent-delete tombstones while keeping device-local prompter settings separate:
+
+- **Local Wi-Fi Sync (Bonjour):** Discovers your Mac over `_cadence-sync._tcp`, pairs once with a 2-minute 6-digit code, and syncs completely offline with no cloud account.
+- **iCloud CloudKit Sync:** Uses a private `CadenceLibraryZone` with incremental `CKServerChangeToken` fetches so scripts written on your Mac—or edited by an AI tool through Cadence's MCP server—appear on your phone over Wi-Fi or cellular.
+
+If you edit a script on your Mac while you're already standing in front of the iPhone camera, Cadence never resets your take mid-read; it surfaces a quiet **"Updated on Mac · Reload"** pill when you're ready.
+
+## Where the iOS build is now
+
+Cadence iOS is a working **iOS 26.0+** iPhone build (configured for TestFlight and CloudKit inside the shared `cadence` Xcode project), though it isn't on the App Store yet.
+
+A few practical boundaries are worth stating plainly. Like the Mac release, it targets modern iOS 26 APIs (`SpeechAnalyzer` and Swift 6 concurrency) and iPhone hardware only (`TARGETED_DEVICE_FAMILY = 1`, no iPad or Mac Catalyst target). When sideloaded with a free personal Apple ID, CloudKit entitlements aren't available—so `CloudKitSyncEngine` detects that upfront and stays quietly off while local Wi-Fi Bonjour sync works offline, and finished recordings still save immediately into Apple Photos so nothing is lost if a 7-day sideload expires. On older 4–6 GB RAM iPhones, keeping 4K recording and local speech models comfortable together also meant adopting `whileInUse` model retention and releasing cached ASR models whenever the app moves to the background.
+
+There's no App Store link to share yet. Once TestFlight testing settles the remaining device, thermal, and signing details across a wider range of iPhones, I plan to ship it alongside the Mac app.

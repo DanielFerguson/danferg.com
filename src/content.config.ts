@@ -107,6 +107,7 @@ const projects = defineCollection({
     visualLabel: z.string().min(1).optional(),
     imageKey: z.string().min(1),
     appIconKey: z.string().min(1).optional(),
+    hideScreenshot: z.boolean().optional(),
     imageAlt: z.string().min(1).optional(),
     heroCaption: z.string().min(1).optional(),
     release: z

@@ -63,17 +63,17 @@ export interface MCPClientGroup {
 
 export const cadenceRelease = {
   name: "Cadence",
-  version: "1.1.2",
-  build: "4",
-  releaseDate: "2026-11-27",
-  releaseDateLabel: "27 November 2026",
-  downloadUrl: "/downloads/Cadence-1.1.2-arm64.dmg",
-  downloadFileName: "Cadence-1.1.2-arm64.dmg",
-  downloadSize: "19.7 MB",
-  downloadBytes: 19_711_726,
-  sha256: "3e62387cdf3b5a88c15d80cee3e0b263a5dd8531e1691415bb6447184214fc4b",
+  version: "1.2.0",
+  build: "5",
+  releaseDate: "2026-11-28",
+  releaseDateLabel: "28 November 2026",
+  downloadUrl: "/downloads/Cadence-1.2.0-arm64.dmg",
+  downloadFileName: "Cadence-1.2.0-arm64.dmg",
+  downloadSize: "20.0 MB",
+  downloadBytes: 19_959_015,
+  sha256: "b83201467ff965683a8e293ae50073dbb9033abd2c091857255d658aab6f80a6",
   quarantineCommand: "xattr -cr /Applications/Cadence.app",
-  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.1.2-arm64.dmg",
+  checksumCommand: "shasum -a 256 ~/Downloads/Cadence-1.2.0-arm64.dmg",
   architecture: "Apple Silicon (arm64)",
   macosRequirement: "macOS 26.0 (Tahoe) or later",
   price: "Free",
@@ -234,6 +234,11 @@ export const storageLocations: StorageLocation[] = [
     path: "~/Library/Application Support/Cadence/mcp-activity.json · mcp-snapshots.json",
     detail: "Local client handshake log and the last 20 pre-AI-edit script revisions.",
   },
+  {
+    label: "Paired iPhone sync tokens",
+    path: "~/Library/Application Support/Cadence/wifi-sync-peers.json",
+    detail: "Owner-only (0600) device IDs and local Wi-Fi Bonjour bearer tokens for paired iPhones.",
+  },
 ];
 
 export const mcpTransports: MCPTransportSpec[] = [
@@ -305,6 +310,30 @@ export const mcpClientGroups: MCPClientGroup[] = [
 ];
 
 export const changelogReleases: ChangelogRelease[] = [
+  {
+    version: "1.2.0",
+    date: "2026-11-28",
+    dateLabel: "28 November 2026",
+    summary:
+      "Adds two-way iPhone script sync (local Wi-Fi Bonjour and private iCloud CloudKit) for Cadence iOS, hardens SpeechAnalyzer audio conversion, and refines editor selection handling.",
+    items: [
+      {
+        title: "Two-way iPhone Sync (Local Wi-Fi Bonjour + iCloud CloudKit)",
+        detail:
+          "Added CadenceSync and Settings (⌘,) → iPhone Sync with an offline local Wi-Fi Bonjour server (_cadence-sync._tcp), single-use 2-minute 6-digit pairing codes, rate-limited authentication, private CloudKit zone sync (CadenceLibraryZone) for provisioned builds, and deterministic Last-Write-Wins merges with 30-day deletion tombstones.",
+      },
+      {
+        title: "Shared cross-platform speech audio feed & SpeechAnalyzer hardening",
+        detail:
+          "Introduced SharedCaptureAudioFeed to share normalized mono Float32 PCM buffers and separated Goertzel DSP metering across macOS and iOS speech engines, plus automatic MonotonicPCMConverter fallback on macOS 27 / iOS 27 audio route switches so transcription never silently stalls.",
+      },
+      {
+        title: "Editor selection, Markdown mirror, and MCP 1.2.0 polish",
+        detail:
+          "Fixed RichScriptTextEditor initial delegate wiring and selection clamping on document switches, skipped redundant Markdown mirror rewrites when disk content is unchanged, fixed verbatim editor toolbar tooltips, and bumped CadenceMCP server version to 1.2.0.",
+      },
+    ],
+  },
   {
     version: "1.1.2",
     date: "2026-11-27",

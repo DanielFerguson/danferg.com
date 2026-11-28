@@ -1,0 +1,1352 @@
+---
+import {
+  cadenceIOSDemoScript,
+  cadenceIOSMoments,
+} from "../../data/cadence-ios";
+
+const initialActiveWord = 7; // "script"
+const initialMoment = cadenceIOSMoments[0];
+const spokenWordsCount = cadenceIOSDemoScript.filter((t) => t.kind === "word").length;
+
+let wordCursor = 0;
+const renderedTokens = cadenceIOSDemoScript.map((token) => {
+  if (token.kind === "word") {
+    const idx = wordCursor++;
+    return { ...token, wordIndex: idx, anchorWordIndex: idx };
+  }
+  return { ...token, wordIndex: -1, anchorWordIndex: Math.max(0, wordCursor - 1) };
+});
+---
+
+<section
+  id="studio-preview"
+  class="ios-showcase"
+  aria-label="Interactive Cadence iOS camera studio preview"
+  data-ios-showcase
+  data-moment="studio"
+  data-moments={JSON.stringify(cadenceIOSMoments)}
+>
+  <div class="ios-showcase__stage">
+    <div
+      class="ios-device"
+      data-device
+      data-moment="studio"
+      data-orientation="portrait"
+      data-recording="true"
+      data-zoom="1"
+    >
+      <span class="ios-device__hw ios-device__hw--vol1" aria-hidden="true"></span>
+      <span class="ios-device__hw ios-device__hw--vol2" aria-hidden="true"></span>
+      <span class="ios-device__hw ios-device__hw--power" aria-hidden="true"></span>
+
+      <div class="ios-device__screen">
+        <!-- Atmospheric camera backdrop -->
+        <div class="ios-backdrop" aria-hidden="true">
+          <div class="ios-backdrop__layer ios-backdrop__layer--studio"></div>
+          <div class="ios-backdrop__layer ios-backdrop__layer--outdoors"></div>
+          <div class="ios-backdrop__grid"></div>
+          <div class="ios-backdrop__reticle">
+            <span class="ios-backdrop__reticle-box"></span>
+          </div>
+        </div>
+
+        <!-- Subtle 2px Crimson Bezel Tally Glow -->
+        <div class="ios-device__tally" aria-hidden="true"></div>
+
+        <!-- Dynamic Island + Camera Lens -->
+        <div class="ios-device__island" aria-hidden="true">
+          <span class="ios-device__lens"></span>
+        </div>
+
+        <!-- Live Camera Studio Interface -->
+        <div class="ios-studio">
+          <!-- Lens-Hugging Teleprompter Overlay Card -->
+          <div
+            class="ios-card"
+            data-card
+            data-dark-ink="false"
+            data-pure-lens="true"
+            role="region"
+            aria-label="Teleprompter script — swipe right to rewind one sentence"
+          >
+            <div class="ios-card__viewport" data-viewport>
+              <span class="ios-card__arrow" aria-hidden="true">▸</span>
+
+              <div class="ios-card__track" data-track>
+                <div class="ios-card__cue" data-cue-heading>1 · EYE LINE</div>
+                <p class="ios-card__text">
+                  {renderedTokens.map((token) =>
+                    token.kind === "cue" ? (
+                      <span
+                        class="ios-cue-pill"
+                        data-cue-pill
+                        data-anchor-word={token.anchorWordIndex}
+                      >
+                        {token.text}
+                      </span>
+                    ) : (
+                      <>
+                        <span
+                          class:list={[
+                            "ios-word",
+                            {
+                              "is-spoken": token.wordIndex < initialActiveWord,
+                              "is-active": token.wordIndex === initialActiveWord,
+                            },
+                          ]}
+                          data-word-index={token.wordIndex}
+                          data-sentence-start={token.sentenceStart ? "true" : undefined}
+                          data-cue-title={token.cueTitle}
+                        >
+                          {token.text}
+                        </span>{" "}
+                      </>
+                    ),
+                  )}
+                </p>
+              </div>
+
+              <div class="ios-card__toast" data-toast aria-live="polite"></div>
+            </div>
+
+            <div class="ios-card__footer">
+              <div class="ios-card__footer-controls">
+                <span class="ios-card__status">
+                  <span class="ios-card__dot" aria-hidden="true"></span>
+                  <span data-status-text>Paused</span>
+                </span>
+
+                <span class="ios-beam" data-beam aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+
+                <span class="ios-card__cue-count" data-cue-count>Cue 1/2</span>
+              </div>
+
+              <div class="ios-card__hairline" aria-hidden="true">
+                <span
+                  class="ios-card__hairline-fill"
+                  data-progress-fill
+                  style={`width: ${Math.round((initialActiveWord / Math.max(1, spokenWordsCount - 1)) * 100)}%`}
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Camera Chrome / Landscape Pro Rail -->
+          <div class="ios-dock">
+            <div class="ios-dock__meta">
+              <span class="ios-format-badge">4K · 25 · HEVC</span>
+            </div>
+
+            <div class="ios-zoom" role="group" aria-label="Camera zoom">
+              <button type="button" class="ios-zoom__btn" data-zoom-btn="0.5" aria-pressed="false">
+                0.5×
+              </button>
+              <button type="button" class="ios-zoom__btn" data-zoom-btn="1" aria-pressed="true">
+                1×
+              </button>
+              <button type="button" class="ios-zoom__btn" data-zoom-btn="2" aria-pressed="false">
+                2×
+              </button>
+            </div>
+
+            <div class="ios-shutter-wrap">
+              <div class="ios-timer" aria-live="off">
+                <span class="ios-timer__dot" aria-hidden="true"></span>
+                <span data-elapsed>00:04</span>
+                <span class="ios-timer__total">/ 00:22</span>
+              </div>
+
+              <div class="ios-shutter-bar">
+                <button
+                  type="button"
+                  class="ios-mini-btn"
+                  data-rewind-btn
+                  aria-label="Rewind one sentence"
+                  title="Rewind one sentence"
+                >
+                  ↩
+                </button>
+
+                <button
+                  type="button"
+                  class="ios-shutter"
+                  data-shutter
+                  aria-pressed="true"
+                  aria-label="Pause recording"
+                >
+                  <span class="ios-shutter__core"></span>
+                </button>
+
+                <span class="ios-mini-spacer" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single Apple-style Moment Pill + Quiet Caption -->
+    <div class="ios-showcase__footer">
+      <div class="ios-moment-pill" role="tablist" aria-label="Shooting moments">
+        {cadenceIOSMoments.map((moment, index) => (
+          <button
+            type="button"
+            role="tab"
+            class="ios-moment-pill__btn"
+            data-moment-btn={moment.id}
+            aria-selected={index === 0 ? "true" : "false"}
+          >
+            {moment.label}
+          </button>
+        ))}
+      </div>
+
+      <p class="ios-showcase__caption" data-caption>
+        {initialMoment.caption}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  type MomentSpec = {
+    id: "studio" | "outdoors" | "landscape";
+    label: string;
+    caption: string;
+    orientation: "portrait" | "landscape";
+    darkInk: boolean;
+  };
+
+  const initCadenceIOSShowcase = () => {
+    document.querySelectorAll<HTMLElement>("[data-ios-showcase]").forEach((root) => {
+      if (root.dataset.showcaseBound === "true") return;
+      root.dataset.showcaseBound = "true";
+
+      const moments: MomentSpec[] = JSON.parse(root.dataset.moments || "[]");
+      const momentMap = new Map(moments.map((m) => [m.id, m]));
+
+      const device = root.querySelector<HTMLElement>("[data-device]");
+      const card = root.querySelector<HTMLElement>("[data-card]");
+      const viewport = root.querySelector<HTMLElement>("[data-viewport]");
+      const track = root.querySelector<HTMLElement>("[data-track]");
+      const cueHeadingEl = root.querySelector<HTMLElement>("[data-cue-heading]");
+      const cueCountEl = root.querySelector<HTMLElement>("[data-cue-count]");
+      const progressFillEl = root.querySelector<HTMLElement>("[data-progress-fill]");
+      const statusTextEl = root.querySelector<HTMLElement>("[data-status-text]");
+      const beamEl = root.querySelector<HTMLElement>("[data-beam]");
+      const toastEl = root.querySelector<HTMLElement>("[data-toast]");
+      const elapsedEl = root.querySelector<HTMLElement>("[data-elapsed]");
+      const captionEl = root.querySelector<HTMLElement>("[data-caption]");
+
+      const shutterBtn = root.querySelector<HTMLButtonElement>("[data-shutter]");
+      const rewindBtn = root.querySelector<HTMLButtonElement>("[data-rewind-btn]");
+      const momentBtns = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-moment-btn]"));
+      const zoomBtns = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-zoom-btn]"));
+      const wordEls = Array.from(root.querySelectorAll<HTMLElement>("[data-word-index]"));
+      const cueAnchors = new Set(
+        Array.from(root.querySelectorAll<HTMLElement>("[data-cue-pill]")).map((el) =>
+          Number(el.dataset.anchorWord ?? -1),
+        ),
+      );
+
+      if (!device || !card || !track || wordEls.length === 0) return;
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let isRecording = !prefersReducedMotion;
+      let activeWord = 7;
+      let elapsedSeconds = 4;
+      let controlsPeek = false;
+      let stepTimeout = 0;
+      let clockInterval = 0;
+      let toastTimeout = 0;
+      let peekTimeout = 0;
+
+      const formatClock = (sec: number) => {
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+      };
+
+      const syncWordVisuals = () => {
+        const clamped = Math.max(0, Math.min(activeWord, wordEls.length - 1));
+        activeWord = clamped;
+
+        let cueTitle = "1 · Eye line";
+        let cueIdx = 1;
+
+        wordEls.forEach((el, idx) => {
+          el.classList.toggle("is-spoken", idx < clamped);
+          el.classList.toggle("is-active", idx === clamped);
+          if (idx <= clamped && el.dataset.cueTitle) {
+            cueTitle = el.dataset.cueTitle;
+            cueIdx = cueTitle.startsWith("2") ? 2 : 1;
+          }
+        });
+
+        if (cueHeadingEl) cueHeadingEl.textContent = cueTitle.toUpperCase();
+        if (cueCountEl) cueCountEl.textContent = `Cue ${cueIdx}/2`;
+
+        const pct = Math.max(4, Math.round((clamped / Math.max(1, wordEls.length - 1)) * 100));
+        if (progressFillEl) progressFillEl.style.width = `${pct}%`;
+
+        const activeEl = wordEls[clamped];
+        if (activeEl && viewport) {
+          const targetY = Math.max(0, activeEl.offsetTop - 30);
+          track.style.transform = `translate3d(0, ${-targetY}px, 0)`;
+        }
+      };
+
+      const syncRecordingUI = () => {
+        const pureLens = isRecording && !controlsPeek;
+        device.dataset.recording = isRecording ? "true" : "false";
+        card.dataset.pureLens = pureLens ? "true" : "false";
+        shutterBtn?.setAttribute("aria-pressed", String(isRecording));
+        shutterBtn?.setAttribute("aria-label", isRecording ? "Pause recording" : "Resume recording");
+        if (statusTextEl) statusTextEl.textContent = isRecording ? "Voice Lock" : "Paused";
+        beamEl?.classList.toggle("is-live", isRecording);
+      };
+
+      const showToast = (msg: string) => {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.add("is-visible");
+        window.clearTimeout(toastTimeout);
+        toastTimeout = window.setTimeout(() => {
+          toastEl.classList.remove("is-visible");
+        }, 1600);
+      };
+
+      const scheduleNextWord = () => {
+        window.clearTimeout(stepTimeout);
+        if (!isRecording) return;
+
+        const currentText = wordEls[activeWord]?.textContent?.trim() || "";
+        // Natural human speaking rhythm: pause gently on punctuation & [pause] stage cues
+        let delay = 290 + Math.min(200, currentText.length * 18);
+        if (currentText.endsWith(",")) delay += 190;
+        if (currentText.endsWith(".")) delay += 360;
+        if (cueAnchors.has(activeWord)) delay += 780;
+
+        stepTimeout = window.setTimeout(() => {
+          if (!isRecording) return;
+          if (activeWord < wordEls.length - 1) {
+            activeWord += 1;
+          } else {
+            activeWord = 0;
+            elapsedSeconds = 0;
+            if (elapsedEl) elapsedEl.textContent = "00:00";
+          }
+          syncWordVisuals();
+          scheduleNextWord();
+        }, delay);
+      };
+
+      const startClock = () => {
+        window.clearInterval(clockInterval);
+        clockInterval = window.setInterval(() => {
+          if (!isRecording) return;
+          elapsedSeconds = (elapsedSeconds + 1) % 23;
+          if (elapsedEl) elapsedEl.textContent = formatClock(elapsedSeconds);
+        }, 1000);
+      };
+
+      const stopLoops = () => {
+        window.clearTimeout(stepTimeout);
+        window.clearInterval(clockInterval);
+      };
+
+      const toggleRecording = () => {
+        isRecording = !isRecording;
+        controlsPeek = false;
+        window.clearTimeout(peekTimeout);
+        syncRecordingUI();
+        if (isRecording) {
+          startClock();
+          scheduleNextWord();
+        } else {
+          stopLoops();
+        }
+      };
+
+      const rewindOneSentence = () => {
+        const searchStart = Math.max(0, activeWord - 3);
+        let target = 0;
+        for (let i = searchStart; i >= 0; i -= 1) {
+          if (wordEls[i]?.dataset.sentenceStart === "true") {
+            target = i;
+            break;
+          }
+        }
+        activeWord = target;
+        syncWordVisuals();
+        const firstWord = wordEls[target]?.textContent?.trim() || "start";
+        showToast(`↩ Rewound to “${firstWord}”`);
+        if (isRecording) scheduleNextWord();
+      };
+
+      const setMoment = (id: "studio" | "outdoors" | "landscape") => {
+        const spec = momentMap.get(id);
+        if (!spec) return;
+        root.dataset.moment = spec.id;
+        device.dataset.moment = spec.id;
+        device.dataset.orientation = spec.orientation;
+        card.dataset.darkInk = spec.darkInk ? "true" : "false";
+        if (captionEl) captionEl.textContent = spec.caption;
+
+        momentBtns.forEach((btn) => {
+          btn.setAttribute("aria-selected", String(btn.dataset.momentBtn === spec.id));
+        });
+
+        window.requestAnimationFrame(() => {
+          window.setTimeout(syncWordVisuals, 140);
+        });
+      };
+
+      // Wire direct interactions
+      shutterBtn?.addEventListener("click", toggleRecording);
+      rewindBtn?.addEventListener("click", rewindOneSentence);
+
+      momentBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.momentBtn as "studio" | "outdoors" | "landscape" | undefined;
+          if (id) setMoment(id);
+        });
+      });
+
+      zoomBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const z = btn.dataset.zoomBtn || "1";
+          device.dataset.zoom = z;
+          zoomBtns.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+        });
+      });
+
+      // Swipe right on script card to rewind; tap while recording to briefly reveal controls
+      let dragStartX: number | null = null;
+      let dragMoved = false;
+
+      card.addEventListener("pointerdown", (e) => {
+        dragStartX = e.clientX;
+        dragMoved = false;
+        card.setPointerCapture(e.pointerId);
+      });
+
+      card.addEventListener("pointermove", (e) => {
+        if (dragStartX === null) return;
+        const dx = e.clientX - dragStartX;
+        if (dx > 6) {
+          dragMoved = true;
+          card.style.setProperty("--swipe-x", `${Math.min(30, dx * 0.36)}px`);
+        }
+      });
+
+      const endPointer = (e: PointerEvent) => {
+        if (dragStartX === null) return;
+        const dx = e.clientX - dragStartX;
+        dragStartX = null;
+        card.style.setProperty("--swipe-x", "0px");
+
+        if (dx >= 38) {
+          rewindOneSentence();
+        } else if (!dragMoved && isRecording) {
+          controlsPeek = true;
+          syncRecordingUI();
+          window.clearTimeout(peekTimeout);
+          peekTimeout = window.setTimeout(() => {
+            controlsPeek = false;
+            syncRecordingUI();
+          }, 3200);
+        }
+      };
+
+      card.addEventListener("pointerup", endPointer);
+      card.addEventListener("pointercancel", endPointer);
+
+      // Pause background timers when tab is hidden
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopLoops();
+        } else if (isRecording) {
+          startClock();
+          scheduleNextWord();
+        }
+      });
+
+      syncRecordingUI();
+      syncWordVisuals();
+      if (isRecording) {
+        startClock();
+        scheduleNextWord();
+      }
+    });
+  };
+
+  initCadenceIOSShowcase();
+</script>
+
+<style>
+  .ios-showcase {
+    --cadence-breakout-width: min(calc(100vw - 2.5rem), 67.5rem);
+    position: relative;
+    left: 50%;
+    width: var(--cadence-breakout-width);
+    max-width: none;
+    margin: 0 0 clamp(2.5rem, 5vw, 3.75rem);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: #070a11;
+    transform: translateX(-50%);
+  }
+
+  .ios-showcase__stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.75rem;
+    min-height: 46rem;
+    padding: clamp(2.25rem, 4.5vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem) clamp(1.85rem, 3.5vw, 2.5rem);
+    background:
+      radial-gradient(ellipse 68% 55% at 50% 34%, rgb(16 185 129 / 10%), transparent 68%),
+      radial-gradient(ellipse 52% 45% at 50% 78%, rgb(79 57 246 / 9%), transparent 70%),
+      #070a11;
+    transition: background 420ms ease;
+  }
+
+  .ios-showcase[data-moment="outdoors"] .ios-showcase__stage {
+    background:
+      radial-gradient(ellipse 64% 52% at 50% 34%, rgb(186 230 253 / 14%), transparent 68%),
+      radial-gradient(ellipse 48% 42% at 50% 80%, rgb(251 191 36 / 7%), transparent 70%),
+      #090d16;
+  }
+
+  /* Sculpted iPhone Hardware Shell */
+  .ios-device {
+    position: relative;
+    width: 19.75rem;
+    height: 39.25rem;
+    padding: 0.56rem;
+    border: 1.5px solid rgb(203 213 225 / 26%);
+    border-radius: 3.15rem;
+    background: linear-gradient(155deg, #1b202c 0%, #07090f 55%, #121722 100%);
+    box-shadow:
+      0 34px 80px rgb(0 0 0 / 68%),
+      0 6px 20px rgb(0 0 0 / 45%),
+      inset 0 0 0 1px rgb(255 255 255 / 10%);
+    transition:
+      width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-device[data-orientation="landscape"] {
+    width: min(100%, 38.5rem);
+    height: 19.75rem;
+  }
+
+  .ios-device__hw {
+    position: absolute;
+    background: rgb(148 163 184 / 45%);
+    border-radius: 2px;
+    transition: opacity 220ms ease;
+  }
+
+  .ios-device__hw--vol1 {
+    left: -3px;
+    top: 7.8rem;
+    width: 3px;
+    height: 2.35rem;
+  }
+
+  .ios-device__hw--vol2 {
+    left: -3px;
+    top: 10.75rem;
+    width: 3px;
+    height: 2.35rem;
+  }
+
+  .ios-device__hw--power {
+    right: -3px;
+    top: 9.2rem;
+    width: 3px;
+    height: 3.7rem;
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-device__hw {
+    opacity: 0;
+  }
+
+  .ios-device__screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 2.6rem;
+    background: #0b0f18;
+    user-select: none;
+  }
+
+  /* Camera Scene Backdrops */
+  .ios-backdrop {
+    position: absolute;
+    inset: 0;
+    transform: scale(1);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-device[data-zoom="0.5"] .ios-backdrop {
+    transform: scale(0.92);
+  }
+
+  .ios-device[data-zoom="2"] .ios-backdrop {
+    transform: scale(1.18);
+  }
+
+  .ios-backdrop__layer {
+    position: absolute;
+    inset: -10%;
+    opacity: 0;
+    transition: opacity 420ms ease;
+  }
+
+  /* Warm dark studio lens bokeh */
+  .ios-backdrop__layer--studio {
+    background:
+      radial-gradient(circle at 78% 22%, rgb(251 191 36 / 22%), rgb(251 191 36 / 4%) 26%, transparent 48%),
+      radial-gradient(circle at 20% 58%, rgb(56 189 248 / 14%), transparent 46%),
+      radial-gradient(ellipse 75% 42% at 50% 96%, rgb(30 41 59 / 88%), transparent 66%),
+      linear-gradient(180deg, #0d1322 0%, #111827 52%, #090d16 100%);
+  }
+
+  /* Crisp bright daylight outdoor sky + sunlit horizon */
+  .ios-backdrop__layer--outdoors {
+    background:
+      radial-gradient(circle at 74% 16%, rgb(255 254 246 / 98%), rgb(232 244 255 / 92%) 30%, transparent 62%),
+      radial-gradient(ellipse 90% 34% at 50% 88%, rgb(156 177 166 / 72%), transparent 70%),
+      linear-gradient(180deg, #dceeff 0%, #edf6ff 38%, #f3efe6 66%, #c6d4c9 100%);
+  }
+
+  .ios-device[data-moment="studio"] .ios-backdrop__layer--studio,
+  .ios-device[data-moment="landscape"] .ios-backdrop__layer--studio,
+  .ios-device[data-moment="outdoors"] .ios-backdrop__layer--outdoors {
+    opacity: 1;
+  }
+
+  .ios-backdrop__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 10%) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 10%) 1px, transparent 1px);
+    background-size: 33.333% 33.333%;
+    opacity: 0.4;
+    transition: opacity 280ms ease;
+  }
+
+  .ios-device[data-moment="outdoors"] .ios-backdrop__grid {
+    background-image:
+      linear-gradient(to right, rgb(15 23 42 / 7%) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(15 23 42 / 7%) 1px, transparent 1px);
+  }
+
+  .ios-device[data-recording="true"] .ios-backdrop__grid {
+    opacity: 0.16;
+  }
+
+  .ios-backdrop__reticle {
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.65;
+    transition: opacity 240ms ease;
+  }
+
+  .ios-device[data-recording="true"] .ios-backdrop__reticle {
+    opacity: 0;
+  }
+
+  .ios-backdrop__reticle-box {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border: 1.25px solid rgb(251 191 36 / 75%);
+    border-radius: 7px;
+  }
+
+  /* Crimson Bezel Tally Glow */
+  .ios-device__tally {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    border: 2.5px solid #ef4444;
+    border-radius: 2.6rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 260ms ease;
+  }
+
+  .ios-device[data-recording="true"] .ios-device__tally {
+    opacity: 0.78;
+    animation: ios-showcase-tally 2.2s ease-in-out infinite;
+  }
+
+  @keyframes ios-showcase-tally {
+    0%, 100% {
+      opacity: 0.36;
+    }
+    50% {
+      opacity: 0.84;
+    }
+  }
+
+  /* Dynamic Island */
+  .ios-device__island {
+    position: absolute;
+    top: 0.7rem;
+    left: 50%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 5.5rem;
+    height: 1.5rem;
+    padding-right: 0.46rem;
+    border-radius: 999px;
+    background: #020307;
+    transform: translateX(-50%);
+    transition: all 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-device__island {
+    top: 50%;
+    left: 0.7rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 1.45rem;
+    height: 5.2rem;
+    padding: 0.46rem 0 0;
+    transform: translateY(-50%);
+  }
+
+  .ios-device__lens {
+    width: 0.54rem;
+    height: 0.54rem;
+    border: 1px solid rgb(56 189 248 / 38%);
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 35%, #38bdf8, #0f172a 72%);
+  }
+
+  /* Live Studio Layer */
+  .ios-studio {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: 2.55rem 0.65rem 0.9rem;
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-studio {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 0.7rem 0.75rem 0.7rem 2.55rem;
+  }
+
+  /* Lens-Hugging Teleprompter Card */
+  .ios-card {
+    --swipe-x: 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 78%;
+    height: 13.4rem;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 1.1rem;
+    background: rgb(4 8 15 / 54%);
+    backdrop-filter: blur(12px) saturate(130%);
+    cursor: grab;
+    touch-action: pan-y;
+    transform: translate3d(var(--swipe-x), 0, 0);
+    transition:
+      width 360ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 320ms ease,
+      border-color 320ms ease,
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-card:active {
+    cursor: grabbing;
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-card {
+    width: 58%;
+    height: 100%;
+    margin: 0;
+  }
+
+  /* Smart Contrast Dark Ink over Bright Outdoor Sky */
+  .ios-card[data-dark-ink="true"] {
+    border-color: rgb(15 23 42 / 12%);
+    background: rgb(255 255 255 / 34%);
+    backdrop-filter: blur(14px) saturate(150%);
+  }
+
+  .ios-card__viewport {
+    position: relative;
+    flex: 1 1 auto;
+    overflow: hidden;
+    padding: 0.7rem 0.8rem 0.5rem 1.15rem;
+    mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 84%, transparent 100%);
+  }
+
+  .ios-card__arrow {
+    position: absolute;
+    top: 2.15rem;
+    left: 0.4rem;
+    color: #34d399;
+    font-size: 0.65rem;
+    line-height: 1;
+    transition: color 280ms ease;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__arrow {
+    color: #059669;
+  }
+
+  .ios-card__track {
+    transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-card__cue {
+    margin-bottom: 0.28rem;
+    color: #34d399;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    transition: color 280ms ease;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__cue {
+    color: #047857;
+  }
+
+  .ios-card__text {
+    margin: 0 !important;
+    color: rgb(255 255 255 / 93%);
+    font-size: 0.94rem !important;
+    font-weight: 560;
+    line-height: 1.5 !important;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 35%);
+    transition: color 280ms ease, text-shadow 280ms ease;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__text {
+    color: rgb(15 23 42 / 94%);
+    text-shadow: 0 1px 2px rgb(255 255 255 / 55%);
+  }
+
+  .ios-word {
+    display: inline;
+    padding: 0 0.08rem;
+    border-radius: 4px;
+    transition: opacity 220ms ease, background-color 220ms ease, color 220ms ease;
+  }
+
+  .ios-word.is-spoken {
+    opacity: 0.36;
+  }
+
+  .ios-word.is-active {
+    opacity: 1;
+    color: #6ee7b7;
+    background: rgb(16 185 129 / 22%);
+    font-weight: 700;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-word.is-active {
+    color: #065f46;
+    background: rgb(16 185 129 / 20%);
+  }
+
+  .ios-cue-pill {
+    display: inline-block;
+    margin: 0 0.16rem;
+    padding: 0.04rem 0.4rem;
+    border: 1px solid rgb(245 158 11 / 52%);
+    border-radius: 999px;
+    color: #fcd34d;
+    background: rgb(245 158 11 / 20%);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 1.35;
+    vertical-align: middle;
+    text-shadow: none;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-cue-pill {
+    border-color: rgb(180 83 9 / 40%);
+    color: #92400e;
+    background: rgb(245 158 11 / 20%);
+  }
+
+  /* Rewind Toast */
+  .ios-card__toast {
+    position: absolute;
+    right: 0.55rem;
+    bottom: 0.4rem;
+    left: 0.55rem;
+    z-index: 3;
+    padding: 0.24rem 0.6rem;
+    border-radius: 999px;
+    color: #fff;
+    background: rgb(2 6 23 / 86%);
+    font-size: 0.66rem;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .ios-card__toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Pure Lens Collapsing Card Footer */
+  .ios-card__footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.28rem 0.72rem;
+    border-top: 1px solid rgb(255 255 255 / 10%);
+    transition: min-height 240ms ease, padding 240ms ease, border-color 240ms ease;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__footer {
+    border-top-color: rgb(15 23 42 / 10%);
+  }
+
+  .ios-card[data-pure-lens="true"] .ios-card__footer {
+    min-height: 0.58rem;
+    padding: 0.2rem 0.72rem 0.34rem;
+    border-top-color: transparent;
+  }
+
+  .ios-card__footer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.45rem;
+    color: rgb(255 255 255 / 86%);
+    font-size: 0.64rem;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__footer-controls {
+    color: rgb(15 23 42 / 86%);
+  }
+
+  .ios-card[data-pure-lens="true"] .ios-card__footer-controls {
+    display: none;
+  }
+
+  .ios-card__status {
+    display: inline-flex;
+    gap: 0.32rem;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  .ios-card__dot {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 999px;
+    background: #34d399;
+  }
+
+  .ios-beam {
+    display: inline-flex;
+    gap: 2.5px;
+    align-items: center;
+    height: 0.72rem;
+  }
+
+  .ios-beam span {
+    width: 2.5px;
+    height: 4px;
+    border-radius: 999px;
+    background: #34d399;
+    opacity: 0.8;
+  }
+
+  .ios-beam span:nth-child(2),
+  .ios-beam span:nth-child(4) {
+    height: 7px;
+  }
+
+  .ios-beam span:nth-child(3) {
+    height: 10px;
+  }
+
+  .ios-beam.is-live span {
+    animation: ios-showcase-beam 0.72s ease-in-out infinite;
+  }
+
+  .ios-beam.is-live span:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+
+  .ios-beam.is-live span:nth-child(3) {
+    animation-delay: 0.22s;
+  }
+
+  .ios-beam.is-live span:nth-child(4) {
+    animation-delay: 0.14s;
+  }
+
+  .ios-beam.is-live span:nth-child(5) {
+    animation-delay: 0.06s;
+  }
+
+  @keyframes ios-showcase-beam {
+    0%, 100% {
+      transform: scaleY(0.5);
+    }
+    50% {
+      transform: scaleY(1.25);
+    }
+  }
+
+  .ios-card__cue-count {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    opacity: 0.78;
+  }
+
+  .ios-card__hairline {
+    display: none;
+    width: 100%;
+    height: 3px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 18%);
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__hairline {
+    background: rgb(15 23 42 / 14%);
+  }
+
+  .ios-card[data-pure-lens="true"] .ios-card__hairline {
+    display: block;
+  }
+
+  .ios-card__hairline-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: #34d399;
+    transition: width 300ms ease;
+  }
+
+  .ios-card[data-dark-ink="true"] .ios-card__hairline-fill {
+    background: #059669;
+  }
+
+  /* Lower Camera Dock / Landscape Pro Rail */
+  .ios-dock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-dock {
+    justify-content: space-between;
+    width: 34%;
+    margin: 0 0 0 auto;
+    padding-left: 0.5rem;
+  }
+
+  .ios-dock__meta {
+    transition: opacity 220ms ease;
+  }
+
+  .ios-device[data-recording="true"] .ios-dock__meta {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ios-format-badge {
+    padding: 0.24rem 0.6rem;
+    border: 1px solid rgb(255 255 255 / 16%);
+    border-radius: 999px;
+    color: #f8fafc;
+    background: rgb(2 6 23 / 64%);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .ios-zoom {
+    display: inline-flex;
+    gap: 0.38rem;
+    transition: opacity 220ms ease;
+  }
+
+  .ios-device[data-recording="true"] .ios-zoom {
+    opacity: 0.42;
+  }
+
+  .ios-zoom__btn {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: 999px;
+    color: #e2e8f0;
+    background: rgb(2 6 23 / 52%);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 140ms ease, color 140ms ease, background-color 140ms ease;
+  }
+
+  .ios-zoom__btn[aria-pressed="true"] {
+    border-color: rgb(251 191 36 / 85%);
+    color: #fbbf24;
+    background: rgb(2 6 23 / 78%);
+  }
+
+  .ios-shutter-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .ios-timer {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    color: #fff;
+    background: rgb(2 6 23 / 72%);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    opacity: 0;
+    transform: translateY(3px);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .ios-device[data-recording="true"] .ios-timer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ios-timer__dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 999px;
+    background: #ef4444;
+  }
+
+  .ios-timer__total {
+    color: rgb(255 255 255 / 60%);
+    font-weight: 500;
+  }
+
+  .ios-shutter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-inline: 0.75rem;
+  }
+
+  .ios-device[data-orientation="landscape"] .ios-shutter-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: auto;
+    padding: 0.48rem 0.34rem;
+    border-radius: 999px;
+    background: rgb(2 6 23 / 44%);
+  }
+
+  .ios-mini-btn,
+  .ios-mini-spacer {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+
+  .ios-mini-btn {
+    display: grid;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 18%);
+    border-radius: 999px;
+    color: #f8fafc;
+    background: rgb(2 6 23 / 56%);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 200ms ease, background-color 140ms ease;
+  }
+
+  .ios-mini-btn:hover {
+    background: rgb(2 6 23 / 82%);
+  }
+
+  .ios-device[data-recording="true"] .ios-mini-btn {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ios-shutter {
+    display: grid;
+    place-items: center;
+    width: 3.65rem;
+    height: 3.65rem;
+    border: 2.5px solid #fff;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 28%);
+    transition: transform 140ms ease;
+  }
+
+  .ios-shutter:active {
+    transform: scale(0.94);
+  }
+
+  .ios-shutter__core {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 999px;
+    background: #ef4444;
+    transition:
+      width 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ios-device[data-recording="true"] .ios-shutter__core {
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 0.34rem;
+  }
+
+  /* Apple-style Floating Moment Pill & One-Line Caption */
+  .ios-showcase__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ios-moment-pill {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.28rem;
+    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 6%);
+    backdrop-filter: blur(12px);
+  }
+
+  .ios-moment-pill__btn {
+    padding: 0.44rem 1.05rem;
+    border: 0;
+    border-radius: 999px;
+    color: rgb(226 232 240 / 78%);
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .ios-moment-pill__btn:hover {
+    color: #fff;
+  }
+
+  .ios-moment-pill__btn[aria-selected="true"] {
+    color: #090d16;
+    background: #f8fafc;
+    font-weight: 600;
+  }
+
+  .ios-showcase__caption {
+    max-width: 46ch;
+    margin: 0 !important;
+    color: rgb(226 232 240 / 68%);
+    font-size: 0.85rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .ios-showcase button:focus-visible {
+    outline: 2px solid #a997ff;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 780px) {
+    .ios-showcase {
+      --cadence-breakout-width: calc(100vw - 1.5rem);
+    }
+
+    .ios-showcase__stage {
+      min-height: auto;
+      padding: 1.75rem 1rem 1.5rem;
+    }
+
+    .ios-device {
+      width: 17.5rem;
+      height: 35rem;
+    }
+
+    .ios-device[data-orientation="landscape"] {
+      width: 100%;
+      height: 16.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ios-device,
+    .ios-device__island,
+    .ios-backdrop,
+    .ios-backdrop__layer,
+    .ios-card,
+    .ios-card__track,
+    .ios-shutter__core {
+      transition: none !important;
+    }
+
+    .ios-device[data-recording="true"] .ios-device__tally,
+    .ios-beam.is-live span {
+      animation: none !important;
+    }
+  }
+</style>
